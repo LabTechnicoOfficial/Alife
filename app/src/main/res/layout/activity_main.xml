@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.MainActivity"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="15dp"
+    android:background="@drawable/maingradient">
+
+    <ImageView
+        android:id="@+id/logoID"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:src="@drawable/alifelogo"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/shopkeeperID"
+        android:layout_below="@id/logoID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ripple_effect"
+        android:text="@string/shopkeeper"
+        android:textStyle="bold"
+        android:fontFamily="@font/nuvel"
+        android:textSize="18sp"
+        android:layout_marginBottom="10dp"
+        android:textColor="#161C3A"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/customerID"
+        android:layout_below="@id/shopkeeperID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ripple_effect"
+        android:text="@string/customer"
+        android:textStyle="bold"
+        android:fontFamily="@font/nuvel"
+        android:textSize="18sp"
+        android:textColor="#161C3A"/>
+
+
+
+</RelativeLayout>

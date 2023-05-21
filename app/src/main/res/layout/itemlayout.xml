@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/addTypeID"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginRight="5dp"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    android:weightSum="2">
+
+
+    <EditText
+        android:id="@+id/typeEditID"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_weight=".9"
+        android:hint="Type"
+        android:textColor="@color/black" />
+
+    <EditText
+        android:id="@+id/countEditID"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_weight=".9"
+        android:hint="Count"
+        android:textColor="@color/black"
+        android:inputType="number"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:id="@+id/crossID"
+        android:src="@drawable/cancel_cross" />
+
+</LinearLayout>

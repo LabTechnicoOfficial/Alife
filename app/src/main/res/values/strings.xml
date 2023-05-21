@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">ALife</string>
+    <string name="signin">Sign In</string>
+    <string name="registration">Registration</string>
+    <string name="shopkeeper">Shopkeeper</string>
+    <string name="customer">Customer</string>
+    <string name="nav_drawer_open">Open Navigation Drawer</string>
+    <string name="nav_drawer_close">Open Navigation Close</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="something_wrong">Something went wrong</string>
+    <!--    <string name="admob_id">ca-app-pub-2624883599415339~1491469740</string>-->
+    <!--    <string name="reward_ads_id">ca-app-pub-2624883599415339/1231615295</string>-->
+
+    <!--<string name="playStoreLink"><a href="https://play.google.com/store/apps/details?id=com.ALife.alife">update</a></string>-->
+    //admob id
+    <string name="admob_id">ca-app-pub-9914022847917901~2831453640</string>
+    //rewards ad id
+    <string name="reward_ads_id"> ca-app-pub-9914022847917901/8146509442</string>
+    // test
+    //admob id
+    <!--<string name="admob_id">ca-app-pub-3940256099942544~3347511713</string>
+    //rewards ad id
+    <string name="reward_ads_id">ca-app-pub-3940256099942544/5224354917</string>-->
+</resources>
