@@ -56,7 +56,8 @@
         <meta-data
             android:name="com.google.android.gms.vision.DEPENDENCIES"
             android:value="barcode" />
-        <activity android:name=".view.ForgotPassword.Forgot_password_activity"></activity>
+
+        <activity android:name=".view.ForgotPassword.Forgot_password_activity" />
         <activity android:name=".view.OTP.Otp_validation_activity" />
         <activity android:name=".view.Operator.Operator_main_activity" />
         <activity android:name=".view.Customer.Customer_main_activity" />
