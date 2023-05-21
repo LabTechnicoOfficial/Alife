@@ -8,6 +8,7 @@ android {
     defaultConfig {
         applicationId "com.ALife.alife"
         minSdkVersion 21
+        //noinspection ExpiredTargetSdkVersion,OldTargetApi
         targetSdkVersion 30
         versionCode 33
         versionName "1.01"
@@ -19,6 +20,12 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+            applicationVariants.all { variant ->
+                variant.outputs.all {
+                    outputFileName = "Alife.apk"
+                }
+            }
         }
     }
     compileOptions {
@@ -85,7 +92,7 @@ dependencies {
     //justify textview
     implementation 'me.biubiubiu.justifytext:library:1.1'
     implementation "androidx.work:work-runtime:2.3.1"
-
+   // implementation 'androidx.work:work-runtime-ktx:2.8.1'
     implementation files('../app/libs/unity-ads.aar')
 
     implementation 'com.google.android.gms:play-services-ads:20.3.0'
