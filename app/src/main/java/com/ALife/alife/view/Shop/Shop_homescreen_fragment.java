@@ -64,7 +64,7 @@ public class Shop_homescreen_fragment extends Fragment implements Instruction_ad
     LinearLayout dailyAccountButton, dueListButton, customerListButton;
     LinearLayout sellProductButton, addProductButton, allProductButton;
     LinearLayout dueCustomerButton, businessAccountButton, localPageButton;
-    LinearLayout sellHistoryButton, earnMoneyButton, couponButton, localSellButton;
+    LinearLayout sellHistoryButton, couponButton, localSellButton;
     LinearLayout sendNotificationButton;
     private String shop_id;
 
@@ -74,7 +74,7 @@ public class Shop_homescreen_fragment extends Fragment implements Instruction_ad
     Instruction_adapter instructionAdapter;
     private int timeLimit_UseriNSTRUCTION = 0;
     EarningViewModel earningViewModel;
-    private AdManagerAdView mAdManagerAdView;
+    //private AdManagerAdView mAdManagerAdView;
     private AddInterval addInterval;
     private InterstitialAd InterstitialAd;
 
@@ -86,11 +86,11 @@ public class Shop_homescreen_fragment extends Fragment implements Instruction_ad
             @Override
             public void onInitializationComplete(InitializationStatus initializationStatus) {
 
-                loadAd();
+                //loadAd();
             }
         });
         AdManagerAdRequest adRequest = new AdManagerAdRequest.Builder().build();
-        mAdManagerAdView.loadAd(adRequest);
+  /*      mAdManagerAdView.loadAd(adRequest);
         mAdManagerAdView.setAdListener(new AdListener() {
             @Override
             public void onAdLoaded() {
@@ -120,9 +120,9 @@ public class Shop_homescreen_fragment extends Fragment implements Instruction_ad
                 // to the app after tapping on an ad.
             }
         });
-
+*/
         main();
-        instruction_func();
+        //instruction_func();
     }
 
     private void instruction_func() {
@@ -194,7 +194,7 @@ public class Shop_homescreen_fragment extends Fragment implements Instruction_ad
         businessAccountButton = (LinearLayout) view.findViewById(R.id.businessAccountButtonID);
         localPageButton = (LinearLayout) view.findViewById(R.id.localPageButtonID);
         sellHistoryButton = (LinearLayout) view.findViewById(R.id.sellHistoryButtonID);
-        earnMoneyButton = (LinearLayout) view.findViewById(R.id.earnMoneyButtonID);
+        //earnMoneyButton = (LinearLayout) view.findViewById(R.id.earnMoneyButtonID);
         couponButton = (LinearLayout) view.findViewById(R.id.couponButtonID);
         localSellButton = (LinearLayout) view.findViewById(R.id.localSellButtonID);
         sendNotificationButton = (LinearLayout) view.findViewById(R.id.sendNotificationButtonID);
@@ -202,7 +202,7 @@ public class Shop_homescreen_fragment extends Fragment implements Instruction_ad
         earningViewModel = new ViewModelProvider(this).get(EarningViewModel.class);
 
         //banner add
-        mAdManagerAdView = (AdManagerAdView) view.findViewById(R.id.adManagerAdView);
+        //mAdManagerAdView = (AdManagerAdView) view.findViewById(R.id.adManagerAdView);
 
         fragmentManager = getFragmentManager();
 
@@ -347,7 +347,7 @@ public class Shop_homescreen_fragment extends Fragment implements Instruction_ad
             }
         });
 
-        earnMoneyButton.setOnClickListener(new View.OnClickListener() {
+   /*     earnMoneyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 addInterval = new ViewModelProvider(getActivity()).get(AddInterval.class);
@@ -369,7 +369,7 @@ public class Shop_homescreen_fragment extends Fragment implements Instruction_ad
                         earning_session_management.saveBaseId(String.valueOf(userId));
                         startActivity(intent);
 
-                           /* addInterval.getResponse(earning_response.getEarning_id(), currentDate, 1).observe(getViewLifecycleOwner(), new Observer<addInterval_response>() {
+                           *//* addInterval.getResponse(earning_response.getEarning_id(), currentDate, 1).observe(getViewLifecycleOwner(), new Observer<addInterval_response>() {
 
                                 @Override
                                 public void onChanged(addInterval_response addInterval_response) {
@@ -416,22 +416,22 @@ public class Shop_homescreen_fragment extends Fragment implements Instruction_ad
 
                                     }
                                 }
-                            });*/
+                            });*//*
 
 
-                        /*fragmentManager.beginTransaction().setCustomAnimations(
+                        *//*fragmentManager.beginTransaction().setCustomAnimations(
                                 R.anim.slide_in,  // enter
                                 R.anim.fade_out,  // exit
                                 R.anim.fade_in,   // popEnter
                                 R.anim.slide_out  // popExit
                         ).replace(R.id.frame_container, new Home_fragment(earning_response.getEarning_id())).addToBackStack(null).commit();
-                    */
+                    *//*
                     }
                 });
 
             }
         });
-
+*/
         couponButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -514,7 +514,7 @@ public class Shop_homescreen_fragment extends Fragment implements Instruction_ad
                     @Override
                     public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
                         // Handle the error
-                        loadAd();
+                        //loadAd();
                     }
                 });
     }

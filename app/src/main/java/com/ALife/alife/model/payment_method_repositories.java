@@ -1,10 +1,8 @@
 package com.ALife.alife.model;
 
-import android.util.Log;
-
 import androidx.lifecycle.MutableLiveData;
 
-import com.google.android.material.internal.ManufacturerUtils;
+import com.ALife.alife.API.ApiUtilize;
 
 import java.util.List;
 
@@ -18,7 +16,7 @@ public class payment_method_repositories {
     private static payment_method_repositories payment_method_repositories;
 
     public payment_method_repositories() {
-        payment_method_api=ApiUtilize.payment_method_response();
+        payment_method_api= ApiUtilize.payment_method_response();
         Data=new MutableLiveData<>();
     }
     public synchronized static payment_method_repositories getInstance()

@@ -1,5 +1,7 @@
 package com.ALife.alife.model;
 
+import com.ALife.alife.API.Retrofit_client;
+
 public class OTP_APIUtilize {
     public OTP_APIUtilize() {
     }

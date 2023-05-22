@@ -29,7 +29,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fontFamily="@font/allerta"
+
             android:gravity="center_vertical"
             android:text="Add Operator"
             android:textColor="@color/black"

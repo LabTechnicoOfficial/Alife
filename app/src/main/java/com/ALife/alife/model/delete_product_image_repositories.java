@@ -5,6 +5,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
+import com.ALife.alife.API.ApiUtilize;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -20,7 +22,7 @@ public class delete_product_image_repositories {
 private static delete_product_image_repositories delete_product_image_repositories;
     public delete_product_image_repositories() {
         //this.id = id;
-        delete_product_image_api=ApiUtilize.delete_product_image_response();
+        delete_product_image_api= ApiUtilize.delete_product_image_response();
         data=new MutableLiveData<>();
     }
     public synchronized static delete_product_image_repositories getInstance() {

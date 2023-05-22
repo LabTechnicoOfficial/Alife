@@ -165,7 +165,7 @@
             android:layout_gravity="bottom|right"
             android:layout_margin="16dp"
             android:backgroundTint="@color/pink"
-            android:fontFamily="@font/allerta"
+
             android:textAllCaps="false"
             android:textStyle="bold"
             app:icon="@drawable/plus_icon"

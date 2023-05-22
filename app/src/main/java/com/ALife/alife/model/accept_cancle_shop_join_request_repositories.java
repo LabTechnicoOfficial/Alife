@@ -5,6 +5,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
+import com.ALife.alife.API.ApiUtilize;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -23,7 +25,7 @@ private static accept_cancle_shop_join_request_repositories accept_cancle_shop_j
         /*this.shop_id = shop_id;
         this.customer_id = customer_id;*/
         data=new MutableLiveData<>();
-        accept_shop_join_request=ApiUtilize.accept_shop_join_request_response();
+        accept_shop_join_request= ApiUtilize.accept_shop_join_request_response();
         Cancel_shop_join_request=ApiUtilize.Cancel_shop_join_request_response();
     }
     public synchronized static accept_cancle_shop_join_request_repositories getInstance() {

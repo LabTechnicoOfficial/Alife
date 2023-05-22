@@ -1,10 +1,11 @@
 package com.ALife.alife.model;
 
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
+
+import com.ALife.alife.API.ApiUtilize;
 
 import retrofit2.Call;
 import retrofit2.Callback;

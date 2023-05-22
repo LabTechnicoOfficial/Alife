@@ -5,6 +5,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
+import com.ALife.alife.API.ApiUtilize;
+
 import java.util.List;
 
 import retrofit2.Call;
@@ -22,7 +24,7 @@ public class get_product_multiple_image_repositories {
 private static get_product_multiple_image_repositories get_product_multiple_image_repositories;
     public get_product_multiple_image_repositories() {
        // this.product_id = product_id;
-        get_product_multiple_image_api=ApiUtilize.get_product_multiple_image_response();
+        get_product_multiple_image_api= ApiUtilize.get_product_multiple_image_response();
         data=new MutableLiveData<>();
     }
     public synchronized static get_product_multiple_image_repositories getInstance() {

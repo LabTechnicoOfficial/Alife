@@ -177,6 +177,7 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
         get_version.getData().observe(Shop_main_activity.this, new Observer<get_version_response>() {
             @Override
             public void onChanged(get_version_response get_version_response) {
+                Log.d("dataxx", "onChanged: "+get_version_response.getVersion_code().toString()+" "+version_code);
                 if (!(get_version_response.getVersion_code().equals(version_code))) {
 
 
@@ -339,7 +340,7 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
 
     }
 
-    @SuppressLint("MissingPermission")
+    @SuppressLint({"MissingPermission", "MissingInflatedId"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

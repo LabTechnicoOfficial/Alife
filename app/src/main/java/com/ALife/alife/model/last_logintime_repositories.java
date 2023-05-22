@@ -2,7 +2,7 @@ package com.ALife.alife.model;
 
 import androidx.lifecycle.MutableLiveData;
 
-import com.google.firebase.database.MutableData;
+import com.ALife.alife.API.ApiUtilize;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -16,7 +16,7 @@ public class last_logintime_repositories {
     private static last_logintime_repositories last_logintime_repositories;
     private last_logintime_repositories()
     {
-        last_logintime=ApiUtilize.last_logintime();
+        last_logintime= ApiUtilize.last_logintime();
         update_last_logintime=ApiUtilize.update_last_logintime();
         data=new MutableLiveData<>();
         update_response=new MutableLiveData<>();

@@ -2,6 +2,8 @@ package com.ALife.alife.model;
 
 import androidx.lifecycle.MutableLiveData;
 
+import com.ALife.alife.API.ApiUtilize;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -12,7 +14,7 @@ public class shop_status_repositories {
     private static shop_status_repositories shop_status_repositories;
     public shop_status_repositories()
     {
-        shop_status=ApiUtilize.shop_status();
+        shop_status= ApiUtilize.shop_status();
         data=new MutableLiveData<>();
     }
     public synchronized static shop_status_repositories getInstance()

@@ -5,6 +5,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
+import com.ALife.alife.API.ApiUtilize;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -23,7 +25,7 @@ private static add_product_offer_repositories add_product_offer_repositories;
         this.price = price;
         this.id = id;*/
         data=new MutableLiveData<>();
-        add_product_offer=ApiUtilize.add_product_offer_response();
+        add_product_offer= ApiUtilize.add_product_offer_response();
     }
     public synchronized static add_product_offer_repositories getInstance() {
         if (add_product_offer_repositories == null) {

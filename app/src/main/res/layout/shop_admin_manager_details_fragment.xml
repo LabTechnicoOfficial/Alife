@@ -47,7 +47,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="5dp"
-                        android:fontFamily="@font/allerta"
+
                         android:text="Name:"
                         android:textColor="@color/black"
                         android:textSize="15sp" />
@@ -56,7 +56,7 @@
                         android:id="@+id/adminNameID"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/allerta"
+
                         android:textColor="@color/black"
                         android:textSize="15sp"
                         android:textStyle="bold" />
@@ -73,7 +73,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="5dp"
-                        android:fontFamily="@font/allerta"
+
                         android:text="Phone:"
                         android:textColor="@color/black"
                         android:textSize="15sp" />
@@ -82,7 +82,7 @@
                         android:id="@+id/adminPhoneID"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/allerta"
+
                         android:textColor="@color/black"
                         android:textSize="15sp"
                         android:textStyle="bold" />
@@ -99,7 +99,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="5dp"
-                        android:fontFamily="@font/allerta"
+
                         android:text="Roll:"
                         android:textColor="@color/black"
                         android:textSize="15sp" />
@@ -108,7 +108,7 @@
                         android:id="@+id/adminPermissionID"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/allerta"
+
                         android:textColor="@color/black"
                         android:textSize="15sp"
                         android:textStyle="bold" />
@@ -187,7 +187,7 @@
                     android:layout_gravity="bottom|right"
                     android:layout_margin="16dp"
                     android:backgroundTint="@color/pink"
-                    android:fontFamily="@font/allerta"
+
                     android:text="Categories"
                     android:textAllCaps="false"
                     android:textStyle="bold"
@@ -228,7 +228,7 @@
                     android:layout_gravity="bottom|right"
                     android:layout_margin="16dp"
                     android:backgroundTint="@color/pink"
-                    android:fontFamily="@font/allerta"
+
                     android:text="Assistant"
                     android:textAllCaps="false"
                     android:textStyle="bold"

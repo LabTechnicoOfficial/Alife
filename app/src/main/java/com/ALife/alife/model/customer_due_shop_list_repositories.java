@@ -5,6 +5,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
+import com.ALife.alife.API.ApiUtilize;
+
 import java.util.List;
 
 import retrofit2.Call;
@@ -22,7 +24,7 @@ public class customer_due_shop_list_repositories {
 private static customer_due_shop_list_repositories customer_due_shop_list_repositories;
     public customer_due_shop_list_repositories() {
        // this.customer_id = customer_id;
-        customer_due_shop_list=ApiUtilize.customer_due_shop_list();
+        customer_due_shop_list= ApiUtilize.customer_due_shop_list();
         Data=new MutableLiveData<>();
     }
     public synchronized static customer_due_shop_list_repositories getInstance() {

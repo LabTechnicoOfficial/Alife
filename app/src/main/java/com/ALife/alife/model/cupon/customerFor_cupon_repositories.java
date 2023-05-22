@@ -4,7 +4,7 @@ import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 
-import com.ALife.alife.model.ApiUtilize;
+import com.ALife.alife.API.ApiUtilize;
 
 import java.util.List;
 
