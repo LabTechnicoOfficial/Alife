@@ -275,7 +275,7 @@ public class Shop_local_sell_fragment extends Fragment implements AdapterView.On
             }
         });
         //productNameError = view.findViewById(R.id.productNameErrorID);
-        productDetailsError = view.findViewById(R.id.productDetailsErrorID);
+        //productDetailsError = view.findViewById(R.id.productDetailsErrorID);
         //productPriceError = view.findViewById(R.id.productPriceErrorID);
         paidPriceError = view.findViewById(R.id.paidPriceErrorID);
         phoneError = view.findViewById(R.id.phoneErrorID);

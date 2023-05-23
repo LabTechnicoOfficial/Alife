@@ -465,25 +465,39 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 //long diff = d2.getTime() - d1.getTime();
 
                                 long diff = TimeUnit.MILLISECONDS.toHours(d2.getTime() - d1.getTime());
-                                if (diff > 47.99) {
-                                    Random r = new Random();
-                                    int ran = r.nextInt(99999 - 10000 + 1) + 10000;
-                                    String random_otp = String.valueOf(ran);
-                                    otp.getStatus(phone, "ALife..Your Shop LogIn OTP is -" + random_otp).observe(LoginActivity.this, new Observer<OTP_response>() {
-                                        @Override
-                                        public void onChanged(OTP_response otp_response) {
-                                            if (otp_response.getStatus().equals("queued")) {
-                                                shop_otp_activity(random_otp, id, phone);
-                                            } else {
 
-                                            }
+                                Random r = new Random();
+                                int ran = r.nextInt(99999 - 10000 + 1) + 10000;
+                                String random_otp = String.valueOf(ran);
+                                otp.getStatus(phone, "ALife..Your Shop LogIn OTP is -" + random_otp).observe(LoginActivity.this, new Observer<OTP_response>() {
+                                    @Override
+                                    public void onChanged(OTP_response otp_response) {
+                                        if (otp_response.getStatus().equals("queued")) {
+                                            shop_otp_activity(random_otp, id, phone);
+                                        } else {
+
                                         }
-                                    });
-                                } else {
-                                    Double waiting_time=48.00-diff;
-                                    Toast.makeText(LoginActivity.this, "Please try after "+String.valueOf(waiting_time)+" hours.", Toast.LENGTH_SHORT).show();
-                                    dialog.dismiss();
-                                }
+                                    }
+                                });
+//                                if (diff > 47.99) {
+//                                    Random r = new Random();
+//                                    int ran = r.nextInt(99999 - 10000 + 1) + 10000;
+//                                    String random_otp = String.valueOf(ran);
+//                                    otp.getStatus(phone, "ALife..Your Shop LogIn OTP is -" + random_otp).observe(LoginActivity.this, new Observer<OTP_response>() {
+//                                        @Override
+//                                        public void onChanged(OTP_response otp_response) {
+//                                            if (otp_response.getStatus().equals("queued")) {
+//                                                shop_otp_activity(random_otp, id, phone);
+//                                            } else {
+//
+//                                            }
+//                                        }
+//                                    });
+//                                } else {
+//                                    Double waiting_time = 48.00 - diff;
+//                                    Toast.makeText(LoginActivity.this, "Please try after " + String.valueOf(waiting_time) + " hours.", Toast.LENGTH_SHORT).show();
+//                                    dialog.dismiss();
+//                                }
 
 
                             }
@@ -517,7 +531,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             public void onChanged(Shop_login_response shop_login_response) {
 
                 String id = shop_login_response.getId();
-                Log.d("mijan","bbbb");
+                Log.d("mijan", "bbbb");
                 if (!(id.equals("-1"))) {
                     last_logintime.getTime(id, "customer").observe(LoginActivity.this, new Observer<last_logintime_response>() {
                         @Override
@@ -570,8 +584,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                         }
                                     });
                                 } else {
-                                    Double waiting_time=48.00-diff;
-                                    Toast.makeText(LoginActivity.this, "Please try after "+String.valueOf(waiting_time)+" hours.", Toast.LENGTH_SHORT).show();
+                                    Double waiting_time = 48.00 - diff;
+                                    Toast.makeText(LoginActivity.this, "Please try after " + String.valueOf(waiting_time) + " hours.", Toast.LENGTH_SHORT).show();
                                     dialog.dismiss();
                                 }
 
