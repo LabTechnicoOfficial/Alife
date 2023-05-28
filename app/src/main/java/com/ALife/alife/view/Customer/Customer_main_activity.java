@@ -58,7 +58,6 @@ public class Customer_main_activity extends AppCompatActivity implements Navigat
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     Toolbar toolbar;
-    LinearLayout headerimage;
     de.hdodenhof.circleimageview.CircleImageView imageView;
     Customer_details customer_details;
     TextView profileName;
@@ -215,10 +214,9 @@ public class Customer_main_activity extends AppCompatActivity implements Navigat
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        headerimage = (LinearLayout) findViewById(R.id.headerview);
 
         //banner add
-        mAdManagerAdView = (AdManagerAdView) findViewById(R.id.adManagerAdView);
+        //mAdManagerAdView = (AdManagerAdView) findViewById(R.id.adManagerAdView);
 
         //
         View view = navigationView.inflateHeaderView(R.layout.header);

@@ -283,7 +283,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
 
-    private void validationOk(String phone, String password) {
+    /*private void validationOk(String phone, String password) {
 
         if (toggleButton.getCheckedButtonId() == R.id.shopkeeperID) {
 
@@ -344,6 +344,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     String id = shop_login_response.getId();
 
                     if (!(id.equals("-1"))) {
+                        Log.d("dataxx", "onChanged: ");
                         // for update token
                         FirebaseInstanceId.getInstance().getInstanceId()
                                 .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
@@ -378,8 +379,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         //end update token
 
                     } else {
+
+                        Log.d("dataxx", "onChanged: hi");
                         dialog.dismiss();
-                        Toast toast = Toast.makeText(LoginActivity.this, "Not registered", Toast.LENGTH_SHORT);
+                        Toast toast = Toast.makeText(LoginActivity.this, shop_login_response.getMessage(), Toast.LENGTH_SHORT);
                         toast.show();
                     }
                 }
@@ -388,7 +391,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
 
 
-    }
+    }*/
 
     private void agentLogIn(String shopID, String phone, String password) {
         dialog.show();
@@ -436,6 +439,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 Random r = new Random();
                                 int ran = r.nextInt(99999 - 10000 + 1) + 10000;
                                 String random_otp = String.valueOf(ran);
+                                Toast.makeText(LoginActivity.this, random_otp, Toast.LENGTH_SHORT).show();
                                 otp.getStatus(phone, "ALife..Your Shop LogIn OTP is -" + random_otp).observe(LoginActivity.this, new Observer<OTP_response>() {
                                     @Override
                                     public void onChanged(OTP_response otp_response) {
@@ -466,7 +470,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                                 long diff = TimeUnit.MILLISECONDS.toHours(d2.getTime() - d1.getTime());
 
-                                Random r = new Random();
+                               /* Random r = new Random();
                                 int ran = r.nextInt(99999 - 10000 + 1) + 10000;
                                 String random_otp = String.valueOf(ran);
                                 otp.getStatus(phone, "ALife..Your Shop LogIn OTP is -" + random_otp).observe(LoginActivity.this, new Observer<OTP_response>() {
@@ -478,26 +482,28 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                                         }
                                     }
-                                });
-//                                if (diff > 47.99) {
-//                                    Random r = new Random();
-//                                    int ran = r.nextInt(99999 - 10000 + 1) + 10000;
-//                                    String random_otp = String.valueOf(ran);
-//                                    otp.getStatus(phone, "ALife..Your Shop LogIn OTP is -" + random_otp).observe(LoginActivity.this, new Observer<OTP_response>() {
-//                                        @Override
-//                                        public void onChanged(OTP_response otp_response) {
-//                                            if (otp_response.getStatus().equals("queued")) {
-//                                                shop_otp_activity(random_otp, id, phone);
-//                                            } else {
-//
-//                                            }
-//                                        }
-//                                    });
-//                                } else {
-//                                    Double waiting_time = 48.00 - diff;
-//                                    Toast.makeText(LoginActivity.this, "Please try after " + String.valueOf(waiting_time) + " hours.", Toast.LENGTH_SHORT).show();
-//                                    dialog.dismiss();
-//                                }
+                                });*/
+                                if (diff > 47.99) {
+                                    Random r = new Random();
+                                    int ran = r.nextInt(99999 - 10000 + 1) + 10000;
+                                    String random_otp = String.valueOf(ran);
+
+                                    Toast.makeText(LoginActivity.this, random_otp, Toast.LENGTH_SHORT).show();
+                                    otp.getStatus(phone, "ALife..Your Shop LogIn OTP is -" + random_otp).observe(LoginActivity.this, new Observer<OTP_response>() {
+                                        @Override
+                                        public void onChanged(OTP_response otp_response) {
+                                            if (otp_response.getStatus().equals("queued")) {
+                                                shop_otp_activity(random_otp, id, phone);
+                                            } else {
+
+                                            }
+                                        }
+                                    });
+                                } else {
+                                    Double waiting_time = 48.00 - diff;
+                                    Toast.makeText(LoginActivity.this, "Please try after " + String.valueOf(waiting_time) + " hours.", Toast.LENGTH_SHORT).show();
+                                    dialog.dismiss();
+                                }
 
 
                             }
@@ -602,7 +608,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 } else {
                     dialog.dismiss();
                     //agentDialog.dismiss();
-                    Toast toast = Toast.makeText(LoginActivity.this, "Not registered", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(LoginActivity.this, shop_login_response.getMessage(), Toast.LENGTH_SHORT);
                     toast.show();
                 }
             }

@@ -31,7 +31,7 @@ public class Customer_coupon_fragment extends Fragment implements Customer_coupo
     ProgressBar progressBar;
     int page = 1, limit = 15, end = 0;
     private Customer_coupon_shop_list_adapter adapter;
-    private List<cuponShop_response> shopList;
+    private List<cuponShop_response> shopList = new ArrayList<>();
     CuponShopList cuponShopListViewModel;
     String customerID;
 
@@ -51,8 +51,8 @@ public class Customer_coupon_fragment extends Fragment implements Customer_coupo
             @Override
             public void onChanged(List<cuponShop_response> cuponShop_responses) {
                 progressBar.setVisibility(View.GONE);
-                shopList = new ArrayList<>();
-                shopList = cuponShop_responses;
+
+                shopList.addAll(cuponShop_responses);
                 adapter = new Customer_coupon_shop_list_adapter(shopList);
                 adapter.setOnClickListener(Customer_coupon_fragment.this::OnItemClick);
                 shopListView.setAdapter(adapter);
