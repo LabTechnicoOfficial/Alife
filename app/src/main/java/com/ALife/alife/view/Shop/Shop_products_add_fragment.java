@@ -59,6 +59,7 @@ import com.ALife.alife.Custom_Type.ProductSell;
 import com.ALife.alife.Custom_Type.Product_offer;
 import com.ALife.alife.Custom_Type.Product_type;
 import com.ALife.alife.R;
+import com.ALife.alife.Utils.Helpers;
 import com.ALife.alife.adapter.get_gridoff_product_adapter;
 import com.ALife.alife.adapter.get_product_adapter;
 import com.ALife.alife.model.add_product_offer_response;
@@ -240,29 +241,11 @@ public class Shop_products_add_fragment extends Fragment {
         offer_layout = (LinearLayout) view.findViewById(R.id.layoutOfferID);
         barCodeScanner = (LinearLayout) view.findViewById(R.id.barCodeScannerButtonID);
         TextInputEditText productCodeText = (TextInputEditText) view.findViewById(R.id.productCodeTextID);
-        String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-                + "0123456789"
-                + "abcdefghijklmnopqrstuvxyz";
 
-        // create StringBuffer size of AlphaNumericString
-        StringBuilder sb = new StringBuilder(10);
-
-        for (int i = 0; i < 10; i++) {
-
-            // generate a random number between
-            // 0 to AlphaNumericString variable length
-            int index
-                    = (int) (AlphaNumericString.length()
-                    * Math.random());
-
-            // add Character one by one in end of sb
-            sb.append(AlphaNumericString
-                    .charAt(index));
-        }
-        productCodeText.setText(sb.toString());
+        productCodeText.setText(Helpers.uniqueProductCodeGenerator("remon"));
         unitText.setText(Category_unit);
         //end
-
+//
         buyPrice.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

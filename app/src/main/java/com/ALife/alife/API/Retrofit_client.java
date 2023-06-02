@@ -1,4 +1,4 @@
-package com.ALife.alife.model;
+package com.ALife.alife.API;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

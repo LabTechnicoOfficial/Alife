@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,48 +9,80 @@
 
     <SurfaceView
         android:id="@+id/surface_view"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="300dp"
-        android:layout_marginTop="100dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:context=".view.Shop.Bar_code_fragment"
-        android:layout_marginBottom="10dp"/>
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:gravity="center_vertical|center">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="15sp"
-        android:text="Barcode:"/>
-
-    <TextView
-        android:id="@+id/barcode_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-
-        android:textSize="25sp"
-        app:layout_constraintTop_toBottomOf="@id/surface_view"
-        tools:ignore="MissingConstraints" />
-</LinearLayout>
+        tools:context=".view.Shop.Bar_code_fragment" />
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:id="@+id/textLayout"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:gravity="center">
-        <androidx.appcompat.widget.AppCompatButton
+        android:background="#D7000000"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="5dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/surface_view">
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/submit"
-            android:text="Submit"
-            android:padding="5dp"
-            android:background="@drawable/ripple_effect"/>
+            android:text="Barcode:"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:layout_marginEnd="10dp"/>
+
+        <TextView
+            android:id="@+id/barcode_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/surface_view"
+            tools:ignore="MissingConstraints" />
     </LinearLayout>
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textLayout">
 
-</LinearLayout>
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/submit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="Done"
+            android:textStyle="bold"
+            android:textSize="12sp"
+            android:backgroundTint="@color/dark_green"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/reScanButton"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/reScanButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="Rescan"
+            android:textStyle="bold"
+            android:textSize="12sp"
+            android:backgroundTint="@color/default_color"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/submit"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,7 +4,7 @@ import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 
-import com.ALife.alife.model.ApiUtilize;
+import com.ALife.alife.API.ApiUtilize;
 
 import java.util.List;
 
@@ -35,7 +35,7 @@ public class cupon_repositories {
     }
 
     public MutableLiveData<add_response> addCupon(String shop_id, String cupon_name, String time_range, String create_date, String end_date, String description) {
-        Log.d("errrrorxx", shop_id + cupon_name + time_range + create_date + end_date + description);
+
         Call<add_response> call = api.add_cupon(shop_id, cupon_name, time_range, create_date, end_date, description);
         call.enqueue(new Callback<com.ALife.alife.model.cupon.add_response>() {
             @Override

@@ -63,7 +63,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_marginRight="5dp"
-                        android:fontFamily="@font/allerta"
+
                         android:text="Name:"
                         android:textColor="@color/black"
                         android:textSize="15sp" />
@@ -73,7 +73,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_marginRight="5dp"
-                        android:fontFamily="@font/allerta"
+
                         android:textColor="@color/black"
                         android:textSize="15sp"
                         android:textStyle="bold" />
@@ -89,7 +89,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_marginRight="5dp"
-                        android:fontFamily="@font/allerta"
+
                         android:text="Phone:"
                         android:textColor="@color/black"
                         android:textSize="15sp" />
@@ -99,7 +99,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_marginRight="5dp"
-                        android:fontFamily="@font/allerta"
+
                         android:textColor="@color/black"
                         android:textSize="15sp" />
 
@@ -114,7 +114,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_marginRight="5dp"
-                        android:fontFamily="@font/allerta"
+
                         android:text="Category Amount:"
                         android:textColor="@color/black"
                         android:textSize="15sp" />
@@ -124,7 +124,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_marginRight="5dp"
-                        android:fontFamily="@font/allerta"
+
                         android:textColor="@color/black"
                         android:textSize="15sp" />
 
@@ -145,7 +145,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fontFamily="@font/allerta"
+
             android:text="Grant permission to"
             android:textColor="@color/black"
             android:textSize="20sp"

@@ -27,7 +27,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="5dp"
-                android:fontFamily="@font/allerta"
+
                 android:text="Customer"
                 android:textColor="@color/black"
                 android:textSize="18sp"
@@ -55,7 +55,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="2dp"
-                        android:fontFamily="@font/allerta"
+
                         android:textColor="@color/black"
                         android:textSize="18sp"
                         android:textStyle="bold" />
@@ -70,7 +70,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="3dp"
-                            android:fontFamily="@font/allerta"
+
                             android:text="ID:"
                             android:textColor="@color/black"
                             android:textSize="15sp" />
@@ -80,7 +80,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="3dp"
-                            android:fontFamily="@font/allerta"
+
                             android:textColor="@color/black"
                             android:textSize="15sp" />
 
@@ -95,7 +95,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="3dp"
-                            android:fontFamily="@font/allerta"
+
                             android:text="Phone:"
                             android:textColor="@color/black"
                             android:textSize="15sp" />
@@ -105,7 +105,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="3dp"
-                            android:fontFamily="@font/allerta"
+
                             android:textColor="@color/black"
                             android:textSize="15sp" />
 
@@ -120,7 +120,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="3dp"
-                            android:fontFamily="@font/allerta"
+
                             android:text="Address:"
                             android:textColor="@color/black"
                             android:textSize="15sp" />
@@ -130,7 +130,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="3dp"
-                            android:fontFamily="@font/allerta"
+
                             android:textColor="@color/black"
                             android:textSize="15sp" />
 
@@ -159,7 +159,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:fontFamily="@font/allerta"
+
                 android:text="Cart"
                 android:textColor="@color/black"
                 android:textSize="20sp"
@@ -174,7 +174,7 @@
                     android:id="@+id/total_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/allerta"
+
                     android:textColor="@color/black"
                     android:textSize="15sp" />
             </LinearLayout>
@@ -200,7 +200,7 @@
                 android:layout_gravity="right|bottom"
                 android:background="@drawable/ripple_effect"
                 android:drawableLeft="@drawable/shopping_cart"
-                android:fontFamily="@font/allerta"
+
                 android:padding="10dp"
                 android:text="Checkout"
                 android:textAllCaps="false"

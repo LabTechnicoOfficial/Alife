@@ -5,6 +5,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
+import com.ALife.alife.API.ApiUtilize;
+
 import java.util.List;
 
 import retrofit2.Call;
@@ -20,7 +22,7 @@ public class fetch_all_customer_repositories {
 
     }
     public fetch_all_customer_repositories() {
-        fetch_all_customer=ApiUtilize.fetch_all_customer_response();
+        fetch_all_customer= ApiUtilize.fetch_all_customer_response();
         data=new MutableLiveData<>();
     }
     public synchronized static fetch_all_customer_repositories getInstance() {

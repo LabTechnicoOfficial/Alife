@@ -6,6 +6,10 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
+import com.ALife.alife.API.ApiUtilize;
+
+import java.util.LinkedHashMap;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -17,10 +21,11 @@ public class Customer_registration_repositoris {
     MutableLiveData<String> varefication;
     MutableLiveData<customer_registration_response> message;
     private static Customer_registration_repositoris customer_registration_repositories;
-    protected void onSaveInstanceState(@NonNull Bundle outState)
-    {
+
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
 
     }
+
     public Customer_registration_repositoris() {
         /*this.name = name;
         this.location = location;
@@ -71,6 +76,18 @@ public class Customer_registration_repositoris {
         if (message == null) {
             message = new MutableLiveData<>();
         }
+
+        LinkedHashMap<String, Object> body = new LinkedHashMap<>();
+        body.put("name", name);
+        body.put("location", location);
+        body.put("phone", phone);
+        body.put("password", password);
+        body.put("token", token);
+        body.put("image", image);
+
+
+        Log.d("dataxx", "getMessage: "+body);
+
         Call<customer_registration_response> call = registration.customer_registration(name, location, phone, password, image, token);
 
         call.enqueue(new Callback<customer_registration_response>() {

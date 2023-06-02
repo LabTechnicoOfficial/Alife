@@ -101,7 +101,7 @@ public class Otp_validation_activity extends AppCompatActivity implements TextWa
         SessionManagment sessionManagment = new SessionManagment(Otp_validation_activity.this);
         int userId = sessionManagment.getSession();
         String Type = sessionManagment.getType();
-       // String phone = sessionManagment.getPhone();
+        // String phone = sessionManagment.getPhone();
         if (userId != -1) {
             if (Type.equals("shopkeeper")) {
                 Intent intent = new Intent(Otp_validation_activity.this, Shop_main_activity.class);
@@ -147,7 +147,7 @@ public class Otp_validation_activity extends AppCompatActivity implements TextWa
             customer_registration = new ViewModelProvider(this).get(Customer_registration.class);
 
             token_update = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(Token_update.class);
-last_logintime=new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(Last_logintime.class);
+            last_logintime = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(Last_logintime.class);
 
             editText1 = (EditText) findViewById(R.id.editText1ID);
             editText2 = (EditText) findViewById(R.id.editText2ID);
@@ -198,7 +198,7 @@ last_logintime=new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFac
                             } else if (type.equals("customer")) {
                                 if (image.equals("login_varification")) {
                                     update_token("customer");
-                                }else {
+                                } else {
                                     customer_registration();
                                 }
                             }
@@ -245,8 +245,7 @@ last_logintime=new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFac
 
     private void update_token(String user_type) {
 
-        if(user_type.equals("shop"))
-        {
+        if (user_type.equals("shop")) {
             message = "no";
             FirebaseInstanceId.getInstance().getInstanceId()
                     .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
@@ -265,20 +264,18 @@ last_logintime=new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFac
 
                                             String currentTime = (String) android.text.format.DateFormat.format("yy/MM/dd HH:mm:ss", new java.util.Date());
 
-                                            last_logintime.getUpdate(password,currentTime,"shop").observe(Otp_validation_activity.this, new Observer<update_last_logintime_response>() {
+                                            last_logintime.getUpdate(password, currentTime, "shop").observe(Otp_validation_activity.this, new Observer<update_last_logintime_response>() {
                                                 @Override
                                                 public void onChanged(update_last_logintime_response update_last_logintime_response) {
-                                                    Log.d("mesbaul",update_last_logintime_response.getMessage());
-                                                    if(update_last_logintime_response.getMessage().equals("Edited successfully"))
-                                                    {
+                                                    Log.d("mesbaul", update_last_logintime_response.getMessage());
+                                                    if (update_last_logintime_response.getMessage().equals("Edited successfully")) {
                                                         User user = new User(password, type, phone);
                                                         SessionManagment sessionManagment = new SessionManagment(Otp_validation_activity.this);
                                                         sessionManagment.saveSession(user);
                                                         Intent intent = new Intent(Otp_validation_activity.this, Shop_main_activity.class);
                                                         //intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                                                         startActivity(intent);
-                                                    }else
-                                                    {
+                                                    } else {
                                                         SessionManagment sessionManagment = new SessionManagment(Otp_validation_activity.this);
                                                         sessionManagment.removeSession();
                                                         Intent intent = new Intent(Otp_validation_activity.this, LoginActivity.class);
@@ -309,9 +306,7 @@ last_logintime=new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFac
                             }
                         }
                     });
-        }
-        else if(user_type.equals("customer"))
-        {
+        } else if (user_type.equals("customer")) {
             message = "no";
             FirebaseInstanceId.getInstance().getInstanceId()
                     .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
@@ -328,11 +323,10 @@ last_logintime=new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFac
 
                                             String currentTime = (String) android.text.format.DateFormat.format("yy/MM/dd HH:mm:ss", new java.util.Date());
 
-                                            last_logintime.getUpdate(password,currentTime,"customer").observe(Otp_validation_activity.this, new Observer<update_last_logintime_response>() {
+                                            last_logintime.getUpdate(password, currentTime, "customer").observe(Otp_validation_activity.this, new Observer<update_last_logintime_response>() {
                                                 @Override
                                                 public void onChanged(update_last_logintime_response update_last_logintime_response) {
-                                                    if(update_last_logintime_response.getMessage().equals("Edited successfully"))
-                                                    {
+                                                    if (update_last_logintime_response.getMessage().equals("Edited successfully")) {
                                                         message = token_update_response.getMessage();
                                                         User user = new User(password, type, phone);
                                                         SessionManagment sessionManagment = new SessionManagment(Otp_validation_activity.this);
@@ -340,8 +334,7 @@ last_logintime=new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFac
                                                         Intent intent = new Intent(Otp_validation_activity.this, Customer_main_activity.class);
                                                         //intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                                                         startActivity(intent);
-                                                    }else
-                                                    {
+                                                    } else {
                                                         SessionManagment sessionManagment = new SessionManagment(Otp_validation_activity.this);
                                                         sessionManagment.removeSession();
                                                         Intent intent = new Intent(Otp_validation_activity.this, LoginActivity.class);

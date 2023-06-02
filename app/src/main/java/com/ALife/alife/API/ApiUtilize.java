@@ -1,5 +1,6 @@
-package com.ALife.alife.model;
+package com.ALife.alife.API;
 
+import com.ALife.alife.model.*;
 import com.ALife.alife.model.cupon.cupon_api;
 import com.ALife.alife.model.local_sell.local_sell_api;
 import com.ALife.alife.model.shop_notification.shop_notification_api;

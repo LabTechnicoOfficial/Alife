@@ -2,6 +2,8 @@ package com.ALife.alife.model;
 
 import androidx.lifecycle.MutableLiveData;
 
+import com.ALife.alife.API.ApiUtilize;
+
 import java.util.List;
 
 import retrofit2.Call;
@@ -15,7 +17,7 @@ public class shop_sell_history_repositories {
     private static shop_sell_history_repositories sell_history_repositories;
     private shop_sell_history_repositories()
     {
-        sell_history=ApiUtilize.shop_sell_history();
+        sell_history= ApiUtilize.shop_sell_history();
         dataList=new MutableLiveData<>();
         dataSummary=new MutableLiveData<>();
     }

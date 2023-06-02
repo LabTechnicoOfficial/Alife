@@ -103,7 +103,7 @@
             android:layout_gravity="bottom|right"
             android:layout_margin="16dp"
             android:backgroundTint="@color/pink"
-            android:fontFamily="@font/allerta"
+
             android:text="Add Offer"
             android:textAllCaps="false"
             android:textStyle="bold"

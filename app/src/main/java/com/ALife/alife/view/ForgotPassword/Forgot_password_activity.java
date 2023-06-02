@@ -166,6 +166,7 @@ public class Forgot_password_activity extends AppCompatActivity implements Adapt
                         phone_verification.customer_phone(number).observe(Forgot_password_activity.this, new Observer<phone_verification_response>() {
                             @Override
                             public void onChanged(phone_verification_response phone_verification_response) {
+                                Toast.makeText(Forgot_password_activity.this, phone_verification_response.getId(), Toast.LENGTH_SHORT).show();
                                 if (!phone_verification_response.getId().equals("0")) {
                                     customer_id = phone_verification_response.getId();
                                     Random r = new Random();

@@ -29,7 +29,7 @@
                     android:id="@+id/productlabelID"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/allerta"
+
                     android:gravity="center"
                     android:textColor="@color/black"
                     android:textSize="18sp"
@@ -46,7 +46,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="5dp"
-                        android:fontFamily="@font/allerta"
+
                         android:text="Price: "
                         android:textColor="@color/black"/>
 
@@ -54,7 +54,7 @@
                         android:id="@+id/priceID"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/allerta"
+
                         android:textColor="@color/black" />
                 </LinearLayout>
 
@@ -69,7 +69,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="5dp"
-                        android:fontFamily="@font/allerta"
+
                         android:text="Discount: "
                         android:textColor="@color/black"/>
 
@@ -77,7 +77,7 @@
                         android:id="@+id/discountID"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/allerta"
+
                         android:textColor="@color/black" />
                 </LinearLayout>
 

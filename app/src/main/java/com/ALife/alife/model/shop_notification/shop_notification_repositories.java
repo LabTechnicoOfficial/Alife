@@ -5,7 +5,7 @@ import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 
-import com.ALife.alife.model.ApiUtilize;
+import com.ALife.alife.API.ApiUtilize;
 
 import retrofit2.Call;
 import retrofit2.Callback;

@@ -66,7 +66,7 @@ public class Customer_homescreen_fragment extends Fragment implements Instructio
     User_instruction userInstruction;
     private List<user_instruction_response> instructionList;
     Instruction_adapter instructionAdapter;
-    private AdManagerAdView mAdManagerAdView;
+    //private AdManagerAdView mAdManagerAdView;
     AddInterval addInterval;
     private InterstitialAd InterstitialAd;
     @SuppressLint("MissingPermission")
@@ -80,39 +80,10 @@ public class Customer_homescreen_fragment extends Fragment implements Instructio
                 loadAd();
             }
         });
-        AdManagerAdRequest adRequest = new AdManagerAdRequest.Builder().build();
-        mAdManagerAdView.loadAd(adRequest);
-        mAdManagerAdView.setAdListener(new AdListener() {
-            @Override
-            public void onAdLoaded() {
-                // Code to be executed when an ad finishes loading.
-                // Toast.makeText(Shop_main_activity.this,"fiinsh",Toast.LENGTH_SHORT).show();
-            }
 
-            @Override
-            public void onAdFailedToLoad(LoadAdError adError) {
-                // Code to be executed when an ad request fails.
-            }
 
-            @Override
-            public void onAdOpened() {
-                // Code to be executed when an ad opens an overlay that
-                // covers the screen.
-            }
-
-            @Override
-            public void onAdClicked() {
-                // Code to be executed when the user clicks on an ad.
-            }
-
-            @Override
-            public void onAdClosed() {
-                // Code to be executed when the user is about to return
-                // to the app after tapping on an ad.
-            }
-        });
         main();
-        instruction_func();
+        //instruction_func();
     }
 
     private void instruction_func() {
@@ -164,7 +135,38 @@ public class Customer_homescreen_fragment extends Fragment implements Instructio
     }
 
     private void main() {
+       /*
+        AdManagerAdRequest adRequest = new AdManagerAdRequest.Builder().build();
+        mAdManagerAdView.loadAd(adRequest);
+       mAdManagerAdView.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                // Code to be executed when an ad finishes loading.
+                // Toast.makeText(Shop_main_activity.this,"fiinsh",Toast.LENGTH_SHORT).show();
+            }
 
+            @Override
+            public void onAdFailedToLoad(LoadAdError adError) {
+                // Code to be executed when an ad request fails.
+            }
+
+            @Override
+            public void onAdOpened() {
+                // Code to be executed when an ad opens an overlay that
+                // covers the screen.
+            }
+
+            @Override
+            public void onAdClicked() {
+                // Code to be executed when the user clicks on an ad.
+            }
+
+            @Override
+            public void onAdClosed() {
+                // Code to be executed when the user is about to return
+                // to the app after tapping on an ad.
+            }
+        });*/
     }
 
     @Override
@@ -182,7 +184,7 @@ public class Customer_homescreen_fragment extends Fragment implements Instructio
 
         fragmentManager = getFragmentManager();
         //banner add
-        mAdManagerAdView = (AdManagerAdView) view.findViewById(R.id.adManagerAdView);
+        //mAdManagerAdView = (AdManagerAdView) view.findViewById(R.id.adManagerAdView);
 
         SessionManagment sessionManagment = new SessionManagment(getActivity());
         int userId = sessionManagment.getSession();

@@ -2,7 +2,7 @@ package com.ALife.alife.model.cupon;
 
 import androidx.lifecycle.MutableLiveData;
 
-import com.ALife.alife.model.ApiUtilize;
+import com.ALife.alife.API.ApiUtilize;
 
 import java.util.List;
 

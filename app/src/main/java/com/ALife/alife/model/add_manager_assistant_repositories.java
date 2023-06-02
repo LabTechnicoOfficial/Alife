@@ -5,6 +5,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
+import com.ALife.alife.API.ApiUtilize;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -21,7 +23,7 @@ private static add_manager_assistant_repositories add_manager_assistant_reposito
     public add_manager_assistant_repositories() {
         /*this.manager_id = manager_id;
         this.assistant_id = assistant_id;*/
-        add_manager_assistant=ApiUtilize.add_manager_assistant_response();
+        add_manager_assistant= ApiUtilize.add_manager_assistant_response();
         data=new MutableLiveData<>();
 
     }
