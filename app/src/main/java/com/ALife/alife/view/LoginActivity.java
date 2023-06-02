@@ -454,7 +454,24 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 Toast.makeText(LoginActivity.this, "Something Wrong!!!Try again", Toast.LENGTH_SHORT).show();
                                 dialog.dismiss();
                             } else {
-                                String last_login_time = last_logintime_response.getLast_time();
+
+
+                                Random r = new Random();
+                                int ran = r.nextInt(99999 - 10000 + 1) + 10000;
+                                String random_otp = String.valueOf(ran);
+                                Toast.makeText(LoginActivity.this, random_otp, Toast.LENGTH_SHORT).show();
+                                otp.getStatus(phone, "ALife..Your Shop LogIn OTP is -" + random_otp).observe(LoginActivity.this, new Observer<OTP_response>() {
+                                    @Override
+                                    public void onChanged(OTP_response otp_response) {
+                                        if (otp_response.getStatus().equals("queued")) {
+                                            shop_otp_activity(random_otp, id, phone);
+                                        } else {
+
+                                        }
+                                    }
+                                });
+
+/*                                String last_login_time = last_logintime_response.getLast_time();
                                 SimpleDateFormat objSDF = new SimpleDateFormat("yy/MM/dd HH:mm:ss");
 
                                 String currentTime = (String) android.text.format.DateFormat.format("yy/MM/dd HH:mm:ss", new java.util.Date());
@@ -469,20 +486,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 //long diff = d2.getTime() - d1.getTime();
 
                                 long diff = TimeUnit.MILLISECONDS.toHours(d2.getTime() - d1.getTime());
-
-                               /* Random r = new Random();
-                                int ran = r.nextInt(99999 - 10000 + 1) + 10000;
-                                String random_otp = String.valueOf(ran);
-                                otp.getStatus(phone, "ALife..Your Shop LogIn OTP is -" + random_otp).observe(LoginActivity.this, new Observer<OTP_response>() {
-                                    @Override
-                                    public void onChanged(OTP_response otp_response) {
-                                        if (otp_response.getStatus().equals("queued")) {
-                                            shop_otp_activity(random_otp, id, phone);
-                                        } else {
-
-                                        }
-                                    }
-                                });*/
                                 if (diff > 47.99) {
                                     Random r = new Random();
                                     int ran = r.nextInt(99999 - 10000 + 1) + 10000;
@@ -503,7 +506,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                     Double waiting_time = 48.00 - diff;
                                     Toast.makeText(LoginActivity.this, "Please try after " + String.valueOf(waiting_time) + " hours.", Toast.LENGTH_SHORT).show();
                                     dialog.dismiss();
-                                }
+                                }*/
 
 
                             }
@@ -546,6 +549,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 Random r = new Random();
                                 int ran = r.nextInt(99999 - 10000 + 1) + 10000;
                                 String random_otp = String.valueOf(ran);
+                                Toast.makeText(LoginActivity.this, random_otp, Toast.LENGTH_SHORT).show();
                                 otp.getStatus(phone, "ALife..Your Customer LogIn OTP is -" + random_otp).observe(LoginActivity.this, new Observer<OTP_response>() {
                                     @Override
                                     public void onChanged(OTP_response otp_response) {
@@ -560,7 +564,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 Toast.makeText(LoginActivity.this, "Something Wrong!!!Try again", Toast.LENGTH_SHORT).show();
                                 dialog.dismiss();
                             } else {
-                                String last_login_time = last_logintime_response.getLast_time();
+/*                                String last_login_time = last_logintime_response.getLast_time();
                                 SimpleDateFormat objSDF = new SimpleDateFormat("yy/MM/dd HH:mm:ss");
 
                                 String currentTime = (String) android.text.format.DateFormat.format("yy/MM/dd HH:mm:ss", new java.util.Date());
@@ -579,6 +583,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                     Random r = new Random();
                                     int ran = r.nextInt(99999 - 10000 + 1) + 10000;
                                     String random_otp = String.valueOf(ran);
+                                    Toast.makeText(LoginActivity.this, random_otp, Toast.LENGTH_SHORT).show();
+                                    customer_otp_activity(random_otp, id, phone);
                                     otp.getStatus(phone, "ALife..Your Customer LogIn OTP is -" + random_otp).observe(LoginActivity.this, new Observer<OTP_response>() {
                                         @Override
                                         public void onChanged(OTP_response otp_response) {
@@ -593,8 +599,22 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                     Double waiting_time = 48.00 - diff;
                                     Toast.makeText(LoginActivity.this, "Please try after " + String.valueOf(waiting_time) + " hours.", Toast.LENGTH_SHORT).show();
                                     dialog.dismiss();
-                                }
+                                }*/
+                                Random r = new Random();
+                                int ran = r.nextInt(99999 - 10000 + 1) + 10000;
+                                String random_otp = String.valueOf(ran);
 
+                                otp.getStatus(phone, "ALife..Your Customer LogIn OTP is -" + random_otp).observe(LoginActivity.this, new Observer<OTP_response>() {
+                                    @Override
+                                    public void onChanged(OTP_response otp_response) {
+                                        if (otp_response.getStatus().equals("queued")) {
+                                            customer_otp_activity(random_otp, id, phone);
+                                        } else {
+
+                                        }
+                                    }
+                                });
+                                customer_otp_activity(random_otp, id, phone);
 
                             }
                         }
