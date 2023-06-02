@@ -49,9 +49,10 @@ public class Bar_code_fragment extends Fragment {
     private static final int REQUEST_CAMERA_PERMISSION = 201;
     private ToneGenerator toneGen1;
     private TextView barcodeText;
-    Button submit;
+    Button submit, reScanButton;
     private String barcodeData, barcode;
     Get_local_sell get_local_sell;
+
 
     public Bar_code_fragment(String shop_id) {
         // Required empty public constructor
@@ -73,6 +74,7 @@ public class Bar_code_fragment extends Fragment {
         fragmentManager = getFragmentManager();
         toneGen1 = new ToneGenerator(AudioManager.STREAM_MUSIC, 100);
         surfaceView = view.findViewById(R.id.surface_view);
+
         barcodeText = view.findViewById(R.id.barcode_text);
         submit = view.findViewById(R.id.submit);
         initialiseDetectorsAndSources();
@@ -85,12 +87,12 @@ public class Bar_code_fragment extends Fragment {
                 barcode = barcodeText.getText().toString();
 
                 if (barcode.isEmpty()) {
-                    Log.d("mesba", "No Barcode Available");
                     Toast.makeText(getActivity(), "No Barcode Available", Toast.LENGTH_SHORT).show();
                 } else {
                     get_local_sell.getProduct(barcode, shop_id).observe(getViewLifecycleOwner(), new Observer<get_product_by_bar_code_response>() {
                         @Override
                         public void onChanged(get_product_by_bar_code_response get_product_by_bar_code_response) {
+                            //Toast.makeText(getActivity(), get_product_by_bar_code_response.getProduct_id(), Toast.LENGTH_SHORT).show();
                             if (!get_product_by_bar_code_response.getProduct_id().equals("0")) {
                                 if (Double.parseDouble(get_product_by_bar_code_response.getStock_amount()) > 0) {
                                     Shop_profile shop_profile = new ViewModelProvider(getActivity()).get(Shop_profile.class);
@@ -106,12 +108,14 @@ public class Bar_code_fragment extends Fragment {
                                             R.anim.slide_out  // popExit
                                     ).replace(R.id.frame_container, new Shop_local_sell_barcode_product_selected_fragment(shop_id, get_product_by_bar_code_response.getProduct_id(), productSellList, get_product_by_bar_code_response.getAll_discount())).addToBackStack(null).commit();
 
+                                    //getActivity().finish();
                                 } else {
                                     Toast.makeText(getActivity(), "Stock Out", Toast.LENGTH_SHORT).show();
                                 }
 
 
                             } else {
+                                //getActivity().finish();
                                 Toast.makeText(getActivity(), "No Product Available for This Barcode", Toast.LENGTH_SHORT).show();
 
                             }
@@ -120,17 +124,28 @@ public class Bar_code_fragment extends Fragment {
                 }
             }
         });
+
+        reScanButton = view.findViewById(R.id.reScanButton);
+        reScanButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                initialiseDetectorsAndSources();
+            }
+        });
+
         return view;
     }
 
     private void initialiseDetectorsAndSources() {
+        barcodeData = "";
+        barcodeText.setText(barcodeData);
 
         barcodeDetector = new BarcodeDetector.Builder(getActivity())
                 .setBarcodeFormats(Barcode.ALL_FORMATS)
                 .build();
 
         cameraSource = new CameraSource.Builder(getActivity(), barcodeDetector)
-                .setRequestedPreviewSize(1920, 1080)
+                .setRequestedPreviewSize(1080, 1080)
                 .setAutoFocusEnabled(true) //you should add this feature
                 .build();
 
@@ -167,7 +182,7 @@ public class Bar_code_fragment extends Fragment {
         barcodeDetector.setProcessor(new Detector.Processor<Barcode>() {
             @Override
             public void release() {
-                // Toast.makeText(getApplicationContext(), "To prevent memory leaks barcode scanner has been stopped", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(getActivity(), "To prevent memory leaks barcode scanner has been stopped", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -177,7 +192,6 @@ public class Bar_code_fragment extends Fragment {
 
 
                     barcodeText.post(new Runnable() {
-
                         @Override
                         public void run() {
 
@@ -185,12 +199,13 @@ public class Bar_code_fragment extends Fragment {
                                 barcodeText.removeCallbacks(null);
                                 barcodeData = barcodes.valueAt(0).email.address;
                                 barcodeText.setText(barcodeData);
-                                toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP, 150);
+                                // toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP, 150);
+                                // barcodeDetector.release();
                             } else {
 
                                 barcodeData = barcodes.valueAt(0).displayValue;
                                 barcodeText.setText(barcodeData);
-                                toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP, 150);
+                                // toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP, 150);
 
                             }
                         }

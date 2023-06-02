@@ -199,7 +199,7 @@ public class Shop_customer_list_fragments extends Fragment implements get_shop_c
         showDetailsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (showDetailsState == true) {
+                if (showDetailsState) {
                     downImage.setVisibility(View.GONE);
                     upImage.setVisibility(View.VISIBLE);
                     notShowDetails.setVisibility(View.GONE);
@@ -213,7 +213,7 @@ public class Shop_customer_list_fragments extends Fragment implements get_shop_c
 
                     due_details(page3, limit2);
                     showDetailsState = false;
-                } else if (showDetailsState == false) {
+                } else {
                     upImage.setVisibility(View.GONE);
                     detailsLayout.setVisibility(View.GONE);
                     downImage.setVisibility(View.VISIBLE);

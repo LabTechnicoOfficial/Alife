@@ -53,7 +53,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/allerta"
+
                     android:text="Stock Amount:"
                     android:textColor="@color/black"
                     android:textSize="15sp" />
@@ -63,7 +63,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
-                    android:fontFamily="@font/allerta"
+
                     android:textColor="@color/black"
                     android:textSize="15sp"
                     android:textStyle="bold" />
@@ -193,7 +193,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/allerta"
+
                     android:text="Unit"
                     android:textColor="@color/black"
                     android:textSize="15sp" />
@@ -207,7 +207,7 @@
                         android:id="@+id/productUnitID"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/allerta"
+
                         android:textColor="@color/black"
                         android:textSize="15sp"
                         android:textStyle="bold" />

@@ -5,6 +5,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
+import com.ALife.alife.API.ApiUtilize;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -21,7 +23,7 @@ public class add_shop_due_customer_repositories {
     public add_shop_due_customer_repositories() {
         /*this.shop_id = shop_id;
         this.customer_id = customer_id;*/
-        add_shop_due_cutomer=ApiUtilize.add_shop_due_customer();
+        add_shop_due_cutomer= ApiUtilize.add_shop_due_customer();
         Data=new MutableLiveData<>();
     }
     public synchronized static add_shop_due_customer_repositories getInstance() {

@@ -5,6 +5,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
+import com.ALife.alife.API.ApiUtilize;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -21,7 +23,7 @@ private static add_business_summary_image_repositories add_business_summary_imag
     public add_business_summary_image_repositories() {
         //this.summary_id = summary_id;
         //this.image = image;
-        add_summary_image=ApiUtilize.add_summary_image();
+        add_summary_image= ApiUtilize.add_summary_image();
         Data=new MutableLiveData<>();
     }
     public synchronized static add_business_summary_image_repositories getInstance() {

@@ -91,7 +91,7 @@
                     android:layout_gravity="bottom|right"
                     android:layout_margin="10dp"
                     android:backgroundTint="@color/pink"
-                    android:fontFamily="@font/allerta"
+
                     android:gravity="center"
                     android:lines="2"
                     android:text="Unregistered\nCustomer"

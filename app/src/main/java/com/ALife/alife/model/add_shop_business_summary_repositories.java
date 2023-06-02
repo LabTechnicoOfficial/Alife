@@ -5,6 +5,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
+import com.ALife.alife.API.ApiUtilize;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -26,7 +28,7 @@ private static add_shop_business_summary_repositories add_shop_business_summary_
         this.date = date;
         this.time = time;
         this.image = image;*/
-        add_shop_business_summary=ApiUtilize.add_shop_business_summary();
+        add_shop_business_summary= ApiUtilize.add_shop_business_summary();
         Data=new MutableLiveData<>();
 
     }

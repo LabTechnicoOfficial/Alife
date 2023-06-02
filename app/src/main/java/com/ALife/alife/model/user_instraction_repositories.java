@@ -2,6 +2,8 @@ package com.ALife.alife.model;
 
 import androidx.lifecycle.MutableLiveData;
 
+import com.ALife.alife.API.ApiUtilize;
+
 import java.util.List;
 
 import retrofit2.Call;
@@ -14,7 +16,7 @@ public class user_instraction_repositories {
     private static user_instraction_repositories user_instraction_repositories;
 
     public user_instraction_repositories() {
-        user_instraction_api=ApiUtilize.user_instraction();
+        user_instraction_api= ApiUtilize.user_instraction();
         data=new MutableLiveData<>();
     }
     public synchronized static user_instraction_repositories getInstance()

@@ -2,6 +2,8 @@ package com.ALife.alife.model;
 
 import androidx.lifecycle.MutableLiveData;
 
+import com.ALife.alife.API.ApiUtilize;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -13,7 +15,7 @@ public class customer_exist_check_repositories {
     private customer_exist_check_repositories()
     {
         data=new MutableLiveData<>();
-        api=ApiUtilize.customer_exist_check_api();
+        api= ApiUtilize.customer_exist_check_api();
     }
     public synchronized static customer_exist_check_repositories getInstance()
     {

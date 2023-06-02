@@ -5,6 +5,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
+import com.ALife.alife.API.ApiUtilize;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -21,7 +23,7 @@ private static add_normal_sell_repositories add_normal_sell_repositories;
     public add_normal_sell_repositories() {
         //this.sell_id = sell_id;
         //this.description = description;
-        normal_sell=ApiUtilize.add_normal_sell_response();
+        normal_sell= ApiUtilize.add_normal_sell_response();
         data=new MutableLiveData<>();
     }
     public synchronized static add_normal_sell_repositories getInstance() {

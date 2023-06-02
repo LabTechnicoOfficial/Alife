@@ -46,7 +46,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="5dp"
-                        android:fontFamily="@font/allerta"
+
                         android:text="Name:"
                         android:textColor="@color/black"
                         android:textSize="15sp" />
@@ -55,7 +55,7 @@
                         android:id="@+id/adminNameID"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/allerta"
+
                         android:textColor="@color/black"
                         android:textSize="15sp"
                         android:textStyle="bold" />
@@ -72,7 +72,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="5dp"
-                        android:fontFamily="@font/allerta"
+
                         android:text="Phone:"
                         android:textColor="@color/black"
                         android:textSize="15sp" />
@@ -81,7 +81,7 @@
                         android:id="@+id/adminPhoneID"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/allerta"
+
                         android:textColor="@color/black"
                         android:textSize="15sp"
                         android:textStyle="bold" />
@@ -98,7 +98,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="5dp"
-                        android:fontFamily="@font/allerta"
+
                         android:text="Roll:"
                         android:textColor="@color/black"
                         android:textSize="15sp" />
@@ -107,7 +107,7 @@
                         android:id="@+id/adminPermissionID"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/allerta"
+
                         android:textColor="@color/black"
                         android:textSize="15sp"
                         android:textStyle="bold" />
@@ -129,7 +129,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/allerta"
+
             android:text="Access Category"
             android:textColor="@color/black"
             android:textSize="18sp"

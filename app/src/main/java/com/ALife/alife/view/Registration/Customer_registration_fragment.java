@@ -80,7 +80,7 @@ public class Customer_registration_fragment extends Fragment implements View.OnC
         View view = inflater.inflate(R.layout.customer_registration_fragment, container, false);
 
         customer_registration = new ViewModelProvider(this).get(Customer_registration.class);
-        backButton = (ImageView) view.findViewById(R.id.backButtonID);
+
         addimage = (ImageView) view.findViewById(R.id.profile_image);
 
         cusName = (TextInputEditText) view.findViewById(R.id.customerNameTextID);
@@ -171,6 +171,7 @@ public class Customer_registration_fragment extends Fragment implements View.OnC
                                         } else {
                                             //dialog.show();
                                             //registration();
+                                            Toast.makeText(getActivity(), s, Toast.LENGTH_SHORT).show();
                                             Random r = new Random();
                                             int ran = r.nextInt(99999 - 10000 + 1) + 10000;
                                             String random_otp = String.valueOf(ran);
