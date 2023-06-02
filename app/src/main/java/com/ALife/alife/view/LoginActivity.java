@@ -1,10 +1,6 @@
 package com.ALife.alife.view;
 
-import androidx.annotation.NonNull;
-
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
-import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -18,15 +14,12 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,7 +29,6 @@ import com.ALife.alife.model.Shop_login_response;
 import com.ALife.alife.model.last_logintime_response;
 import com.ALife.alife.model.registration;
 import com.ALife.alife.model.shop_admin_login_response;
-import com.ALife.alife.model.token_update_response;
 import com.ALife.alife.view.Customer.Customer_main_activity;
 import com.ALife.alife.view.ForgotPassword.Forgot_password_activity;
 import com.ALife.alife.view.OTP.Otp_validation_activity;
@@ -46,26 +38,16 @@ import com.ALife.alife.view.Shop.Shop_main_activity;
 import com.ALife.alife.viewmodel.Customer_login;
 import com.ALife.alife.viewmodel.Last_logintime;
 import com.ALife.alife.viewmodel.OTP;
-import com.ALife.alife.viewmodel.SessionManagment;
+import com.ALife.alife.session.SessionManagement;
 import com.ALife.alife.viewmodel.SessionManagment_registration;
 import com.ALife.alife.viewmodel.Shop_admin_login;
 import com.ALife.alife.viewmodel.Shop_login;
 import com.ALife.alife.viewmodel.Token_update;
 import com.ALife.alife.viewmodel.User;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButtonToggleGroup;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.Date;
-import java.util.Locale;
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
     TextView registerClick, forgotPasswordClick;
@@ -86,10 +68,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onStart() {
         super.onStart();
-        SessionManagment sessionManagment = new SessionManagment(LoginActivity.this);
-        int userId = sessionManagment.getSession();
-        String type = sessionManagment.getType();
-        String phone = sessionManagment.getPhone();
+        SessionManagement sessionManagement = new SessionManagement(LoginActivity.this);
+        int userId = sessionManagement.getSession();
+        String type = sessionManagement.getType();
+        String phone = sessionManagement.getPhone();
         if (userId != -1) {
             if (type.equals("shopkeeper")) {
                 Intent intent = new Intent(LoginActivity.this, Shop_main_activity.class);
@@ -113,10 +95,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         ActivityCompat.requestPermissions(LoginActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.INTERNET, Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.READ_PHONE_STATE}, 1);
         //  AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        SessionManagment sessionManagment = new SessionManagment(LoginActivity.this);
-        int userId = sessionManagment.getSession();
-        String type = sessionManagment.getType();
-        String phone = sessionManagment.getPhone();
+        SessionManagement sessionManagement = new SessionManagement(LoginActivity.this);
+        int userId = sessionManagement.getSession();
+        String type = sessionManagement.getType();
+        String phone = sessionManagement.getPhone();
 
         if (userId != -1) {
             if (type.equals("shopkeeper")) {
@@ -404,8 +386,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             public void onChanged(shop_admin_login_response shop_admin_login_response) {
                 if (shop_admin_login_response.getMessage().equals("successfull")) {
                     User user = new User(shop_admin_login_response.getId(), type, phone);
-                    SessionManagment sessionManagment = new SessionManagment(LoginActivity.this);
-                    sessionManagment.saveSession(user);
+                    SessionManagement sessionManagement = new SessionManagement(LoginActivity.this);
+                    sessionManagement.saveSession(user);
                     Intent intent = new Intent(LoginActivity.this, Operator_main_activity.class);
                     startActivity(intent);
 

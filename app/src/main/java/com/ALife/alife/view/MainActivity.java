@@ -11,7 +11,7 @@ import android.widget.Button;
 import com.ALife.alife.R;
 import com.ALife.alife.view.Customer.Customer_main_activity;
 import com.ALife.alife.view.Shop.Shop_main_activity;
-import com.ALife.alife.viewmodel.SessionManagment;
+import com.ALife.alife.session.SessionManagement;
 
 import cc.cloudist.acplibrary.ACProgressConstant;
 import cc.cloudist.acplibrary.ACProgressFlower;
@@ -25,9 +25,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SessionManagment sessionManagment = new SessionManagment(MainActivity.this);
-        int userId = sessionManagment.getSession();
-        String type = sessionManagment.getType();
+        SessionManagement sessionManagement = new SessionManagement(MainActivity.this);
+        int userId = sessionManagement.getSession();
+        String type = sessionManagement.getType();
         if (userId != -1) {
             if (type.equals("shopkeeper")) {
                 startActivity(new Intent(MainActivity.this, Shop_main_activity.class));

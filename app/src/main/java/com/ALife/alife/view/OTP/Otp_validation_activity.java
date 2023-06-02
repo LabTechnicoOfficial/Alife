@@ -3,16 +3,12 @@ package com.ALife.alife.view.OTP;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.Manifest;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -39,7 +35,7 @@ import com.ALife.alife.view.Registration.Register_activity;
 import com.ALife.alife.view.Shop.Shop_main_activity;
 import com.ALife.alife.viewmodel.Customer_registration;
 import com.ALife.alife.viewmodel.Last_logintime;
-import com.ALife.alife.viewmodel.SessionManagment;
+import com.ALife.alife.session.SessionManagement;
 import com.ALife.alife.viewmodel.SessionManagment_registration;
 import com.ALife.alife.viewmodel.Shop_registration;
 import com.ALife.alife.viewmodel.Token_update;
@@ -72,10 +68,10 @@ public class Otp_validation_activity extends AppCompatActivity implements TextWa
     @Override
     protected void onStart() {
         super.onStart();
-        SessionManagment sessionManagment = new SessionManagment(Otp_validation_activity.this);
-        int userId = sessionManagment.getSession();
-        String Type = sessionManagment.getType();
-        phone = sessionManagment.getPhone();
+        SessionManagement sessionManagement = new SessionManagement(Otp_validation_activity.this);
+        int userId = sessionManagement.getSession();
+        String Type = sessionManagement.getType();
+        phone = sessionManagement.getPhone();
         if (userId != -1) {
             if (Type.equals("shopkeeper")) {
                 Intent intent = new Intent(Otp_validation_activity.this, Shop_main_activity.class);
@@ -98,9 +94,9 @@ public class Otp_validation_activity extends AppCompatActivity implements TextWa
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SessionManagment sessionManagment = new SessionManagment(Otp_validation_activity.this);
-        int userId = sessionManagment.getSession();
-        String Type = sessionManagment.getType();
+        SessionManagement sessionManagement = new SessionManagement(Otp_validation_activity.this);
+        int userId = sessionManagement.getSession();
+        String Type = sessionManagement.getType();
         // String phone = sessionManagment.getPhone();
         if (userId != -1) {
             if (Type.equals("shopkeeper")) {
@@ -270,14 +266,14 @@ public class Otp_validation_activity extends AppCompatActivity implements TextWa
                                                     Log.d("mesbaul", update_last_logintime_response.getMessage());
                                                     if (update_last_logintime_response.getMessage().equals("Edited successfully")) {
                                                         User user = new User(password, type, phone);
-                                                        SessionManagment sessionManagment = new SessionManagment(Otp_validation_activity.this);
-                                                        sessionManagment.saveSession(user);
+                                                        SessionManagement sessionManagement = new SessionManagement(Otp_validation_activity.this);
+                                                        sessionManagement.saveSession(user);
                                                         Intent intent = new Intent(Otp_validation_activity.this, Shop_main_activity.class);
                                                         //intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                                                         startActivity(intent);
                                                     } else {
-                                                        SessionManagment sessionManagment = new SessionManagment(Otp_validation_activity.this);
-                                                        sessionManagment.removeSession();
+                                                        SessionManagement sessionManagement = new SessionManagement(Otp_validation_activity.this);
+                                                        sessionManagement.removeSession();
                                                         Intent intent = new Intent(Otp_validation_activity.this, LoginActivity.class);
                                                         //intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                                                         startActivity(intent);
@@ -290,8 +286,8 @@ public class Otp_validation_activity extends AppCompatActivity implements TextWa
                                             // Toast toast = Toast.makeText(Otp_validation_activity.this, "Something error.Try again", Toast.LENGTH_SHORT);
                                             // toast.show();
                                             //loader.dismiss();
-                                            SessionManagment sessionManagment = new SessionManagment(Otp_validation_activity.this);
-                                            sessionManagment.removeSession();
+                                            SessionManagement sessionManagement = new SessionManagement(Otp_validation_activity.this);
+                                            sessionManagement.removeSession();
                                             Intent intent = new Intent(Otp_validation_activity.this, LoginActivity.class);
                                             //intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                                             startActivity(intent);
@@ -329,14 +325,14 @@ public class Otp_validation_activity extends AppCompatActivity implements TextWa
                                                     if (update_last_logintime_response.getMessage().equals("Edited successfully")) {
                                                         message = token_update_response.getMessage();
                                                         User user = new User(password, type, phone);
-                                                        SessionManagment sessionManagment = new SessionManagment(Otp_validation_activity.this);
-                                                        sessionManagment.saveSession(user);
+                                                        SessionManagement sessionManagement = new SessionManagement(Otp_validation_activity.this);
+                                                        sessionManagement.saveSession(user);
                                                         Intent intent = new Intent(Otp_validation_activity.this, Customer_main_activity.class);
                                                         //intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                                                         startActivity(intent);
                                                     } else {
-                                                        SessionManagment sessionManagment = new SessionManagment(Otp_validation_activity.this);
-                                                        sessionManagment.removeSession();
+                                                        SessionManagement sessionManagement = new SessionManagement(Otp_validation_activity.this);
+                                                        sessionManagement.removeSession();
                                                         Intent intent = new Intent(Otp_validation_activity.this, LoginActivity.class);
                                                         //intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                                                         startActivity(intent);
@@ -350,8 +346,8 @@ public class Otp_validation_activity extends AppCompatActivity implements TextWa
                                             // Toast toast = Toast.makeText(Otp_validation_activity.this, "Something error.Try again", Toast.LENGTH_SHORT);
                                             // toast.show();
                                             //loader.dismiss();
-                                            SessionManagment sessionManagment = new SessionManagment(Otp_validation_activity.this);
-                                            sessionManagment.removeSession();
+                                            SessionManagement sessionManagement = new SessionManagement(Otp_validation_activity.this);
+                                            sessionManagement.removeSession();
                                             Intent intent = new Intent(Otp_validation_activity.this, LoginActivity.class);
                                             //intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                                             startActivity(intent);

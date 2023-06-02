@@ -25,7 +25,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -45,21 +44,14 @@ import com.ALife.alife.model.Shop_response;
 import com.ALife.alife.model.getUser_deviceToken_response;
 import com.ALife.alife.model.get_version_response;
 import com.ALife.alife.model.shop_status_response;
-import com.ALife.alife.model.token_update_response;
 import com.ALife.alife.model.user_instruction_response;
-import com.ALife.alife.view.Customer.Customer_main_activity;
 import com.ALife.alife.view.LoginActivity;
 import com.ALife.alife.viewmodel.Get_version;
-import com.ALife.alife.viewmodel.SessionManagment;
+import com.ALife.alife.session.SessionManagement;
 import com.ALife.alife.viewmodel.Shop_details;
 import com.ALife.alife.viewmodel.Shop_status;
-import com.ALife.alife.viewmodel.User;
 import com.ALife.alife.viewmodel.User_deviceToken;
 import com.ALife.alife.viewmodel.User_instruction;
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.LoadAdError;
-import com.google.android.gms.ads.admanager.AdManagerAdRequest;
-import com.google.android.gms.ads.admanager.AdManagerAdView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
@@ -115,7 +107,7 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
 
         super.onStart();
 
-        SessionManagment session = new SessionManagment(Shop_main_activity.this);
+        SessionManagement session = new SessionManagement(Shop_main_activity.this);
         int user = session.getSession();
 
 
@@ -140,8 +132,8 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
                                         //Log.d("token1",deviceToken);
                                         //Log.d("token2",getUser_deviceToken_response.getToken());
                                         Toast.makeText(Shop_main_activity.this, String.valueOf(user), Toast.LENGTH_SHORT).show();
-                                        SessionManagment sessionManagment = new SessionManagment(Shop_main_activity.this);
-                                        sessionManagment.removeSession();
+                                        SessionManagement sessionManagement = new SessionManagement(Shop_main_activity.this);
+                                        sessionManagement.removeSession();
                                         startActivity(new Intent(Shop_main_activity.this, LoginActivity.class));
 
                                     }
@@ -163,8 +155,8 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
                             });*/
 
                         } else {
-                            SessionManagment sessionManagment = new SessionManagment(Shop_main_activity.this);
-                            sessionManagment.removeSession();
+                            SessionManagement sessionManagement = new SessionManagement(Shop_main_activity.this);
+                            sessionManagement.removeSession();
                             startActivity(new Intent(Shop_main_activity.this, LoginActivity.class));
                             // Toast.makeText(LoginActivity.this, task.getException().toString(), Toast.LENGTH_SHORT).show();
                         }
@@ -177,7 +169,7 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
         get_version.getData().observe(Shop_main_activity.this, new Observer<get_version_response>() {
             @Override
             public void onChanged(get_version_response get_version_response) {
-                Log.d("dataxx", "onChanged: "+get_version_response.getVersion_code().toString()+" "+version_code);
+               // Log.d("dataxx", "onChanged: "+get_version_response.getVersion_code().toString()+" "+version_code);
                 if (!(get_version_response.getVersion_code().equals(version_code))) {
 
 
@@ -357,20 +349,7 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
         user_deviceToken = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(User_deviceToken.class);
         get_version = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(Get_version.class);
         shop_status = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(Shop_status.class);
-        shop_status.getStatus(shop_id).observe(Shop_main_activity.this, new Observer<shop_status_response>() {
-            @Override
-            public void onChanged(shop_status_response shop_status_response) {
-                //Toast.makeText(Shop_main_activity.this,shop_status_response.getStatus(),Toast.LENGTH_SHORT).show();
-                if (shop_status_response.getStatus().equals("1")) {
-                    statusdialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                    statusdialog.setCancelable(false);
-                    statusdialog.show();
 
-                } else {
-                    statusdialog.dismiss();
-                }
-            }
-        });
         version_code = String.valueOf(BuildConfig.VERSION_CODE);
         version_name = BuildConfig.VERSION_NAME;
         // Log.d("version: ",version_code);
@@ -414,10 +393,10 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
         setContentView(R.layout.shop_main_activity);
         checkConnection();
 
-        SessionManagment sessionManagment = new SessionManagment(Shop_main_activity.this);
-        int userId = sessionManagment.getSession();
+        SessionManagement sessionManagement = new SessionManagement(Shop_main_activity.this);
+        int userId = sessionManagement.getSession();
         shop_id = String.valueOf(userId);
-        type = sessionManagment.getType();
+        type = sessionManagement.getType();
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -449,6 +428,8 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
                 Picasso.get().load(image).fit().centerInside().into(imageView);
                 profileName = (TextView) view.findViewById(R.id.profile_name);
                 profileName.setText(name);
+
+                sessionManagement.saveShopName(name);
             }
         });
 
@@ -468,8 +449,8 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
         alertControl();
         if (item.getItemId() == R.id.log_out) {
 
-            SessionManagment sessionManagment = new SessionManagment(Shop_main_activity.this);
-            sessionManagment.removeSession();
+            SessionManagement sessionManagement = new SessionManagement(Shop_main_activity.this);
+            sessionManagement.removeSession();
             startActivity(new Intent(Shop_main_activity.this, LoginActivity.class));
 
         } else if (item.getItemId() == R.id.categoryListID) {

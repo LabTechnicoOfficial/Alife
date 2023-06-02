@@ -33,7 +33,7 @@ import com.ALife.alife.model.fetch_sub_shop_response;
 import com.ALife.alife.viewmodel.Add_sub_shop;
 import com.ALife.alife.viewmodel.Fetch_shop;
 import com.ALife.alife.viewmodel.Fetch_sub_shop;
-import com.ALife.alife.viewmodel.SessionManagment;
+import com.ALife.alife.session.SessionManagement;
 import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -65,8 +65,8 @@ public class Sub_shop_fragment extends Fragment implements Sub_shop_adapter.OnIt
         super.onActivityCreated(savedInstanceState);
         checkConnection();
         int userId;
-        SessionManagment sessionManagment = new SessionManagment(getActivity());
-        userId = sessionManagment.getSession();
+        SessionManagement sessionManagement = new SessionManagement(getActivity());
+        userId = sessionManagement.getSession();
         fetch_shop = new ViewModelProvider(getActivity()).get(Fetch_shop.class);
         data = new ArrayList<>();
         fetch_shop.getData().observe(getViewLifecycleOwner(), new Observer<List<fetch_shop_response>>() {

@@ -66,6 +66,7 @@ import com.ALife.alife.model.add_product_offer_response;
 import com.ALife.alife.model.add_product_response;
 import com.ALife.alife.model.add_product_type_response;
 import com.ALife.alife.model.get_product_response;
+import com.ALife.alife.session.SessionManagement;
 import com.ALife.alife.viewmodel.Add_product;
 import com.ALife.alife.viewmodel.Add_product_offer;
 import com.ALife.alife.viewmodel.Add_product_type;
@@ -169,6 +170,7 @@ public class Shop_products_add_fragment extends Fragment {
     TextView barcodeText;
     Button ok;
     String barcodeData, barcode;
+    SessionManagement sessionManagement;
 
     public Shop_products_add_fragment(String id1, String id2, String Category_unit) {
         this.id1 = id1;
@@ -242,10 +244,11 @@ public class Shop_products_add_fragment extends Fragment {
         barCodeScanner = (LinearLayout) view.findViewById(R.id.barCodeScannerButtonID);
         TextInputEditText productCodeText = (TextInputEditText) view.findViewById(R.id.productCodeTextID);
 
-        productCodeText.setText(Helpers.uniqueProductCodeGenerator("remon"));
+        sessionManagement = new SessionManagement(getActivity());
+
+        productCodeText.setText(Helpers.uniqueProductCodeGenerator(sessionManagement.getSaveShopName()));
         unitText.setText(Category_unit);
         //end
-//
         buyPrice.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

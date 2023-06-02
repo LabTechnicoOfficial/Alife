@@ -19,7 +19,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.method.LinkMovementMethod;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -31,13 +30,10 @@ import com.ALife.alife.Custom_Type.ProductSell;
 import com.ALife.alife.R;
 import com.ALife.alife.model.get_shop_admin_information_response;
 import com.ALife.alife.model.get_version_response;
-import com.ALife.alife.view.Customer.Customer_homescreen_fragment;
-import com.ALife.alife.view.Customer.Customer_main_activity;
 import com.ALife.alife.view.LoginActivity;
-import com.ALife.alife.view.Shop.Shop_main_activity;
 import com.ALife.alife.viewmodel.Get_shop_admin_information;
 import com.ALife.alife.viewmodel.Get_version;
-import com.ALife.alife.viewmodel.SessionManagment;
+import com.ALife.alife.session.SessionManagement;
 import com.google.android.material.navigation.NavigationView;
 import com.squareup.picasso.Picasso;
 
@@ -159,10 +155,10 @@ public class Operator_main_activity extends AppCompatActivity implements Navigat
         setContentView(R.layout.operator_activity);
         checkConnection();
 
-        SessionManagment sessionManagment = new SessionManagment(Operator_main_activity.this);
-        int userId = sessionManagment.getSession();
+        SessionManagement sessionManagement = new SessionManagement(Operator_main_activity.this);
+        int userId = sessionManagement.getSession();
         agent_id = String.valueOf(userId);
-        type = sessionManagment.getType();
+        type = sessionManagement.getType();
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -216,8 +212,8 @@ public class Operator_main_activity extends AppCompatActivity implements Navigat
 
         alertControl();
         if (item.getItemId() == R.id.log_out) {
-            SessionManagment sessionManagment = new SessionManagment(this);
-            sessionManagment.removeSession();
+            SessionManagement sessionManagement = new SessionManagement(this);
+            sessionManagement.removeSession();
             startActivity(new Intent(this, LoginActivity.class));
         } else if (item.getItemId() == R.id.profile) {
 

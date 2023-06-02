@@ -55,7 +55,7 @@ import com.ALife.alife.viewmodel.Category_fetch;
 import com.ALife.alife.viewmodel.Delete_category;
 import com.ALife.alife.viewmodel.Edit_category;
 import com.ALife.alife.viewmodel.Get_category_summary;
-import com.ALife.alife.viewmodel.SessionManagment;
+import com.ALife.alife.session.SessionManagement;
 import com.ALife.alife.viewmodel.Unit;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -481,9 +481,9 @@ public class Shop_categories_fragment<SharedViewModel> extends Fragment implemen
 
         unit = new ViewModelProvider(getActivity()).get(Unit.class);
         category_add = new ViewModelProvider(getActivity()).get(Category_add.class);
-        SessionManagment sessionManagment = new SessionManagment(getActivity());
+        SessionManagement sessionManagement = new SessionManagement(getActivity());
         //userId = sessionManagment.getSession();
-        type = sessionManagment.getType();
+        type = sessionManagement.getType();
         category_fetch = new ViewModelProvider(getActivity()).get(Category_fetch.class);
 
         // id = String.valueOf(userId);

@@ -38,7 +38,7 @@ import com.ALife.alife.R;
 import com.ALife.alife.model.customer_profile_response;
 import com.ALife.alife.model.update_customer_response;
 import com.ALife.alife.viewmodel.Customer_profile;
-import com.ALife.alife.viewmodel.SessionManagment;
+import com.ALife.alife.session.SessionManagement;
 import com.ALife.alife.viewmodel.Update_customer;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -73,8 +73,8 @@ public class Customer_profile_fragments extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         checkConnection();
-        SessionManagment sessionManagment = new SessionManagment(getActivity());
-        customer_id = sessionManagment.getSession();
+        SessionManagement sessionManagement = new SessionManagement(getActivity());
+        customer_id = sessionManagement.getSession();
         customer_profile = new ViewModelProvider(getActivity()).get(Customer_profile.class);
 
         customer_profile.getData(String.valueOf(customer_id)).observe(getViewLifecycleOwner(), new Observer<customer_profile_response>() {

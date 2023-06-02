@@ -20,10 +20,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.method.LinkMovementMethod;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ALife.alife.BuildConfig;
@@ -32,16 +30,10 @@ import com.ALife.alife.model.Customer_response;
 import com.ALife.alife.model.getUser_deviceToken_response;
 import com.ALife.alife.model.get_version_response;
 import com.ALife.alife.view.LoginActivity;
-import com.ALife.alife.view.Shop.Shop_homescreen_fragment;
-import com.ALife.alife.view.Shop.Shop_main_activity;
 import com.ALife.alife.viewmodel.Customer_details;
 import com.ALife.alife.viewmodel.Get_version;
-import com.ALife.alife.viewmodel.SessionManagment;
-import com.ALife.alife.viewmodel.User;
+import com.ALife.alife.session.SessionManagement;
 import com.ALife.alife.viewmodel.User_deviceToken;
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.LoadAdError;
-import com.google.android.gms.ads.admanager.AdManagerAdRequest;
 import com.google.android.gms.ads.admanager.AdManagerAdView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -75,8 +67,8 @@ public class Customer_main_activity extends AppCompatActivity implements Navigat
     protected void onStart() {
         // isInForeground = false;
         super.onStart();
-        SessionManagment sessionManagment = new SessionManagment(Customer_main_activity.this);
-        int userId = sessionManagment.getSession();
+        SessionManagement sessionManagement = new SessionManagement(Customer_main_activity.this);
+        int userId = sessionManagement.getSession();
         if (userId == -1) {
             Intent intent = new Intent(Customer_main_activity.this, LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
@@ -95,8 +87,8 @@ public class Customer_main_activity extends AppCompatActivity implements Navigat
                                 @Override
                                 public void onChanged(getUser_deviceToken_response getUser_deviceToken_response) {
                                     if (!getUser_deviceToken_response.getToken().equals(deviceToken)) {
-                                        SessionManagment sessionManagment = new SessionManagment(Customer_main_activity.this);
-                                        sessionManagment.removeSession();
+                                        SessionManagement sessionManagement = new SessionManagement(Customer_main_activity.this);
+                                        sessionManagement.removeSession();
                                         startActivity(new Intent(Customer_main_activity.this, LoginActivity.class));
 
                                     }
@@ -104,8 +96,8 @@ public class Customer_main_activity extends AppCompatActivity implements Navigat
                             });
 
                         } else {
-                            SessionManagment sessionManagment = new SessionManagment(Customer_main_activity.this);
-                            sessionManagment.removeSession();
+                            SessionManagement sessionManagement = new SessionManagement(Customer_main_activity.this);
+                            sessionManagement.removeSession();
                             startActivity(new Intent(Customer_main_activity.this, LoginActivity.class));
                             // Toast.makeText(LoginActivity.this, task.getException().toString(), Toast.LENGTH_SHORT).show();
                         }
@@ -206,10 +198,10 @@ public class Customer_main_activity extends AppCompatActivity implements Navigat
         alertCustom = new Dialog(Customer_main_activity.this);
         alertCustom.setContentView(R.layout.loader);
 
-        SessionManagment sessionManagment = new SessionManagment(Customer_main_activity.this);
-        int userId = sessionManagment.getSession();
+        SessionManagement sessionManagement = new SessionManagement(Customer_main_activity.this);
+        int userId = sessionManagement.getSession();
         customer_id = String.valueOf(userId);
-        type = sessionManagment.getType();
+        type = sessionManagement.getType();
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -256,8 +248,8 @@ public class Customer_main_activity extends AppCompatActivity implements Navigat
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.log_out) {
             alertControl();
-            SessionManagment sessionManagment = new SessionManagment(Customer_main_activity.this);
-            sessionManagment.removeSession();
+            SessionManagement sessionManagement = new SessionManagement(Customer_main_activity.this);
+            sessionManagement.removeSession();
             startActivity(new Intent(Customer_main_activity.this, LoginActivity.class));
         } else if (item.getItemId() == R.id.profile) {
             alertControl();

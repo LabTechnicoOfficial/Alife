@@ -32,7 +32,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.ALife.alife.R;
 import com.ALife.alife.model.fetch_shop_admin_response;
 import com.ALife.alife.viewmodel.Fetch_shop_adminList;
-import com.ALife.alife.viewmodel.SessionManagment;
+import com.ALife.alife.session.SessionManagement;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -268,8 +268,8 @@ public class Shop_add_admin_fragment extends Fragment {
     }
 
     public void update_adminList() {
-        SessionManagment sessionManagment = new SessionManagment(getActivity());
-        String shop_id = String.valueOf(sessionManagment.getSession());
+        SessionManagement sessionManagement = new SessionManagement(getActivity());
+        String shop_id = String.valueOf(sessionManagement.getSession());
         Fetch_shop_adminList fetch_shop_admin = new ViewModelProvider(getActivity()).get(Fetch_shop_adminList.class);
 
         fetch_shop_admin.getData(shop_id).observe(getViewLifecycleOwner(), new Observer<List<fetch_shop_admin_response>>() {

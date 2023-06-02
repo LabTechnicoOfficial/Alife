@@ -4,13 +4,22 @@ import android.annotation.SuppressLint;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 
 public class Helpers {
 
     public static String uniqueProductCodeGenerator(String text) {
 
+
         @SuppressLint("SimpleDateFormat") String timeStamp = new SimpleDateFormat("yyyyMMddHHmmss").format(Calendar.getInstance().getTime());
 
-        return text + timeStamp;
+        if (text.length() > 0) {
+            text = text.substring(0,2).toLowerCase(Locale.ROOT)+"al";
+            return text + timeStamp;
+        } else {
+            return timeStamp;
+        }
+
+
     }
 }

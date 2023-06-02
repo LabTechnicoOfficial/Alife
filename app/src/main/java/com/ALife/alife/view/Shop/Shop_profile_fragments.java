@@ -45,13 +45,9 @@ import com.bumptech.glide.Glide;
 import com.ALife.alife.R;
 import com.ALife.alife.model.shop_profile_response;
 import com.ALife.alife.model.update_shop_response;
-import com.ALife.alife.viewmodel.SessionManagment;
+import com.ALife.alife.session.SessionManagement;
 import com.ALife.alife.viewmodel.Shop_profile;
 import com.ALife.alife.viewmodel.Update_shop;
-import com.gkemon.XMLtoPDF.PdfGenerator;
-import com.gkemon.XMLtoPDF.PdfGeneratorListener;
-import com.gkemon.XMLtoPDF.model.FailureResponse;
-import com.gkemon.XMLtoPDF.model.SuccessResponse;
 import com.google.android.material.textfield.TextInputEditText;
 import com.squareup.picasso.Picasso;
 
@@ -88,8 +84,8 @@ public class Shop_profile_fragments extends Fragment {
         super.onActivityCreated(savedInstanceState);
         checkConnection();
 
-        SessionManagment sessionManagment = new SessionManagment(getActivity());
-        userId = sessionManagment.getSession();
+        SessionManagement sessionManagement = new SessionManagement(getActivity());
+        userId = sessionManagement.getSession();
         shop_profile = new ViewModelProvider(getActivity()).get(Shop_profile.class);
         shop_profile.getData(String.valueOf(userId)).observe(getViewLifecycleOwner(), new Observer<shop_profile_response>() {
             @Override

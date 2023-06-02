@@ -16,7 +16,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,7 +26,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.ALife.alife.EarningApp.Model.AddInterval.addInterval_response;
 import com.ALife.alife.EarningApp.Model.Earning_Session_Management;
 import com.ALife.alife.EarningApp.View.Activity.MainActivity;
 import com.ALife.alife.EarningApp.ViewModel.AddInterval;
@@ -35,19 +33,14 @@ import com.ALife.alife.R;
 import com.ALife.alife.adapter.Instruction_adapter;
 import com.ALife.alife.model.Earning_response;
 import com.ALife.alife.model.user_instruction_response;
-import com.ALife.alife.view.Shop.Shop_customer_list_fragments;
-import com.ALife.alife.view.Shop.Shop_homescreen_fragment;
 import com.ALife.alife.viewmodel.EarningViewModel;
-import com.ALife.alife.viewmodel.SessionManagment;
+import com.ALife.alife.session.SessionManagement;
 import com.ALife.alife.viewmodel.User_instruction;
 import com.google.android.gms.ads.AdError;
-import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.FullScreenContentCallback;
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.admanager.AdManagerAdRequest;
-import com.google.android.gms.ads.admanager.AdManagerAdView;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
@@ -55,7 +48,6 @@ import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class Customer_homescreen_fragment extends Fragment implements Instruction_adapter.OnItemClickListener {
@@ -186,8 +178,8 @@ public class Customer_homescreen_fragment extends Fragment implements Instructio
         //banner add
         //mAdManagerAdView = (AdManagerAdView) view.findViewById(R.id.adManagerAdView);
 
-        SessionManagment sessionManagment = new SessionManagment(getActivity());
-        int userId = sessionManagment.getSession();
+        SessionManagement sessionManagement = new SessionManagement(getActivity());
+        int userId = sessionManagement.getSession();
         customer_id = String.valueOf(userId);
 
         shopListButton.setOnClickListener(new View.OnClickListener() {
