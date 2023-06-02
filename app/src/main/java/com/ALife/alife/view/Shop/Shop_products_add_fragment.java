@@ -245,7 +245,7 @@ public class Shop_products_add_fragment extends Fragment {
         productCodeText.setText(Helpers.uniqueProductCodeGenerator("remon"));
         unitText.setText(Category_unit);
         //end
-
+//
         buyPrice.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
