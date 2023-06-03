@@ -14,7 +14,7 @@ import com.ALife.alife.model.cupon.customerFor_cupon_response;
 import java.util.List;
 
 public class Customer_coupon_package_customer_list_adapter extends RecyclerView.Adapter<Customer_coupon_package_customer_list_adapter.AppViewHolder> {
-
+//ishtiak
     String phone;
     private List<customerFor_cupon_response> customerList;
 
