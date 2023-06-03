@@ -97,7 +97,7 @@ public class Customer_coupon_adapter extends RecyclerView.Adapter<Customer_coupo
     }
 
     public class AppViewHolder extends RecyclerView.ViewHolder {
-
+//ishtiak
         TextView couponNameText, durationText, createdTimeText, endTimeText;
 
         public AppViewHolder(@NonNull View itemView) {
