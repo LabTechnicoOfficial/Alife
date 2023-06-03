@@ -13,7 +13,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -25,7 +24,6 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Base64;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -49,13 +47,11 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.app.ActivityCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.ALife.alife.Custom_Type.ProductSell;
 import com.ALife.alife.Custom_Type.Product_offer;
 import com.ALife.alife.Custom_Type.Product_type;
 import com.ALife.alife.R;
@@ -72,7 +68,6 @@ import com.ALife.alife.viewmodel.Add_product_offer;
 import com.ALife.alife.viewmodel.Add_product_type;
 import com.ALife.alife.viewmodel.Category_add;
 import com.ALife.alife.viewmodel.Get_product;
-import com.ALife.alife.viewmodel.Local_sell.Get_local_sell;
 import com.ALife.alife.viewmodel.Shop_products_summary;
 import com.ALife.alife.viewmodel.Shop_profile;
 import com.google.android.gms.vision.CameraSource;
@@ -171,6 +166,8 @@ public class Shop_products_add_fragment extends Fragment {
     Button ok;
     String barcodeData, barcode;
     SessionManagement sessionManagement;
+
+    Dialog barCodeAlert;
 
     public Shop_products_add_fragment(String id1, String id2, String Category_unit) {
         this.id1 = id1;
@@ -1345,13 +1342,13 @@ public class Shop_products_add_fragment extends Fragment {
         barCodeScanner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Dialog barcodealert = new Dialog(getActivity());
-                barcodealert.setContentView(R.layout.barcode);
-                barcodealert.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                barcodealert.setCancelable(false);
-                barcodealert.show();
+                barCodeAlert = new Dialog(getActivity());
+                barCodeAlert.setContentView(R.layout.barcode);
+                barCodeAlert.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                barCodeAlert.setCancelable(false);
+                barCodeAlert.show();
 
-                Window window = barcodealert.getWindow();
+                Window window = barCodeAlert.getWindow();
                 WindowManager.LayoutParams wlp = window.getAttributes();
 
                 wlp.gravity = Gravity.CENTER;
@@ -1361,14 +1358,14 @@ public class Shop_products_add_fragment extends Fragment {
 
 
                 //toneGen1 = new ToneGenerator(AudioManager.STREAM_MUSIC, 100);
-                surfaceView = barcodealert.findViewById(R.id.surface_view);
-                barcodeText = barcodealert.findViewById(R.id.barcode_text);
-                ok = barcodealert.findViewById(R.id.ok);
-                ImageView close = barcodealert.findViewById(R.id.closeButtonID);
+                surfaceView = barCodeAlert.findViewById(R.id.surface_view);
+                barcodeText = barCodeAlert.findViewById(R.id.barcode_text);
+                ok = barCodeAlert.findViewById(R.id.ok);
+                ImageView close = barCodeAlert.findViewById(R.id.closeButtonID);
                 close.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        barcodealert.dismiss();
+                        barCodeAlert.dismiss();
                     }
                 });
                 initialiseDetectorsAndSources();
@@ -1381,7 +1378,7 @@ public class Shop_products_add_fragment extends Fragment {
 
                             Toast.makeText(getActivity(), "No Barcode Available", Toast.LENGTH_SHORT).show();
                         } else {
-                            barcodealert.dismiss();
+                            barCodeAlert.dismiss();
                             productCodeText.setText(barcode);
 
                         }
@@ -1594,13 +1591,16 @@ public class Shop_products_add_fragment extends Fragment {
                                 barcodeData = barcodes.valueAt(0).email.address;
                                 barcodeText.setText(barcodeData);
                                 //toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP, 150);
+                               // barCodeAlert.dismiss();
                             } else {
 
                                 barcodeData = barcodes.valueAt(0).displayValue;
                                 barcodeText.setText(barcodeData);
                                 //toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP, 150);
-
+                               // barCodeAlert.dismiss();
                             }
+
+
                         }
                     });
 
