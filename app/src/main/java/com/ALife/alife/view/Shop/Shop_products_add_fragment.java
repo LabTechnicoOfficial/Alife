@@ -220,7 +220,7 @@ public class Shop_products_add_fragment extends Fragment {
         discountLayout = (LinearLayout) view.findViewById(R.id.discountLayoutID);
         set_sell_price_per_one = (TextView) view.findViewById(R.id.sellingPriceOneID);
         total_sell_price = (EditText) view.findViewById(R.id.totalPriceID);
-        set_sell_price_with_discount_per_one = (TextView) view.findViewById(R.id.unitPriceDiscount);
+        //set_sell_price_with_discount_per_one = (TextView) view.findViewById(R.id.unitPriceDiscount);
         total_sell_price_with_discount = (TextView) view.findViewById(R.id.totalSellingPricewithdiscountID);
         add_product_type = new ViewModelProvider(getActivity()).get(Add_product_type.class);
         add_product_offer = new ViewModelProvider(getActivity()).get(Add_product_offer.class);
@@ -1355,12 +1355,12 @@ public class Shop_products_add_fragment extends Fragment {
                 WindowManager.LayoutParams wlp = window.getAttributes();
 
                 wlp.gravity = Gravity.CENTER;
-                //wlp.width = android.view.WindowManager.LayoutParams.MATCH_PARENT;
-                // wlp.height = android.view.WindowManager.LayoutParams.WRAP_CONTENT;
+                wlp.width = android.view.WindowManager.LayoutParams.MATCH_PARENT;
+                wlp.height = android.view.WindowManager.LayoutParams.WRAP_CONTENT;
                 window.setAttributes(wlp);
 
 
-                toneGen1 = new ToneGenerator(AudioManager.STREAM_MUSIC, 100);
+                //toneGen1 = new ToneGenerator(AudioManager.STREAM_MUSIC, 100);
                 surfaceView = barcodealert.findViewById(R.id.surface_view);
                 barcodeText = barcodealert.findViewById(R.id.barcode_text);
                 ok = barcodealert.findViewById(R.id.ok);
@@ -1378,7 +1378,7 @@ public class Shop_products_add_fragment extends Fragment {
                         barcode = barcodeText.getText().toString();
 
                         if (barcode.isEmpty()) {
-                            Log.d("mesba", "No Barcode Available");
+
                             Toast.makeText(getActivity(), "No Barcode Available", Toast.LENGTH_SHORT).show();
                         } else {
                             barcodealert.dismiss();
@@ -1593,12 +1593,12 @@ public class Shop_products_add_fragment extends Fragment {
                                 barcodeText.removeCallbacks(null);
                                 barcodeData = barcodes.valueAt(0).email.address;
                                 barcodeText.setText(barcodeData);
-                                toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP, 150);
+                                //toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP, 150);
                             } else {
 
                                 barcodeData = barcodes.valueAt(0).displayValue;
                                 barcodeText.setText(barcodeData);
-                                toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP, 150);
+                                //toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP, 150);
 
                             }
                         }
