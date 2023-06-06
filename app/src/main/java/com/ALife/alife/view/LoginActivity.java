@@ -72,22 +72,22 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         int userId = sessionManagement.getSession();
         String type = sessionManagement.getType();
         String phone = sessionManagement.getPhone();
-        if (userId != -1) {
-            if (type.equals("shopkeeper")) {
-                Intent intent = new Intent(LoginActivity.this, Shop_main_activity.class);
-                //intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                startActivity(intent);
-            } else if (type.equals("customer")) {
-                Intent intent = new Intent(LoginActivity.this, Customer_main_activity.class);
-                //intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                startActivity(intent);
-            } else if (type.equals("admin")) {
-                Intent intent = new Intent(LoginActivity.this, Operator_main_activity.class);
-                //intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                startActivity(intent);
-            }
-
-        }
+//        if (userId != -1) {
+//            if (type.equals("shopkeeper")) {
+//                Intent intent = new Intent(LoginActivity.this, Shop_main_activity.class);
+//                //intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+//                startActivity(intent);
+//            } else if (type.equals("customer")) {
+//                Intent intent = new Intent(LoginActivity.this, Customer_main_activity.class);
+//                //intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+//                startActivity(intent);
+//            } else if (type.equals("admin")) {
+//                Intent intent = new Intent(LoginActivity.this, Operator_main_activity.class);
+//                //intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+//                startActivity(intent);
+//            }
+//
+//        }
     }
 
     @Override
@@ -99,23 +99,23 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         int userId = sessionManagement.getSession();
         String type = sessionManagement.getType();
         String phone = sessionManagement.getPhone();
-
-        if (userId != -1) {
-            if (type.equals("shopkeeper")) {
-                Intent intent = new Intent(LoginActivity.this, Shop_main_activity.class);
-                //intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                startActivity(intent);
-            } else if (type.equals("customer")) {
-                Intent intent = new Intent(LoginActivity.this, Customer_main_activity.class);
-                //intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                startActivity(intent);
-            } else if (type.equals("admin")) {
-                Intent intent = new Intent(LoginActivity.this, Operator_main_activity.class);
-                //.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                startActivity(intent);
-            }
-
-        }
+//
+//        if (userId != -1) {
+//            if (type.equals("shopkeeper")) {
+//                Intent intent = new Intent(LoginActivity.this, Shop_main_activity.class);
+//                //intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+//                startActivity(intent);
+//            } else if (type.equals("customer")) {
+//                Intent intent = new Intent(LoginActivity.this, Customer_main_activity.class);
+//                //intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+//                startActivity(intent);
+//            } else if (type.equals("admin")) {
+//                Intent intent = new Intent(LoginActivity.this, Operator_main_activity.class);
+//                //.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+//                startActivity(intent);
+//            }
+//
+//        }
         //overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         setContentView(R.layout.activity_login);
 
