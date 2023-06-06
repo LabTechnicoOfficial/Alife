@@ -436,8 +436,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 Toast.makeText(LoginActivity.this, "Something Wrong!!!Try again", Toast.LENGTH_SHORT).show();
                                 dialog.dismiss();
                             } else {
-
-
                                 Random r = new Random();
                                 int ran = r.nextInt(99999 - 10000 + 1) + 10000;
                                 String random_otp = String.valueOf(ran);
