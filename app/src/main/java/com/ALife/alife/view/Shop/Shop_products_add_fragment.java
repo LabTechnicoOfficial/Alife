@@ -1503,6 +1503,14 @@ public class Shop_products_add_fragment extends Fragment {
         successDialog.setCancelable(false);
         successDialog.show();
 
+
+        Window window = successDialog.getWindow();
+        WindowManager.LayoutParams wlp = window.getAttributes();
+        wlp.gravity = Gravity.CENTER;
+        wlp.width = android.view.WindowManager.LayoutParams.MATCH_PARENT;
+        wlp.height = android.view.WindowManager.LayoutParams.WRAP_CONTENT;
+        window.setAttributes(wlp);
+
         AppCompatButton okButton = (AppCompatButton) successDialog.findViewById(R.id.okButtonID);
         TextView product_name, product_stock, sell_price;
         product_name = (TextView) successDialog.findViewById(R.id.productNameID);

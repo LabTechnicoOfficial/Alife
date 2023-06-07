@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.ALife.alife">
+
     <uses-feature
         android:name="android.hardware.camera.any"
         android:required="true" />
@@ -12,37 +13,30 @@
         android:name="android.hardware.camera.flash"
         android:required="false" />
 
-
-    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-
-    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"
+    <uses-permission
+        android:name="android.permission.QUERY_ALL_PACKAGES"
         tools:ignore="QueryAllPackagesPermission" />
-
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <queries>
         <intent>
             <action android:name="android.intent.action.SENDTO" />
+
             <data android:scheme="mailto" />
         </intent>
         <intent>
             <action android:name="android.media.action.ACTION_IMAGE_CAPTURE" />
         </intent>
     </queries>
+
     <application
         android:allowBackup="true"
         android:debuggable="false"
@@ -53,6 +47,13 @@
         android:theme="@style/Theme.Alife"
         android:usesCleartextTraffic="true"
         tools:ignore="HardcodedDebugMode">
+        <activity
+            android:name=".view.SplashActivity"
+            android:exported="false" >
+
+
+        </activity>
+
         <meta-data
             android:name="com.google.android.gms.vision.DEPENDENCIES"
             android:value="barcode" />
@@ -64,12 +65,16 @@
         <activity android:name=".view.Shop.Shop_main_activity" />
         <activity android:name=".view.Registration.Register_activity" />
         <activity android:name=".view.MainActivity" />
-        <activity android:name=".view.LoginActivity">
+        <activity
+            android:name=".view.LoginActivity"
+            android:exported="true">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
         <activity android:name=".view.Registration.Shop_register_activity" />
         <activity android:name=".EarningApp.View.Activity.MainActivity" />
@@ -78,7 +83,9 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
-        <service android:name=".view.Firebase.FirebaseMessagingService">
+        <service
+            android:name=".view.Firebase.FirebaseMessagingService"
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
@@ -94,21 +101,19 @@
         <service
             android:name="androidx.work.impl.foreground.SystemForegroundService"
             android:foregroundServiceType="location|camera|microphone"
-            tools:node="merge"
-            tools:ignore="MissingClass" />
-        <receiver android:name=".view.OTP.OTP_Receiver">
-            <intent-filter>
-                <action android:name="android.provider.Telephony.SMS_RECEIVED"/>
-            </intent-filter>
-        </receiver>
+            tools:ignore="MissingClass"
+            tools:node="merge" />
 
-        <!--addmob-->
+        <receiver
+            android:name=".view.OTP.OTP_Receiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+            </intent-filter>
+        </receiver> <!-- addmob -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="@string/admob_id" />
-        <!--<meta-data android:name="com.startapp.sdk.APPLICATION_ID"
-            android:value="209774410" />-->
-
     </application>
 
 </manifest>

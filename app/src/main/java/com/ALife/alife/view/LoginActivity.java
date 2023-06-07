@@ -72,22 +72,22 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         int userId = sessionManagement.getSession();
         String type = sessionManagement.getType();
         String phone = sessionManagement.getPhone();
-        if (userId != -1) {
-            if (type.equals("shopkeeper")) {
-                Intent intent = new Intent(LoginActivity.this, Shop_main_activity.class);
-                //intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                startActivity(intent);
-            } else if (type.equals("customer")) {
-                Intent intent = new Intent(LoginActivity.this, Customer_main_activity.class);
-                //intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                startActivity(intent);
-            } else if (type.equals("admin")) {
-                Intent intent = new Intent(LoginActivity.this, Operator_main_activity.class);
-                //intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                startActivity(intent);
-            }
-
-        }
+//        if (userId != -1) {
+//            if (type.equals("shopkeeper")) {
+//                Intent intent = new Intent(LoginActivity.this, Shop_main_activity.class);
+//                //intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+//                startActivity(intent);
+//            } else if (type.equals("customer")) {
+//                Intent intent = new Intent(LoginActivity.this, Customer_main_activity.class);
+//                //intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+//                startActivity(intent);
+//            } else if (type.equals("admin")) {
+//                Intent intent = new Intent(LoginActivity.this, Operator_main_activity.class);
+//                //intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+//                startActivity(intent);
+//            }
+//
+//        }
     }
 
     @Override
@@ -99,23 +99,23 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         int userId = sessionManagement.getSession();
         String type = sessionManagement.getType();
         String phone = sessionManagement.getPhone();
-
-        if (userId != -1) {
-            if (type.equals("shopkeeper")) {
-                Intent intent = new Intent(LoginActivity.this, Shop_main_activity.class);
-                //intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                startActivity(intent);
-            } else if (type.equals("customer")) {
-                Intent intent = new Intent(LoginActivity.this, Customer_main_activity.class);
-                //intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                startActivity(intent);
-            } else if (type.equals("admin")) {
-                Intent intent = new Intent(LoginActivity.this, Operator_main_activity.class);
-                //.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                startActivity(intent);
-            }
-
-        }
+//
+//        if (userId != -1) {
+//            if (type.equals("shopkeeper")) {
+//                Intent intent = new Intent(LoginActivity.this, Shop_main_activity.class);
+//                //intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+//                startActivity(intent);
+//            } else if (type.equals("customer")) {
+//                Intent intent = new Intent(LoginActivity.this, Customer_main_activity.class);
+//                //intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+//                startActivity(intent);
+//            } else if (type.equals("admin")) {
+//                Intent intent = new Intent(LoginActivity.this, Operator_main_activity.class);
+//                //.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+//                startActivity(intent);
+//            }
+//
+//        }
         //overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         setContentView(R.layout.activity_login);
 
@@ -436,8 +436,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 Toast.makeText(LoginActivity.this, "Something Wrong!!!Try again", Toast.LENGTH_SHORT).show();
                                 dialog.dismiss();
                             } else {
-
-
                                 Random r = new Random();
                                 int ran = r.nextInt(99999 - 10000 + 1) + 10000;
                                 String random_otp = String.valueOf(ran);
@@ -596,7 +594,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                         }
                                     }
                                 });
-                                customer_otp_activity(random_otp, id, phone);
 
                             }
                         }
@@ -632,6 +629,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         Toast.makeText(this, random_otp, Toast.LENGTH_SHORT).show();
         registration registration;
         registration = new registration("", "", phone, "customer", "", id, "login_varification", random_otp, "login");
+
+
 
         SessionManagment_registration sessionManagment_registration = new SessionManagment_registration(LoginActivity.this);
         sessionManagment_registration.saveSession(registration);
