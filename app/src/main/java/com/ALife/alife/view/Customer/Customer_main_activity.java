@@ -73,7 +73,6 @@ public class Customer_main_activity extends AppCompatActivity implements Navigat
         int userId = sessionManagement.getSession();
 
         SessionManagment_registration sessionManagment_registration = new SessionManagment_registration(this);
-        Toast.makeText(this, sessionManagment_registration.getPhone(), Toast.LENGTH_SHORT).show();
         if (userId == -1) {
             Intent intent = new Intent(Customer_main_activity.this, LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
