@@ -62,4 +62,9 @@ public interface cupon_api {
     @GET("cupon/push_notification_to_customer.php")
     Call<notify_response> customernotifyCoupon(@Query("customer_id") String customer_id, @Query("message") String message);
 
+
+    //ishtiak
+    @GET("cupon/total_buy_from_shop.php")
+    Call<active_cupon> activeCupon(@Query("cupon_id") String cupon_id, @Query("shop_id") String shop_id,@Query("customer_phone") String customer_phone,@Query("date1") String date1,@Query("date2") String date2);
+
 }

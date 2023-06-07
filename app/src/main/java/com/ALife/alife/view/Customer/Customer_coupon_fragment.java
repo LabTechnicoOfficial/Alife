@@ -10,22 +10,30 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.ALife.alife.API.ApiUtilize;
 import com.ALife.alife.R;
 import com.ALife.alife.adapter.Customer_coupon_shop_list_adapter;
+import com.ALife.alife.model.cupon.active_cupon;
 import com.ALife.alife.model.cupon.cuponShop_response;
+import com.ALife.alife.model.cupon.cupon_api;
+import com.ALife.alife.model.cupon.customerFor_cupon_repositories;
+import com.ALife.alife.model.cupon.customerFor_cupon_response;
 import com.ALife.alife.view.Shop.Shop_coupon_packages_fragment;
 import com.ALife.alife.viewmodel.cuponViewmodel.CuponShopList;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Customer_coupon_fragment extends Fragment implements Customer_coupon_shop_list_adapter.OnItemClickListener{
+import retrofit2.Call;
 
+public class Customer_coupon_fragment extends Fragment implements Customer_coupon_shop_list_adapter.OnItemClickListener{
+    private cupon_api cupon_api;
     RecyclerView shopListView;
     NestedScrollView nestedScrollView;
     ProgressBar progressBar;
@@ -34,15 +42,18 @@ public class Customer_coupon_fragment extends Fragment implements Customer_coupo
     private List<cuponShop_response> shopList = new ArrayList<>();
     CuponShopList cuponShopListViewModel;
     String customerID;
+    private MutableLiveData<List<customerFor_cupon_response>> data;
+
 
     public Customer_coupon_fragment(String customerID) {
+        data = new MutableLiveData<>();
+        cupon_api = ApiUtilize.cupon_response();
         this.customerID = customerID;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
         shop_list(page,limit);
     }
 
@@ -51,7 +62,6 @@ public class Customer_coupon_fragment extends Fragment implements Customer_coupo
             @Override
             public void onChanged(List<cuponShop_response> cuponShop_responses) {
                 progressBar.setVisibility(View.GONE);
-
                 shopList.addAll(cuponShop_responses);
                 adapter = new Customer_coupon_shop_list_adapter(shopList);
                 adapter.setOnClickListener(Customer_coupon_fragment.this::OnItemClick);

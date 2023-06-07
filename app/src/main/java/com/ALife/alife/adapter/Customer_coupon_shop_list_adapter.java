@@ -1,27 +1,39 @@
 package com.ALife.alife.adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.ALife.alife.API.ApiUtilize;
 import com.ALife.alife.R;
 import com.ALife.alife.adapter.Customer.Customer_allShop_adapter;
+import com.ALife.alife.model.cupon.active_cupon;
 import com.ALife.alife.model.cupon.cuponShop_response;
+import com.ALife.alife.model.cupon.cupon_api;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Customer_coupon_shop_list_adapter extends RecyclerView.Adapter<Customer_coupon_shop_list_adapter.AppViewholder> {
 
     private List<cuponShop_response> shopList;
 
     public Customer_coupon_shop_list_adapter(List<cuponShop_response> shopList) {
+
         this.shopList = shopList;
+
     }
 
     @NonNull

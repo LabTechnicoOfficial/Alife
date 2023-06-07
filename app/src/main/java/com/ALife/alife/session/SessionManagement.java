@@ -13,6 +13,7 @@ public class SessionManagement {
     String SESSION_TYPE = "session_type";
     String SESSION_PHONE = "session_phone";
 
+
     String SESSION_SHOP_NAME = "session_shop_name";
 
     public SessionManagement(Context context) {
@@ -56,5 +57,4 @@ public class SessionManagement {
     public String getSaveShopName(){
         return sharedpreferences.getString(SESSION_SHOP_NAME, "");
     }
-
 }

@@ -162,7 +162,7 @@ public class Customer_coupon_shop_coupon_list_fragment extends Fragment implemen
                         R.anim.fade_out,  // exit
                         R.anim.fade_in,   // popEnter
                         R.anim.slide_out  // popExit
-                ).replace(R.id.cus_frame_container, new Customer_coupon_shop_coupon_package_list_fragment(shopID, couponID, customerList, customerID,cupon_available)).addToBackStack(null).commit();
+                ).replace(R.id.cus_frame_container, new Customer_coupon_shop_coupon_package_list_fragment(shopID, couponID, customerList, customerID,cupon_available,createDate,endDate)).addToBackStack(null).commit();
 
 
             }
