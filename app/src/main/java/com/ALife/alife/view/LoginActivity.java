@@ -594,7 +594,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                         }
                                     }
                                 });
-                                customer_otp_activity(random_otp, id, phone);
 
                             }
                         }
@@ -629,6 +628,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void customer_otp_activity(String random_otp, String id, String phone) {
         registration registration;
         registration = new registration("", "", phone, "customer", "", id, "login_varification", random_otp, "login");
+
+
 
         SessionManagment_registration sessionManagment_registration = new SessionManagment_registration(LoginActivity.this);
         sessionManagment_registration.saveSession(registration);
