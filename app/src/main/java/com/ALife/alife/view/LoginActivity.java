@@ -72,22 +72,22 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         int userId = sessionManagement.getSession();
         String type = sessionManagement.getType();
         String phone = sessionManagement.getPhone();
-//        if (userId != -1) {
-//            if (type.equals("shopkeeper")) {
-//                Intent intent = new Intent(LoginActivity.this, Shop_main_activity.class);
-//                //intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-//                startActivity(intent);
-//            } else if (type.equals("customer")) {
-//                Intent intent = new Intent(LoginActivity.this, Customer_main_activity.class);
-//                //intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-//                startActivity(intent);
-//            } else if (type.equals("admin")) {
-//                Intent intent = new Intent(LoginActivity.this, Operator_main_activity.class);
-//                //intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-//                startActivity(intent);
-//            }
-//
-//        }
+        if (userId != -1) {
+            if (type.equals("shopkeeper")) {
+                Intent intent = new Intent(LoginActivity.this, Shop_main_activity.class);
+                //intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                startActivity(intent);
+            } else if (type.equals("customer")) {
+                Intent intent = new Intent(LoginActivity.this, Customer_main_activity.class);
+                //intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                startActivity(intent);
+            } else if (type.equals("admin")) {
+                Intent intent = new Intent(LoginActivity.this, Operator_main_activity.class);
+                //intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                startActivity(intent);
+            }
+
+        }
     }
 
     @Override
@@ -421,7 +421,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 Random r = new Random();
                                 int ran = r.nextInt(99999 - 10000 + 1) + 10000;
                                 String random_otp = String.valueOf(ran);
-                                Toast.makeText(LoginActivity.this, random_otp, Toast.LENGTH_SHORT).show();
+
                                 otp.getStatus(phone, "ALife..Your Shop LogIn OTP is -" + random_otp).observe(LoginActivity.this, new Observer<OTP_response>() {
                                     @Override
                                     public void onChanged(OTP_response otp_response) {
@@ -439,7 +439,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 Random r = new Random();
                                 int ran = r.nextInt(99999 - 10000 + 1) + 10000;
                                 String random_otp = String.valueOf(ran);
-                                Toast.makeText(LoginActivity.this, random_otp, Toast.LENGTH_SHORT).show();
+
                                 otp.getStatus(phone, "ALife..Your Shop LogIn OTP is -" + random_otp).observe(LoginActivity.this, new Observer<OTP_response>() {
                                     @Override
                                     public void onChanged(OTP_response otp_response) {
@@ -520,7 +520,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             public void onChanged(Shop_login_response shop_login_response) {
 
                 String id = shop_login_response.getId();
-                Log.d("mijan", "bbbb");
+
                 if (!(id.equals("-1"))) {
                     last_logintime.getTime(id, "customer").observe(LoginActivity.this, new Observer<last_logintime_response>() {
                         @Override
@@ -529,7 +529,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 Random r = new Random();
                                 int ran = r.nextInt(99999 - 10000 + 1) + 10000;
                                 String random_otp = String.valueOf(ran);
-                                Toast.makeText(LoginActivity.this, random_otp, Toast.LENGTH_SHORT).show();
+
                                 otp.getStatus(phone, "ALife..Your Customer LogIn OTP is -" + random_otp).observe(LoginActivity.this, new Observer<OTP_response>() {
                                     @Override
                                     public void onChanged(OTP_response otp_response) {

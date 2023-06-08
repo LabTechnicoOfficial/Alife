@@ -2,7 +2,7 @@ package com.ALife.alife.model.cupon;
 
 import com.google.gson.annotations.SerializedName;
 
-public class package_response {
+public class Package_response {
     @SerializedName("id")
     private String id;
     @SerializedName("cupon_id")
@@ -18,6 +18,16 @@ public class package_response {
     @SerializedName("gift")
     private String gift;
 
+    @SerializedName(("inPackage"))
+    private Boolean inPackage;
+
+    public Boolean getInPackage() {
+        return inPackage;
+    }
+
+    public void setInPackage(Boolean inPackage) {
+        this.inPackage = inPackage;
+    }
 
     public String getId() {
         return id;

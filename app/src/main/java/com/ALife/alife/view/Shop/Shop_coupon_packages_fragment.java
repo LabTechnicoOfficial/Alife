@@ -27,17 +27,15 @@ import com.ALife.alife.adapter.Shop_coupon_package_adapter;
 import com.ALife.alife.model.cupon.add_response;
 import com.ALife.alife.model.cupon.customerFor_cupon_response;
 import com.ALife.alife.model.cupon.edit_delete_response;
-import com.ALife.alife.model.cupon.package_response;
+import com.ALife.alife.model.cupon.Package_response;
 import com.ALife.alife.model.shop_profile_response;
+import com.ALife.alife.viewmodel.SessionManagment_registration;
 import com.ALife.alife.viewmodel.Shop_profile;
 import com.ALife.alife.viewmodel.cuponViewmodel.CouponPackageViewModel;
-import com.ALife.alife.viewmodel.cuponViewmodel.CouponViewModel;
 import com.ALife.alife.viewmodel.cuponViewmodel.Edit_delete_cupon_package;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-
-import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -54,7 +52,7 @@ public class Shop_coupon_packages_fragment extends Fragment implements Shop_coup
     int page = 1, limit = 10, end = 0;
     Edit_delete_cupon_package edit_delete_cupon_package;
     CouponPackageViewModel couponPackageViewModel;
-    private List<package_response> packagesList;
+    private List<Package_response> packagesList;
     private Shop_coupon_package_adapter adapter;
     List<customerFor_cupon_response> customerList;
     private String cupon_available;
@@ -155,15 +153,17 @@ public class Shop_coupon_packages_fragment extends Fragment implements Shop_coup
     }
 
     private void package_data() {
-        couponPackageViewModel.getPackage(couponID).observe(getViewLifecycleOwner(), new Observer<List<package_response>>() {
+        SessionManagment_registration sessionManagment_registration = new SessionManagment_registration(getActivity());
+        String phone = sessionManagment_registration.getPhone();
+        couponPackageViewModel.getPackage(couponID, "", "", "", "").observe(getViewLifecycleOwner(), new Observer<List<Package_response>>() {
             @Override
-            public void onChanged(List<package_response> package_responses) {
+            public void onChanged(List<Package_response> package_respons) {
                 packagesList = new ArrayList<>();
-                packagesList = package_responses;
-                Collections.sort(packagesList, new Comparator<package_response>() {
+                packagesList = package_respons;
+                Collections.sort(packagesList, new Comparator<Package_response>() {
 
                     @Override
-                    public int compare(package_response lhs, package_response rhs) {
+                    public int compare(Package_response lhs, Package_response rhs) {
                         // TODO Auto-generated method stub
 
                         try {
@@ -295,7 +295,7 @@ public class Shop_coupon_packages_fragment extends Fragment implements Shop_coup
             //Toast.makeText(getActivity(),String.valueOf(packageCustomerList.size()),Toast.LENGTH_SHORT).show();
             //Toast.makeText(getActivity(),String.valueOf(packageCustomerList.size()),Toast.LENGTH_SHORT).show();
 
-            package_response response = packagesList.get(position);
+            Package_response response = packagesList.get(position);
             String packageID = response.getId();
             String packageName = response.getPackage_name();
             String packageSellAmount = response.getPackageSellAmount();
@@ -318,7 +318,7 @@ public class Shop_coupon_packages_fragment extends Fragment implements Shop_coup
 
     @Override
     public void OnItemDelete(int position) {
-        package_response response = packagesList.get(position);
+        Package_response response = packagesList.get(position);
         String packageID = response.getId();
 
         Dialog deleteAlert = new Dialog(getActivity());

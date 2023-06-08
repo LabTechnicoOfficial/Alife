@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.core.widget.NestedScrollView;
@@ -19,18 +18,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.ALife.alife.API.ApiUtilize;
 import com.ALife.alife.R;
 import com.ALife.alife.adapter.Customer_package_adapter;
-import com.ALife.alife.adapter.Shop_coupon_package_adapter;
 import com.ALife.alife.model.cupon.active_cupon;
 import com.ALife.alife.model.cupon.cupon_api;
 import com.ALife.alife.model.cupon.customerFor_cupon_response;
-import com.ALife.alife.model.cupon.package_response;
+import com.ALife.alife.model.cupon.Package_response;
 import com.ALife.alife.model.customer_profile_response;
-import com.ALife.alife.session.SessionManagement;
-import com.ALife.alife.view.Shop.Shop_coupon_packages_fragment;
 import com.ALife.alife.viewmodel.Customer_profile;
 import com.ALife.alife.viewmodel.SessionManagment_registration;
 import com.ALife.alife.viewmodel.cuponViewmodel.CouponPackageViewModel;
-import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -44,12 +39,12 @@ import retrofit2.Response;
 public class Customer_coupon_shop_coupon_package_list_fragment extends Fragment implements Customer_package_adapter.onItemClickListener {
     public int activePosition = 0;
     RecyclerView packagesView;
-    String couponID, shopID,createdDate,endDate;
+    String couponID, shopID, createdDate, endDate;
     ProgressBar progressBar;
     NestedScrollView nestedScrollView;
     int page = 1, limit = 10, end = 0;
     CouponPackageViewModel couponPackageViewModel;
-    private List<package_response> packagesList;
+    private List<Package_response> packagesList;
     private List<customerFor_cupon_response> customerList;
     private Customer_package_adapter adapter;
     String customerID;
@@ -59,34 +54,36 @@ public class Customer_coupon_shop_coupon_package_list_fragment extends Fragment 
     private cupon_api cupon_api;
     SessionManagment_registration sessionManagement;
 
-    public Customer_coupon_shop_coupon_package_list_fragment(String shopID, String couponID, List<customerFor_cupon_response> customerList, String customerID, String cupon_available,String creadtedDate, String endDate) {
+    public Customer_coupon_shop_coupon_package_list_fragment(String shopID, String couponID, List<customerFor_cupon_response> customerList, String customerID, String cupon_available, String creadtedDate, String endDate) {
         this.couponID = couponID;
         this.shopID = shopID;
         this.customerList = customerList;
         this.customerID = customerID;
         this.cupon_available = cupon_available;
-        this.createdDate=creadtedDate;
-        this.endDate=endDate;
+        this.createdDate = creadtedDate;
+        this.endDate = endDate;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        getPosition();
+        //getPosition();
         package_data();
 
     }
 
     private void package_data() {
-        couponPackageViewModel.getPackage(couponID).observe(getViewLifecycleOwner(), new Observer<List<package_response>>() {
+        SessionManagment_registration sessionManagment_registration = new SessionManagment_registration(getActivity());
+        String phone = sessionManagment_registration.getPhone();
+        couponPackageViewModel.getPackage(couponID, shopID, phone, createdDate, endDate).observe(getViewLifecycleOwner(), new Observer<List<Package_response>>() {
             @Override
-            public void onChanged(List<package_response> package_responses) {
+            public void onChanged(List<Package_response> package_respons) {
                 packagesList = new ArrayList<>();
-                packagesList = package_responses;
-                Collections.sort(packagesList, new Comparator<package_response>() {
+                packagesList = package_respons;
+                Collections.sort(packagesList, new Comparator<Package_response>() {
 
                     @Override
-                    public int compare(package_response lhs, package_response rhs) {
+                    public int compare(Package_response lhs, Package_response rhs) {
                         // TODO Auto-generated method stub
 
                         try {
@@ -100,6 +97,7 @@ public class Customer_coupon_shop_coupon_package_list_fragment extends Fragment 
                         }
                     }
                 });
+
                 List<customerFor_cupon_response> temp = new ArrayList<>();
                 for (int i = 0; i < customerList.size(); i++)
                     temp.add(customerList.get(i));
@@ -115,8 +113,8 @@ public class Customer_coupon_shop_coupon_package_list_fragment extends Fragment 
                     }
                     packagesList.get(i).setMaximum_package_owner(String.valueOf(count));
                 }
-                Log.d("phione",String.valueOf(activePosition));
-                adapter = new Customer_package_adapter(packagesList, cupon_available, activePosition);
+
+                adapter = new Customer_package_adapter(packagesList, cupon_available);
                 adapter.setOnClickListener(Customer_coupon_shop_coupon_package_list_fragment.this::OnItemClick);
                 packagesView.setAdapter(adapter);
             }
@@ -125,9 +123,9 @@ public class Customer_coupon_shop_coupon_package_list_fragment extends Fragment 
 
     }
 
-    private void getPosition(){
+    private void getPosition() {
         cupon_api = ApiUtilize.cupon_response();
-        Log.d("phione",sessionManagement.getPhone());
+        Log.d("phione", sessionManagement.getPhone());
         Call<active_cupon> call = cupon_api.activeCupon(couponID, shopID, "01966928300", createdDate, endDate);
         call.enqueue(new Callback<active_cupon>() {
             @Override
@@ -149,9 +147,9 @@ public class Customer_coupon_shop_coupon_package_list_fragment extends Fragment 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.customer_coupon_shop_coupon_package_list_fragment, container, false);
-        sessionManagement =new SessionManagment_registration(getActivity());
+        sessionManagement = new SessionManagment_registration(getActivity());
 
-       // Toast.makeText(getActivity(), String.valueOf(sessionManagement.getNewPhone()), Toast.LENGTH_SHORT).show();
+        // Toast.makeText(getActivity(), String.valueOf(sessionManagement.getNewPhone()), Toast.LENGTH_SHORT).show();
 
         couponPackageViewModel = new ViewModelProvider(this).get(CouponPackageViewModel.class);
 

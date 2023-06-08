@@ -1,8 +1,5 @@
 package com.ALife.alife.model.cupon;
 
-import com.ALife.alife.model.add_sell_details_response;
-import com.ALife.alife.model.fetch_shop_response;
-
 import java.util.List;
 
 import retrofit2.Call;
@@ -29,8 +26,14 @@ public interface cupon_api {
     Call<add_response> add_package(@Field("cupon_id") String cupon_id, @Field("package_name") String package_name, @Field("packageSellAmount") String packageSellAmount,@Field("winner") String winner,@Field("gift") String gift);
 
     //fetch cupon package
+
+    //couponID, shopID, phone, createdDate, endDate
     @GET("cupon/get_packagelist.php")
-    Call<List<package_response>> fetch_package(@Query("cupon_id") String cupon_id);
+    Call<List<Package_response>> fetch_package(@Query("cupon_id") String couponID,
+                                               @Query("shop_id") String shopID,
+                                               @Query("customer_phone") String phone,
+                                               @Query("date1") String createdDate,
+                                               @Query("date2") String endDate);
 
     //fetch customerFor_cupon
     @GET("cupon/get_customerFor_cupon.php")

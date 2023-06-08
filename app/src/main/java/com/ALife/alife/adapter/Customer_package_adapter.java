@@ -4,35 +4,27 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.ALife.alife.API.ApiUtilize;
 import com.ALife.alife.R;
-import com.ALife.alife.model.cupon.active_cupon;
-import com.ALife.alife.model.cupon.cupon_api;
-import com.ALife.alife.model.cupon.package_response;
+import com.ALife.alife.model.cupon.Package_response;
 
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 public class Customer_package_adapter extends RecyclerView.Adapter<Customer_package_adapter.AppViewHolder> {
-    private List<package_response> packagesList;
-
-
+    private List<Package_response> packagesList;
     private String cupon_available;
-    private int activeCupon;
 
 
-    public Customer_package_adapter(List<package_response> packagesList, String cupon_available, int activeCupon) {
+    public Customer_package_adapter(List<Package_response> packagesList, String cupon_available) {
         this.packagesList = packagesList;
         this.cupon_available = cupon_available;
-        this.activeCupon = activeCupon;
+
     }
 
     @NonNull
@@ -46,21 +38,22 @@ public class Customer_package_adapter extends RecyclerView.Adapter<Customer_pack
 
     @Override
     public void onBindViewHolder(@NonNull AppViewHolder holder, int position) {
-        String active = "";
-        Log.d("msg16", String.valueOf(activeCupon));
-        if (activeCupon == position) {
-            active = "(active)";
-        }
-        package_response response = packagesList.get(position);
+        Package_response response = packagesList.get(position);
         holder.packageNameText.setText(response.getPackage_name());
         holder.packageOwnerAmountText.setText(response.getMaximum_package_owner());
         holder.sellAmountText.setText(response.getPackageSellAmount());
         holder.winnerText.setText(response.getWinner());
         holder.giftText.setText(response.getGift());
         if (cupon_available.equals("1")) {
-            holder.packageHistory.setText("প্যাকেজ কাস্টমার দেখুন" + active);
+            holder.packageHistory.setText("প্যাকেজ কাস্টমার দেখুন");
         } else {
-            holder.packageHistory.setText("প্যাকেজ হিস্ট্রি দেখুন" + active);
+            holder.packageHistory.setText("প্যাকেজ হিস্ট্রি দেখুন");
+        }
+
+        if (response.getInPackage()) {
+            holder.inPackageIcon.setVisibility(View.VISIBLE);
+        } else {
+            holder.inPackageIcon.setVisibility(View.GONE);
         }
     }
 
@@ -81,10 +74,11 @@ public class Customer_package_adapter extends RecyclerView.Adapter<Customer_pack
 
     public class AppViewHolder extends RecyclerView.ViewHolder {
         TextView packageNameText, sellAmountText, packageOwnerAmountText, winnerText, giftText, packageHistory;
+        ImageView inPackageIcon;
 
         public AppViewHolder(@NonNull View itemView) {
             super(itemView);
-
+            inPackageIcon = itemView.findViewById(R.id.inPackageIcon);
             packageNameText = itemView.findViewById(R.id.packageNameTextID);
             sellAmountText = itemView.findViewById(R.id.sellAmountTextID);
             packageOwnerAmountText = itemView.findViewById(R.id.packageOwnerAmountTextID);

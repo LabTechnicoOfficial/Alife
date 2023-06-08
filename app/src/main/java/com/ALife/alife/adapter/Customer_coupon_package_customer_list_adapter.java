@@ -14,7 +14,7 @@ import com.ALife.alife.model.cupon.customerFor_cupon_response;
 import java.util.List;
 
 public class Customer_coupon_package_customer_list_adapter extends RecyclerView.Adapter<Customer_coupon_package_customer_list_adapter.AppViewHolder> {
-//ishtiak
+    //ishtiak
     String phone;
     private List<customerFor_cupon_response> customerList;
 
@@ -35,10 +35,13 @@ public class Customer_coupon_package_customer_list_adapter extends RecyclerView.
     public void onBindViewHolder(@NonNull Customer_coupon_package_customer_list_adapter.AppViewHolder holder, int position) {
         customerFor_cupon_response response = customerList.get(position);
 
+        holder.positionText.setText(String.valueOf(position + 1)+".");
+
         if (response.getCustomer_phone().equals(phone)) {
             holder.phoneText.setText("myself");
         } else {
-            holder.phoneText.setText(response.getCustomer_phone());
+//            holder.phoneText.setText(response.getCustomer_phone());
+            holder.phoneText.setVisibility(View.INVISIBLE);
         }
 
         holder.sellAmountText.setText(response.getSell_amount());
@@ -50,13 +53,14 @@ public class Customer_coupon_package_customer_list_adapter extends RecyclerView.
     }
 
     public class AppViewHolder extends RecyclerView.ViewHolder {
-        TextView phoneText, sellAmountText;
+        TextView phoneText, sellAmountText, positionText;
 
         public AppViewHolder(@NonNull View itemView) {
             super(itemView);
 
             phoneText = itemView.findViewById(R.id.phoneTextID);
             sellAmountText = itemView.findViewById(R.id.sellAmountTextID);
+            positionText = itemView.findViewById(R.id.positionText);
         }
     }
 }

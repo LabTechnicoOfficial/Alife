@@ -172,6 +172,8 @@ public class Forgot_password_activity extends AppCompatActivity implements Adapt
                                     Random r = new Random();
                                     int ran = r.nextInt(99999 - 10000 + 1) + 10000;
                                     otpcode = String.valueOf(ran);
+
+
                                     String message = "ALife Change Password OTP is-" + otpcode;
                                     otp.getStatus(number, message).observe(Forgot_password_activity.this, new Observer<OTP_response>() {
                                         @Override

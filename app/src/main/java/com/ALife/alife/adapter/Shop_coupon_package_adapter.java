@@ -10,16 +10,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ALife.alife.R;
-import com.ALife.alife.model.cupon.package_response;
+import com.ALife.alife.model.cupon.Package_response;
 
 import java.util.List;
 
 public class Shop_coupon_package_adapter extends RecyclerView.Adapter<Shop_coupon_package_adapter.AppViewHolder> {
 
-    private List<package_response> packagesList;
+    private List<Package_response> packagesList;
     private String cupon_available;
 
-    public Shop_coupon_package_adapter(List<package_response> packagesList, String cupon_available) {
+    public Shop_coupon_package_adapter(List<Package_response> packagesList, String cupon_available) {
         this.packagesList = packagesList;
         this.cupon_available = cupon_available;
     }
@@ -34,7 +34,7 @@ public class Shop_coupon_package_adapter extends RecyclerView.Adapter<Shop_coupo
 
     @Override
     public void onBindViewHolder(@NonNull Shop_coupon_package_adapter.AppViewHolder holder, int position) {
-        package_response response = packagesList.get(position);
+        Package_response response = packagesList.get(position);
         holder.packageNameText.setText(response.getPackage_name());
         holder.sellAmountText.setText(response.getPackageSellAmount());
         holder.packageOwnerAmountText.setText(response.getMaximum_package_owner());
