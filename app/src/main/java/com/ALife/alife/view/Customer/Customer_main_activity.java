@@ -23,6 +23,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ALife.alife.BuildConfig;
 import com.ALife.alife.R;
@@ -33,6 +34,7 @@ import com.ALife.alife.view.LoginActivity;
 import com.ALife.alife.viewmodel.Customer_details;
 import com.ALife.alife.viewmodel.Get_version;
 import com.ALife.alife.session.SessionManagement;
+import com.ALife.alife.viewmodel.SessionManagment_registration;
 import com.ALife.alife.viewmodel.User_deviceToken;
 import com.google.android.gms.ads.admanager.AdManagerAdView;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -69,6 +71,8 @@ public class Customer_main_activity extends AppCompatActivity implements Navigat
         super.onStart();
         SessionManagement sessionManagement = new SessionManagement(Customer_main_activity.this);
         int userId = sessionManagement.getSession();
+
+        SessionManagment_registration sessionManagment_registration = new SessionManagment_registration(this);
         if (userId == -1) {
             Intent intent = new Intent(Customer_main_activity.this, LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);

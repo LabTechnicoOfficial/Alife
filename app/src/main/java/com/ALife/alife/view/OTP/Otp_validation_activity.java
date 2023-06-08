@@ -131,7 +131,7 @@ public class Otp_validation_activity extends AppCompatActivity implements TextWa
             otp = sessionManagment_registration.getOtp();
             task_type = sessionManagment_registration.getSESSION_TASK_TYPE();
 
-            sessionManagment_registration.removeSession();
+         //   sessionManagment_registration.removeSession();
             try {
                 this.getSupportActionBar().hide();
             } catch (Exception e) {
@@ -176,6 +176,8 @@ public class Otp_validation_activity extends AppCompatActivity implements TextWa
                     String s3 = editText3.getText().toString();
                     String s4 = editText4.getText().toString();
                     String s5 = editText5.getText().toString();
+
+                    Toast.makeText(Otp_validation_activity.this,phone+" "+ sessionManagement.getPhone(), Toast.LENGTH_SHORT).show();
 
                     if (TextUtils.isEmpty(s1) || TextUtils.isEmpty(s2) || TextUtils.isEmpty(s3) || TextUtils.isEmpty(s4) || TextUtils.isEmpty(s5)) {
                         Toast.makeText(getBaseContext(), "Field empty", Toast.LENGTH_SHORT).show();

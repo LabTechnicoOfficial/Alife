@@ -1,6 +1,7 @@
 package com.ALife.alife.view.Customer;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,14 +16,19 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.ALife.alife.API.ApiUtilize;
 import com.ALife.alife.R;
 import com.ALife.alife.adapter.Customer_package_adapter;
 import com.ALife.alife.adapter.Shop_coupon_package_adapter;
+import com.ALife.alife.model.cupon.active_cupon;
+import com.ALife.alife.model.cupon.cupon_api;
 import com.ALife.alife.model.cupon.customerFor_cupon_response;
 import com.ALife.alife.model.cupon.package_response;
 import com.ALife.alife.model.customer_profile_response;
+import com.ALife.alife.session.SessionManagement;
 import com.ALife.alife.view.Shop.Shop_coupon_packages_fragment;
 import com.ALife.alife.viewmodel.Customer_profile;
+import com.ALife.alife.viewmodel.SessionManagment_registration;
 import com.ALife.alife.viewmodel.cuponViewmodel.CouponPackageViewModel;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
@@ -31,10 +37,14 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class Customer_coupon_shop_coupon_package_list_fragment extends Fragment implements Customer_package_adapter.onItemClickListener {
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
+public class Customer_coupon_shop_coupon_package_list_fragment extends Fragment implements Customer_package_adapter.onItemClickListener {
+    public int activePosition = 0;
     RecyclerView packagesView;
-    String couponID, shopID;
+    String couponID, shopID,createdDate,endDate;
     ProgressBar progressBar;
     NestedScrollView nestedScrollView;
     int page = 1, limit = 10, end = 0;
@@ -46,20 +56,25 @@ public class Customer_coupon_shop_coupon_package_list_fragment extends Fragment 
     Customer_profile customer_profile;
     String phone;
     String cupon_available;
+    private cupon_api cupon_api;
+    SessionManagment_registration sessionManagement;
 
-    public Customer_coupon_shop_coupon_package_list_fragment(String shopID, String couponID, List<customerFor_cupon_response> customerList, String customerID, String cupon_available) {
+    public Customer_coupon_shop_coupon_package_list_fragment(String shopID, String couponID, List<customerFor_cupon_response> customerList, String customerID, String cupon_available,String creadtedDate, String endDate) {
         this.couponID = couponID;
         this.shopID = shopID;
         this.customerList = customerList;
         this.customerID = customerID;
         this.cupon_available = cupon_available;
+        this.createdDate=creadtedDate;
+        this.endDate=endDate;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
+        getPosition();
         package_data();
+
     }
 
     private void package_data() {
@@ -100,11 +115,32 @@ public class Customer_coupon_shop_coupon_package_list_fragment extends Fragment 
                     }
                     packagesList.get(i).setMaximum_package_owner(String.valueOf(count));
                 }
-
-
-                adapter = new Customer_package_adapter(packagesList,cupon_available);
+                Log.d("phione",String.valueOf(activePosition));
+                adapter = new Customer_package_adapter(packagesList, cupon_available, activePosition);
                 adapter.setOnClickListener(Customer_coupon_shop_coupon_package_list_fragment.this::OnItemClick);
                 packagesView.setAdapter(adapter);
+            }
+        });
+
+
+    }
+
+    private void getPosition(){
+        cupon_api = ApiUtilize.cupon_response();
+        Log.d("phione",sessionManagement.getPhone());
+        Call<active_cupon> call = cupon_api.activeCupon(couponID, shopID, "01966928300", createdDate, endDate);
+        call.enqueue(new Callback<active_cupon>() {
+            @Override
+            public void onResponse(Call<active_cupon> call, Response<active_cupon> response) {
+                if (response.isSuccessful()) {
+                    activePosition = (response.body().getPosition());
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<active_cupon> call, Throwable t) {
+                Log.d("msg16", t.toString());
             }
         });
     }
@@ -113,6 +149,9 @@ public class Customer_coupon_shop_coupon_package_list_fragment extends Fragment 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.customer_coupon_shop_coupon_package_list_fragment, container, false);
+        sessionManagement =new SessionManagment_registration(getActivity());
+
+       // Toast.makeText(getActivity(), String.valueOf(sessionManagement.getNewPhone()), Toast.LENGTH_SHORT).show();
 
         couponPackageViewModel = new ViewModelProvider(this).get(CouponPackageViewModel.class);
 
@@ -162,6 +201,7 @@ public class Customer_coupon_shop_coupon_package_list_fragment extends Fragment 
         for (int i = 0; i < position; i++) {
             removecustomer += Integer.parseInt(packagesList.get(i).getMaximum_package_owner());
         }
+
         if (count > 0) {
             for (int i = removecustomer; i < temp.size(); i++) {
                 if (Double.parseDouble(temp.get(i).getSell_amount()) >= sellAmount) {
