@@ -615,6 +615,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void shop_otp_activity(String random_otp, String id, String phone) {
+        Toast.makeText(this, random_otp, Toast.LENGTH_SHORT).show();
         registration registration;
         registration = new registration("", "", phone, "shopkeeper", "", id, "login_varification", random_otp, "login");
 
