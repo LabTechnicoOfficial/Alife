@@ -71,7 +71,7 @@ public class Customer_product_adapter extends RecyclerView.Adapter<Customer_prod
             priceText = itemView.findViewById(R.id.priceID);
             amountText = itemView.findViewById(R.id.amountID);
             discountText = itemView.findViewById(R.id.discountID);
-            productImage = itemView.findViewById(R.id.productImageID);
+            productImage = itemView.findViewById(R.id.productImage);
         }
     }
 }

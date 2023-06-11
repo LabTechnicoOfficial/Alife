@@ -50,7 +50,7 @@ public class Shop_local_page_adapter extends RecyclerView.Adapter<Shop_local_pag
 
         public AppViewholder(@NonNull View itemView) {
             super(itemView);
-            titleText = (TextView) itemView.findViewById(R.id.titleTextID);
+            titleText = (TextView) itemView.findViewById(R.id.titleText);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

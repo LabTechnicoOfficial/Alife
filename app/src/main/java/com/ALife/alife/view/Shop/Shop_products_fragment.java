@@ -80,7 +80,6 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import org.json.JSONArray;
-import org.w3c.dom.Text;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -429,7 +428,7 @@ public class Shop_products_fragment<SharedViewModel> extends Fragment implements
                 offer_list = new ArrayList<>();
                 closeButton = (ImageView) alert.findViewById(R.id.closeID);
                 crossbutton = (ImageView) alert.findViewById(R.id.crossID);
-                select_product_image = (ImageView) alert.findViewById(R.id.productImageID);
+                select_product_image = (ImageView) alert.findViewById(R.id.productImage);
                 productError = (TextInputLayout) alert.findViewById(R.id.productErrorID);
                 priceError = (TextInputLayout) alert.findViewById(R.id.priceErrorID);
                 unitError = (TextInputLayout) alert.findViewById(R.id.unitErrorID);

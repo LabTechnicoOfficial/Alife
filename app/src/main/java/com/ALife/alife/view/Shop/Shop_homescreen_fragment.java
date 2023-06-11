@@ -1,8 +1,10 @@
 package com.ALife.alife.view.Shop;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -10,6 +12,9 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
@@ -17,23 +22,32 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Html;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ALife.alife.Custom_Type.ProductSell;
 import com.ALife.alife.EarningApp.ViewModel.AddInterval;
 import com.ALife.alife.R;
 import com.ALife.alife.adapter.Instruction_adapter;
+import com.ALife.alife.adapter.Shop_barcode_type_adapter;
+import com.ALife.alife.model.Fetch_product_detail_by_bar_code_response;
 import com.ALife.alife.model.user_instruction_response;
 import com.ALife.alife.viewmodel.EarningViewModel;
 import com.ALife.alife.session.SessionManagement;
+import com.ALife.alife.viewmodel.Get_product;
 import com.ALife.alife.viewmodel.User_instruction;
 import com.google.android.gms.ads.AdError;
 import com.google.android.gms.ads.AdRequest;
@@ -45,7 +59,13 @@ import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
+import com.google.android.gms.vision.CameraSource;
+import com.google.android.gms.vision.Detector;
+import com.google.android.gms.vision.barcode.Barcode;
+import com.google.android.gms.vision.barcode.BarcodeDetector;
+import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,7 +74,7 @@ public class Shop_homescreen_fragment extends Fragment implements Instruction_ad
     LinearLayout sellProductButton, addProductButton, allProductButton;
     LinearLayout dueCustomerButton, businessAccountButton, localPageButton;
     LinearLayout sellHistoryButton, couponButton, localSellButton;
-    LinearLayout sendNotificationButton;
+    LinearLayout sendNotificationButton, barcodeScanButton;
     private String shop_id;
 
     FragmentManager fragmentManager;
@@ -66,6 +86,15 @@ public class Shop_homescreen_fragment extends Fragment implements Instruction_ad
     //private AdManagerAdView mAdManagerAdView;
     private AddInterval addInterval;
     private InterstitialAd InterstitialAd;
+
+    TextView barcodeText;
+    SurfaceView surfaceView;
+    BarcodeDetector barcodeDetector;
+    String barcodeData;
+    private CameraSource cameraSource;
+    private static final int REQUEST_CAMERA_PERMISSION = 201;
+
+    Get_product getProductViewModel;
 
     @SuppressLint("MissingPermission")
     @Override
@@ -187,8 +216,10 @@ public class Shop_homescreen_fragment extends Fragment implements Instruction_ad
         couponButton = (LinearLayout) view.findViewById(R.id.couponButtonID);
         localSellButton = (LinearLayout) view.findViewById(R.id.localSellButtonID);
         sendNotificationButton = (LinearLayout) view.findViewById(R.id.sendNotificationButtonID);
+        barcodeScanButton = view.findViewById(R.id.barcodeScanButton);
 
         earningViewModel = new ViewModelProvider(this).get(EarningViewModel.class);
+        getProductViewModel = new ViewModelProvider(this).get(Get_product.class);
 
         //banner add
         //mAdManagerAdView = (AdManagerAdView) view.findViewById(R.id.adManagerAdView);
@@ -358,7 +389,10 @@ public class Shop_homescreen_fragment extends Fragment implements Instruction_ad
                         earning_session_management.saveBaseId(String.valueOf(userId));
                         startActivity(intent);
 
-                           *//* addInterval.getResponse(earning_response.getEarning_id(), currentDate, 1).observe(getViewLifecycleOwner(), new Observer<addInterval_response>() {
+                           */
+
+
+        /* addInterval.getResponse(earning_response.getEarning_id(), currentDate, 1).observe(getViewLifecycleOwner(), new Observer<addInterval_response>() {
 
                                 @Override
                                 public void onChanged(addInterval_response addInterval_response) {
@@ -408,7 +442,7 @@ public class Shop_homescreen_fragment extends Fragment implements Instruction_ad
                             });*//*
 
 
-                        *//*fragmentManager.beginTransaction().setCustomAnimations(
+         *//*fragmentManager.beginTransaction().setCustomAnimations(
                                 R.anim.slide_in,  // enter
                                 R.anim.fade_out,  // exit
                                 R.anim.fade_in,   // popEnter
@@ -445,7 +479,127 @@ public class Shop_homescreen_fragment extends Fragment implements Instruction_ad
             }
         });
 
+        barcodeScanButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Dialog barCodeAlert = new Dialog(getActivity());
+                barCodeAlert.setContentView(R.layout.barcode_scan_alert);
+                barCodeAlert.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                barCodeAlert.setCancelable(false);
+                barCodeAlert.show();
+
+                Window window = barCodeAlert.getWindow();
+                WindowManager.LayoutParams wlp = window.getAttributes();
+                wlp.gravity = Gravity.CENTER;
+                wlp.width = android.view.WindowManager.LayoutParams.MATCH_PARENT;
+                wlp.height = android.view.WindowManager.LayoutParams.WRAP_CONTENT;
+                window.setAttributes(wlp);
+
+                AppCompatButton okButton = barCodeAlert.findViewById(R.id.ok);
+                AppCompatButton reScanButton = barCodeAlert.findViewById(R.id.reScanButton);
+                ImageView closeButton = barCodeAlert.findViewById(R.id.closeButtonID);
+                barcodeText = barCodeAlert.findViewById(R.id.barcode_text);
+                surfaceView = barCodeAlert.findViewById(R.id.surface_view);
+                okButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        if (barcodeData.isEmpty()) {
+                            Toast.makeText(getActivity(), "no barcode detected", Toast.LENGTH_SHORT).show();
+                        } else {
+                            getProductViewModel.fetch_product_detail_by_bar_code(shop_id, barcodeData).observe(getViewLifecycleOwner(), new Observer<Fetch_product_detail_by_bar_code_response>() {
+
+                                @Override
+                                public void onChanged(Fetch_product_detail_by_bar_code_response response) {
+
+                                    if (response != null) {
+                                        barCodeAlert.dismiss();
+                                        vieProductDetails(response);
+                                    } else {
+                                        Toast.makeText(getActivity(), "কোন পণ্য পাওয়া যাইনি", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                        }
+
+
+                    }
+                });
+
+                reScanButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        initialiseDetectorsAndSources();
+                    }
+                });
+
+                closeButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        barCodeAlert.dismiss();
+                    }
+                });
+
+                initialiseDetectorsAndSources();
+
+
+            }
+        });
+
         return view;
+    }
+
+    private void vieProductDetails(Fetch_product_detail_by_bar_code_response response) {
+        Dialog productDetailsAlert = new Dialog(getActivity());
+        productDetailsAlert.setContentView(R.layout.product_details_from_bar_code);
+        productDetailsAlert.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        productDetailsAlert.setCancelable(false);
+        productDetailsAlert.show();
+
+        Window window = productDetailsAlert.getWindow();
+        WindowManager.LayoutParams wlp = window.getAttributes();
+        wlp.gravity = Gravity.CENTER;
+        wlp.width = android.view.WindowManager.LayoutParams.MATCH_PARENT;
+        wlp.height = android.view.WindowManager.LayoutParams.WRAP_CONTENT;
+        window.setAttributes(wlp);
+
+        ImageView closeButton = productDetailsAlert.findViewById(R.id.closeButton);
+        ImageView productImage = productDetailsAlert.findViewById(R.id.productImage);
+        closeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                productDetailsAlert.dismiss();
+            }
+        });
+
+        Picasso.get().load(response.productImage).into(productImage);
+
+        TextView titleText = productDetailsAlert.findViewById(R.id.titleText);
+        TextView categoryTitleText = productDetailsAlert.findViewById(R.id.categoryTitleText);
+        TextView buyPriceText = productDetailsAlert.findViewById(R.id.buyPriceText);
+        TextView sellPriceText = productDetailsAlert.findViewById(R.id.sellPriceText);
+        TextView stockAmountText = productDetailsAlert.findViewById(R.id.stockAmountText);
+
+        categoryTitleText.setText(Html.fromHtml("Category: " + "<b>" + response.category.catagory01yName + "<b>"));
+        titleText.setText(response.productName);
+        buyPriceText.setText(getActivity().getResources().getText(R.string.buy_price) + ": " + response.buyPrice + " tk");
+        sellPriceText.setText(getActivity().getResources().getText(R.string.sell_price) + ": " + response.sellingPrice + " tk");
+        stockAmountText.setText("Stock: " + response.stockAmount + " " + response.productUnit);
+
+        ConstraintLayout typeLayout = productDetailsAlert.findViewById(R.id.typeLayout);
+        RecyclerView typeView = productDetailsAlert.findViewById(R.id.typeView);
+        typeView.setHasFixedSize(true);
+        typeView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        if (response.type.size() > 0) {
+
+           // Log.d("dataxx", "page: "+String.valueOf(response.type.size()));
+            typeLayout.setVisibility(View.VISIBLE);
+            Shop_barcode_type_adapter adapter = new Shop_barcode_type_adapter(response.type, response.productUnit);
+            typeView.setAdapter(adapter);
+        } else {
+            typeLayout.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -506,5 +660,85 @@ public class Shop_homescreen_fragment extends Fragment implements Instruction_ad
                         //loadAd();
                     }
                 });
+    }
+
+    private void initialiseDetectorsAndSources() {
+        barcodeData = "";
+        barcodeText.setText(barcodeData);
+
+        barcodeDetector = new BarcodeDetector.Builder(getActivity())
+                .setBarcodeFormats(Barcode.ALL_FORMATS)
+                .build();
+
+        cameraSource = new CameraSource.Builder(getActivity(), barcodeDetector)
+                .setRequestedPreviewSize(1080, 1080)
+                .setAutoFocusEnabled(true) //you should add this feature
+                .build();
+
+        surfaceView.getHolder().addCallback(new SurfaceHolder.Callback() {
+            @SuppressLint("MissingPermission")
+            @Override
+            public void surfaceCreated(SurfaceHolder holder) {
+                try {
+                    if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                        cameraSource.start(surfaceView.getHolder());
+                    } else {
+                        ActivityCompat.requestPermissions(getActivity(), new
+                                String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
+                    }
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+
+            @Override
+            public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+            }
+
+            @Override
+            public void surfaceDestroyed(SurfaceHolder holder) {
+                cameraSource.stop();
+            }
+        });
+
+
+        barcodeDetector.setProcessor(new Detector.Processor<Barcode>() {
+            @Override
+            public void release() {
+                // Toast.makeText(getActivity(), "To prevent memory leaks barcode scanner has been stopped", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void receiveDetections(Detector.Detections<Barcode> detections) {
+                final SparseArray<Barcode> barcodes = detections.getDetectedItems();
+                if (barcodes.size() != 0) {
+
+
+                    barcodeText.post(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            if (barcodes.valueAt(0).email != null) {
+                                barcodeText.removeCallbacks(null);
+                                barcodeData = barcodes.valueAt(0).email.address;
+                                barcodeText.setText(barcodeData);
+                                // toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP, 150);
+                                // barcodeDetector.release();
+                            } else {
+
+                                barcodeData = barcodes.valueAt(0).displayValue;
+                                barcodeText.setText(barcodeData);
+                                // toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP, 150);
+
+                            }
+                        }
+                    });
+
+                }
+            }
+        });
     }
 }

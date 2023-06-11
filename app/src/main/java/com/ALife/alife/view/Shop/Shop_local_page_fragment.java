@@ -17,7 +17,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,10 +27,8 @@ import android.widget.Toast;
 
 import com.ALife.alife.R;
 import com.ALife.alife.adapter.Shop_local_page_adapter;
-import com.ALife.alife.adapter.Shop_local_page_details_adapter;
 import com.ALife.alife.model.add_local_business_response;
 import com.ALife.alife.model.get_local_business_title_response;
-import com.ALife.alife.view.Product_details_fragment;
 import com.ALife.alife.viewmodel.Local_business;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -70,7 +67,7 @@ public class Shop_local_page_fragment extends Fragment implements Shop_local_pag
                 alert.setCancelable(false);
 
                 TextInputLayout titleError = (TextInputLayout) alert.findViewById(R.id.titleErrorID);
-                TextInputEditText titleText = (TextInputEditText) alert.findViewById(R.id.titleTextID);
+                TextInputEditText titleText = (TextInputEditText) alert.findViewById(R.id.titleText);
                 AppCompatButton addButton = (AppCompatButton) alert.findViewById(R.id.addButtonID);
                 ImageView closeButton = (ImageView) alert.findViewById(R.id.closeID);
 

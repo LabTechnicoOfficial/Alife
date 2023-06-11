@@ -55,8 +55,6 @@ import com.ALife.alife.adapter.Normal_sell_details_image_adapter;
 import com.ALife.alife.adapter.Normal_sell_product_image_show_adapter;
 import com.ALife.alife.adapter.Systemetic_sell_details_adapter;
 import com.ALife.alife.adapter.shop_customer_due_list_adapter;
-import com.ALife.alife.model.OTP_response;
-import com.ALife.alife.model.addMessageResponse;
 import com.ALife.alife.model.add_normal_product_image_response;
 import com.ALife.alife.model.add_normal_sell_response;
 import com.ALife.alife.model.add_payment_transaction_response;
@@ -69,7 +67,6 @@ import com.ALife.alife.model.normal_sell_details_response;
 import com.ALife.alife.model.push_notification_response;
 import com.ALife.alife.model.shop_profile_response;
 import com.ALife.alife.model.systemetic_sell_details_response;
-import com.ALife.alife.view.Operator.Operator_all_products_fragment;
 import com.ALife.alife.viewmodel.AddMessagetoHistory;
 import com.ALife.alife.viewmodel.Get_shop_customer_due_list;
 import com.ALife.alife.viewmodel.Local_sell.Get_local_sell;
@@ -82,10 +79,7 @@ import com.ALife.alife.viewmodel.Sell_details;
 import com.ALife.alife.viewmodel.Shop_profile;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
-
-import org.w3c.dom.Text;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -97,7 +91,6 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -769,7 +762,7 @@ public class Shop_customer_details_fragments extends Fragment implements shop_cu
             }
         });
         AppCompatButton okButton = (AppCompatButton) successDialog.findViewById(R.id.okButtonID);
-        TextView titleText = (TextView) successDialog.findViewById(R.id.titleTextID);
+        TextView titleText = (TextView) successDialog.findViewById(R.id.titleText);
 
         titleText.setText("Sell Successful");
         okButton.setOnClickListener(new View.OnClickListener() {

@@ -183,7 +183,7 @@ public class Shop_products_add_fragment extends Fragment {
         typeList = new ArrayList<>();
         offer_list = new ArrayList<>();
         crossbutton = (ImageView) view.findViewById(R.id.crossID);
-        select_product_image = (ImageView) view.findViewById(R.id.productImageID);
+        select_product_image = (ImageView) view.findViewById(R.id.productImage);
         productError = (TextInputLayout) view.findViewById(R.id.productErrorID);
         priceError = (TextInputLayout) view.findViewById(R.id.priceErrorID);
         unitError = (TextInputLayout) view.findViewById(R.id.unitErrorID);
@@ -1343,7 +1343,7 @@ public class Shop_products_add_fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 barCodeAlert = new Dialog(getActivity());
-                barCodeAlert.setContentView(R.layout.barcode);
+                barCodeAlert.setContentView(R.layout.barcode_scan_alert);
                 barCodeAlert.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 barCodeAlert.setCancelable(false);
                 barCodeAlert.show();

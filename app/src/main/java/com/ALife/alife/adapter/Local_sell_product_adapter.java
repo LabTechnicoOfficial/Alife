@@ -73,7 +73,7 @@ public class Local_sell_product_adapter extends RecyclerView.Adapter<Local_sell_
             super(itemView);
 
             productNameText = itemView.findViewById(R.id.productNameTextID);
-            productImage = itemView.findViewById(R.id.productImageID);
+            productImage = itemView.findViewById(R.id.productImage);
             priceText = itemView.findViewById(R.id.priceTextID);
             edit = itemView.findViewById(R.id.edit);
             delete = itemView.findViewById(R.id.delete);

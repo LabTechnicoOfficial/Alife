@@ -35,7 +35,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.ALife.alife.R;
 import com.ALife.alife.adapter.Shop_sell_history_main_adapter;
-import com.ALife.alife.model.local_sell.local_sell_history_response;
 import com.ALife.alife.model.shop_sell_history_list_response;
 import com.ALife.alife.model.shop_sell_history_summary_response;
 import com.ALife.alife.viewmodel.Shop_sell_history;
@@ -607,7 +606,7 @@ public class Shop_sell_history_fragment extends Fragment implements AdapterView.
         history_detailsAlert.setCancelable(true);
         ImageView productImage, close;
         TextView productId, productName, productAmount, productType, productBrand, productCode, sellPrice, buyPrice, sellProfit, sellCustomer, sellDate;
-        productImage = (ImageView) history_detailsAlert.findViewById(R.id.productImageID);
+        productImage = (ImageView) history_detailsAlert.findViewById(R.id.productImage);
         close = (ImageView) history_detailsAlert.findViewById(R.id.closeID);
         productId = (TextView) history_detailsAlert.findViewById(R.id.productID);
         productName = (TextView) history_detailsAlert.findViewById(R.id.product_nameID);

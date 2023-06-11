@@ -76,4 +76,5 @@
     <string name="choose_image">ছবি নির্বাচন</string>
     <string name="bar_code_search">bar code search</string>
     <string name="notification">নোটিফিকেশন</string>
+    <string name="qr_scan">স্ক্যান</string>
 </resources>

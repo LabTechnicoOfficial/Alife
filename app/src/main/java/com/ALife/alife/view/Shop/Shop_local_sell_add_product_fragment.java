@@ -23,7 +23,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -40,12 +39,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.ALife.alife.R;
 import com.ALife.alife.adapter.Local_sell_product_adapter;
-import com.ALife.alife.model.Category_response;
-import com.ALife.alife.model.delete_category_response;
 import com.ALife.alife.model.local_sell.add_local_sell_product_response;
 import com.ALife.alife.model.local_sell.delete_local_sell_product_response;
 import com.ALife.alife.model.local_sell.get_local_sell_product_response;
-import com.ALife.alife.viewmodel.Delete_category;
 import com.ALife.alife.viewmodel.Local_sell.Add_local_sell;
 import com.ALife.alife.viewmodel.Local_sell.Get_local_sell;
 import com.google.android.material.textfield.TextInputEditText;
@@ -58,7 +54,6 @@ import java.io.InputStream;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class Shop_local_sell_add_product_fragment extends Fragment implements Local_sell_product_adapter.onItemDeleteListener, Local_sell_product_adapter.onItemEditListener {
 
@@ -182,7 +177,7 @@ public class Shop_local_sell_add_product_fragment extends Fragment implements Lo
                 TextInputLayout roductPriceError = dialog.findViewById(R.id.productPriceErrorID);
 
                 LinearLayout choseImageButton = dialog.findViewById(R.id.choseImageButtonId);
-                productImage = dialog.findViewById(R.id.productImageID);
+                productImage = dialog.findViewById(R.id.productImage);
 
                 addProductButton = dialog.findViewById(R.id.addProductButtonID);
                 productPriceText.addTextChangedListener(new TextWatcher() {
@@ -422,7 +417,7 @@ public class Shop_local_sell_add_product_fragment extends Fragment implements Lo
         TextInputLayout roductPriceError = dialog.findViewById(R.id.productPriceErrorID);
 
         LinearLayout choseImageButton = dialog.findViewById(R.id.choseImageButtonId);
-        ImageView productImage = dialog.findViewById(R.id.productImageID);
+        ImageView productImage = dialog.findViewById(R.id.productImage);
         if (!TextUtils.isEmpty(productList.get(position).getImage()))
             Picasso.get().load(productList.get(position).getImage()).into(productImage);
 

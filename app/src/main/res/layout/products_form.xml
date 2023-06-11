@@ -64,7 +64,7 @@
                         android:gravity="center">
 
                         <de.hdodenhof.circleimageview.CircleImageView
-                            android:id="@+id/productImageID"
+                            android:id="@+id/productImage"
                             android:layout_width="96dp"
                             android:layout_height="96dp"
                             android:clickable="true"

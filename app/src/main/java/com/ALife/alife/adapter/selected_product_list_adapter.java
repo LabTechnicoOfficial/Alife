@@ -13,7 +13,6 @@ import com.ALife.alife.Custom_Type.productSell_temp;
 import com.ALife.alife.R;
 import com.squareup.picasso.Picasso;
 
-import java.text.DecimalFormat;
 import java.util.List;
 
 public class selected_product_list_adapter extends RecyclerView.Adapter<selected_product_list_adapter.AppViewholder> {
@@ -54,7 +53,7 @@ public class selected_product_list_adapter extends RecyclerView.Adapter<selected
         public AppViewholder(@NonNull View itemView) {
             super(itemView);
 
-            imageView = (ImageView) itemView.findViewById(R.id.productImageID);
+            imageView = (ImageView) itemView.findViewById(R.id.productImage);
             productName = itemView.findViewById(R.id.productNameID);
             typeText = itemView.findViewById(R.id.typeID);
             amountText = itemView.findViewById(R.id.amountID);

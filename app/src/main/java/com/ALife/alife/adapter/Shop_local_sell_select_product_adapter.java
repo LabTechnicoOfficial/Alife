@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.ALife.alife.R;
 import com.ALife.alife.model.local_sell.get_local_sell_product_response;
-import com.ALife.alife.view.Shop.Shop_local_sell_select_product_fragment;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -62,7 +61,7 @@ private OnItemClickListener listener;
         public AppViewholder(@NonNull View itemView) {
             super(itemView);
             product_name = itemView.findViewById(R.id.productlabelID);
-            product_image = itemView.findViewById(R.id.productImageID);
+            product_image = itemView.findViewById(R.id.productImage);
             product_price = (TextView) itemView.findViewById(R.id.priceID);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

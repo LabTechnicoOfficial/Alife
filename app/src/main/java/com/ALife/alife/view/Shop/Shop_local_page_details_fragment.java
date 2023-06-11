@@ -36,15 +36,11 @@ import com.ALife.alife.adapter.Shop_local_page_details_adapter;
 import com.ALife.alife.adapter.Shop_local_page_show_details_adapter;
 import com.ALife.alife.model.add_local_business_response;
 import com.ALife.alife.model.get_local_business_details_response;
-import com.ALife.alife.model.get_local_business_subtitle_response;
-import com.ALife.alife.model.get_local_business_title_response;
 import com.ALife.alife.model.shop_local_page_item_list_response;
 import com.ALife.alife.viewmodel.Local_business;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-
-import org.w3c.dom.Text;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -97,7 +93,7 @@ public class Shop_local_page_details_fragment extends Fragment implements Shop_l
                 TextView total_price = (TextView) alert.findViewById(R.id.totalPriceID);
                 ImageView closeButton = (ImageView) alert.findViewById(R.id.closeID);
 
-                TextInputEditText titleText = (TextInputEditText) alert.findViewById(R.id.titleTextID);
+                TextInputEditText titleText = (TextInputEditText) alert.findViewById(R.id.titleText);
                 TextInputLayout titleError = (TextInputLayout) alert.findViewById(R.id.titleErrorID);
 
                 ImageView add = (ImageView) alert.findViewById(R.id.addButtonID);

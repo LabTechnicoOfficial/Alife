@@ -101,7 +101,7 @@ public class Selected_sell_product_list_adapter extends RecyclerView.Adapter<Sel
 
         public AppViewholder(@NonNull View itemView) {
             super(itemView);
-            productImage = (CircularImageView) itemView.findViewById(R.id.productImageID);
+            productImage = (CircularImageView) itemView.findViewById(R.id.productImage);
             productName = (TextView) itemView.findViewById(R.id.productNameID);
             productType = (TextView) itemView.findViewById(R.id.typeID);
             productAmount = (TextView) itemView.findViewById(R.id.amountID);

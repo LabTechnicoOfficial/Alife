@@ -1,6 +1,7 @@
 package com.ALife.alife.model;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
@@ -21,6 +22,8 @@ public class get_product_repositories {
     get_single_product_api get_single_product;
     MutableLiveData<List<get_product_response>> data;
     MutableLiveData<get_product_response> single_product;
+
+    MutableLiveData<Fetch_product_detail_by_bar_code_response> product_detail_by_bar_code;
     private static get_product_repositories get_product_repositories;
 
     protected void onSaveInstanceState(@NonNull Bundle outState) {
@@ -28,9 +31,6 @@ public class get_product_repositories {
     }
 
     public get_product_repositories() {
-       /* this.id = id;
-        this.page = page;
-        this.limit = limit;*/
         get_product = ApiUtilize.get_product_response();
         get_single_product = ApiUtilize.get_single_product_response();
         category_product_by_search = ApiUtilize.category_product_search_response();
@@ -119,5 +119,29 @@ public class get_product_repositories {
 
         });
         return single_product;
+    }
+
+
+    public @NonNull
+    MutableLiveData<Fetch_product_detail_by_bar_code_response> get_product_detail_by_bar_code(@NonNull String shopID, @NonNull String code) {
+        if (product_detail_by_bar_code == null) {
+            product_detail_by_bar_code = new MutableLiveData<>();
+        }
+        Call<Fetch_product_detail_by_bar_code_response> call = get_product.fetch_product_detail_by_qrcode(shopID, code);
+        call.enqueue(new Callback<Fetch_product_detail_by_bar_code_response>() {
+            @Override
+            public void onResponse(Call<Fetch_product_detail_by_bar_code_response> call, Response<Fetch_product_detail_by_bar_code_response> response) {
+                if (response.isSuccessful()) {
+                   // Log.d("dataxx", "onResponse: success");
+                    product_detail_by_bar_code.postValue(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Fetch_product_detail_by_bar_code_response> call, Throwable t) {
+              //  Log.d("dataxx", "onResponse: failed "+t.getMessage());
+            }
+        });
+        return product_detail_by_bar_code;
     }
 }

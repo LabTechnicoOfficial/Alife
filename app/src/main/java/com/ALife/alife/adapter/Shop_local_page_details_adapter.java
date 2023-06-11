@@ -4,14 +4,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ALife.alife.R;
-import com.ALife.alife.model.get_local_business_subtitle_response;
-import com.ALife.alife.model.get_local_business_title_response;
 import com.ALife.alife.model.shop_local_page_item_list_response;
 
 import java.util.List;
@@ -66,7 +63,7 @@ public class Shop_local_page_details_adapter extends RecyclerView.Adapter<Shop_l
             amountText = (TextView) itemView.findViewById(R.id.amountTextID);
             priceText = (TextView) itemView.findViewById(R.id.priceTextID);
             totalPriceText = (TextView) itemView.findViewById(R.id.totalPriceTextID);
-            titleText = (TextView) itemView.findViewById(R.id.titleTextID);
+            titleText = (TextView) itemView.findViewById(R.id.titleText);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

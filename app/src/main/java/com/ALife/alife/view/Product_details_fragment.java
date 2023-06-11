@@ -350,7 +350,7 @@ public class Product_details_fragment<SharedViewModel> extends Fragment implemen
                         recyclerView.setAdapter(adapter);
                     }
                 });
-                product_image = (ImageView) alert.findViewById(R.id.productImageID);
+                product_image = (ImageView) alert.findViewById(R.id.productImage);
                 Image_vaoture = (ImageView) alert.findViewById(R.id.vaotureImageID);
                 ImageView closeButton = (ImageView) alert.findViewById(R.id.closeID);
                 Save = (TextView) alert.findViewById(R.id.save_ID);
@@ -1154,7 +1154,7 @@ public class Product_details_fragment<SharedViewModel> extends Fragment implemen
         recyclerView_offer.setLayoutManager(layoutManager_offer);
         checkBox = (CheckBox) view.findViewById(R.id.showDetailsID);
         hideLayout = (LinearLayout) view.findViewById(R.id.hideLayoutID);
-        productImage = (ImageView) view.findViewById(R.id.productImageID);
+        productImage = (ImageView) view.findViewById(R.id.productImage);
         productName = (TextView) view.findViewById(R.id.productlabelID);
         product_buyPrice = (TextView) view.findViewById(R.id.buypriceID);
         product_sellProfit = (TextView) view.findViewById(R.id.profitID);

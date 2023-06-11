@@ -133,7 +133,7 @@ public class Operator_product_grid_adapter extends RecyclerView.Adapter<Operator
             super(itemView);
 
             product_name = itemView.findViewById(R.id.productlabelID);
-            product_image = itemView.findViewById(R.id.productImageID);
+            product_image = itemView.findViewById(R.id.productImage);
             product_price = (TextView) itemView.findViewById(R.id.priceID);
             product_discount = (TextView) itemView.findViewById(R.id.discountID);
             discountLayout = (LinearLayout) itemView.findViewById(R.id.discountLayoutID);

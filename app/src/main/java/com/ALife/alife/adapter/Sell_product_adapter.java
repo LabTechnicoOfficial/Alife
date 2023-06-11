@@ -104,7 +104,7 @@ public class Sell_product_adapter extends RecyclerView.Adapter<Sell_product_adap
         public AppViewholder(@NonNull View itemView) {
             super(itemView);
 
-            productImage = (CircularImageView) itemView.findViewById(R.id.productImageID);
+            productImage = (CircularImageView) itemView.findViewById(R.id.productImage);
             productName = (TextView) itemView.findViewById(R.id.productNameID);
             stockAmount = (TextView) itemView.findViewById(R.id.stockAmountID);
             itemView.setOnClickListener(new View.OnClickListener() {

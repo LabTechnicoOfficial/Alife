@@ -14,9 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,7 +46,6 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.ALife.alife.R.layout.shop_customer_list_fragments;
 import static com.ALife.alife.R.layout.shop_due_customer_fragment;
 
 public class Shop_due_customer_fragment extends Fragment implements Shop_due_customer_adapter.OnItemClickListener {
@@ -185,7 +182,7 @@ public class Shop_due_customer_fragment extends Fragment implements Shop_due_cus
         successAlert.setCancelable(false);
         successAlert.show();
 
-        TextView titleText = (TextView) successAlert.findViewById(R.id.titleTextID);
+        TextView titleText = (TextView) successAlert.findViewById(R.id.titleText);
         titleText.setText("Successfully Added");
 
         AppCompatButton okButton = (AppCompatButton) successAlert.findViewById(R.id.okButtonID);
