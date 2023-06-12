@@ -260,7 +260,8 @@
         <HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/horizontalScrollViewID"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:scrollbars="none">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -292,6 +293,15 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="Name"
+                        android:textColor="@color/black"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Barcode"
                         android:textColor="@color/black"
                         android:textSize="15sp"
                         android:textStyle="bold" />
@@ -421,7 +431,8 @@
                 <androidx.core.widget.NestedScrollView
                     android:id="@+id/nestedRecyclerViewID"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:scrollbars="none">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -432,8 +443,7 @@
                             android:id="@+id/recyclerViewID"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:scrollbarStyle="outsideOverlay"
-                            android:scrollbars="vertical" />
+                            android:scrollbars="none" />
 
                     </LinearLayout>
 
@@ -486,7 +496,8 @@
         <androidx.core.widget.NestedScrollView
             android:id="@+id/gridNestedRecyclerViewID"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:scrollbars="none">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -497,8 +508,7 @@
                     android:id="@+id/recyclerView2ID"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:scrollbarStyle="outsideOverlay"
-                    android:scrollbars="vertical" />
+                    android:scrollbars="none" />
 
             </LinearLayout>
 

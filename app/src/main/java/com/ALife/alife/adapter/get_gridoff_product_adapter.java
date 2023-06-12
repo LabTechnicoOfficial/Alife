@@ -7,7 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -160,6 +162,13 @@ public class get_gridoff_product_adapter extends RecyclerView.Adapter<get_gridof
         holder.brandName.setText(product.getBrand());
         holder.codeText.setText(product.getCode());
 
+        holder.barCodeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(holder.itemView.getContext(), product.getCode(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
     }
 
@@ -174,7 +183,7 @@ public class get_gridoff_product_adapter extends RecyclerView.Adapter<get_gridof
         TextView stock, discount, sellwithdiscount_price, added_date;
         TextView profit, profit_discount, added_by, delete, all_discount;
         TextView brandName, codeText;
-        // ImageView delete;
+         ImageView barCodeButton;
 
 
         public AppViewholder(@NonNull View itemView) {
@@ -196,6 +205,8 @@ public class get_gridoff_product_adapter extends RecyclerView.Adapter<get_gridof
             all_discount = (TextView) itemView.findViewById(R.id.allDiscountID);
             brandName = itemView.findViewById(R.id.brandTextID);
             codeText = itemView.findViewById(R.id.codeTextID);
+            barCodeButton = itemView.findViewById(R.id.barCodeButton);
+
 
             delete.setOnClickListener(new View.OnClickListener() {
                 @Override
