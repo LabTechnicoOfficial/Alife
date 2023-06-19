@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ALife.alife.R;
+import com.ALife.alife.Utils.Helpers;
 import com.ALife.alife.model.get_product_response;
 
 import java.text.DecimalFormat;
@@ -165,7 +166,8 @@ public class get_gridoff_product_adapter extends RecyclerView.Adapter<get_gridof
         holder.barCodeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(holder.itemView.getContext(), product.getCode(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(holder.itemView.getContext(), product.getCode(), Toast.LENGTH_SHORT).show();
+                Helpers.barCodeGenerator(holder.itemView.getContext(), product.getCode());
             }
         });
 
@@ -183,7 +185,7 @@ public class get_gridoff_product_adapter extends RecyclerView.Adapter<get_gridof
         TextView stock, discount, sellwithdiscount_price, added_date;
         TextView profit, profit_discount, added_by, delete, all_discount;
         TextView brandName, codeText;
-         ImageView barCodeButton;
+        ImageView barCodeButton;
 
 
         public AppViewholder(@NonNull View itemView) {
