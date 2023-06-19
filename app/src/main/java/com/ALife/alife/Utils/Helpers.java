@@ -2,6 +2,7 @@ package com.ALife.alife.Utils;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -26,5 +27,6 @@ public class Helpers {
 
     public static void barCodeGenerator(Context context, String barCode) {
         //write code here
+        Toast.makeText(context, barCode, Toast.LENGTH_SHORT).show();
     }
 }
