@@ -25,13 +25,12 @@ public class Customer_shopList_adapter extends RecyclerView.Adapter<Customer_sho
     private LayoutInflater layoutInflater;
     public List<customer_shopList_response> shopList;
     public List<customer_shopList_response> shopListAll;
-    private OnItemUnfollowListener mListener;
-    OnItemClickListener Listener;
+
 
     public Customer_shopList_adapter(List<customer_shopList_response> shopList) {
         this.shopList = shopList;
-        this.shopListAll=new ArrayList<>();
-        this.shopListAll=shopList;
+        this.shopListAll = new ArrayList<>();
+        this.shopListAll = shopList;
     }
 
     @NonNull
@@ -44,7 +43,7 @@ public class Customer_shopList_adapter extends RecyclerView.Adapter<Customer_sho
 
     @Override
     public void onBindViewHolder(@NonNull Customer_shopList_adapter.AppViewholder holder, int position) {
-        customer_shopList_response shop=shopList.get(position);
+        customer_shopList_response shop = shopList.get(position);
         Picasso.get().load(shop.getStore01e_image()).into(holder.shopImage);
         holder.shopName.setText(shop.getStore01e_name());
         holder.totalDueText.setText(shop.getTotal_due());
@@ -61,6 +60,7 @@ public class Customer_shopList_adapter extends RecyclerView.Adapter<Customer_sho
     public Filter getFilter() {
         return filter;
     }
+
     Filter filter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
@@ -88,13 +88,24 @@ public class Customer_shopList_adapter extends RecyclerView.Adapter<Customer_sho
         }
     };
 
+    private OnItemUnfollowListener mListener;
+    OnItemClickListener Listener;
+
+    OnBarCodeScanClickListener mOnBarCodeScanClickListener;
+
     public interface OnItemUnfollowListener {
         void OnItemUnfollow(int position);
     }
-    public void setOnClickListener(OnItemUnfollowListener listener,OnItemClickListener listener1) {
-        mListener = listener;
-        Listener=listener1;
 
+    public interface OnBarCodeScanClickListener {
+        void OnBarCodeScanClick(int position);
+    }
+
+
+    public void setOnClickListener(OnItemUnfollowListener listener, OnItemClickListener listener1, OnBarCodeScanClickListener onBarCodeScanClickListener) {
+        mListener = listener;
+        Listener = listener1;
+        mOnBarCodeScanClickListener = onBarCodeScanClickListener;
     }
 
     public interface OnItemClickListener {
@@ -102,15 +113,17 @@ public class Customer_shopList_adapter extends RecyclerView.Adapter<Customer_sho
     }
 
     public class AppViewholder extends RecyclerView.ViewHolder {
-        ImageView shopImage;
+        ImageView shopImage, barcodeScanButton;
         LinearLayout unfollowButton;
         TextView shopName, totalDueText;
+
         public AppViewholder(@NonNull View itemView) {
             super(itemView);
             shopImage = (ImageView) itemView.findViewById(R.id.shopImageID);
             shopName = (TextView) itemView.findViewById(R.id.shopNameID);
             unfollowButton = (LinearLayout) itemView.findViewById(R.id.unfollowLayoutID);
             totalDueText = (TextView) itemView.findViewById(R.id.totalDueID);
+            barcodeScanButton = itemView.findViewById(R.id.barcodeScanButton);
 
             unfollowButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -130,6 +143,18 @@ public class Customer_shopList_adapter extends RecyclerView.Adapter<Customer_sho
                         int position = getAdapterPosition();
                         if (position != RecyclerView.NO_POSITION) {
                             Listener.OnItemClick(position);
+                        }
+                    }
+                }
+            });
+
+            barcodeScanButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (mOnBarCodeScanClickListener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            mOnBarCodeScanClickListener.OnBarCodeScanClick(position);
                         }
                     }
                 }

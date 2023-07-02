@@ -47,9 +47,9 @@ import java.util.List;
 
 import static com.ALife.alife.R.layout.customer_shop_details_fragments;
 
-public class Customer_shop_details_fragment extends Fragment implements shop_customer_due_list_adapter.OnDueClickListener,Normal_sell_details_image_adapter.ImageClickListener {
+public class Customer_shop_details_fragment extends Fragment implements shop_customer_due_list_adapter.OnDueClickListener, Normal_sell_details_image_adapter.ImageClickListener {
     ImageView shopImage;
-    TextView shopName, shopLocation, contactTextview, totalDueText,total_due_title;
+    TextView shopName, shopLocation, contactTextview, totalDueText, total_due_title;
     String customer_id, shop_id, name, location, phone, image;
     RecyclerView dueListView;
     List<get_shop_customer_due_list_response> transactionList;
@@ -64,7 +64,8 @@ public class Customer_shop_details_fragment extends Fragment implements shop_cus
     ExtendedFloatingActionButton showProductsButton;
     NestedScrollView nestedScrollView;
     ProgressBar progressBar;
-    int page=1,limit=20,end=0;
+    int page = 1, limit = 20, end = 0;
+
     public Customer_shop_details_fragment(String customer_id, String shop_id, String name, String location, String phone, String image) {
         this.customer_id = customer_id;
         this.shop_id = shop_id;
@@ -84,11 +85,11 @@ public class Customer_shop_details_fragment extends Fragment implements shop_cus
 
     private void main() {
         checkConnection();
-        transactionList=new ArrayList<>();
-        page=1;
-        limit=20;
-        end=0;
-        getDuelist(page,limit);
+        transactionList = new ArrayList<>();
+        page = 1;
+        limit = 20;
+        end = 0;
+        getDuelist(page, limit);
         get_shop_customer_due_list = new ViewModelProvider(getActivity()).get(Get_shop_customer_due_list.class);
        /* get_shop_customer_due_list.getData(shop_id, customer_id,1,2).observe(getViewLifecycleOwner(), new Observer<List<get_shop_customer_due_list_response>>() {
             @Override
@@ -130,40 +131,35 @@ public class Customer_shop_details_fragment extends Fragment implements shop_cus
             }
         });
     }
-    public void getDuelist(int Page,int Limit)
-    {
+
+    public void getDuelist(int Page, int Limit) {
         get_shop_customer_due_list = new ViewModelProvider(getActivity()).get(Get_shop_customer_due_list.class);
         //push_notification = new ViewModelProvider(getActivity()).get(Push_notification.class);
-        get_shop_customer_due_list.getData(shop_id, customer_id,phone,Page,Limit).observe(getViewLifecycleOwner(), new Observer<List<get_shop_customer_due_list_response>>() {
+        get_shop_customer_due_list.getData(shop_id, customer_id, phone, Page, Limit).observe(getViewLifecycleOwner(), new Observer<List<get_shop_customer_due_list_response>>() {
             @Override
             public void onChanged(List<get_shop_customer_due_list_response> get_shop_customer_due_list_responses) {
                 progressBar.setVisibility(View.GONE);
 
-                if(get_shop_customer_due_list_responses.size()<Limit)
-                {
-                    end=1;
+                if (get_shop_customer_due_list_responses.size() < Limit) {
+                    end = 1;
                 }
-                if(Page==1)
-                {
+                if (Page == 1) {
                     convertList = new ArrayList<>();
-                    transactionList=new ArrayList<>();
+                    transactionList = new ArrayList<>();
                     adapter = new shop_customer_due_list_adapter(transactionList);
                     adapter.SetOnClickListener(Customer_shop_details_fragment.this::OnDueLick);
                     dueListView.setAdapter(adapter);
                     transactionList = get_shop_customer_due_list_responses;
                     convertList = new ArrayList<>();
-                    Double all_due=0.0;
-                    if(transactionList.size()>0)
-                    {
+                    Double all_due = 0.0;
+                    if (transactionList.size() > 0) {
                         all_due = Double.parseDouble(transactionList.get(0).getTotal_due());
                     }
-                    if(all_due>=0.0)
-                    {
+                    if (all_due >= 0.0) {
                         total_due_title.setText("মোট বাকিঃ");
                         totalDueText.setText(new DecimalFormat("##.##").format(all_due));
-                    }else if(all_due<0.0)
-                    {
-                        all_due=all_due*(-1);
+                    } else if (all_due < 0.0) {
+                        all_due = all_due * (-1);
                         total_due_title.setText("মোট জমাঃ");
                         totalDueText.setText(new DecimalFormat("##.##").format(all_due));
                     }
@@ -176,17 +172,14 @@ public class Customer_shop_details_fragment extends Fragment implements shop_cus
                     adapter = new shop_customer_due_list_adapter(transactionList);
                     adapter.SetOnClickListener(Customer_shop_details_fragment.this::OnDueLick);
                     dueListView.setAdapter(adapter);
-                }else
-                {
-                    for(int i=0;i<get_shop_customer_due_list_responses.size();i++)
-                    {
+                } else {
+                    for (int i = 0; i < get_shop_customer_due_list_responses.size(); i++) {
                         transactionList.add(get_shop_customer_due_list_responses.get(i));
                     }
                     adapter = new shop_customer_due_list_adapter(transactionList);
                     adapter.SetOnClickListener(Customer_shop_details_fragment.this::OnDueLick);
                     dueListView.setAdapter(adapter);
                 }
-
 
 
             }
@@ -206,9 +199,9 @@ public class Customer_shop_details_fragment extends Fragment implements shop_cus
         shopLocation = (TextView) view.findViewById(R.id.shopLocationID);
         contactTextview = (TextView) view.findViewById(R.id.contactID);
         totalDueText = (TextView) view.findViewById(R.id.totalDueID);
-        total_due_title=(TextView)view.findViewById(R.id.totalDueTilte);
-        nestedScrollView=(NestedScrollView)view.findViewById(R.id.nestedRecyclerViewID);
-        progressBar=(ProgressBar)view.findViewById(R.id.progressBarID);
+        total_due_title = (TextView) view.findViewById(R.id.totalDueTilte);
+        nestedScrollView = (NestedScrollView) view.findViewById(R.id.nestedRecyclerViewID);
+        progressBar = (ProgressBar) view.findViewById(R.id.progressBarID);
         dueListView = (RecyclerView) view.findViewById(R.id.dueViewID);
         dueListView.setHasFixedSize(true);
         dueListView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -312,7 +305,7 @@ public class Customer_shop_details_fragment extends Fragment implements shop_cus
                     alertCustom.dismiss();
                 }
             });
-        } else if(sell_type.equals("normally")){
+        } else if (sell_type.equals("normally")) {
             //Toast.makeText(getActivity(), sell_type, Toast.LENGTH_SHORT).show();
             Dialog alertCustom = new Dialog(getActivity());
             alertCustom.setContentView(R.layout.normal_sell_details_alert);
@@ -344,9 +337,7 @@ public class Customer_shop_details_fragment extends Fragment implements shop_cus
                     alertCustom.dismiss();
                 }
             });
-        }
-        else if(sell_type.equals("local"))
-        {
+        } else if (sell_type.equals("local")) {
             Dialog alertCustom = new Dialog(getActivity());
             alertCustom.setContentView(R.layout.normal_sell_details_alert);
             alertCustom.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -360,7 +351,7 @@ public class Customer_shop_details_fragment extends Fragment implements shop_cus
             multipleImages.setHasFixedSize(true);
             multipleImages.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
 
-            get_local_sell=new ViewModelProvider(getActivity()).get(Get_local_sell.class);
+            get_local_sell = new ViewModelProvider(getActivity()).get(Get_local_sell.class);
             get_local_sell.getDetails(sell_id).observe(getViewLifecycleOwner(), new Observer<get_local_sell_details_response>() {
                 @Override
                 public void onChanged(get_local_sell_details_response get_local_sell_details_response) {
@@ -383,7 +374,7 @@ public class Customer_shop_details_fragment extends Fragment implements shop_cus
 
     @Override
     public void ImageClick(int position) {
-        image item=imageList.get(position);
+        image item = imageList.get(position);
         String image = item.getImage();
 
         Dialog imageDialog = new Dialog(getActivity());
