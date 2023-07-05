@@ -416,7 +416,7 @@ public class Shop_all_products_fragment extends Fragment implements get_product_
         products_summary.getData_all(shop_id).observe(getViewLifecycleOwner(), new Observer<get_shop_products_summary_response>() {
             @Override
             public void onChanged(get_shop_products_summary_response get_shop_products_summary_response) {
-                all_product.setText(String.valueOf(get_shop_products_summary_response.getAll_product()));
+                all_product.setText(String.valueOf(new DecimalFormat("##").format(get_shop_products_summary_response.getAll_product())));
                 all_profit.setText(String.valueOf(new DecimalFormat("##.##").format(get_shop_products_summary_response.getAll_profit())));
                 all_selling_price.setText(String.valueOf(new DecimalFormat("##.##").format(get_shop_products_summary_response.getAll_sell_price())));
                 // all_stock.setText(String.valueOf(new DecimalFormat("##.##").format(get_shop_products_summary_response.getAll_stock())));

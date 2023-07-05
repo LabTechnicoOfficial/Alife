@@ -129,7 +129,7 @@ public class get_gridoff_product_adapter extends RecyclerView.Adapter<get_gridof
         // holder.buy_price.setText(productList.get(position).getBuy_price());
         holder.buy_price.setText(String.valueOf(new DecimalFormat("##.##").format(total_buy_price)));
         holder.sell_profit.setText(productList.get(position).getSell_profit() + "%");
-        holder.stock.setText(productList.get(position).getStock_amount());
+        holder.stock.setText(productList.get(position).getStock_amount() + " " + productList.get(position).getProduct_unit());
         double buy_price = Double.parseDouble(product.getBuy_price());
         double stock_amount = Double.parseDouble(productList.get(position).getStock_amount());
         double selling_price = Double.parseDouble(product.getSelling_price());

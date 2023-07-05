@@ -97,7 +97,6 @@
                     android:layout_height="wrap_content"
                     android:layout_columnWeight="1"
                     android:layout_marginBottom="5dp"
-
                     android:clickable="true"
                     android:foreground="?android:attr/selectableItemBackground"
                     android:gravity="center"
@@ -430,32 +429,32 @@
 
                 </LinearLayout>
 
-                <!--                <LinearLayout-->
-                <!--                    android:id="@+id/earnMoneyButtonID"-->
-                <!--                    android:layout_width="wrap_content"-->
-                <!--                    android:layout_height="wrap_content"-->
-                <!--                    android:layout_columnWeight="1"-->
-                <!--                    android:layout_marginBottom="5dp"-->
-                <!--                    android:gravity="center"-->
-                <!--                    android:orientation="vertical"-->
-                <!--                         android:padding="3dp"
-                                    android:foreground="?android:attr/selectableItemBackground"
-                                    android:clickable="true">-->
+                <LinearLayout
+                    android:id="@+id/printBarcodeButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_marginBottom="5dp"
+                    android:clickable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="3dp">
 
 
-                <!--                    <ImageView-->
-                <!--                        android:layout_width="45dp"-->
-                <!--                        android:layout_height="45dp"-->
-                <!--                        android:src="@drawable/earning_s_coins_48px" />-->
+                    <ImageView
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:src="@drawable/print_icon" />
 
-                <!--                    <TextView-->
-                <!--                        android:layout_width="wrap_content"-->
-                <!--                        android:layout_height="wrap_content"-->
-                <!--                        android:text="@string/earn_money"-->
-                <!--                        android:textAllCaps="false"-->
-                <!--                        android:textColor="@color/black" />-->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/print_barcode"
+                        android:textAllCaps="false"
+                        android:textColor="@color/black" />
 
-                <!--                </LinearLayout>-->
+                </LinearLayout>
 
             </GridLayout>
 

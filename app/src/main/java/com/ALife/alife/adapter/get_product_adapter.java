@@ -1,6 +1,7 @@
 package com.ALife.alife.adapter;
 
 import android.graphics.Paint;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -107,7 +108,13 @@ public class get_product_adapter extends RecyclerView.Adapter<get_product_adapte
         price = Double.parseDouble(productList.get(position).getSelling_price());
         offer = Double.parseDouble(productList.get(position).getProduct_offer());
 
-        holder.product_name.setText(productList.get(position).getProduct_name());
+
+        if (productList.get(position).getProduct_name().length() > 10) {
+            holder.product_name.setText(productList.get(position).getProduct_name().substring(0, 10) + "...");
+
+        } else {
+            holder.product_name.setText(productList.get(position).getProduct_name());
+        }
         if (!(holder.product_image.equals("xyz"))) {
             Picasso.get().load(product.getProduct_image()).into(holder.product_image);
         }
@@ -121,6 +128,8 @@ public class get_product_adapter extends RecyclerView.Adapter<get_product_adapte
             holder.product_price.setPaintFlags(holder.product_price.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         }
 
+        holder.stockAmount.setText(productList.get(position).getStock_amount() + " " + productList.get(position).getProduct_unit());
+
 
     }
 
@@ -131,7 +140,7 @@ public class get_product_adapter extends RecyclerView.Adapter<get_product_adapte
 
 
     public class AppViewholder extends RecyclerView.ViewHolder {
-        TextView product_name, product_price, product_unit, product_discount;
+        TextView product_name, product_price, stockAmount, product_discount;
         ImageView product_image;
         CheckBox check;
         LinearLayout discountLayout;
@@ -143,6 +152,7 @@ public class get_product_adapter extends RecyclerView.Adapter<get_product_adapte
             product_price = (TextView) itemView.findViewById(R.id.priceID);
             product_discount = (TextView) itemView.findViewById(R.id.discountID);
             discountLayout = (LinearLayout) itemView.findViewById(R.id.discountLayoutID);
+            stockAmount = itemView.findViewById(R.id.stockAmount);
 
             itemView.setOnClickListener(v -> {
                 if (mListener != null) {
