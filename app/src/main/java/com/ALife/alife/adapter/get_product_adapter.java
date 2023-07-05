@@ -129,7 +129,7 @@ public class get_product_adapter extends RecyclerView.Adapter<get_product_adapte
         }
 
         holder.stockAmount.setText(productList.get(position).getStock_amount() + " " + productList.get(position).getProduct_unit());
-
+        holder.totalPriceText.setText(new DecimalFormat("##.##").format(price* Double.parseDouble(productList.get(position).getStock_amount())));
 
     }
 
@@ -140,7 +140,7 @@ public class get_product_adapter extends RecyclerView.Adapter<get_product_adapte
 
 
     public class AppViewholder extends RecyclerView.ViewHolder {
-        TextView product_name, product_price, stockAmount, product_discount;
+        TextView product_name, product_price, stockAmount, product_discount, totalPriceText;
         ImageView product_image;
         CheckBox check;
         LinearLayout discountLayout;
@@ -153,6 +153,7 @@ public class get_product_adapter extends RecyclerView.Adapter<get_product_adapte
             product_discount = (TextView) itemView.findViewById(R.id.discountID);
             discountLayout = (LinearLayout) itemView.findViewById(R.id.discountLayoutID);
             stockAmount = itemView.findViewById(R.id.stockAmount);
+            totalPriceText = itemView.findViewById(R.id.totalPriceText);
 
             itemView.setOnClickListener(v -> {
                 if (mListener != null) {
