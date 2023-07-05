@@ -129,7 +129,7 @@ public class get_product_adapter extends RecyclerView.Adapter<get_product_adapte
         }
 
         holder.stockAmount.setText(productList.get(position).getStock_amount() + " " + productList.get(position).getProduct_unit());
-        holder.totalPriceText.setText(new DecimalFormat("##.##").format(price* Double.parseDouble(productList.get(position).getStock_amount())));
+        holder.totalPriceText.setText(new DecimalFormat("##.##").format(Double.parseDouble(productList.get(position).getBuy_price())* Double.parseDouble(productList.get(position).getStock_amount())));
 
     }
 
