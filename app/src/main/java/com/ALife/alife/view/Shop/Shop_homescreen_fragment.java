@@ -74,7 +74,7 @@ public class Shop_homescreen_fragment extends Fragment implements Instruction_ad
     LinearLayout sellProductButton, addProductButton, allProductButton;
     LinearLayout dueCustomerButton, businessAccountButton, localPageButton;
     LinearLayout sellHistoryButton, couponButton, localSellButton;
-    LinearLayout sendNotificationButton, barcodeScanButton;
+    LinearLayout sendNotificationButton, barcodeScanButton, printBarcodeButton;
     private String shop_id;
 
     FragmentManager fragmentManager;
@@ -143,58 +143,7 @@ public class Shop_homescreen_fragment extends Fragment implements Instruction_ad
         //instruction_func();
     }
 
-    private void instruction_func() {
 
-        userInstruction = new ViewModelProvider(getActivity()).get(User_instruction.class);
-        userInstruction.getInstruction("user").observe(getViewLifecycleOwner(), new Observer<List<user_instruction_response>>() {
-            @Override
-            public void onChanged(List<user_instruction_response> user_instruction_responses) {
-                int leng = user_instruction_responses.size();
-                instructionList = new ArrayList<>();
-
-                instructionList = user_instruction_responses;
-                instructionAdapter = new Instruction_adapter(instructionList);
-
-                if (leng > 0) {
-                    Dialog instructionAlert = new Dialog(getActivity());
-                    instructionAlert.setContentView(R.layout.user_instruction_alert);
-                    instructionAlert.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                    instructionAlert.setCancelable(true);
-                    instructionAlert.show();
-
-                    Window window = instructionAlert.getWindow();
-                    WindowManager.LayoutParams wlp = window.getAttributes();
-
-                    wlp.gravity = Gravity.BOTTOM;
-                    wlp.flags &= ~WindowManager.LayoutParams.FLAG_DIM_BEHIND;
-                    wlp.windowAnimations = R.style.DialogAnimation;
-                    //wlp.width = android.view.WindowManager.LayoutParams.MATCH_PARENT;
-                    // wlp.height = android.view.WindowManager.LayoutParams.WRAP_CONTENT;
-                    window.setAttributes(wlp);
-
-                    ImageView closeButton = instructionAlert.findViewById(R.id.closeID);
-                    closeButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            instructionAlert.dismiss();
-
-                        }
-                    });
-
-                    RecyclerView instructionView = (RecyclerView) instructionAlert.findViewById(R.id.instructionViewID);
-                    instructionView.setHasFixedSize(true);
-                    instructionView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-                    instructionAdapter.setOnClickListener(Shop_homescreen_fragment.this::OnItemClick);
-                    instructionView.setAdapter(instructionAdapter);
-                }
-            }
-        });
-    }
-
-    private void main() {
-
-
-    }
 
     @SuppressLint("MissingPermission")
     @Override
@@ -217,6 +166,7 @@ public class Shop_homescreen_fragment extends Fragment implements Instruction_ad
         localSellButton = (LinearLayout) view.findViewById(R.id.localSellButtonID);
         sendNotificationButton = (LinearLayout) view.findViewById(R.id.sendNotificationButtonID);
         barcodeScanButton = view.findViewById(R.id.barcodeScanButton);
+        printBarcodeButton = view.findViewById(R.id.printBarcodeButton);
 
         earningViewModel = new ViewModelProvider(this).get(EarningViewModel.class);
         getProductViewModel = new ViewModelProvider(this).get(Get_product.class);
@@ -546,7 +496,73 @@ public class Shop_homescreen_fragment extends Fragment implements Instruction_ad
             }
         });
 
+
+        printBarcodeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fragmentManager.beginTransaction().setCustomAnimations(
+                        R.anim.slide_in,  // enter
+                        R.anim.fade_out,  // exit
+                        R.anim.fade_in,   // popEnter
+                        R.anim.slide_out  // popExit
+                ).replace(R.id.frame_container, new ShopPrintBarcodeFragment()).addToBackStack(null).commit();
+            }
+        });
+
         return view;
+    }
+
+    private void instruction_func() {
+
+        userInstruction = new ViewModelProvider(getActivity()).get(User_instruction.class);
+        userInstruction.getInstruction("user").observe(getViewLifecycleOwner(), new Observer<List<user_instruction_response>>() {
+            @Override
+            public void onChanged(List<user_instruction_response> user_instruction_responses) {
+                int leng = user_instruction_responses.size();
+                instructionList = new ArrayList<>();
+
+                instructionList = user_instruction_responses;
+                instructionAdapter = new Instruction_adapter(instructionList);
+
+                if (leng > 0) {
+                    Dialog instructionAlert = new Dialog(getActivity());
+                    instructionAlert.setContentView(R.layout.user_instruction_alert);
+                    instructionAlert.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    instructionAlert.setCancelable(true);
+                    instructionAlert.show();
+
+                    Window window = instructionAlert.getWindow();
+                    WindowManager.LayoutParams wlp = window.getAttributes();
+
+                    wlp.gravity = Gravity.BOTTOM;
+                    wlp.flags &= ~WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+                    wlp.windowAnimations = R.style.DialogAnimation;
+                    //wlp.width = android.view.WindowManager.LayoutParams.MATCH_PARENT;
+                    // wlp.height = android.view.WindowManager.LayoutParams.WRAP_CONTENT;
+                    window.setAttributes(wlp);
+
+                    ImageView closeButton = instructionAlert.findViewById(R.id.closeID);
+                    closeButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            instructionAlert.dismiss();
+
+                        }
+                    });
+
+                    RecyclerView instructionView = (RecyclerView) instructionAlert.findViewById(R.id.instructionViewID);
+                    instructionView.setHasFixedSize(true);
+                    instructionView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+                    instructionAdapter.setOnClickListener(Shop_homescreen_fragment.this::OnItemClick);
+                    instructionView.setAdapter(instructionAdapter);
+                }
+            }
+        });
+    }
+
+    private void main() {
+
+
     }
 
     private void vieProductDetails(Fetch_product_detail_by_bar_code_response response) {
