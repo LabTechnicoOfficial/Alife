@@ -42,7 +42,7 @@ import com.ALife.alife.adapter.Operator.Operator_product_grid_adapter;
 import com.ALife.alife.adapter.get_product_offer_adapter;
 import com.ALife.alife.adapter.get_product_type_adapter;
 import com.ALife.alife.model.get_product_offer_response;
-import com.ALife.alife.model.get_product_response;
+import com.ALife.alife.model.Get_product_response;
 import com.ALife.alife.model.get_product_type_response;
 import com.ALife.alife.model.get_shop_products_summary_response;
 import com.ALife.alife.model.shop_profile_response;
@@ -78,9 +78,9 @@ public class Operator_all_products_fragment extends Fragment implements Operator
     TextView fragmentTitle;
 
     Get_operator_product get_all_product;
-    List<get_product_response> data = new ArrayList<>();
-    List<get_product_response> datagrid = new ArrayList<>();
-    List<get_product_response> datagridoff = new ArrayList<>();
+    List<Get_product_response> data = new ArrayList<>();
+    List<Get_product_response> datagrid = new ArrayList<>();
+    List<Get_product_response> datagridoff = new ArrayList<>();
     private GridLayoutManager layoutmanager;
     private static final int CAMERA_REQUEST = 1;
     int check = 0, vaoture_check = 0, final_check = 0, final_vaoture_check = 0;
@@ -145,9 +145,9 @@ public class Operator_all_products_fragment extends Fragment implements Operator
 
     public void get_product_by_search(String value, int position) {
         get_all_product = new ViewModelProvider(getActivity()).get(Get_operator_product.class);
-        get_all_product.getSearchData(agent_id).observe(getViewLifecycleOwner(), new Observer<List<get_product_response>>() {
+        get_all_product.getSearchData(agent_id).observe(getViewLifecycleOwner(), new Observer<List<Get_product_response>>() {
             @Override
-            public void onChanged(List<get_product_response> get_product_responses) {
+            public void onChanged(List<Get_product_response> get_product_responses) {
                 if (position == 1) {
                     data = new ArrayList<>();
                     adapter = new Operator_product_grid_adapter(data, allDiscountText.getText().toString().trim());
@@ -189,9 +189,9 @@ public class Operator_all_products_fragment extends Fragment implements Operator
     public void get_product1(int page, int limit) {
 
         get_all_product = new ViewModelProvider(getActivity()).get(Get_operator_product.class);
-        get_all_product.getData(agent_id, page, limit).observe(getViewLifecycleOwner(), new Observer<List<get_product_response>>() {
+        get_all_product.getData(agent_id, page, limit).observe(getViewLifecycleOwner(), new Observer<List<Get_product_response>>() {
             @Override
-            public void onChanged(List<get_product_response> get_product_responses) {
+            public void onChanged(List<Get_product_response> get_product_responses) {
                 progressBar.setVisibility(View.GONE);
 
                 for (int i = 0; i < get_product_responses.size(); i++) {
@@ -258,9 +258,9 @@ public class Operator_all_products_fragment extends Fragment implements Operator
 
     public void get_product2(int page, int limit) {
         get_all_product = new ViewModelProvider(getActivity()).get(Get_operator_product.class);
-        get_all_product.getData(agent_id, page, limit).observe(getViewLifecycleOwner(), new Observer<List<get_product_response>>() {
+        get_all_product.getData(agent_id, page, limit).observe(getViewLifecycleOwner(), new Observer<List<Get_product_response>>() {
             @Override
-            public void onChanged(List<get_product_response> get_product_responses) {
+            public void onChanged(List<Get_product_response> get_product_responses) {
                 progressBar.setVisibility(View.GONE);
                 if (page == 1) {
                     datagrid = new ArrayList<>();
@@ -430,7 +430,7 @@ public class Operator_all_products_fragment extends Fragment implements Operator
                 }
             }
         });
-        progressBar = (ProgressBar) view.findViewById(R.id.progressBarID);
+        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         nestedScrollView = (NestedScrollView) view.findViewById(R.id.nestedRecyclerViewID);
         gridNestedScrollView = (NestedScrollView) view.findViewById(R.id.gridNestedRecyclerViewID);
 
@@ -532,7 +532,7 @@ public class Operator_all_products_fragment extends Fragment implements Operator
 
     @Override
     public void OnItemClick(int position) {
-        get_product_response clickItem = data.get(position);
+        Get_product_response clickItem = data.get(position);
         String product_description = clickItem.getProduct_description();
         String vaoture_no = clickItem.getVaoture_no();
         String vaoture_image = clickItem.getVaoture_image();

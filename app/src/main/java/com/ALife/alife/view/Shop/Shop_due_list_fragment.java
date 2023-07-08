@@ -34,7 +34,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.ALife.alife.R;
 import com.ALife.alife.adapter.Normal_sell_details_image_adapter;
-import com.ALife.alife.adapter.Normal_sell_product_image_show_adapter;
 import com.ALife.alife.adapter.Shop_customer_allduelist_adapter;
 import com.ALife.alife.adapter.Systemetic_sell_details_adapter;
 import com.ALife.alife.model.get_shop_all_due_details_response;
@@ -47,8 +46,6 @@ import com.ALife.alife.viewmodel.Sell_details;
 import com.ALife.alife.viewmodel.Shop_customer;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-
-import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -277,7 +274,7 @@ public class Shop_due_list_fragment extends Fragment implements Shop_customer_al
         });
 
 
-        progressBar = (ProgressBar) view.findViewById(R.id.progressBarID);
+        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         nestedScrollView = (NestedScrollView) view.findViewById(R.id.nestedRecyclerViewID);
 
         nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {

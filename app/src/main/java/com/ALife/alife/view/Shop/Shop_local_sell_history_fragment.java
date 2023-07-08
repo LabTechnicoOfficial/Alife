@@ -33,20 +33,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ALife.alife.R;
-import com.ALife.alife.adapter.Normal_sell_details_image_adapter;
 import com.ALife.alife.adapter.Shop_local_sell_history_adapter;
 import com.ALife.alife.adapter.Shop_sell_history_main_adapter;
 import com.ALife.alife.adapter.local_sell_details_image_adapter;
-import com.ALife.alife.model.image;
-import com.ALife.alife.model.local_sell.get_local_sell_details_response;
 import com.ALife.alife.model.local_sell.local_sell_history_response;
 import com.ALife.alife.model.local_sell.local_sell_summary_response;
 import com.ALife.alife.model.shop_sell_history_list_response;
-import com.ALife.alife.model.shop_sell_history_summary_response;
 import com.ALife.alife.viewmodel.Local_sell.Get_local_sell;
 import com.ALife.alife.viewmodel.Shop_sell_history;
 import com.google.android.material.textfield.TextInputEditText;
-import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -629,7 +624,7 @@ public class Shop_local_sell_history_fragment extends Fragment implements Adapte
         myCalendar = Calendar.getInstance();
 
 
-        progressBar = (ProgressBar) view.findViewById(R.id.progressBarID);
+        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         nestedScrollView = (NestedScrollView) view.findViewById(R.id.nestedRecyclerViewID);
         nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override

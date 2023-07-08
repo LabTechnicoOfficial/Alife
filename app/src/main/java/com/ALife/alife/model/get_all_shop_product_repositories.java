@@ -18,7 +18,7 @@ public class get_all_shop_product_repositories {
     get_all_shop_product_by_search_api get_all_shop_product_by_search;
     private String shop_id;
     private int page, limit;
-    MutableLiveData<List<get_product_response>> data;
+    MutableLiveData<List<Get_product_response>> data;
     private static get_all_shop_product_repositories get_all_shop_product_repositories;
     protected void onSaveInstanceState(@NonNull Bundle outState)
     {
@@ -42,18 +42,18 @@ public class get_all_shop_product_repositories {
 
 
     public @NonNull
-    MutableLiveData<List<get_product_response>> getData(@NonNull String shop_id, @NonNull int page, @NonNull int limit) {
-        Call<List<get_product_response>> call = get_shop_all_product.get_allproduct(shop_id, page, limit);
-        call.enqueue(new Callback<List<get_product_response>>() {
+    MutableLiveData<List<Get_product_response>> getData(@NonNull String shop_id, @NonNull int page, @NonNull int limit) {
+        Call<List<Get_product_response>> call = get_shop_all_product.get_allproduct(shop_id, page, limit);
+        call.enqueue(new Callback<List<Get_product_response>>() {
             @Override
-            public void onResponse(Call<List<get_product_response>> call, Response<List<get_product_response>> response) {
+            public void onResponse(Call<List<Get_product_response>> call, Response<List<Get_product_response>> response) {
                 if (response.isSuccessful()) {
                     data.postValue(response.body());
                 }
             }
 
             @Override
-            public void onFailure(Call<List<get_product_response>> call, Throwable t) {
+            public void onFailure(Call<List<Get_product_response>> call, Throwable t) {
 
             }
         });
@@ -61,18 +61,18 @@ public class get_all_shop_product_repositories {
     }
 
     public @NonNull
-    MutableLiveData<List<get_product_response>> getSearchData(@NonNull String shop_id) {
-        Call<List<get_product_response>> call = get_all_shop_product_by_search.get_allproduct(shop_id);
-        call.enqueue(new Callback<List<get_product_response>>() {
+    MutableLiveData<List<Get_product_response>> getSearchData(@NonNull String shop_id) {
+        Call<List<Get_product_response>> call = get_all_shop_product_by_search.get_allproduct(shop_id);
+        call.enqueue(new Callback<List<Get_product_response>>() {
             @Override
-            public void onResponse(Call<List<get_product_response>> call, Response<List<get_product_response>> response) {
+            public void onResponse(Call<List<Get_product_response>> call, Response<List<Get_product_response>> response) {
                 if (response.isSuccessful()) {
                     data.postValue(response.body());
                 }
             }
 
             @Override
-            public void onFailure(Call<List<get_product_response>> call, Throwable t) {
+            public void onFailure(Call<List<Get_product_response>> call, Throwable t) {
 
             }
         });

@@ -16,10 +16,8 @@ import android.widget.ProgressBar;
 
 import com.ALife.alife.R;
 import com.ALife.alife.adapter.Shop_local_sell_select_customer_adapter;
-import com.ALife.alife.adapter.Shop_local_sell_select_product_adapter;
 import com.ALife.alife.model.local_sell.LocalSell_property;
 import com.ALife.alife.model.local_sell.customer_phone_response;
-import com.ALife.alife.model.local_sell.get_local_sell_product_response;
 import com.ALife.alife.viewmodel.Local_sell.Get_local_sell;
 
 import java.util.ArrayList;
@@ -61,7 +59,7 @@ public class Shop_local_sell_select_customer_phone_fragment extends Fragment imp
         page = 1;
         limit = 15;
 
-        progressBar = (ProgressBar) view.findViewById(R.id.progressBarID);
+        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         nestedScrollView = (NestedScrollView) view.findViewById(R.id.nestedRecyclerViewID);
         get_phone(page, limit);
         nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {

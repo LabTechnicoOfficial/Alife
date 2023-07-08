@@ -1,7 +1,6 @@
 package com.ALife.alife.model;
 
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
@@ -20,8 +19,8 @@ public class get_product_repositories {
     get_product_api get_product;
     get_category_product_by_search_api category_product_by_search;
     get_single_product_api get_single_product;
-    MutableLiveData<List<get_product_response>> data;
-    MutableLiveData<get_product_response> single_product;
+    MutableLiveData<List<Get_product_response>> data;
+    MutableLiveData<Get_product_response> single_product;
 
     MutableLiveData<Fetch_product_detail_by_bar_code_response> product_detail_by_bar_code;
     private static get_product_repositories get_product_repositories;
@@ -47,14 +46,14 @@ public class get_product_repositories {
     }
 
     public @NonNull
-    MutableLiveData<List<get_product_response>> getdata(@NonNull String id, @NonNull int page, @NonNull int limit) {
+    MutableLiveData<List<Get_product_response>> getdata(@NonNull String id, @NonNull int page, @NonNull int limit) {
         if (data == null) {
             data = new MutableLiveData<>();
         }
-        Call<List<get_product_response>> call = get_product.getproduct(id, page, limit);
-        call.enqueue(new Callback<List<get_product_response>>() {
+        Call<List<Get_product_response>> call = get_product.getproduct(id, page, limit);
+        call.enqueue(new Callback<List<Get_product_response>>() {
             @Override
-            public void onResponse(Call<List<get_product_response>> call, Response<List<get_product_response>> response) {
+            public void onResponse(Call<List<Get_product_response>> call, Response<List<Get_product_response>> response) {
 
                 if (response.isSuccessful()) {
                     data.postValue(response.body());
@@ -63,7 +62,7 @@ public class get_product_repositories {
             }
 
             @Override
-            public void onFailure(Call<List<get_product_response>> call, Throwable t) {
+            public void onFailure(Call<List<Get_product_response>> call, Throwable t) {
                 //Toast.makeText(Shop_details_repositories.this,"something error.Try again",Toast.LENGTH_SHORT).show();
 
                 // idMessage.setValue(t.getMessage());
@@ -76,18 +75,18 @@ public class get_product_repositories {
     }
 
     public @NonNull
-    MutableLiveData<List<get_product_response>> getCategoryProduct(@NonNull String id) {
-        Call<List<get_product_response>> call = category_product_by_search.getproduct(id);
-        call.enqueue(new Callback<List<get_product_response>>() {
+    MutableLiveData<List<Get_product_response>> getCategoryProduct(@NonNull String id) {
+        Call<List<Get_product_response>> call = category_product_by_search.getproduct(id);
+        call.enqueue(new Callback<List<Get_product_response>>() {
             @Override
-            public void onResponse(Call<List<get_product_response>> call, Response<List<get_product_response>> response) {
+            public void onResponse(Call<List<Get_product_response>> call, Response<List<Get_product_response>> response) {
                 if (response.isSuccessful()) {
                     data.postValue(response.body());
                 }
             }
 
             @Override
-            public void onFailure(Call<List<get_product_response>> call, Throwable t) {
+            public void onFailure(Call<List<Get_product_response>> call, Throwable t) {
 
             }
         });
@@ -95,12 +94,12 @@ public class get_product_repositories {
     }
 
     public @NonNull
-    MutableLiveData<get_product_response> getproduct(@NonNull String id) {
+    MutableLiveData<Get_product_response> getproduct(@NonNull String id) {
 
-        Call<get_product_response> call = get_single_product.getproduct(id);
-        call.enqueue(new Callback<get_product_response>() {
+        Call<Get_product_response> call = get_single_product.getproduct(id);
+        call.enqueue(new Callback<Get_product_response>() {
             @Override
-            public void onResponse(Call<get_product_response> call, Response<get_product_response> response) {
+            public void onResponse(Call<Get_product_response> call, Response<Get_product_response> response) {
 
                 if (response.isSuccessful()) {
                     single_product.postValue(response.body());
@@ -109,7 +108,7 @@ public class get_product_repositories {
             }
 
             @Override
-            public void onFailure(Call<get_product_response> call, Throwable t) {
+            public void onFailure(Call<Get_product_response> call, Throwable t) {
                 //Toast.makeText(Shop_details_repositories.this,"something error.Try again",Toast.LENGTH_SHORT).show();
 
                 // idMessage.setValue(t.getMessage());

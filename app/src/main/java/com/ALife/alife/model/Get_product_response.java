@@ -2,7 +2,7 @@ package com.ALife.alife.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class get_product_response {
+public class Get_product_response {
     @SerializedName("product_id")
     private String product_id;
     @SerializedName("product_name")

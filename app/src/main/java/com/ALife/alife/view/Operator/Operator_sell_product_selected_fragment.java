@@ -20,13 +20,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -40,18 +38,15 @@ import com.ALife.alife.R;
 import com.ALife.alife.adapter.Shop_sell_type_select_adapter;
 import com.ALife.alife.model.get_all_product_offer_response;
 import com.ALife.alife.model.get_product_offer_response;
-import com.ALife.alife.model.get_product_response;
+import com.ALife.alife.model.Get_product_response;
 import com.ALife.alife.model.get_product_type_response;
 import com.ALife.alife.model.shop_profile_response;
-import com.ALife.alife.view.Shop.Shop_sell_product_selected_fragment;
 import com.ALife.alife.viewmodel.Get_product;
 import com.ALife.alife.viewmodel.Get_product_offer;
 import com.ALife.alife.viewmodel.Get_product_type;
 import com.ALife.alife.viewmodel.Shop_profile;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-
-import org.w3c.dom.Text;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -342,9 +337,9 @@ public class Operator_sell_product_selected_fragment extends Fragment implements
 
     private void get_product() {
         get_product = new ViewModelProvider(getActivity()).get(Get_product.class);
-        get_product.getsingle_product(productID).observe(getViewLifecycleOwner(), new Observer<get_product_response>() {
+        get_product.getsingle_product(productID).observe(getViewLifecycleOwner(), new Observer<Get_product_response>() {
             @Override
-            public void onChanged(get_product_response get_product_response) {
+            public void onChanged(Get_product_response get_product_response) {
                 productNameText.setText(get_product_response.getProduct_name());
                 productImage = get_product_response.getProduct_image();
                 productUnitText.setText(get_product_response.getProduct_unit());

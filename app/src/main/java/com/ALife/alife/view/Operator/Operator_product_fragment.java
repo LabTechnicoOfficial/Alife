@@ -57,7 +57,7 @@ import com.ALife.alife.model.add_product_offer_response;
 import com.ALife.alife.model.add_product_response;
 import com.ALife.alife.model.add_product_type_response;
 import com.ALife.alife.model.get_product_offer_response;
-import com.ALife.alife.model.get_product_response;
+import com.ALife.alife.model.Get_product_response;
 import com.ALife.alife.model.get_product_type_response;
 import com.ALife.alife.model.get_shop_products_summary_response;
 import com.ALife.alife.model.shop_profile_response;
@@ -122,9 +122,9 @@ public class Operator_product_fragment<SharedViewModel> extends Fragment impleme
     Add_product add_product;
     Add_product_type add_product_type;
     Add_product_offer add_product_offer;
-    List<get_product_response> data = new ArrayList<>();
-    List<get_product_response> datagrid = new ArrayList<>();
-    List<get_product_response> datagridoff = new ArrayList<>();
+    List<Get_product_response> data = new ArrayList<>();
+    List<Get_product_response> datagrid = new ArrayList<>();
+    List<Get_product_response> datagridoff = new ArrayList<>();
     private int total_count = 0, cross_check = 0;
     private GridLayoutManager layoutmanager;
     private static final int REQUEST_CAMERA = 1;
@@ -202,9 +202,9 @@ public class Operator_product_fragment<SharedViewModel> extends Fragment impleme
 
     public void get_product_by_search(String value, int position) {
         get_product = new ViewModelProvider(getActivity()).get(Get_product.class);
-        get_product.getCategoryProduct(id2).observe(getViewLifecycleOwner(), new Observer<List<get_product_response>>() {
+        get_product.getCategoryProduct(id2).observe(getViewLifecycleOwner(), new Observer<List<Get_product_response>>() {
             @Override
-            public void onChanged(List<get_product_response> get_product_responses) {
+            public void onChanged(List<Get_product_response> get_product_responses) {
                 if (position == 1) {
                     data = new ArrayList<>();
                     adapter = new Operator_product_grid_adapter(data, allDiscountText.getText().toString().trim());
@@ -246,9 +246,9 @@ public class Operator_product_fragment<SharedViewModel> extends Fragment impleme
     public void get_product1(int page, int limit) {
 
         get_product = new ViewModelProvider(getActivity()).get(Get_product.class);
-        get_product.getdata(id2, page, limit).observe(getViewLifecycleOwner(), new Observer<List<get_product_response>>() {
+        get_product.getdata(id2, page, limit).observe(getViewLifecycleOwner(), new Observer<List<Get_product_response>>() {
             @Override
-            public void onChanged(List<get_product_response> get_product_responses) {
+            public void onChanged(List<Get_product_response> get_product_responses) {
                 progressBar.setVisibility(View.GONE);
                 for (int i = 0; i < get_product_responses.size(); i++) {
                     datagridoff.add(get_product_responses.get(i));
@@ -315,9 +315,9 @@ public class Operator_product_fragment<SharedViewModel> extends Fragment impleme
 
     public void get_product2(int page, int limit) {
         get_product = new ViewModelProvider(getActivity()).get(Get_product.class);
-        get_product.getdata(id2, 1, 5).observe(getViewLifecycleOwner(), new Observer<List<get_product_response>>() {
+        get_product.getdata(id2, 1, 5).observe(getViewLifecycleOwner(), new Observer<List<Get_product_response>>() {
             @Override
-            public void onChanged(List<get_product_response> get_product_responses) {
+            public void onChanged(List<Get_product_response> get_product_responses) {
                 if (page == 1) {
                     datagrid = new ArrayList<>();
                     grid_adapter = new Operator_product_gridOff_adapter(datagrid, allDiscountText.getText().toString().trim());
@@ -1620,7 +1620,7 @@ public class Operator_product_fragment<SharedViewModel> extends Fragment impleme
             }
         });
 
-        progressBar = (ProgressBar) view.findViewById(R.id.progressBarID);
+        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         nestedScrollView = (NestedScrollView) view.findViewById(R.id.nestedRecyclerViewID);
         gridNestedScrollView = (NestedScrollView) view.findViewById(R.id.gridNestedRecyclerViewID);
 
@@ -1783,7 +1783,7 @@ public class Operator_product_fragment<SharedViewModel> extends Fragment impleme
 
     @Override
     public void OnItemClick(int position) {
-        get_product_response clickItem = data.get(position);
+        Get_product_response clickItem = data.get(position);
         String product_description = clickItem.getProduct_description();
         String vaoture_no = clickItem.getVaoture_no();
         String vaoture_image = clickItem.getVaoture_image();

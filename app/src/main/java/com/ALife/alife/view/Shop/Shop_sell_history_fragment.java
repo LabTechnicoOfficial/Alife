@@ -495,7 +495,7 @@ public class Shop_sell_history_fragment extends Fragment implements AdapterView.
         myCalendar = Calendar.getInstance();
 
 
-        progressBar = (ProgressBar) view.findViewById(R.id.progressBarID);
+        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         nestedScrollView = (NestedScrollView) view.findViewById(R.id.nestedRecyclerViewID);
 
         nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {

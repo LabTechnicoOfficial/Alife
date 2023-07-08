@@ -241,7 +241,7 @@ public class Customer_due_list_fragment extends Fragment implements Customer_sho
         optionSpinner.setAdapter(optionAdapter);
         optionSpinner.setOnItemSelectedListener(this);
 
-        progressBar = (ProgressBar) view.findViewById(R.id.progressBarID);
+        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         nestedScrollView = (NestedScrollView) view.findViewById(R.id.nestedRecyclerViewID);
 
         nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {

@@ -55,7 +55,7 @@ import com.ALife.alife.model.delete_type_count_response;
 import com.ALife.alife.model.edit_type_count_response;
 import com.ALife.alife.model.get_product_multiple_image_response;
 import com.ALife.alife.model.get_product_offer_response;
-import com.ALife.alife.model.get_product_response;
+import com.ALife.alife.model.Get_product_response;
 import com.ALife.alife.model.get_product_type_response;
 import com.ALife.alife.model.product_offer_edit_delete_response;
 import com.ALife.alife.model.update_product_response;
@@ -149,9 +149,9 @@ public class Product_details_fragment<SharedViewModel> extends Fragment implemen
 
         Get_product get_product;
         get_product = new ViewModelProvider(getActivity()).get(Get_product.class);
-        get_product.getsingle_product(product_id).observe(getViewLifecycleOwner(), new Observer<get_product_response>() {
+        get_product.getsingle_product(product_id).observe(getViewLifecycleOwner(), new Observer<Get_product_response>() {
             @Override
-            public void onChanged(get_product_response get_product_response) {
+            public void onChanged(Get_product_response get_product_response) {
                 productname = get_product_response.getProduct_name();
                 //Toast.makeText(getActivity(), productname, Toast.LENGTH_SHORT).show();
                 buyprice = get_product_response.getBuy_price();

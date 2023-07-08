@@ -26,13 +26,11 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ALife.alife.Custom_Type.ProductSell;
 import com.ALife.alife.R;
 import com.ALife.alife.adapter.Sell_category_adapter;
 import com.ALife.alife.model.Category_response;
-import com.ALife.alife.view.Product_details_fragment;
 import com.ALife.alife.viewmodel.Category_fetch;
 
 import java.util.ArrayList;
@@ -221,7 +219,7 @@ public class Shop_sell_categories_fragment extends Fragment implements Sell_cate
         fragmentManager = getFragmentManager();
 
 
-        progressBar = (ProgressBar) view.findViewById(R.id.progressBarID);
+        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         nestedScrollView = (NestedScrollView) view.findViewById(R.id.nestedRecyclerViewID);
         data=new ArrayList<>();
         page=1;

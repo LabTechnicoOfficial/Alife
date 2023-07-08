@@ -1,14 +1,5 @@
 package com.ALife.alife.model.local_sell;
 
-import android.graphics.Bitmap;
-
-import com.ALife.alife.model.add_normal_product_image_response;
-import com.ALife.alife.model.add_normal_sell_response;
-import com.ALife.alife.model.get_product_response;
-import com.ALife.alife.model.normal_sell_details_response;
-import com.ALife.alife.model.shop_sell_history_list_response;
-import com.ALife.alife.model.shop_sell_history_summary_response;
-
 import java.util.List;
 
 import retrofit2.Call;

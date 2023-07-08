@@ -32,7 +32,6 @@ import com.ALife.alife.Custom_Type.ProductSell;
 import com.ALife.alife.R;
 import com.ALife.alife.adapter.Sell_category_adapter;
 import com.ALife.alife.model.Category_response;
-import com.ALife.alife.view.Shop.Shop_sell_categories_fragment;
 import com.ALife.alife.viewmodel.Fetch_shop_admin_category;
 
 import java.util.ArrayList;
@@ -221,7 +220,7 @@ public class Operator_sell_category_fragment extends Fragment implements Sell_ca
         categoriesView.setLayoutManager(layoutManager);
         fragmentManager = getFragmentManager();
 
-        progressBar = (ProgressBar) view.findViewById(R.id.progressBarID);
+        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         NestedScrollView nestedScrollView = (NestedScrollView) view.findViewById(R.id.nestedRecyclerViewID);
 
         nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {

@@ -25,7 +25,7 @@ import android.widget.Toast;
 import com.ALife.alife.Custom_Type.ProductSell;
 import com.ALife.alife.R;
 import com.ALife.alife.adapter.Selected_sell_product_list_adapter;
-import com.ALife.alife.model.get_product_response;
+import com.ALife.alife.model.Get_product_response;
 import com.ALife.alife.model.get_product_type_response;
 import com.ALife.alife.viewmodel.Get_product;
 import com.ALife.alife.viewmodel.Get_product_type;
@@ -95,9 +95,9 @@ public class Shop_sell_checkout_fragment extends Fragment implements Selected_se
     public void get_product_stock(String productId, ProductSell product, Double amount) {
         stock = 0.0;
         get_product = new ViewModelProvider(getActivity()).get(Get_product.class);
-        get_product.getsingle_product(productId).observe(getViewLifecycleOwner(), new Observer<get_product_response>() {
+        get_product.getsingle_product(productId).observe(getViewLifecycleOwner(), new Observer<Get_product_response>() {
             @Override
-            public void onChanged(get_product_response get_product_response) {
+            public void onChanged(Get_product_response get_product_response) {
                 stock = Double.parseDouble(get_product_response.getStock_amount());
                 if (stock <= amount) {
                     Toast.makeText(getActivity(), "amount overflow", Toast.LENGTH_SHORT).show();

@@ -9,14 +9,13 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ALife.alife.R;
 import com.ALife.alife.Utils.Helpers;
-import com.ALife.alife.model.get_product_response;
+import com.ALife.alife.model.Get_product_response;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -24,8 +23,8 @@ import java.util.Collection;
 import java.util.List;
 
 public class get_gridoff_product_adapter extends RecyclerView.Adapter<get_gridoff_product_adapter.AppViewholder> implements Filterable {
-    List<get_product_response> productList;
-    List<get_product_response> productListAll;
+    List<Get_product_response> productList;
+    List<Get_product_response> productListAll;
     private String all_product_discount;
     private LayoutInflater layoutInflater;
     private OnItemClickListener mListener;
@@ -37,7 +36,7 @@ public class get_gridoff_product_adapter extends RecyclerView.Adapter<get_gridof
     private TextView showHideButton, typeOpen, offerOpen, sellButton;
 
 
-    public get_gridoff_product_adapter(List<get_product_response> productList, String all_product_discount) {
+    public get_gridoff_product_adapter(List<Get_product_response> productList, String all_product_discount) {
         this.productList = productList;
         this.productListAll = new ArrayList<>();
         this.productListAll = productList;
@@ -53,11 +52,11 @@ public class get_gridoff_product_adapter extends RecyclerView.Adapter<get_gridof
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
 
-            List<get_product_response> filterList = new ArrayList<>();
+            List<Get_product_response> filterList = new ArrayList<>();
             if (constraint.toString().isEmpty()) {
                 filterList.addAll(productListAll);
             } else {
-                for (get_product_response product_response : productListAll) {
+                for (Get_product_response product_response : productListAll) {
                     if ((product_response.getProduct_name().toLowerCase().contains(constraint.toString().toLowerCase())) || (product_response.getBrand().toLowerCase().contains(constraint.toString().toLowerCase()))) {
                         filterList.add(product_response);
                     }
@@ -71,7 +70,7 @@ public class get_gridoff_product_adapter extends RecyclerView.Adapter<get_gridof
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             productList.clear();
-            productList.addAll((Collection<? extends get_product_response>) results.values);
+            productList.addAll((Collection<? extends Get_product_response>) results.values);
             notifyDataSetChanged();
         }
     };
@@ -120,7 +119,7 @@ public class get_gridoff_product_adapter extends RecyclerView.Adapter<get_gridof
 
     @Override
     public void onBindViewHolder(@NonNull AppViewholder holder, int position) {
-        get_product_response product = productList.get(position);
+        Get_product_response product = productList.get(position);
         // holder.category.setText(category.getCatagory01y_name());
         holder.id.setText(productList.get(position).getProduct_id());
         holder.name.setText(productList.get(position).getProduct_name());

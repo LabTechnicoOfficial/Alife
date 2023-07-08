@@ -365,7 +365,7 @@ public class Shop_due_customer_fragment extends Fragment implements Shop_due_cus
         addCustomerAlert.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         addCustomerAlert.setCancelable(false);
 
-        progressBar = (ProgressBar) view.findViewById(R.id.progressBarID);
+        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         nestedScrollView = (NestedScrollView) view.findViewById(R.id.nestedRecyclerViewID);
 
 

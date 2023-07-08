@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.core.widget.NestedScrollView;
@@ -17,12 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.ALife.alife.R;
 import com.ALife.alife.adapter.Customer_coupon_adapter;
-import com.ALife.alife.adapter.Shop_coupon_adapter;
 import com.ALife.alife.model.cupon.cupon_response;
 import com.ALife.alife.model.cupon.customerFor_cupon_response;
-import com.ALife.alife.view.Shop.Shop_coupon_fragment;
-import com.ALife.alife.view.Shop.Shop_coupon_packages_details_fragment;
-import com.ALife.alife.view.Shop.Shop_coupon_packages_fragment;
 import com.ALife.alife.viewmodel.cuponViewmodel.CouponViewModel;
 import com.ALife.alife.viewmodel.cuponViewmodel.CustomerFor_cupon;
 
@@ -83,7 +78,7 @@ public class Customer_coupon_shop_coupon_list_fragment extends Fragment implemen
         couponView.setHasFixedSize(true);
         couponView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        progressBar = (ProgressBar) view.findViewById(R.id.progressBarID);
+        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         nestedScrollView = (NestedScrollView) view.findViewById(R.id.nestedRecyclerViewID);
 
         nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {

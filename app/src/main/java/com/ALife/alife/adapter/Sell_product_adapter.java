@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ALife.alife.R;
-import com.ALife.alife.model.get_product_response;
+import com.ALife.alife.model.Get_product_response;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
 
@@ -19,10 +19,10 @@ import java.util.Collection;
 import java.util.List;
 
 public class Sell_product_adapter extends RecyclerView.Adapter<Sell_product_adapter.AppViewholder> {
-    List<get_product_response> productList;
-    List<get_product_response> productListAll;
+    List<Get_product_response> productList;
+    List<Get_product_response> productListAll;
 
-    public Sell_product_adapter(List<get_product_response> productList) {
+    public Sell_product_adapter(List<Get_product_response> productList) {
         this.productList = productList;
         this.productListAll = new ArrayList<>();
         this.productListAll = productList;
@@ -41,7 +41,7 @@ public class Sell_product_adapter extends RecyclerView.Adapter<Sell_product_adap
 
     @Override
     public void onBindViewHolder(@NonNull AppViewholder holder, int position) {
-        get_product_response product = productList.get(position);
+        Get_product_response product = productList.get(position);
         Picasso.get().load(product.getProduct_image()).into(holder.productImage);
         holder.productName.setText(product.getProduct_name());
         holder.stockAmount.setText(product.getStock_amount());
@@ -61,11 +61,11 @@ public class Sell_product_adapter extends RecyclerView.Adapter<Sell_product_adap
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
 
-            List<get_product_response> filterList = new ArrayList<>();
+            List<Get_product_response> filterList = new ArrayList<>();
             if (constraint.toString().isEmpty()) {
                 filterList.addAll(productListAll);
             } else {
-                for (get_product_response product_response : productListAll) {
+                for (Get_product_response product_response : productListAll) {
                     String brand_code=product_response.getBrand()+product_response.getCode();
                     if ((product_response.getProduct_name().toLowerCase().contains(constraint.toString().toLowerCase())) || (product_response.getBrand().toLowerCase().contains(constraint.toString().toLowerCase()))) {
                         filterList.add(product_response);
@@ -83,7 +83,7 @@ public class Sell_product_adapter extends RecyclerView.Adapter<Sell_product_adap
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             productList.clear();
-            productList.addAll((Collection<? extends get_product_response>) results.values);
+            productList.addAll((Collection<? extends Get_product_response>) results.values);
             notifyDataSetChanged();
         }
     };

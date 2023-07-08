@@ -215,7 +215,7 @@ public class Customer_due_shop_fragment extends Fragment implements Customer_due
         dueShopView.setLayoutManager(new LinearLayoutManager(getContext()));
 
 
-        progressBar = (ProgressBar) view.findViewById(R.id.progressBarID);
+        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         nestedScrollView = (NestedScrollView) view.findViewById(R.id.nestedRecyclerViewID);
 
         nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {

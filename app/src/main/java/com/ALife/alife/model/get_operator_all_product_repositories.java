@@ -18,7 +18,7 @@ public class get_operator_all_product_repositories {
     private int page, limit;
     private get_operator_all_product_api get_operator_product;
     private get_operator_all_product_by_search_api get_operator_all_product_by_search;
-    private MutableLiveData<List<get_product_response>> data;
+    private MutableLiveData<List<Get_product_response>> data;
     private static get_operator_all_product_repositories get_operator_all_product_repositories;
     protected void onSaveInstanceState(@NonNull Bundle outState)
     {
@@ -43,18 +43,18 @@ public class get_operator_all_product_repositories {
 
 
     public @NonNull
-    MutableLiveData<List<get_product_response>> getData(@NonNull String agent_id, @NonNull int page, @NonNull int limit) {
-        Call<List<get_product_response>> call = get_operator_product.getproduct(agent_id, page, limit);
-        call.enqueue(new Callback<List<get_product_response>>() {
+    MutableLiveData<List<Get_product_response>> getData(@NonNull String agent_id, @NonNull int page, @NonNull int limit) {
+        Call<List<Get_product_response>> call = get_operator_product.getproduct(agent_id, page, limit);
+        call.enqueue(new Callback<List<Get_product_response>>() {
             @Override
-            public void onResponse(Call<List<get_product_response>> call, Response<List<get_product_response>> response) {
+            public void onResponse(Call<List<Get_product_response>> call, Response<List<Get_product_response>> response) {
                 if (response.isSuccessful()) {
                     data.postValue(response.body());
                 }
             }
 
             @Override
-            public void onFailure(Call<List<get_product_response>> call, Throwable t) {
+            public void onFailure(Call<List<Get_product_response>> call, Throwable t) {
 
             }
         });
@@ -62,18 +62,18 @@ public class get_operator_all_product_repositories {
     }
 
     public @NonNull
-    MutableLiveData<List<get_product_response>> getSearchData(@NonNull String agent_id) {
-        Call<List<get_product_response>> call = get_operator_all_product_by_search.getproduct(agent_id);
-        call.enqueue(new Callback<List<get_product_response>>() {
+    MutableLiveData<List<Get_product_response>> getSearchData(@NonNull String agent_id) {
+        Call<List<Get_product_response>> call = get_operator_all_product_by_search.getproduct(agent_id);
+        call.enqueue(new Callback<List<Get_product_response>>() {
             @Override
-            public void onResponse(Call<List<get_product_response>> call, Response<List<get_product_response>> response) {
+            public void onResponse(Call<List<Get_product_response>> call, Response<List<Get_product_response>> response) {
                 if (response.isSuccessful()) {
                     data.postValue(response.body());
                 }
             }
 
             @Override
-            public void onFailure(Call<List<get_product_response>> call, Throwable t) {
+            public void onFailure(Call<List<Get_product_response>> call, Throwable t) {
 
             }
         });

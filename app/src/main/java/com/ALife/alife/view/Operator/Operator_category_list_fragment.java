@@ -167,7 +167,7 @@ public class Operator_category_list_fragment extends Fragment implements Shop_ca
         total_profit = (TextView) view.findViewById(R.id.totalProfitID);
         total_items = (TextView) view.findViewById(R.id.totalItemsID);
 
-        progressBar = (ProgressBar) view.findViewById(R.id.progressBarID);
+        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         NestedScrollView nestedScrollView = (NestedScrollView) view.findViewById(R.id.nestedRecyclerViewID);
 
         nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {

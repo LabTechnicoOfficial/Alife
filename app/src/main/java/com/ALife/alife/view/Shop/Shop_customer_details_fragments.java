@@ -323,7 +323,7 @@ public class Shop_customer_details_fragments extends Fragment implements shop_cu
         dueListView = (RecyclerView) view.findViewById(R.id.dueViewID);
         multipleImageView = (RecyclerView) view.findViewById(R.id.multipleImageViewID);
         nestedScrollView = (NestedScrollView) view.findViewById(R.id.nestedRecyclerViewID);
-        progressBar = (ProgressBar) view.findViewById(R.id.progressBarID);
+        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
 
         sellButton = (AppCompatButton) view.findViewById(R.id.customSellButtonID);
 

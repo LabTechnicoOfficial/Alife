@@ -221,7 +221,7 @@ public class Shop_coupon_packages_fragment extends Fragment implements Shop_coup
         packagesView.setHasFixedSize(true);
         packagesView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        progressBar = (ProgressBar) view.findViewById(R.id.progressBarID);
+        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         nestedScrollView = (NestedScrollView) view.findViewById(R.id.nestedRecyclerViewID);
 
         nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {

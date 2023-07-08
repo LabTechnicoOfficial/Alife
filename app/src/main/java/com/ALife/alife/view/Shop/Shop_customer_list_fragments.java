@@ -483,7 +483,7 @@ public class Shop_customer_list_fragments extends Fragment implements get_shop_c
         });
 
 
-        progressBar = (ProgressBar) view.findViewById(R.id.progressBarID);
+        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         progressBar2 = (ProgressBar) view.findViewById(R.id.progressBar2ID);
         showDetailsProgressBar = (ProgressBar) view.findViewById(R.id.showDetailsProgressBarID);
 

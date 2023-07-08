@@ -5,23 +5,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ALife.alife.R;
 import com.ALife.alife.adapter.Customer_coupon_package_customer_list_adapter;
 import com.ALife.alife.model.cupon.customerFor_cupon_response;
-import com.ALife.alife.model.customer_profile_response;
-import com.ALife.alife.viewmodel.Customer_profile;
-import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -62,7 +55,7 @@ public class Customer_coupon_package_customerList_fragment extends Fragment {
         customersView.setHasFixedSize(true);
         customersView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        progressBar = (ProgressBar) view.findViewById(R.id.progressBarID);
+        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         nestedScrollView = (NestedScrollView) view.findViewById(R.id.nestedRecyclerViewID);
 
         nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {

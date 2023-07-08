@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ALife.alife.R;
-import com.ALife.alife.model.get_product_response;
+import com.ALife.alife.model.Get_product_response;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -20,8 +20,8 @@ import java.util.Collection;
 import java.util.List;
 
 public class Operator_product_gridOff_adapter extends RecyclerView.Adapter<Operator_product_gridOff_adapter.AppViewholder> implements Filterable {
-    List<get_product_response> productList;
-    List<get_product_response> productListAll;
+    List<Get_product_response> productList;
+    List<Get_product_response> productListAll;
     private String all_product_discount;
     private LayoutInflater layoutInflater;
     private OnItemClickListener mListener;
@@ -29,7 +29,7 @@ public class Operator_product_gridOff_adapter extends RecyclerView.Adapter<Opera
     private OnItemOfferListener mListener6;
 
 
-    public Operator_product_gridOff_adapter(List<get_product_response> productList,String all_product_discount) {
+    public Operator_product_gridOff_adapter(List<Get_product_response> productList, String all_product_discount) {
         this.productList = productList;
         this.productListAll = new ArrayList<>();
         this.productListAll = productList;
@@ -45,11 +45,11 @@ public class Operator_product_gridOff_adapter extends RecyclerView.Adapter<Opera
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
 
-            List<get_product_response> filterList = new ArrayList<>();
+            List<Get_product_response> filterList = new ArrayList<>();
             if (constraint.toString().isEmpty()) {
                 filterList.addAll(productListAll);
             } else {
-                for (get_product_response product_response : productListAll) {
+                for (Get_product_response product_response : productListAll) {
                     if ((product_response.getProduct_name().toLowerCase().contains(constraint.toString().toLowerCase())) || (product_response.getBrand().toLowerCase().contains(constraint.toString().toLowerCase()))) {
                         filterList.add(product_response);
                     }
@@ -63,7 +63,7 @@ public class Operator_product_gridOff_adapter extends RecyclerView.Adapter<Opera
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             productList.clear();
-            productList.addAll((Collection<? extends get_product_response>) results.values);
+            productList.addAll((Collection<? extends Get_product_response>) results.values);
             notifyDataSetChanged();
         }
     };
@@ -78,7 +78,7 @@ public class Operator_product_gridOff_adapter extends RecyclerView.Adapter<Opera
 
     @Override
     public void onBindViewHolder(@NonNull AppViewholder holder, int position) {
-        get_product_response product = productList.get(position);
+        Get_product_response product = productList.get(position);
         // holder.category.setText(category.getCatagory01y_name());
         holder.id.setText(productList.get(position).getProduct_id());
         holder.name.setText(productList.get(position).getProduct_name());

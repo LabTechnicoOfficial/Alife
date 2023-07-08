@@ -12,15 +12,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ALife.alife.R;
-import com.ALife.alife.model.get_product_response;
+import com.ALife.alife.model.Get_product_response;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class Customer_product_adapter extends RecyclerView.Adapter<Customer_product_adapter.AppViewholder>{
-    List<get_product_response> productList;
+    List<Get_product_response> productList;
 
-    public Customer_product_adapter(List<get_product_response> productList) {
+    public Customer_product_adapter(List<Get_product_response> productList) {
         this.productList = productList;
     }
 
@@ -34,7 +34,7 @@ public class Customer_product_adapter extends RecyclerView.Adapter<Customer_prod
 
     @Override
     public void onBindViewHolder(@NonNull Customer_product_adapter.AppViewholder holder, int position) {
-        get_product_response response = productList.get(position);
+        Get_product_response response = productList.get(position);
 
         Picasso.get().load(response.getProduct_image()).into(holder.productImage);
         holder.productLabel.setText(response.getProduct_name());

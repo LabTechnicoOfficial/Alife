@@ -120,7 +120,7 @@
                 android:scrollbars="vertical" />
 
             <ProgressBar
-                android:id="@+id/progressBarID"
+                android:id="@+id/progressBar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:theme="@style/ProgressBarStyle"

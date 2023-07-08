@@ -31,7 +31,6 @@ import com.ALife.alife.model.cupon.cupon_response;
 import com.ALife.alife.model.cupon.customerFor_cupon_response;
 import com.ALife.alife.model.cupon.edit_delete_response;
 import com.ALife.alife.model.cupon.notify_response;
-import com.ALife.alife.viewmodel.cuponViewmodel.CouponPackageViewModel;
 import com.ALife.alife.viewmodel.cuponViewmodel.CouponViewModel;
 import com.ALife.alife.viewmodel.cuponViewmodel.CustomerFor_cupon;
 import com.ALife.alife.viewmodel.cuponViewmodel.Edit_delete_cupon_package;
@@ -190,7 +189,7 @@ public class Shop_coupon_fragment extends Fragment implements Shop_coupon_adapte
         couponView.setHasFixedSize(true);
         couponView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        progressBar = (ProgressBar) view.findViewById(R.id.progressBarID);
+        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         nestedScrollView = (NestedScrollView) view.findViewById(R.id.nestedRecyclerViewID);
 
         nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {

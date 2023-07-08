@@ -15,7 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ALife.alife.R;
-import com.ALife.alife.model.get_product_response;
+import com.ALife.alife.model.Get_product_response;
 import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
@@ -24,14 +24,14 @@ import java.util.Collection;
 import java.util.List;
 
 public class Operator_product_grid_adapter extends RecyclerView.Adapter<Operator_product_grid_adapter.AppViewholder> implements Filterable {
-    List<get_product_response> productList;
-    List<get_product_response> productListAll;
+    List<Get_product_response> productList;
+    List<Get_product_response> productListAll;
     private String all_product_discount;
     private LayoutInflater layoutInflater;
     private OnItemClickListener mListener;
     private double discount, price, offer;
 
-    public Operator_product_grid_adapter(List<get_product_response> productList, String all_product_discount) {
+    public Operator_product_grid_adapter(List<Get_product_response> productList, String all_product_discount) {
         this.productList = productList;
         this.productListAll = new ArrayList<>();
         this.productListAll = productList;
@@ -58,7 +58,7 @@ public class Operator_product_grid_adapter extends RecyclerView.Adapter<Operator
 
     @Override
     public void onBindViewHolder(@NonNull AppViewholder holder, int position) {
-        get_product_response product = productList.get(position);
+        Get_product_response product = productList.get(position);
         double selling_price=Double.parseDouble(product.getSelling_price());
         double discount=Double.parseDouble(product.getProduct_offer());
     if(Double.parseDouble(all_product_discount)>discount)
@@ -99,11 +99,11 @@ public class Operator_product_grid_adapter extends RecyclerView.Adapter<Operator
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
 
-            List<get_product_response> filterList = new ArrayList<>();
+            List<Get_product_response> filterList = new ArrayList<>();
             if (constraint.toString().isEmpty()) {
                 filterList.addAll(productListAll);
             } else {
-                for (get_product_response product_response : productListAll) {
+                for (Get_product_response product_response : productListAll) {
                     if ((product_response.getProduct_name().toLowerCase().contains(constraint.toString().toLowerCase())) || (product_response.getBrand().toLowerCase().contains(constraint.toString().toLowerCase()))) {
                         filterList.add(product_response);
                     }
@@ -117,7 +117,7 @@ public class Operator_product_grid_adapter extends RecyclerView.Adapter<Operator
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             productList.clear();
-            productList.addAll((Collection<? extends get_product_response>) results.values);
+            productList.addAll((Collection<? extends Get_product_response>) results.values);
             notifyDataSetChanged();
         }
     };

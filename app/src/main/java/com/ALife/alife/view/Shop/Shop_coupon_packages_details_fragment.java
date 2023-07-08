@@ -27,7 +27,6 @@ import com.ALife.alife.adapter.Shop_coupon_package_details_customer_list_adapter
 import com.ALife.alife.model.cupon.customerFor_cupon_response;
 import com.ALife.alife.model.cupon.edit_delete_response;
 import com.ALife.alife.model.cupon.notify_response;
-import com.ALife.alife.viewmodel.Shop_profile;
 import com.ALife.alife.viewmodel.cuponViewmodel.Edit_delete_cupon_package;
 import com.ALife.alife.viewmodel.cuponViewmodel.sendPackageCustomer_notification;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
@@ -155,7 +154,7 @@ public class Shop_coupon_packages_details_fragment extends Fragment {
         customersView.setHasFixedSize(true);
         customersView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        progressBar = (ProgressBar) view.findViewById(R.id.progressBarID);
+        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         nestedScrollView = (NestedScrollView) view.findViewById(R.id.nestedRecyclerViewID);
         if (cupon_available.equals("0")) {
             editButton.setVisibility(View.GONE);

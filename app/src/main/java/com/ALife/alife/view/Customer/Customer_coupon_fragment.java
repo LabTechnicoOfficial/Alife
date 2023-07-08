@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.core.widget.NestedScrollView;
@@ -19,18 +18,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.ALife.alife.API.ApiUtilize;
 import com.ALife.alife.R;
 import com.ALife.alife.adapter.Customer_coupon_shop_list_adapter;
-import com.ALife.alife.model.cupon.active_cupon;
 import com.ALife.alife.model.cupon.cuponShop_response;
 import com.ALife.alife.model.cupon.cupon_api;
-import com.ALife.alife.model.cupon.customerFor_cupon_repositories;
 import com.ALife.alife.model.cupon.customerFor_cupon_response;
-import com.ALife.alife.view.Shop.Shop_coupon_packages_fragment;
 import com.ALife.alife.viewmodel.cuponViewmodel.CuponShopList;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import retrofit2.Call;
 
 public class Customer_coupon_fragment extends Fragment implements Customer_coupon_shop_list_adapter.OnItemClickListener{
     private cupon_api cupon_api;
@@ -82,7 +76,7 @@ public class Customer_coupon_fragment extends Fragment implements Customer_coupo
         shopListView.setHasFixedSize(true);
         shopListView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
 
-        progressBar = (ProgressBar) view.findViewById(R.id.progressBarID);
+        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         nestedScrollView = (NestedScrollView) view.findViewById(R.id.nestedRecyclerViewID);
 
         nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {

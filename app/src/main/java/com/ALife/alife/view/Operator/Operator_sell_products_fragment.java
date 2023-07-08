@@ -30,9 +30,7 @@ import android.widget.TextView;
 import com.ALife.alife.Custom_Type.ProductSell;
 import com.ALife.alife.R;
 import com.ALife.alife.adapter.Sell_product_adapter;
-import com.ALife.alife.model.get_product_response;
-import com.ALife.alife.view.Shop.Shop_sell_products_fragment;
-import com.ALife.alife.viewmodel.Get_all_shop_product;
+import com.ALife.alife.model.Get_product_response;
 import com.ALife.alife.viewmodel.Get_operator_product;
 import com.ALife.alife.viewmodel.Get_product;
 
@@ -51,7 +49,7 @@ public class Operator_sell_products_fragment extends Fragment implements Sell_pr
     Get_operator_product get_all_product;
     Get_product getProduct;
 
-    List<get_product_response> data;
+    List<Get_product_response> data;
     private Sell_product_adapter adapter;
     private FragmentManager fragmentManager;
     int page1 = 0, page2 = 0, limit = 10, end1 = 0, end2 = 0;
@@ -196,9 +194,9 @@ public class Operator_sell_products_fragment extends Fragment implements Sell_pr
         if (state == 1) {
             get_all_product = new ViewModelProvider(getActivity()).get(Get_operator_product.class);
 
-            get_all_product.getSearchData(agent_id).observe(getViewLifecycleOwner(), new Observer<List<get_product_response>>() {
+            get_all_product.getSearchData(agent_id).observe(getViewLifecycleOwner(), new Observer<List<Get_product_response>>() {
                 @Override
-                public void onChanged(List<get_product_response> get_product_responses) {
+                public void onChanged(List<Get_product_response> get_product_responses) {
                     for (int i = 0; i < get_product_responses.size(); i++) {
                         String brand_code = get_product_responses.get(i).getBrand() + get_product_responses.get(i).getCode();
                         if ((get_product_responses.get(i).getProduct_name().toLowerCase().contains(value.toLowerCase())) || (get_product_responses.get(i).getBrand().toLowerCase().contains(value.toLowerCase())) || (brand_code.toLowerCase().contains(value.toLowerCase()))) {
@@ -213,9 +211,9 @@ public class Operator_sell_products_fragment extends Fragment implements Sell_pr
 
         } else if (state == 2) {
             getProduct = new ViewModelProvider(getActivity()).get(Get_product.class);
-            getProduct.getCategoryProduct(Category_id).observe(getViewLifecycleOwner(), new Observer<List<get_product_response>>() {
+            getProduct.getCategoryProduct(Category_id).observe(getViewLifecycleOwner(), new Observer<List<Get_product_response>>() {
                 @Override
-                public void onChanged(List<get_product_response> get_product_responses) {
+                public void onChanged(List<Get_product_response> get_product_responses) {
                     for (int i = 0; i < get_product_responses.size(); i++) {
                         String brand_code = get_product_responses.get(i).getBrand() + get_product_responses.get(i).getCode();
                         if ((get_product_responses.get(i).getProduct_name().toLowerCase().contains(value.toLowerCase())) || (get_product_responses.get(i).getBrand().toLowerCase().contains(value.toLowerCase())) || (brand_code.toLowerCase().contains(value.toLowerCase()))) {
@@ -233,9 +231,9 @@ public class Operator_sell_products_fragment extends Fragment implements Sell_pr
 
     private void select_product2(int Page, int Limit) {
         getProduct = new ViewModelProvider(getActivity()).get(Get_product.class);
-        getProduct.getdata(Category_id, Page, Limit).observe(getViewLifecycleOwner(), new Observer<List<get_product_response>>() {
+        getProduct.getdata(Category_id, Page, Limit).observe(getViewLifecycleOwner(), new Observer<List<Get_product_response>>() {
             @Override
-            public void onChanged(List<get_product_response> get_product_responses) {
+            public void onChanged(List<Get_product_response> get_product_responses) {
                 progressBar.setVisibility(View.GONE);
                 for (int i = 0; i < get_product_responses.size(); i++) {
                     data.add(get_product_responses.get(i));
@@ -254,9 +252,9 @@ public class Operator_sell_products_fragment extends Fragment implements Sell_pr
 
     private void select_product1(int Page, int Limit) {
         get_all_product = new ViewModelProvider(getActivity()).get(Get_operator_product.class);
-        get_all_product.getData(agent_id, Page, Limit).observe(getViewLifecycleOwner(), new Observer<List<get_product_response>>() {
+        get_all_product.getData(agent_id, Page, Limit).observe(getViewLifecycleOwner(), new Observer<List<Get_product_response>>() {
             @Override
-            public void onChanged(List<get_product_response> get_product_responses) {
+            public void onChanged(List<Get_product_response> get_product_responses) {
                 progressBar.setVisibility(View.GONE);
                 for (int i = 0; i < get_product_responses.size(); i++) {
                     data.add(get_product_responses.get(i));
@@ -288,7 +286,7 @@ public class Operator_sell_products_fragment extends Fragment implements Sell_pr
 
         fragmentManager = getFragmentManager();
 
-        ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.progressBarID);
+        ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         NestedScrollView nestedScrollView = (NestedScrollView) view.findViewById(R.id.nestedRecyclerViewID);
 
         nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
@@ -318,7 +316,7 @@ public class Operator_sell_products_fragment extends Fragment implements Sell_pr
 
     @Override
     public void OnItemClick(int position) {
-        get_product_response product = data.get(position);
+        Get_product_response product = data.get(position);
         String productID = product.getProduct_id();
         fragmentManager.beginTransaction().setCustomAnimations(
                 R.anim.slide_in,  // enter

@@ -19,7 +19,6 @@ import com.ALife.alife.R;
 import com.ALife.alife.adapter.Customer.Customer_category_adapter;
 import com.ALife.alife.model.Category_response;
 import com.ALife.alife.viewmodel.Category_fetch;
-import com.ALife.alife.viewmodel.Customer_shop;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,7 +86,7 @@ public class Customer_categories_fragment extends Fragment implements Customer_c
         categoriesView.setHasFixedSize(true);
         categoriesView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        progressBar = (ProgressBar) view.findViewById(R.id.progressBarID);
+        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         NestedScrollView nestedScrollView = (NestedScrollView) view.findViewById(R.id.nestedRecyclerViewID);
 
         nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {

@@ -3,7 +3,6 @@ package com.ALife.alife.view.Shop;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -14,7 +13,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.widget.NestedScrollView;
@@ -61,8 +59,6 @@ import com.ALife.alife.adapter.Shop_registered_customer_adapter;
 import com.ALife.alife.adapter.Shop_sell_type_select_adapter;
 import com.ALife.alife.adapter.Shop_sellamount_inc_dec_adapter;
 import com.ALife.alife.adapter.selected_product_list_adapter;
-import com.ALife.alife.model.OTP_response;
-import com.ALife.alife.model.addMessageResponse;
 import com.ALife.alife.model.add_product_sell_response;
 import com.ALife.alife.model.add_sell_details_response;
 import com.ALife.alife.model.add_sell_payment_cash_response;
@@ -70,21 +66,18 @@ import com.ALife.alife.model.add_payment_transaction_response;
 import com.ALife.alife.model.get_all_product_offer_response;
 import com.ALife.alife.model.get_count_for_type_response;
 import com.ALife.alife.model.get_product_offer_response;
-import com.ALife.alife.model.get_product_response;
+import com.ALife.alife.model.Get_product_response;
 import com.ALife.alife.model.get_product_type_response;
-import com.ALife.alife.model.get_shop_customer_response;
 import com.ALife.alife.model.payment_method_response;
 import com.ALife.alife.model.push_notification_response;
 import com.ALife.alife.model.shop_due_customer_response;
 import com.ALife.alife.model.shop_profile_response;
 import com.ALife.alife.model.update_product_stock_by_sell_response;
 import com.ALife.alife.model.update_product_type_by_sell_response;
-import com.ALife.alife.viewmodel.AddMessagetoHistory;
 import com.ALife.alife.viewmodel.Get_all_shop_product;
 import com.ALife.alife.viewmodel.Get_product;
 import com.ALife.alife.viewmodel.Get_product_offer;
 import com.ALife.alife.viewmodel.Get_product_type;
-import com.ALife.alife.viewmodel.OTP;
 import com.ALife.alife.viewmodel.Payment_method;
 import com.ALife.alife.viewmodel.Product_sell;
 import com.ALife.alife.viewmodel.Product_sell_payment;
@@ -103,7 +96,6 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -120,7 +112,7 @@ public class Shop_sell_selected_product_list_fragment extends Fragment implement
     private Shop_sellamount_inc_dec_adapter amount_inc_dec_adapter;
     Dialog inc_dec_dialog;
     private List<shop_due_customer_response> customerList;
-    List<get_product_response> data;
+    List<Get_product_response> data;
     Double total_buy_price;
     Double total_price;
     RecyclerView productView, customerView;
@@ -636,9 +628,9 @@ public class Shop_sell_selected_product_list_fragment extends Fragment implement
 
     private void get_search_product(String value) {
         get_all_shop_product = new ViewModelProvider(getActivity()).get(Get_all_shop_product.class);
-        get_all_shop_product.getSearchData(shop_id).observe(getViewLifecycleOwner(), new Observer<List<get_product_response>>() {
+        get_all_shop_product.getSearchData(shop_id).observe(getViewLifecycleOwner(), new Observer<List<Get_product_response>>() {
             @Override
-            public void onChanged(List<get_product_response> get_product_responses) {
+            public void onChanged(List<Get_product_response> get_product_responses) {
                 for (int i = 0; i < get_product_responses.size(); i++) {
                     String brand_code = get_product_responses.get(i).getBrand() + get_product_responses.get(i).getCode();
                     if ((get_product_responses.get(i).getProduct_name().toLowerCase().contains(value.toLowerCase())) || (get_product_responses.get(i).getBrand().toLowerCase().contains(value.toLowerCase())) || (brand_code.toLowerCase().contains(value.toLowerCase()))) {
@@ -655,9 +647,9 @@ public class Shop_sell_selected_product_list_fragment extends Fragment implement
 
     private void select_from_all_product(int Page, int Limit) {
         get_all_shop_product = new ViewModelProvider(getActivity()).get(Get_all_shop_product.class);
-        get_all_shop_product.getData(shop_id, Page, Limit).observe(getViewLifecycleOwner(), new Observer<List<get_product_response>>() {
+        get_all_shop_product.getData(shop_id, Page, Limit).observe(getViewLifecycleOwner(), new Observer<List<Get_product_response>>() {
             @Override
-            public void onChanged(List<get_product_response> get_product_responses) {
+            public void onChanged(List<Get_product_response> get_product_responses) {
                 //data = get_product_responses;
                 progressBar.setVisibility(View.GONE);
                 for (int i = 0; i < get_product_responses.size(); i++) {
@@ -796,7 +788,7 @@ public class Shop_sell_selected_product_list_fragment extends Fragment implement
         decButton = (ImageView) addAmountAlert.findViewById(R.id.minusButtonID);
         incButton = (ImageView) addAmountAlert.findViewById(R.id.plusButtonID);
 
-        progressBar = (ProgressBar) addMoreAlert.findViewById(R.id.progressBarID);
+        progressBar = (ProgressBar) addMoreAlert.findViewById(R.id.progressBar);
         NestedScrollView nestedScrollView = (NestedScrollView) addMoreAlert.findViewById(R.id.nestedRecyclerViewID);
 
         nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
@@ -1390,7 +1382,7 @@ public class Shop_sell_selected_product_list_fragment extends Fragment implement
 
     @Override
     public void OnItemClick(int position) {
-        get_product_response product = data.get(position);
+        Get_product_response product = data.get(position);
         productID = product.getProduct_id();
         addMoreAlert.dismiss();
 
@@ -1453,9 +1445,9 @@ public class Shop_sell_selected_product_list_fragment extends Fragment implement
                 if (productsList.get(p).getType_id().equals("0")) {
                     String listed_amount = productsList.get(p).getAmount();
                     Toast.makeText(getActivity(), String.valueOf(p), Toast.LENGTH_SHORT).show();
-                    get_product.getsingle_product(productsList.get(p).getProduct_id()).observe(getViewLifecycleOwner(), new Observer<get_product_response>() {
+                    get_product.getsingle_product(productsList.get(p).getProduct_id()).observe(getViewLifecycleOwner(), new Observer<Get_product_response>() {
                         @Override
-                        public void onChanged(get_product_response get_product_response) {
+                        public void onChanged(Get_product_response get_product_response) {
                             if (Double.parseDouble(listed_amount) > Double.parseDouble(get_product_response.getStock_amount())) {
                                 Toast.makeText(getActivity(), get_product_response.getProduct_name() + " amount stock overflow", Toast.LENGTH_SHORT).show();
                                 error_check = 1;
@@ -1610,9 +1602,9 @@ public class Shop_sell_selected_product_list_fragment extends Fragment implement
     public void update_product(String product_id, List<ProductSel_type> Type, String product_amount, int count) {
 
         get_product = new ViewModelProvider(getActivity()).get(Get_product.class);
-        get_product.getsingle_product(product_id).observe(getViewLifecycleOwner(), new Observer<get_product_response>() {
+        get_product.getsingle_product(product_id).observe(getViewLifecycleOwner(), new Observer<Get_product_response>() {
             @Override
-            public void onChanged(get_product_response get_product_response) {
+            public void onChanged(Get_product_response get_product_response) {
                 Double temp_stock = Double.parseDouble(get_product_response.getStock_amount()) - Double.parseDouble(product_amount);
                 update_product_stock(product_id, String.valueOf(temp_stock), Type, count);
                 //Log.d("stock available: ", String.valueOf(temp_stock));
@@ -2241,9 +2233,9 @@ public class Shop_sell_selected_product_list_fragment extends Fragment implement
 
     private void get_product() {
         get_product = new ViewModelProvider(getActivity()).get(Get_product.class);
-        get_product.getsingle_product(productID).observe(getViewLifecycleOwner(), new Observer<get_product_response>() {
+        get_product.getsingle_product(productID).observe(getViewLifecycleOwner(), new Observer<Get_product_response>() {
             @Override
-            public void onChanged(get_product_response get_product_response) {
+            public void onChanged(Get_product_response get_product_response) {
                 productNameText.setText(get_product_response.getProduct_name());
                 productImage = get_product_response.getProduct_image();
                 productUnitText.setText(get_product_response.getProduct_unit());

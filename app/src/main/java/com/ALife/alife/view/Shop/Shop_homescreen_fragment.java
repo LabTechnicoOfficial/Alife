@@ -21,6 +21,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
 import android.text.Html;
 import android.util.Log;
@@ -39,6 +40,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ALife.alife.Custom_Type.ProductSell;
+import com.ALife.alife.DB.AppDatabase;
+import com.ALife.alife.DB.ProductDao;
 import com.ALife.alife.EarningApp.ViewModel.AddInterval;
 import com.ALife.alife.R;
 import com.ALife.alife.adapter.Instruction_adapter;
@@ -500,6 +503,8 @@ public class Shop_homescreen_fragment extends Fragment implements Instruction_ad
         printBarcodeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
                 fragmentManager.beginTransaction().setCustomAnimations(
                         R.anim.slide_in,  // enter
                         R.anim.fade_out,  // exit

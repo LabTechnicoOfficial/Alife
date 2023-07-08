@@ -6,5 +6,5 @@ import retrofit2.http.Query;
 
 public interface get_single_product_api {
     @GET("get_single_product.php")
-    Call<get_product_response> getproduct(@Query("id") String id);
+    Call<Get_product_response> getproduct(@Query("id") String id);
 }

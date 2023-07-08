@@ -16,14 +16,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ALife.alife.R;
 import com.ALife.alife.adapter.Customer.Customer_product_adapter;
-import com.ALife.alife.model.Category_response;
-import com.ALife.alife.model.get_product_response;
+import com.ALife.alife.model.Get_product_response;
 import com.ALife.alife.model.shop_profile_response;
-import com.ALife.alife.viewmodel.Category_fetch;
 import com.ALife.alife.viewmodel.Get_product;
 import com.ALife.alife.viewmodel.Shop_profile;
 
@@ -36,7 +33,7 @@ public class Customer_products_fragment extends Fragment {
     RecyclerView productsView;
     TextView allDiscountText;
     Get_product getProduct;
-    private List<get_product_response> productList;
+    private List<Get_product_response> productList;
     Customer_product_adapter adapter;
     private Shop_profile shop_profile;
     ProgressBar progressBar;
@@ -86,9 +83,9 @@ public class Customer_products_fragment extends Fragment {
     private void get_product(int Page,int Limit)
     {
         getProduct = new ViewModelProvider(getActivity()).get(Get_product.class);
-        getProduct.getdata(categoryID, Page, Limit).observe(getViewLifecycleOwner(), new Observer<List<get_product_response>>() {
+        getProduct.getdata(categoryID, Page, Limit).observe(getViewLifecycleOwner(), new Observer<List<Get_product_response>>() {
             @Override
-            public void onChanged(List<get_product_response> get_product_responses) {
+            public void onChanged(List<Get_product_response> get_product_responses) {
                 progressBar.setVisibility(View.GONE);
                 for (int i = 0; i < get_product_responses.size(); i++) {
                     productList.add(get_product_responses.get(i));
@@ -119,7 +116,7 @@ public class Customer_products_fragment extends Fragment {
         productsView.setLayoutManager(new GridLayoutManager(getActivity(), 2, LinearLayoutManager.VERTICAL, false));
 
 
-        progressBar = (ProgressBar) view.findViewById(R.id.progressBarID);
+        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         NestedScrollView nestedScrollView = (NestedScrollView) view.findViewById(R.id.nestedRecyclerViewID);
 
         nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
