@@ -14,6 +14,9 @@ public interface ProductDao {
     @Query("SELECT * From tblProducts")
     List<Products> getProductsList();
 
+    @Query("SELECT * From tblProducts WHERE print_check = '1'")
+    List<Products> getMarkedProductList();
+
     @Insert
     void insertProducts(Products products);
 

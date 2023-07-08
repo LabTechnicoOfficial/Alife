@@ -1,6 +1,9 @@
 package com.ALife.alife.view.Shop;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -11,17 +14,25 @@ import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
 import android.os.Handler;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.ALife.alife.DB.AppDatabase;
@@ -29,6 +40,7 @@ import com.ALife.alife.DB.InsertProductThread;
 import com.ALife.alife.DB.ProductDao;
 import com.ALife.alife.DB.Products;
 import com.ALife.alife.R;
+import com.ALife.alife.adapter.Barcode_view_adapter;
 import com.ALife.alife.adapter.Shop_product_barcode_print_adapter;
 import com.ALife.alife.model.Get_product_response;
 import com.ALife.alife.session.SessionManagement;
@@ -56,6 +68,8 @@ public class ShopPrintBarcodeFragment extends Fragment implements Shop_product_b
     ProductDao productDao;
     List<Products> productList = new ArrayList<>();
 
+    ImageView printButton;
+
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -82,17 +96,78 @@ public class ShopPrintBarcodeFragment extends Fragment implements Shop_product_b
                 }
             }
         });
-/*
-        Button click = view.findViewById(R.id.click);
-        click.setOnClickListener(new View.OnClickListener() {
+
+        printButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                get_products();
+                List<Products> markedProductList = new ArrayList<>();
+                markedProductList.addAll(productDao.getMarkedProductList());
+
+                //Toast.makeText(getActivity(), String.valueOf(markedProductList.size()), Toast.LENGTH_SHORT).show();
+                if (markedProductList.size() > 0) {
+                    barCodeGeneratePrint(markedProductList);
+                } else {
+                    Toast.makeText(getActivity(), "No product selected", Toast.LENGTH_SHORT).show();
+                }
+
             }
-        });*/
+        });
 
 
         return view;
+    }
+
+    private void barCodeGeneratePrint(List<Products> markedProductList) {
+        Dialog barcodeAlert = new Dialog(getActivity());
+        barcodeAlert.setContentView(R.layout.barcode_generate_print_alert);
+        barcodeAlert.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        barcodeAlert.setCancelable(false);
+        barcodeAlert.show();
+
+        Window window = barcodeAlert.getWindow();
+        WindowManager.LayoutParams wlp = window.getAttributes();
+        wlp.gravity = Gravity.CENTER;
+        wlp.width = android.view.WindowManager.LayoutParams.MATCH_PARENT;
+        wlp.height = android.view.WindowManager.LayoutParams.WRAP_CONTENT;
+        window.setAttributes(wlp);
+
+        ImageView closeButton = barcodeAlert.findViewById(R.id.closeButton);
+        closeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                barcodeAlert.dismiss();
+            }
+        });
+
+        RecyclerView barCodeView = barcodeAlert.findViewById(R.id.barCodeView);
+        barCodeView.setHasFixedSize(true);
+        barCodeView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        Barcode_view_adapter barcodeViewAdapter = new Barcode_view_adapter(markedProductList);
+        barCodeView.setAdapter(barcodeViewAdapter);
+
+
+        String[] items = {"1", "2", "3"};
+        Spinner itemSpinner = barcodeAlert.findViewById(R.id.itemSpinner);
+        ArrayAdapter aa = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_item, items);
+        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        itemSpinner.setAdapter(aa);
+
+        itemSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                int item = Integer.parseInt(parent.getItemAtPosition(position).toString());
+                barCodeView.setLayoutManager(new GridLayoutManager(getActivity(), item));
+                Barcode_view_adapter barcodeViewAdapter = new Barcode_view_adapter(markedProductList);
+                barCodeView.setAdapter(barcodeViewAdapter);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
     }
 
     private void loadProducts(int page) {
@@ -102,13 +177,8 @@ public class ShopPrintBarcodeFragment extends Fragment implements Shop_product_b
             public void onChanged(List<Get_product_response> get_product_responses) {
 
                 for (int i = 0; i < get_product_responses.size(); i++) {
-
                     String printCheck = "0";
-
                     Get_product_response response = get_product_responses.get(i);
-//                    if (response.getProduct_id().equals("319")) {
-//                        printCheck = "1";
-//                    }
                     InsertProductThread insertProductThread = new InsertProductThread(response.getProduct_id(), response.getProduct_name(), printCheck, response.getProduct_image(), response.getCode(), getActivity());
                     insertProductThread.start();
 
@@ -164,6 +234,8 @@ public class ShopPrintBarcodeFragment extends Fragment implements Shop_product_b
         productDao = db.productDao();
         productDao.clearProducts();
 
+        printButton = view.findViewById(R.id.printButton);
+
         //Toast.makeText(getActivity(), shopID, Toast.LENGTH_SHORT).show();
     }
 
@@ -171,6 +243,6 @@ public class ShopPrintBarcodeFragment extends Fragment implements Shop_product_b
     public void onCheckBoxClick(int position, boolean state) {
         Products response = productList.get(position);
         //Toast.makeText(getActivity(), response.getProductID() + " " + String.valueOf(state), Toast.LENGTH_SHORT).show();
-        productDao.updatePrintCheck(response.getProductID(), state ? "1":"0");
+        productDao.updatePrintCheck(response.getProductID(), state ? "1" : "0");
     }
 }
