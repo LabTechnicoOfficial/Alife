@@ -1586,7 +1586,7 @@ public class Operator_product_fragment<SharedViewModel> extends Fragment impleme
         //gridOffLayout.setVisibility(View.GONE);
         recyclerView1.setHasFixedSize(true);
         recyclerView2.setHasFixedSize(true);
-        productSearch = (EditText) view.findViewById(R.id.productSearchID);
+        productSearch = (EditText) view.findViewById(R.id.searchEditText);
         productSearchGrid = (EditText) view.findViewById(R.id.gridProductSearchID);
         addProductButton = (ExtendedFloatingActionButton) view.findViewById(R.id.add_productID);
         all_product = (TextView) view.findViewById(R.id.totalProductsID);

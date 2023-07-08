@@ -56,7 +56,6 @@ import com.ALife.alife.model.shop_profile_response;
 import com.ALife.alife.view.Product_details_fragment;
 import com.ALife.alife.viewmodel.Delete_category;
 import com.ALife.alife.viewmodel.Get_all_shop_product;
-import com.ALife.alife.viewmodel.Get_product;
 import com.ALife.alife.viewmodel.Get_product_offer;
 import com.ALife.alife.viewmodel.Get_product_type;
 import com.ALife.alife.viewmodel.Push_notification;
@@ -122,6 +121,314 @@ public class Shop_all_products_fragment extends Fragment implements get_product_
     int page1 = 1, page2 = 1, limit1 = 10, limit2 = 10, end1 = 0, end2 = 0;
     Shop_products_summary products_summary;
     int state = 0;
+
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+
+        super.onActivityCreated(savedInstanceState);
+        get_products_summary();
+        //main();
+        //start add product
+
+        //end add product
+
+        offersButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, new Shop_offer_allProducts_fragment(shop_id)).addToBackStack(null).commit();
+
+            }
+        });
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(shop_all_product_fragment, container, false);
+        checkConnection();
+
+        offersButton = (ExtendedFloatingActionButton) view.findViewById(R.id.offersButtonID);
+
+        recyclerView1 = view.findViewById(R.id.recyclerViewID);
+        recyclerView2 = view.findViewById(R.id.recyclerView2ID);
+
+        gridBUtton = (ToggleButton) view.findViewById(R.id.toggleButtonID);
+
+        gridOffLayout = (LinearLayout) view.findViewById(R.id.gridOffLayoutID);
+        gridSearchLayout = (LinearLayout) view.findViewById(R.id.gridLayoutID);
+        setDiscountLayout = (LinearLayout) view.findViewById(R.id.setDiscountLayoutID);
+
+        productSearch = (EditText) view.findViewById(R.id.searchEditText);
+        productSearchGrid = (EditText) view.findViewById(R.id.gridProductSearchID);
+
+        all_product = (TextView) view.findViewById(R.id.totalProductsID);
+        all_profit = (TextView) view.findViewById(R.id.totalProfitID);
+        all_selling_price = (TextView) view.findViewById(R.id.totalSellPriceID);
+        allDiscountText = (TextView) view.findViewById(R.id.allDiscountID);
+        totalBuyPriceText = view.findViewById(R.id.totalBuyPriceID);
+
+        fragmentTitle = (TextView) view.findViewById(R.id.fragmentTitleID);
+
+        recyclerView1.setHasFixedSize(true);
+        recyclerView2.setHasFixedSize(true);
+
+        fragmentTitle.setText("All Products");
+
+        loaderDialog = new Dialog(getActivity());
+        loaderDialog.setContentView(R.layout.loader);
+        loaderDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        loaderDialog.setCancelable(false);
+        //loaderDialog.show();
+
+        setDiscountLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Dialog setDiscountAlert = new Dialog(getActivity());
+                setDiscountAlert.setContentView(R.layout.set_discount_alert);
+                setDiscountAlert.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                setDiscountAlert.setCancelable(false);
+                setDiscountAlert.show();
+
+                ImageView closeButton = (ImageView) setDiscountAlert.findViewById(R.id.closeID);
+
+                TextInputEditText discountText = (TextInputEditText) setDiscountAlert.findViewById(R.id.discountTextID);
+                TextInputLayout discountError = (TextInputLayout) setDiscountAlert.findViewById(R.id.discountErrorID);
+                TextView doneButton = (TextView) setDiscountAlert.findViewById(R.id.doneButtonID);
+                get_all_product_discount();
+                discountText.setText(allDiscountText.getText().toString().trim());
+                doneButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        ConnectivityManager manager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+                        NetworkInfo info = manager.getActiveNetworkInfo();
+                        if (info == null) {
+                            Toast.makeText(getActivity(), "Connection error", Toast.LENGTH_SHORT).show();
+                        } else {
+                            String discount = discountText.getText().toString().trim();
+
+                            discountError.setErrorEnabled(false);
+                            if (TextUtils.isEmpty(discount)) {
+                                discountError.setError(" ");
+                            } else {
+                                //do your code
+                                set_all_discount = new ViewModelProvider(getActivity()).get(Set_all_discount.class);
+                                push_notification = new ViewModelProvider(getActivity()).get(Push_notification.class);
+                                set_all_discount.getData(shop_id, discount).observe(getViewLifecycleOwner(), new Observer<set_all_discount_response>() {
+                                    @Override
+                                    public void onChanged(set_all_discount_response set_all_discount_response) {
+                                        if (set_all_discount_response.getMessage().equals("yess")) {
+                                            push_notification.all_discount_notification(shop_id, discount).observe(getViewLifecycleOwner(), new Observer<push_notification_response>() {
+                                                @Override
+                                                public void onChanged(push_notification_response push_notification_response) {
+                                                    if (push_notification_response.getMessage().equals("success")) {
+                                                        setDiscountAlert.dismiss();
+                                                        main();
+                                                    }
+                                                }
+                                            });
+
+                                        } else {
+                                            Toast.makeText(getActivity(), "Something wrong!!! Try again", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
+
+                            }
+                        }
+
+                    }
+                });
+
+                closeButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        setDiscountAlert.dismiss();
+                    }
+                });
+            }
+        });
+
+        progressBar = (ProgressBar) view.findViewById(R.id.progressBarID);
+        nestedScrollView = (NestedScrollView) view.findViewById(R.id.nestedRecyclerViewID);
+        gridNestedScrollView = (NestedScrollView) view.findViewById(R.id.gridNestedRecyclerViewID);
+
+        nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                if (scrollY > oldScrollY) {
+                    offersButton.hide();
+                } else {
+                    offersButton.show();
+                }
+                //offersButton.show();
+                if (scrollY == v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight()) {
+                    // in this method we are incrementing page number,
+                    // making progress bar visible and calling get data method.
+                    if (end2 == 0) {
+
+                        progressBar.setVisibility(View.VISIBLE);
+                        page2++;
+                        get_product2(page2, limit2);
+                    }
+
+                }
+            }
+        });
+
+        gridNestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+
+                if (scrollY > oldScrollY) {
+                    offersButton.hide();
+                } else {
+                    offersButton.show();
+                }
+
+                if (scrollY == v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight()) {
+                    // in this method we are incrementing page number,
+                    // making progress bar visible and calling get data method.
+                    if (end1 == 0) {
+
+                        progressBar.setVisibility(View.VISIBLE);
+                        page1++;
+                        get_product1(page1, limit2);
+                    }
+                }
+            }
+        });
+
+        recyclerView1.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dy > 0 && offersButton.getVisibility() == View.VISIBLE) {
+                    offersButton.hide();
+                } else if (dy < 0 && offersButton.getVisibility() != View.VISIBLE) {
+                    offersButton.show();
+                }
+            }
+        });
+
+        recyclerView2.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dy > 0 && offersButton.getVisibility() == View.VISIBLE) {
+                    offersButton.hide();
+                } else if (dy < 0 && offersButton.getVisibility() != View.VISIBLE) {
+                    offersButton.show();
+                }
+            }
+        });
+
+
+        return view;
+    }
+
+    private void main() {
+        checkConnection();
+        // product_discount_all = "0";
+        state = 0;
+        //Toast.makeText(getActivity(),"bnbnnn",Toast.LENGTH_SHORT).show();
+
+      /*  layoutmanager = new GridLayoutManager(getActivity(), 1, LinearLayoutManager.VERTICAL, false);
+        recyclerView1.setLayoutManager(layoutmanager);
+        gridOffLayout.setVisibility(View.GONE);*/
+        get_all_product_discount();
+        gridBUtton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                if (isChecked) {
+
+                    span = 2;
+                    layoutmanager = new GridLayoutManager(getActivity(), 2, LinearLayoutManager.VERTICAL, false);
+                    recyclerView2.setLayoutManager(layoutmanager);
+                    // loaderDialog.show();
+                    showProduct1();
+
+                } else {
+                    span = 1;
+                    layoutmanager = new GridLayoutManager(getActivity(), 1, LinearLayoutManager.VERTICAL, false);
+                    recyclerView1.setLayoutManager(layoutmanager);
+                    //loaderDialog.show();
+                    showProduct2();
+                }
+            }
+        });
+    }
+
+    private void get_all_product_discount() {
+        shop_profile = new ViewModelProvider(getActivity()).get(Shop_profile.class);
+        shop_profile.getData(shop_id).observe(getViewLifecycleOwner(), new Observer<shop_profile_response>() {
+            @Override
+            public void onChanged(shop_profile_response shop_profile_response) {
+                allDiscountText.setText(shop_profile_response.getAll_discount());
+                if (span == 2) {
+                    layoutmanager = new GridLayoutManager(getActivity(), 2, LinearLayoutManager.VERTICAL, false);
+                    recyclerView2.setLayoutManager(layoutmanager);
+                    loaderDialog.dismiss();
+                    showProduct1();
+                } else {
+                    if (state == 0) {
+                        layoutmanager = new GridLayoutManager(getActivity(), 1, LinearLayoutManager.VERTICAL, false);
+                        recyclerView1.setLayoutManager(layoutmanager);
+                        gridOffLayout.setVisibility(View.GONE);
+                        state = 1;
+                        loaderDialog.dismiss();
+                        showProduct2();
+                    }
+                }
+                //= shop_profile_response.getAll_discount();
+
+
+            }
+        });
+
+
+    }
+
+    private void get_products_summary() {
+        products_summary = new ViewModelProvider(getActivity()).get(Shop_products_summary.class);
+        products_summary.getData_all(shop_id).observe(getViewLifecycleOwner(), new Observer<get_shop_products_summary_response>() {
+            @Override
+            public void onChanged(get_shop_products_summary_response get_shop_products_summary_response) {
+                all_product.setText(String.valueOf(new DecimalFormat("##").format(get_shop_products_summary_response.getAll_product())));
+                all_profit.setText(String.valueOf(new DecimalFormat("##.##").format(get_shop_products_summary_response.getAll_profit())));
+                all_selling_price.setText(String.valueOf(new DecimalFormat("##.##").format(get_shop_products_summary_response.getAll_sell_price())));
+                // all_stock.setText(String.valueOf(new DecimalFormat("##.##").format(get_shop_products_summary_response.getAll_stock())));
+                // progressBar.setVisibility(View.GONE);
+                totalBuyPriceText.setText(String.valueOf(new DecimalFormat("##.##").format(get_shop_products_summary_response.getAll_buy_price())));
+                main();
+
+            }
+        });
+
+    }
+
+    private void checkConnection() {
+        ConnectivityManager manager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo info = manager.getActiveNetworkInfo();
+        Dialog networkAlert = new Dialog(getActivity());
+        networkAlert.setContentView(R.layout.network_alert);
+        networkAlert.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        TextView connectButton = (TextView) networkAlert.findViewById(R.id.connectButtonID);
+        if (info == null) {
+            networkAlert.show();
+            connectButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    networkAlert.dismiss();
+                    main();
+                }
+            });
+
+        }
+    }
 
     public Shop_all_products_fragment(String shop_id) {
         this.shop_id = shop_id;
@@ -325,314 +632,6 @@ public class Shop_all_products_fragment extends Fragment implements get_product_
 
             }
         });
-    }
-
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-
-        super.onActivityCreated(savedInstanceState);
-        get_products_summary();
-        //main();
-        //start add product
-
-        //end add product
-
-        offersButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, new Shop_offer_allProducts_fragment(shop_id)).addToBackStack(null).commit();
-
-            }
-        });
-    }
-
-    private void main() {
-        checkConnection();
-        // product_discount_all = "0";
-        state = 0;
-        //Toast.makeText(getActivity(),"bnbnnn",Toast.LENGTH_SHORT).show();
-
-      /*  layoutmanager = new GridLayoutManager(getActivity(), 1, LinearLayoutManager.VERTICAL, false);
-        recyclerView1.setLayoutManager(layoutmanager);
-        gridOffLayout.setVisibility(View.GONE);*/
-        get_all_product_discount();
-        gridBUtton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
-                if (isChecked) {
-
-                    span = 2;
-                    layoutmanager = new GridLayoutManager(getActivity(), 2, LinearLayoutManager.VERTICAL, false);
-                    recyclerView2.setLayoutManager(layoutmanager);
-                    // loaderDialog.show();
-                    showProduct1();
-
-                } else {
-                    span = 1;
-                    layoutmanager = new GridLayoutManager(getActivity(), 1, LinearLayoutManager.VERTICAL, false);
-                    recyclerView1.setLayoutManager(layoutmanager);
-                    //loaderDialog.show();
-                    showProduct2();
-                }
-            }
-        });
-    }
-
-    private void get_all_product_discount() {
-        shop_profile = new ViewModelProvider(getActivity()).get(Shop_profile.class);
-        shop_profile.getData(shop_id).observe(getViewLifecycleOwner(), new Observer<shop_profile_response>() {
-            @Override
-            public void onChanged(shop_profile_response shop_profile_response) {
-                allDiscountText.setText(shop_profile_response.getAll_discount());
-                if (span == 2) {
-                    layoutmanager = new GridLayoutManager(getActivity(), 2, LinearLayoutManager.VERTICAL, false);
-                    recyclerView2.setLayoutManager(layoutmanager);
-                    loaderDialog.dismiss();
-                    showProduct1();
-                } else {
-                    if (state == 0) {
-                        layoutmanager = new GridLayoutManager(getActivity(), 1, LinearLayoutManager.VERTICAL, false);
-                        recyclerView1.setLayoutManager(layoutmanager);
-                        gridOffLayout.setVisibility(View.GONE);
-                        state = 1;
-                        loaderDialog.dismiss();
-                        showProduct2();
-                    }
-                }
-                //= shop_profile_response.getAll_discount();
-
-
-            }
-        });
-
-
-    }
-
-    private void get_products_summary() {
-        products_summary = new ViewModelProvider(getActivity()).get(Shop_products_summary.class);
-        products_summary.getData_all(shop_id).observe(getViewLifecycleOwner(), new Observer<get_shop_products_summary_response>() {
-            @Override
-            public void onChanged(get_shop_products_summary_response get_shop_products_summary_response) {
-                all_product.setText(String.valueOf(new DecimalFormat("##").format(get_shop_products_summary_response.getAll_product())));
-                all_profit.setText(String.valueOf(new DecimalFormat("##.##").format(get_shop_products_summary_response.getAll_profit())));
-                all_selling_price.setText(String.valueOf(new DecimalFormat("##.##").format(get_shop_products_summary_response.getAll_sell_price())));
-                // all_stock.setText(String.valueOf(new DecimalFormat("##.##").format(get_shop_products_summary_response.getAll_stock())));
-                // progressBar.setVisibility(View.GONE);
-                totalBuyPriceText.setText(String.valueOf(new DecimalFormat("##.##").format(get_shop_products_summary_response.getAll_buy_price())));
-                main();
-
-            }
-        });
-
-    }
-
-    private void checkConnection() {
-        ConnectivityManager manager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo info = manager.getActiveNetworkInfo();
-        Dialog networkAlert = new Dialog(getActivity());
-        networkAlert.setContentView(R.layout.network_alert);
-        networkAlert.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        TextView connectButton = (TextView) networkAlert.findViewById(R.id.connectButtonID);
-        if (info == null) {
-            networkAlert.show();
-            connectButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    networkAlert.dismiss();
-                    main();
-                }
-            });
-
-        }
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(shop_all_product_fragment, container, false);
-        checkConnection();
-
-        offersButton = (ExtendedFloatingActionButton) view.findViewById(R.id.offersButtonID);
-
-        recyclerView1 = view.findViewById(R.id.recyclerViewID);
-        recyclerView2 = view.findViewById(R.id.recyclerView2ID);
-
-        gridBUtton = (ToggleButton) view.findViewById(R.id.toggleButtonID);
-
-        gridOffLayout = (LinearLayout) view.findViewById(R.id.gridOffLayoutID);
-        gridSearchLayout = (LinearLayout) view.findViewById(R.id.gridLayoutID);
-        setDiscountLayout = (LinearLayout) view.findViewById(R.id.setDiscountLayoutID);
-
-        productSearch = (EditText) view.findViewById(R.id.productSearchID);
-        productSearchGrid = (EditText) view.findViewById(R.id.gridProductSearchID);
-
-        all_product = (TextView) view.findViewById(R.id.totalProductsID);
-        all_profit = (TextView) view.findViewById(R.id.totalProfitID);
-        all_selling_price = (TextView) view.findViewById(R.id.totalSellPriceID);
-        allDiscountText = (TextView) view.findViewById(R.id.allDiscountID);
-        totalBuyPriceText = view.findViewById(R.id.totalBuyPriceID);
-
-        fragmentTitle = (TextView) view.findViewById(R.id.fragmentTitleID);
-
-        recyclerView1.setHasFixedSize(true);
-        recyclerView2.setHasFixedSize(true);
-
-        fragmentTitle.setText("All Products");
-
-        loaderDialog = new Dialog(getActivity());
-        loaderDialog.setContentView(R.layout.loader);
-        loaderDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        loaderDialog.setCancelable(false);
-        //loaderDialog.show();
-
-        setDiscountLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Dialog setDiscountAlert = new Dialog(getActivity());
-                setDiscountAlert.setContentView(R.layout.set_discount_alert);
-                setDiscountAlert.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                setDiscountAlert.setCancelable(false);
-                setDiscountAlert.show();
-
-                ImageView closeButton = (ImageView) setDiscountAlert.findViewById(R.id.closeID);
-
-                TextInputEditText discountText = (TextInputEditText) setDiscountAlert.findViewById(R.id.discountTextID);
-                TextInputLayout discountError = (TextInputLayout) setDiscountAlert.findViewById(R.id.discountErrorID);
-                TextView doneButton = (TextView) setDiscountAlert.findViewById(R.id.doneButtonID);
-                get_all_product_discount();
-                discountText.setText(allDiscountText.getText().toString().trim());
-                doneButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        ConnectivityManager manager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-                        NetworkInfo info = manager.getActiveNetworkInfo();
-                        if (info == null) {
-                            Toast.makeText(getActivity(), "Connection error", Toast.LENGTH_SHORT).show();
-                        } else {
-                            String discount = discountText.getText().toString().trim();
-
-                            discountError.setErrorEnabled(false);
-                            if (TextUtils.isEmpty(discount)) {
-                                discountError.setError(" ");
-                            } else {
-                                //do your code
-                                set_all_discount = new ViewModelProvider(getActivity()).get(Set_all_discount.class);
-                                push_notification = new ViewModelProvider(getActivity()).get(Push_notification.class);
-                                set_all_discount.getData(shop_id, discount).observe(getViewLifecycleOwner(), new Observer<set_all_discount_response>() {
-                                    @Override
-                                    public void onChanged(set_all_discount_response set_all_discount_response) {
-                                        if (set_all_discount_response.getMessage().equals("yess")) {
-                                            push_notification.all_discount_notification(shop_id, discount).observe(getViewLifecycleOwner(), new Observer<push_notification_response>() {
-                                                @Override
-                                                public void onChanged(push_notification_response push_notification_response) {
-                                                    if (push_notification_response.getMessage().equals("success")) {
-                                                        setDiscountAlert.dismiss();
-                                                        main();
-                                                    }
-                                                }
-                                            });
-
-                                        } else {
-                                            Toast.makeText(getActivity(), "Something wrong!!! Try again", Toast.LENGTH_SHORT).show();
-                                        }
-                                    }
-                                });
-
-                            }
-                        }
-
-                    }
-                });
-
-                closeButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        setDiscountAlert.dismiss();
-                    }
-                });
-            }
-        });
-
-        progressBar = (ProgressBar) view.findViewById(R.id.progressBarID);
-        nestedScrollView = (NestedScrollView) view.findViewById(R.id.nestedRecyclerViewID);
-        gridNestedScrollView = (NestedScrollView) view.findViewById(R.id.gridNestedRecyclerViewID);
-
-        nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
-            @Override
-            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                if (scrollY > oldScrollY) {
-                    offersButton.hide();
-                } else {
-                    offersButton.show();
-                }
-                //offersButton.show();
-                if (scrollY == v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight()) {
-                    // in this method we are incrementing page number,
-                    // making progress bar visible and calling get data method.
-                    if (end2 == 0) {
-
-                        progressBar.setVisibility(View.VISIBLE);
-                        page2++;
-                        get_product2(page2, limit2);
-                    }
-
-                }
-            }
-        });
-
-        gridNestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
-            @Override
-            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-
-                if (scrollY > oldScrollY) {
-                    offersButton.hide();
-                } else {
-                    offersButton.show();
-                }
-
-                if (scrollY == v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight()) {
-                    // in this method we are incrementing page number,
-                    // making progress bar visible and calling get data method.
-                    if (end1 == 0) {
-
-                        progressBar.setVisibility(View.VISIBLE);
-                        page1++;
-                        get_product1(page1, limit2);
-                    }
-                }
-            }
-        });
-
-        recyclerView1.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                if (dy > 0 && offersButton.getVisibility() == View.VISIBLE) {
-                    offersButton.hide();
-                } else if (dy < 0 && offersButton.getVisibility() != View.VISIBLE) {
-                    offersButton.show();
-                }
-            }
-        });
-
-        recyclerView2.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                if (dy > 0 && offersButton.getVisibility() == View.VISIBLE) {
-                    offersButton.hide();
-                } else if (dy < 0 && offersButton.getVisibility() != View.VISIBLE) {
-                    offersButton.show();
-                }
-            }
-        });
-
-
-        return view;
     }
 
     @Override

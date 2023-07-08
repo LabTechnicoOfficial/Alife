@@ -49,10 +49,8 @@ import com.ALife.alife.model.shop_profile_response;
 import com.ALife.alife.view.Product_details_fragment;
 import com.ALife.alife.viewmodel.Agent_all_product_summary;
 import com.ALife.alife.viewmodel.Get_operator_product;
-import com.ALife.alife.viewmodel.Get_product;
 import com.ALife.alife.viewmodel.Get_product_offer;
 import com.ALife.alife.viewmodel.Get_product_type;
-import com.ALife.alife.viewmodel.Shop_products_summary;
 import com.ALife.alife.viewmodel.Shop_profile;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
@@ -399,7 +397,7 @@ public class Operator_all_products_fragment extends Fragment implements Operator
         fragmentTitle = (TextView) view.findViewById(R.id.fragmentTitleID);
         recyclerView1.setHasFixedSize(true);
         recyclerView2.setHasFixedSize(true);
-        productSearch = (EditText) view.findViewById(R.id.productSearchID);
+        productSearch = (EditText) view.findViewById(R.id.searchEditText);
         productSearchGrid = (EditText) view.findViewById(R.id.gridProductSearchID);
         all_product = (TextView) view.findViewById(R.id.totalProductsID);
         all_item = (TextView) view.findViewById(R.id.totalItemsID);
