@@ -229,6 +229,7 @@ public class ShopPrintBarcodeFragment extends Fragment implements Shop_product_b
         searchEditText = view.findViewById(R.id.searchEditText);
         shopID = String.valueOf(sessionManagement.getSession());
 
+
         AppDatabase db = Room.databaseBuilder(getActivity(), AppDatabase.class, "alifeDB").allowMainThreadQueries().fallbackToDestructiveMigration().build();
 
         productDao = db.productDao();
