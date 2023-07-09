@@ -17,7 +17,7 @@ public class Helpers {
     public static String uniqueProductCodeGenerator(String text) {
 
 
-        @SuppressLint("SimpleDateFormat") String timeStamp = new SimpleDateFormat("yyyyMMddHHmmss").format(Calendar.getInstance().getTime());
+        @SuppressLint("SimpleDateFormat") String timeStamp = new SimpleDateFormat("yyMMddHHmmss").format(Calendar.getInstance().getTime());
 
         if (text.length() > 0) {
             text = text.substring(0, 2).toLowerCase(Locale.ROOT) + "al";
@@ -34,10 +34,10 @@ public class Helpers {
         Bitmap bitmap = null;
         try {
             BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
-             bitmap = barcodeEncoder.encodeBitmap(barCode, BarcodeFormat.CODE_128, 800, 400);
+            bitmap = barcodeEncoder.encodeBitmap(barCode, BarcodeFormat.CODE_128, 800, 400);
 
 
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
         return bitmap;

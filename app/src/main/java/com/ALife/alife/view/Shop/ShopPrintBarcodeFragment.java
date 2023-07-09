@@ -45,6 +45,10 @@ import com.ALife.alife.adapter.Shop_product_barcode_print_adapter;
 import com.ALife.alife.model.Get_product_response;
 import com.ALife.alife.session.SessionManagement;
 import com.ALife.alife.viewmodel.Get_all_shop_product;
+import com.gkemon.XMLtoPDF.PdfGenerator;
+import com.gkemon.XMLtoPDF.PdfGeneratorListener;
+import com.gkemon.XMLtoPDF.model.FailureResponse;
+import com.gkemon.XMLtoPDF.model.SuccessResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -146,7 +150,20 @@ public class ShopPrintBarcodeFragment extends Fragment implements Shop_product_b
         barCodeView.setAdapter(barcodeViewAdapter);
 
 
-        String[] items = {"1", "2", "3"};
+        List<String> items = new ArrayList<>();
+        if (markedProductList.size() < 3) {
+
+            if (markedProductList.size() < 2) {
+                items.add("1");
+            } else {
+                items.add("1");
+                items.add("2");
+            }
+        } else {
+            items.add("1");
+            items.add("2");
+            items.add("3");
+        }
         Spinner itemSpinner = barcodeAlert.findViewById(R.id.itemSpinner);
         ArrayAdapter aa = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_item, items);
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -164,6 +181,15 @@ public class ShopPrintBarcodeFragment extends Fragment implements Shop_product_b
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
+            }
+        });
+
+        ImageView printButton = barcodeAlert.findViewById(R.id.printButton);
+        printButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //generate print here
             }
         });
 
