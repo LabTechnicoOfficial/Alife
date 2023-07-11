@@ -2,14 +2,11 @@ package com.ALife.alife.view.Shop;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
@@ -21,6 +18,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
 import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -30,10 +29,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -49,10 +46,6 @@ import com.ALife.alife.adapter.Shop_product_barcode_print_adapter;
 import com.ALife.alife.model.Get_product_response;
 import com.ALife.alife.session.SessionManagement;
 import com.ALife.alife.viewmodel.Get_all_shop_product;
-import com.gkemon.XMLtoPDF.PdfGenerator;
-import com.gkemon.XMLtoPDF.PdfGeneratorListener;
-import com.gkemon.XMLtoPDF.model.FailureResponse;
-import com.gkemon.XMLtoPDF.model.SuccessResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,6 +70,9 @@ public class ShopPrintBarcodeFragment extends Fragment implements Shop_product_b
     List<Products> productList = new ArrayList<>();
 
     ImageView printButton;
+    View barCodeLayout;
+
+    List<Products> searchedProductList = new ArrayList<>();
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -88,22 +84,22 @@ public class ShopPrintBarcodeFragment extends Fragment implements Shop_product_b
         init_view(view);
 
 
-        loadProducts(page);
+        loadProducts();
 
-        nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
-            @Override
-            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-
-                //offersButton.show();
-                if (scrollY == v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight()) {
-                    // in this method we are incrementing page number,
-                    // making progress bar visible and calling get data method.
-                    page++;
-                    loadProducts(page);
-
-                }
-            }
-        });
+//        nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+//            @Override
+//            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+//
+//                //offersButton.show();
+//                if (scrollY == v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight()) {
+//                    // in this method we are incrementing page number,
+//                    // making progress bar visible and calling get data method.
+//                    page++;
+//                    loadProducts(page);
+//
+//                }
+//            }
+//        });
 
         printButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,6 +114,35 @@ public class ShopPrintBarcodeFragment extends Fragment implements Shop_product_b
                     Toast.makeText(getActivity(), "No product selected", Toast.LENGTH_SHORT).show();
                 }
 
+            }
+        });
+
+        searchEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                //productList.clear();
+                if (s.length() != 0) {
+
+                    progressBar.setVisibility(View.VISIBLE);
+                    productList = productDao.getSearchedProductsList(s.toString());
+
+                    setUpAdapter(productList);
+                } else {
+
+                    get_products();
+                }
+
+                //Log.d("dataxx", "afterTextChanged: " + String.valueOf(searchedProductList.size()));
             }
         });
 
@@ -155,18 +180,14 @@ public class ShopPrintBarcodeFragment extends Fragment implements Shop_product_b
 
 
         List<String> items = new ArrayList<>();
-        if (markedProductList.size() < 3) {
-
-            if (markedProductList.size() < 2) {
-                items.add("1");
-            } else {
-                items.add("1");
-                items.add("2");
+        if (markedProductList.size() < 5) {
+            for (int i = 0; i < markedProductList.size(); i++) {
+                items.add(String.valueOf(i + 1));
             }
         } else {
-            items.add("1");
-            items.add("2");
-            items.add("3");
+            for (int i = 0; i < 5; i++) {
+                items.add(String.valueOf(i + 1));
+            }
         }
         Spinner itemSpinner = barcodeAlert.findViewById(R.id.itemSpinner);
         ArrayAdapter aa = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_item, items);
@@ -189,12 +210,11 @@ public class ShopPrintBarcodeFragment extends Fragment implements Shop_product_b
         });
 
         ImageView printButton = barcodeAlert.findViewById(R.id.printButton);
-        LinearLayout barCodeLayout = barcodeAlert.findViewById(R.id.barCodeLayout);
+        barCodeLayout = barcodeAlert.findViewById(R.id.barCodeLayout);
         printButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bitmap bitmapPDF = Helpers.loadBitmap(barCodeLayout, barCodeLayout.getWidth(), barCodeLayout.getHeight());
-                Helpers.createPDF(bitmapPDF, getActivity(), "alifebarcode", barCodeLayout.getWidth(), barCodeLayout.getHeight());
+                Helpers.createPDF(barCodeLayout, getActivity(), "bcp");
             }
         });
 
@@ -205,9 +225,9 @@ public class ShopPrintBarcodeFragment extends Fragment implements Shop_product_b
         Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
     }
 
-    private void loadProducts(int page) {
+    private void loadProducts() {
         progressBar.setVisibility(View.VISIBLE);
-        getAllShopProduct.getData(shopID, page, limit).observe(getViewLifecycleOwner(), new Observer<List<Get_product_response>>() {
+        getAllShopProduct.getAllProductWithOutPagination(shopID).observe(getViewLifecycleOwner(), new Observer<List<Get_product_response>>() {
             @Override
             public void onChanged(List<Get_product_response> get_product_responses) {
 
@@ -236,20 +256,19 @@ public class ShopPrintBarcodeFragment extends Fragment implements Shop_product_b
 
     @SuppressLint("NotifyDataSetChanged")
     private void get_products() {
-        progressBar.setVisibility(View.GONE);
-        productList = productDao.getProductsList();
-        //Toast.makeText(getActivity(), String.valueOf(productList.size()), Toast.LENGTH_SHORT).show();
-        productAdapter = new Shop_product_barcode_print_adapter(productList);
-        productAdapter.notifyDataSetChanged();
-        productAdapter.setOnClickListener(ShopPrintBarcodeFragment.this::onCheckBoxClick);
-        productView.setAdapter(productAdapter);
 
+        productList = productDao.getProductsList();
+
+        setUpAdapter(productList);
 
     }
 
-    private void setUpAdapter() {
+    private void setUpAdapter(List<Products> productList) {
+        //Log.d("dataxx", "setUpAdapter: "+String.valueOf(productList.size()));
+        progressBar.setVisibility(View.GONE);
         productAdapter = new Shop_product_barcode_print_adapter(productList);
-        //productAdapter.notifyDataSetChanged();
+        productAdapter.notifyDataSetChanged();
+        productAdapter.setOnClickListener(ShopPrintBarcodeFragment.this::onCheckBoxClick);
         productView.setAdapter(productAdapter);
     }
 
@@ -272,7 +291,6 @@ public class ShopPrintBarcodeFragment extends Fragment implements Shop_product_b
 
         printButton = view.findViewById(R.id.printButton);
 
-        //Toast.makeText(getActivity(), shopID, Toast.LENGTH_SHORT).show();
     }
 
     @Override

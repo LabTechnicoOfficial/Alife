@@ -104,7 +104,9 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/dropdownLayout">
+            app:layout_constraintTop_toBottomOf="@id/dropdownLayout"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/barCodeView"

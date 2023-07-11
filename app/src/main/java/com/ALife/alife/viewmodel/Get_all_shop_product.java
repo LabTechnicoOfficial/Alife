@@ -22,4 +22,8 @@ public class Get_all_shop_product extends ViewModel {
         //return repositories.getSearchData();
         return get_all_shop_product_repositories.getInstance().getSearchData(shop_id);
     }
+
+    public LiveData<List<Get_product_response>> getAllProductWithOutPagination(String shopID){
+        return get_all_shop_product_repositories.getInstance().getAllProductWithOutPagination(shopID);
+    }
 }

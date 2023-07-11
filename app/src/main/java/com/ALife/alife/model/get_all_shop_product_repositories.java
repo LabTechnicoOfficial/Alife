@@ -61,6 +61,25 @@ public class get_all_shop_product_repositories {
     }
 
     public @NonNull
+    MutableLiveData<List<Get_product_response>> getAllProductWithOutPagination(@NonNull String shopID){
+        Call<List<Get_product_response>> call = get_shop_all_product.getAllProductWithOutPagination(shopID);
+        call.enqueue(new Callback<List<Get_product_response>>() {
+            @Override
+            public void onResponse(Call<List<Get_product_response>> call, Response<List<Get_product_response>> response) {
+                if(response.isSuccessful()){
+                    data.postValue(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Get_product_response>> call, Throwable t) {
+
+            }
+        });
+        return data;
+    }
+
+    public @NonNull
     MutableLiveData<List<Get_product_response>> getSearchData(@NonNull String shop_id) {
         Call<List<Get_product_response>> call = get_all_shop_product_by_search.get_allproduct(shop_id);
         call.enqueue(new Callback<List<Get_product_response>>() {

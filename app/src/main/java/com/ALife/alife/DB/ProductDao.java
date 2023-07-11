@@ -17,6 +17,9 @@ public interface ProductDao {
     @Query("SELECT * From tblProducts WHERE print_check = '1'")
     List<Products> getMarkedProductList();
 
+    @Query("SELECT * from tblProducts where  name  LIKE '%' || :key || '%'")
+    List<Products> getSearchedProductsList(String key);
+
     @Insert
     void insertProducts(Products products);
 

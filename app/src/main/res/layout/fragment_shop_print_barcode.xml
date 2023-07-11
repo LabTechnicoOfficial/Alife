@@ -77,10 +77,10 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:scrollbars="none"
-            app:layout_constraintBottom_toTopOf="@id/progressBar"
+            app:layout_constraintTop_toBottomOf="@id/progressBar"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/topBar">
+            app:layout_constraintBottom_toBottomOf="parent">
 
 
             <androidx.recyclerview.widget.RecyclerView
@@ -99,9 +99,9 @@
             android:layout_marginBottom="5dp"
             android:theme="@style/ProgressBarStyle"
             android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent" />
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/topBar" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
