@@ -58,6 +58,7 @@ import com.google.android.gms.ads.FullScreenContentCallback;
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.admanager.AdManagerAdRequest;
+import com.google.android.gms.ads.admanager.AdManagerAdView;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
@@ -86,7 +87,7 @@ public class Shop_homescreen_fragment extends Fragment implements Instruction_ad
     Instruction_adapter instructionAdapter;
     private int timeLimit_UseriNSTRUCTION = 0;
     EarningViewModel earningViewModel;
-    //private AdManagerAdView mAdManagerAdView;
+    private AdManagerAdView mAdManagerAdView;
     private AddInterval addInterval;
     private InterstitialAd InterstitialAd;
 
@@ -103,15 +104,15 @@ public class Shop_homescreen_fragment extends Fragment implements Instruction_ad
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        MobileAds.initialize(getActivity(), new OnInitializationCompleteListener() {
-            @Override
-            public void onInitializationComplete(InitializationStatus initializationStatus) {
-
-                //loadAd();
-            }
-        });
-        AdManagerAdRequest adRequest = new AdManagerAdRequest.Builder().build();
-  /*      mAdManagerAdView.loadAd(adRequest);
+//        MobileAds.initialize(getActivity(), new OnInitializationCompleteListener() {
+//            @Override
+//            public void onInitializationComplete(InitializationStatus initializationStatus) {
+//
+//                loadAd();
+//            }
+//        });
+    /*    AdManagerAdRequest adRequest = new AdManagerAdRequest.Builder().build();
+       mAdManagerAdView.loadAd(adRequest);
         mAdManagerAdView.setAdListener(new AdListener() {
             @Override
             public void onAdLoaded() {
@@ -143,7 +144,7 @@ public class Shop_homescreen_fragment extends Fragment implements Instruction_ad
         });
 */
         main();
-        //instruction_func();
+        instruction_func();
     }
 
 
@@ -164,7 +165,7 @@ public class Shop_homescreen_fragment extends Fragment implements Instruction_ad
         businessAccountButton = (LinearLayout) view.findViewById(R.id.businessAccountButtonID);
         localPageButton = (LinearLayout) view.findViewById(R.id.localPageButtonID);
         sellHistoryButton = (LinearLayout) view.findViewById(R.id.sellHistoryButtonID);
-        //earnMoneyButton = (LinearLayout) view.findViewById(R.id.earnMoneyButtonID);
+
         couponButton = (LinearLayout) view.findViewById(R.id.couponButtonID);
         localSellButton = (LinearLayout) view.findViewById(R.id.localSellButtonID);
         sendNotificationButton = (LinearLayout) view.findViewById(R.id.sendNotificationButtonID);
@@ -175,7 +176,7 @@ public class Shop_homescreen_fragment extends Fragment implements Instruction_ad
         getProductViewModel = new ViewModelProvider(this).get(Get_product.class);
 
         //banner add
-        //mAdManagerAdView = (AdManagerAdView) view.findViewById(R.id.adManagerAdView);
+        mAdManagerAdView = (AdManagerAdView) view.findViewById(R.id.adManagerAdView);
 
         fragmentManager = getFragmentManager();
 
@@ -320,29 +321,6 @@ public class Shop_homescreen_fragment extends Fragment implements Instruction_ad
             }
         });
 
-   /*     earnMoneyButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addInterval = new ViewModelProvider(getActivity()).get(AddInterval.class);
-                SimpleDateFormat format = new SimpleDateFormat("yy/MM/dd HH:mm:ss");
-                String currentDate = (String) android.text.format.DateFormat.format("yy/MM/dd HH:mm:ss", new java.util.Date());
-
-                String type = "shop";
-                earningViewModel.getData(String.valueOf(userId), type).observe(getViewLifecycleOwner(), new Observer<Earning_response>() {
-                    @Override
-                    public void onChanged(Earning_response earning_response) {
-                        //Toast.makeText(getActivity(), earning_response.getEarning_id(), Toast.LENGTH_SHORT).show();
-
-                        Earning_Session_Management earning_session_management = new Earning_Session_Management(getActivity());
-
-                        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity());
-                        Intent intent = new Intent(getActivity(), MainActivity.class);
-                        earning_session_management.saveSession(earning_response.getEarning_id());
-                        earning_session_management.saveType(type);
-                        earning_session_management.saveBaseId(String.valueOf(userId));
-                        startActivity(intent);
-
-                           */
 
 
         /* addInterval.getResponse(earning_response.getEarning_id(), currentDate, 1).observe(getViewLifecycleOwner(), new Observer<addInterval_response>() {
@@ -392,22 +370,8 @@ public class Shop_homescreen_fragment extends Fragment implements Instruction_ad
 
                                     }
                                 }
-                            });*//*
+                            });*/
 
-
-         *//*fragmentManager.beginTransaction().setCustomAnimations(
-                                R.anim.slide_in,  // enter
-                                R.anim.fade_out,  // exit
-                                R.anim.fade_in,   // popEnter
-                                R.anim.slide_out  // popExit
-                        ).replace(R.id.frame_container, new Home_fragment(earning_response.getEarning_id())).addToBackStack(null).commit();
-                    *//*
-                    }
-                });
-
-            }
-        });
-*/
         couponButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

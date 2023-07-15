@@ -41,6 +41,7 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.FullScreenContentCallback;
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.admanager.AdManagerAdView;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
@@ -58,7 +59,7 @@ public class Customer_homescreen_fragment extends Fragment implements Instructio
     User_instruction userInstruction;
     private List<user_instruction_response> instructionList;
     Instruction_adapter instructionAdapter;
-    //private AdManagerAdView mAdManagerAdView;
+    private AdManagerAdView mAdManagerAdView;
     AddInterval addInterval;
     private InterstitialAd InterstitialAd;
     @SuppressLint("MissingPermission")
@@ -75,7 +76,7 @@ public class Customer_homescreen_fragment extends Fragment implements Instructio
 
 
         main();
-        //instruction_func();
+        instruction_func();
     }
 
     private void instruction_func() {
@@ -127,38 +128,7 @@ public class Customer_homescreen_fragment extends Fragment implements Instructio
     }
 
     private void main() {
-       /*
-        AdManagerAdRequest adRequest = new AdManagerAdRequest.Builder().build();
-        mAdManagerAdView.loadAd(adRequest);
-       mAdManagerAdView.setAdListener(new AdListener() {
-            @Override
-            public void onAdLoaded() {
-                // Code to be executed when an ad finishes loading.
-                // Toast.makeText(Shop_main_activity.this,"fiinsh",Toast.LENGTH_SHORT).show();
-            }
 
-            @Override
-            public void onAdFailedToLoad(LoadAdError adError) {
-                // Code to be executed when an ad request fails.
-            }
-
-            @Override
-            public void onAdOpened() {
-                // Code to be executed when an ad opens an overlay that
-                // covers the screen.
-            }
-
-            @Override
-            public void onAdClicked() {
-                // Code to be executed when the user clicks on an ad.
-            }
-
-            @Override
-            public void onAdClosed() {
-                // Code to be executed when the user is about to return
-                // to the app after tapping on an ad.
-            }
-        });*/
     }
 
     @Override
@@ -176,7 +146,7 @@ public class Customer_homescreen_fragment extends Fragment implements Instructio
 
         fragmentManager = getFragmentManager();
         //banner add
-        //mAdManagerAdView = (AdManagerAdView) view.findViewById(R.id.adManagerAdView);
+        mAdManagerAdView =view.findViewById(R.id.adManagerAdView);
 
         SessionManagement sessionManagement = new SessionManagement(getActivity());
         int userId = sessionManagement.getSession();
@@ -230,29 +200,9 @@ public class Customer_homescreen_fragment extends Fragment implements Instructio
             }
         });
 
-        earnMoneyButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addInterval = new ViewModelProvider(getActivity()).get(AddInterval.class);
-                SimpleDateFormat format = new SimpleDateFormat("yy/MM/dd HH:mm:ss");
-                String currentDate = (String) android.text.format.DateFormat.format("yy/MM/dd HH:mm:ss", new java.util.Date());
 
-                String type = "customer";
-                earningViewModel.getData(String.valueOf(userId), type).observe(getViewLifecycleOwner(), new Observer<Earning_response>() {
-                    @Override
-                    public void onChanged(Earning_response earning_response) {
-                        //Toast.makeText(getActivity(), earning_response.getEarning_id(), Toast.LENGTH_SHORT).show();
 
-                        Earning_Session_Management earning_session_management = new Earning_Session_Management(getActivity());
-
-                        Intent intent = new Intent(getActivity(), MainActivity.class);
-                        //intent.putExtra("id", earning_response.getEarning_id());
-                        //intent.putExtra("type", type);
-                        earning_session_management.saveSession(earning_response.getEarning_id());
-                        earning_session_management.saveType(type);
-                        earning_session_management.saveBaseId(String.valueOf(userId));
-                        startActivity(intent);
-                        /*addInterval.getResponse(earning_response.getEarning_id(), currentDate, 1).observe(getViewLifecycleOwner(), new Observer<addInterval_response>() {
+        /*addInterval.getResponse(earning_response.getEarning_id(), currentDate, 1).observe(getViewLifecycleOwner(), new Observer<addInterval_response>() {
                             @Override
                             public void onChanged(addInterval_response addInterval_response) {
                                 if (addInterval_response.getToken() == 0) {
@@ -298,29 +248,29 @@ public class Customer_homescreen_fragment extends Fragment implements Instructio
 
                                 }
                             }
-                        });*/
+                        });*//*
 
-                      /*  if (InterstitialAd != null) {
+                      *//*  if (InterstitialAd != null) {
                             InterstitialAd.show(getActivity());
                             startActivity(intent);
                         }else
                         {
                             loadAd();
                             startActivity(intent);
-                        }*/
+                        }*//*
 
-                        /*fragmentManager.beginTransaction().setCustomAnimations(
+                        *//*fragmentManager.beginTransaction().setCustomAnimations(
                                 R.anim.slide_in,  // enter
                                 R.anim.fade_out,  // exit
                                 R.anim.fade_in,   // popEnter
                                 R.anim.slide_out  // popExit
                         ).replace(R.id.frame_container, new Home_fragment(earning_response.getEarning_id())).addToBackStack(null).commit();
-                    */
+                    *//*
                     }
                 });
 
             }
-        });
+        });*/
 
         return view;
     }

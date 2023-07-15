@@ -260,10 +260,12 @@ public class Otp_validation_activity extends AppCompatActivity implements TextWa
 
                                             String currentTime = (String) android.text.format.DateFormat.format("yy/MM/dd HH:mm:ss", new java.util.Date());
 
-                                            last_logintime.getUpdate(password, currentTime, "shop").observe(Otp_validation_activity.this, new Observer<update_last_logintime_response>() {
+                                            Log.d("dataxx", "onChanged: "+password+" "+currentTime+" "+token_update_response.getMessage());
+
+/*                                            last_logintime.getUpdate(password, currentTime, "shop").observe(Otp_validation_activity.this, new Observer<update_last_logintime_response>() {
                                                 @Override
                                                 public void onChanged(update_last_logintime_response update_last_logintime_response) {
-                                                    Log.d("mesbaul", update_last_logintime_response.getMessage());
+                                                    Log.d("dataxx", update_last_logintime_response.getMessage());
                                                     if (update_last_logintime_response.getMessage().equals("Edited successfully")) {
                                                         User user = new User(password, type, phone);
                                                         SessionManagement sessionManagement = new SessionManagement(Otp_validation_activity.this);
@@ -279,13 +281,15 @@ public class Otp_validation_activity extends AppCompatActivity implements TextWa
                                                         startActivity(intent);
                                                     }
                                                 }
-                                            });
-
+                                            });*/
+                                            User user = new User(password, type, phone);
+                                            SessionManagement sessionManagement = new SessionManagement(Otp_validation_activity.this);
+                                            sessionManagement.saveSession(user);
+                                            Intent intent = new Intent(Otp_validation_activity.this, Shop_main_activity.class);
+                                            //intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                                            startActivity(intent);
                                         } else {
-                                            //dialog.dismiss();
-                                            // Toast toast = Toast.makeText(Otp_validation_activity.this, "Something error.Try again", Toast.LENGTH_SHORT);
-                                            // toast.show();
-                                            //loader.dismiss();
+                                            Toast.makeText(Otp_validation_activity.this, "Something error.Try again", Toast.LENGTH_SHORT);
                                             SessionManagement sessionManagement = new SessionManagement(Otp_validation_activity.this);
                                             sessionManagement.removeSession();
                                             Intent intent = new Intent(Otp_validation_activity.this, LoginActivity.class);
@@ -319,6 +323,13 @@ public class Otp_validation_activity extends AppCompatActivity implements TextWa
 
                                             String currentTime = (String) android.text.format.DateFormat.format("yy/MM/dd HH:mm:ss", new java.util.Date());
 
+                                            User user = new User(password, type, phone);
+                                            SessionManagement sessionManagement = new SessionManagement(Otp_validation_activity.this);
+                                            sessionManagement.saveSession(user);
+                                            Intent intent = new Intent(Otp_validation_activity.this, Customer_main_activity.class);
+                                            //intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                                            startActivity(intent);
+/*
                                             last_logintime.getUpdate(password, currentTime, "customer").observe(Otp_validation_activity.this, new Observer<update_last_logintime_response>() {
                                                 @Override
                                                 public void onChanged(update_last_logintime_response update_last_logintime_response) {
@@ -339,7 +350,7 @@ public class Otp_validation_activity extends AppCompatActivity implements TextWa
                                                     }
 
                                                 }
-                                            });
+                                            });*/
 
                                         } else {
                                             //dialog.dismiss();

@@ -1,5 +1,6 @@
 package com.ALife.alife.adapter;
 
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +39,13 @@ public class Barcode_view_adapter extends RecyclerView.Adapter<Barcode_view_adap
 
         holder.titleText.setText(response.getName());
         holder.barcodeImage.setImageBitmap(Helpers.barCodeGenerator(holder.itemView.getContext(), response.getBarcode()));
+        holder.barcodeText.setText(response.getBarcode());
+        holder.sellingPriceText.setText("Price: " + response.getPrice());
+        holder.stockAmountText.setText("Amount: " + response.getStock() + " " + response.getUnit());
+        String sourceString = "Powered by " + "<b>ALIFE</b> ";
+        holder.sponsorText.setText(Html.fromHtml(sourceString));
+
+        // holder.barcodeText.setTextScaleX((float) 1.6 );
     }
 
     @Override
@@ -46,14 +54,18 @@ public class Barcode_view_adapter extends RecyclerView.Adapter<Barcode_view_adap
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView titleText;
+        TextView titleText, barcodeText, stockAmountText, sellingPriceText, sponsorText;
         ImageView barcodeImage;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             titleText = itemView.findViewById(R.id.titleText);
-            barcodeImage=itemView.findViewById(R.id.barcodeImage);
+            barcodeText = itemView.findViewById(R.id.barcodeText);
+            stockAmountText = itemView.findViewById(R.id.stockAmountText);
+            sellingPriceText = itemView.findViewById(R.id.sellingPriceText);
+            sponsorText = itemView.findViewById(R.id.sponsorText);
+            barcodeImage = itemView.findViewById(R.id.barcodeImage);
         }
     }
 }

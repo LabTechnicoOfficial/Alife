@@ -5,7 +5,7 @@ import androidx.room.RoomDatabase;
 
 import com.google.android.gms.tasks.Task;
 
-@Database(entities = {Products.class}, version = 2)
+@Database(entities = {Products.class}, version = 3)
 public abstract class AppDatabase extends RoomDatabase {
     public abstract ProductDao productDao();
 }
