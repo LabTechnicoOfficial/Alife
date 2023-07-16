@@ -1,5 +1,6 @@
 package com.ALife.alife.adapter;
 
+import android.annotation.SuppressLint;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,6 +33,7 @@ public class Barcode_view_adapter extends RecyclerView.Adapter<Barcode_view_adap
         return new ViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull Barcode_view_adapter.ViewHolder holder, int position) {
 
@@ -40,13 +42,18 @@ public class Barcode_view_adapter extends RecyclerView.Adapter<Barcode_view_adap
         holder.titleText.setText(response.getName());
         holder.barcodeImage.setImageBitmap(Helpers.barCodeGenerator(holder.itemView.getContext(), response.getBarcode()));
         holder.barcodeText.setText(response.getBarcode());
-        holder.sellingPriceText.setText(Html.fromHtml("Price: <b>" + response.getPrice()+"<b> tk"));
+
+        String sizeText = "";
+
         if (response.getType().isEmpty()){
-            holder.availableTypeText.setVisibility(View.VISIBLE);
+            holder.availableTypeText.setVisibility(View.INVISIBLE);
         }else {
-            holder.availableTypeText.setVisibility(View.VISIBLE);
-            holder.availableTypeText.setText(Html.fromHtml("Types: <b>" + response.getType()+"<b>"));
+            holder.availableTypeText.setVisibility(View.INVISIBLE);
+            //holder.availableTypeText.setText(Html.fromHtml("Size: <b>" + response.getType()+"<b>"));
+            sizeText = Html.fromHtml("Size: <b>" + response.getType()+"<b>").toString();
         }
+
+        holder.sellingPriceText.setText(Html.fromHtml("Price: <b>" + response.getPrice()+"<b> tk")+" "+sizeText);
         String sourceString = "Powered by " + "<b>ALIFE</b>";
         holder.sponsorText.setText(Html.fromHtml(sourceString));
 
