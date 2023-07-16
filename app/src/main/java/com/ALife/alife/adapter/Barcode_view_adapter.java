@@ -45,7 +45,7 @@ public class Barcode_view_adapter extends RecyclerView.Adapter<Barcode_view_adap
             holder.availableTypeText.setVisibility(View.GONE);
         }else {
             holder.availableTypeText.setVisibility(View.VISIBLE);
-            holder.availableTypeText.setText("TYpes: " + response.getType());
+            holder.availableTypeText.setText("Types: " + response.getType());
         }
         String sourceString = "Powered by " + "<b>ALIFE</b> ";
         holder.sponsorText.setText(Html.fromHtml(sourceString));
