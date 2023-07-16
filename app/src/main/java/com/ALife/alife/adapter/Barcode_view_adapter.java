@@ -40,7 +40,7 @@ public class Barcode_view_adapter extends RecyclerView.Adapter<Barcode_view_adap
         holder.titleText.setText(response.getName());
         holder.barcodeImage.setImageBitmap(Helpers.barCodeGenerator(holder.itemView.getContext(), response.getBarcode()));
         holder.barcodeText.setText(response.getBarcode());
-        holder.sellingPriceText.setText("Price: " + response.getPrice());
+        holder.sellingPriceText.setText("Price: " + response.getPrice()+" tk");
         holder.stockAmountText.setText("Amount: " + response.getStock() + " " + response.getUnit());
         String sourceString = "Powered by " + "<b>ALIFE</b> ";
         holder.sponsorText.setText(Html.fromHtml(sourceString));

@@ -34,7 +34,7 @@
 
 
         <TextView
-            android:id="@+id/stockAmountText"
+            android:id="@+id/sellingPriceText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="left"
@@ -46,10 +46,10 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/sellingPriceText"
+            android:id="@+id/stockAmountText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintLeft_toRightOf="@id/stockAmountText"
+            app:layout_constraintLeft_toRightOf="@id/sellingPriceText"
             app:layout_constraintTop_toTopOf="parent"
             android:text="jkjjbb"
             android:layout_marginLeft="10dp"
