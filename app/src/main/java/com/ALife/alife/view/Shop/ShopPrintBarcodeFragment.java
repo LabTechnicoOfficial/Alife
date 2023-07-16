@@ -234,7 +234,7 @@ public class ShopPrintBarcodeFragment extends Fragment implements Shop_product_b
                 for (int i = 0; i < get_product_responses.size(); i++) {
                     String printCheck = "0";
                     Get_product_response response = get_product_responses.get(i);
-                    InsertProductThread insertProductThread = new InsertProductThread(response.getProduct_id(), response.getProduct_name(), printCheck, response.getProduct_image(), response.getCode(), response.getStock_amount(), response.getSelling_price(), response.getProduct_unit(), getActivity());
+                    InsertProductThread insertProductThread = new InsertProductThread(response.getProduct_id(), response.getProduct_name(), printCheck, response.getProduct_image(), response.getCode(), response.getStock_amount(), response.getSelling_price(), response.getProduct_unit(), response.getType(), getActivity());
                     insertProductThread.start();
 
                 }

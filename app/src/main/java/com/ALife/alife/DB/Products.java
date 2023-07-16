@@ -33,9 +33,10 @@ public class Products {
     @ColumnInfo(name = "unit")
     private String unit;
 
+    @ColumnInfo(name = "type")
+    private String type;
 
-    public Products(String productID, String name, String printCheck, String image, String barcode, String stock, String price, String unit) {
-        this.id = id;
+    public Products(String productID, String name, String printCheck, String image, String barcode, String stock, String price, String unit, String type) {
         this.productID = productID;
         this.name = name;
         this.printCheck = printCheck;
@@ -44,6 +45,15 @@ public class Products {
         this.stock = stock;
         this.price = price;
         this.unit = unit;
+        this.type = type;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public int getId() {

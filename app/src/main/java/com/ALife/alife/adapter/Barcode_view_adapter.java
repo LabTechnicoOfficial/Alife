@@ -41,7 +41,12 @@ public class Barcode_view_adapter extends RecyclerView.Adapter<Barcode_view_adap
         holder.barcodeImage.setImageBitmap(Helpers.barCodeGenerator(holder.itemView.getContext(), response.getBarcode()));
         holder.barcodeText.setText(response.getBarcode());
         holder.sellingPriceText.setText("Price: " + response.getPrice()+" tk");
-        holder.stockAmountText.setText("Amount: " + response.getStock() + " " + response.getUnit());
+        if (response.getType().isEmpty()){
+            holder.availableTypeText.setVisibility(View.GONE);
+        }else {
+            holder.availableTypeText.setVisibility(View.VISIBLE);
+            holder.availableTypeText.setText("TYpes: " + response.getType());
+        }
         String sourceString = "Powered by " + "<b>ALIFE</b> ";
         holder.sponsorText.setText(Html.fromHtml(sourceString));
 
@@ -54,7 +59,7 @@ public class Barcode_view_adapter extends RecyclerView.Adapter<Barcode_view_adap
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView titleText, barcodeText, stockAmountText, sellingPriceText, sponsorText;
+        TextView titleText, barcodeText, availableTypeText, sellingPriceText, sponsorText;
         ImageView barcodeImage;
 
         public ViewHolder(@NonNull View itemView) {
@@ -62,7 +67,7 @@ public class Barcode_view_adapter extends RecyclerView.Adapter<Barcode_view_adap
 
             titleText = itemView.findViewById(R.id.titleText);
             barcodeText = itemView.findViewById(R.id.barcodeText);
-            stockAmountText = itemView.findViewById(R.id.stockAmountText);
+            availableTypeText = itemView.findViewById(R.id.availableTypeText);
             sellingPriceText = itemView.findViewById(R.id.sellingPriceText);
             sponsorText = itemView.findViewById(R.id.sponsorText);
             barcodeImage = itemView.findViewById(R.id.barcodeImage);
