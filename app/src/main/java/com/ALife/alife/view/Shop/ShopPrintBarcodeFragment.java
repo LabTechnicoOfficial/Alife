@@ -72,8 +72,6 @@ public class ShopPrintBarcodeFragment extends Fragment implements Shop_product_b
     ImageView printButton;
     View barCodeLayout;
 
-    List<Products> searchedProductList = new ArrayList<>();
-
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -85,21 +83,6 @@ public class ShopPrintBarcodeFragment extends Fragment implements Shop_product_b
 
 
         loadProducts();
-
-//        nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
-//            @Override
-//            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-//
-//                //offersButton.show();
-//                if (scrollY == v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight()) {
-//                    // in this method we are incrementing page number,
-//                    // making progress bar visible and calling get data method.
-//                    page++;
-//                    loadProducts(page);
-//
-//                }
-//            }
-//        });
 
         printButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -239,8 +222,6 @@ public class ShopPrintBarcodeFragment extends Fragment implements Shop_product_b
 
                 }
 
-                // get_products();
-
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -264,7 +245,7 @@ public class ShopPrintBarcodeFragment extends Fragment implements Shop_product_b
     }
 
     private void setUpAdapter(List<Products> productList) {
-        //Log.d("dataxx", "setUpAdapter: "+String.valueOf(productList.size()));
+
         progressBar.setVisibility(View.GONE);
         productAdapter = new Shop_product_barcode_print_adapter(productList);
         productAdapter.notifyDataSetChanged();
@@ -296,7 +277,7 @@ public class ShopPrintBarcodeFragment extends Fragment implements Shop_product_b
     @Override
     public void onCheckBoxClick(int position, boolean state) {
         Products response = productList.get(position);
-        //Toast.makeText(getActivity(), response.getProductID() + " " + String.valueOf(state), Toast.LENGTH_SHORT).show();
-        productDao.updatePrintCheck(response.getProductID(), state ? "1" : "0");
+
+        productDao.updatePrintCheck(String.valueOf(response.getId()), state ? "1" : "0");
     }
 }

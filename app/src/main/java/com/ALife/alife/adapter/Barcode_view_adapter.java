@@ -40,17 +40,16 @@ public class Barcode_view_adapter extends RecyclerView.Adapter<Barcode_view_adap
         holder.titleText.setText(response.getName());
         holder.barcodeImage.setImageBitmap(Helpers.barCodeGenerator(holder.itemView.getContext(), response.getBarcode()));
         holder.barcodeText.setText(response.getBarcode());
-        holder.sellingPriceText.setText("Price: " + response.getPrice()+" tk");
+        holder.sellingPriceText.setText(Html.fromHtml("Price: <b>" + response.getPrice()+"<b> tk"));
         if (response.getType().isEmpty()){
-            holder.availableTypeText.setVisibility(View.GONE);
+            holder.availableTypeText.setVisibility(View.VISIBLE);
         }else {
             holder.availableTypeText.setVisibility(View.VISIBLE);
-            holder.availableTypeText.setText("Types: " + response.getType());
+            holder.availableTypeText.setText(Html.fromHtml("Types: <b>" + response.getType()+"<b>"));
         }
-        String sourceString = "Powered by " + "<b>ALIFE</b> ";
+        String sourceString = "Powered by " + "<b>ALIFE</b>";
         holder.sponsorText.setText(Html.fromHtml(sourceString));
 
-        // holder.barcodeText.setTextScaleX((float) 1.6 );
     }
 
     @Override

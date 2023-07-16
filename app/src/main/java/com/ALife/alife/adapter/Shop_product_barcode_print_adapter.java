@@ -1,5 +1,6 @@
 package com.ALife.alife.adapter;
 
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,6 +44,15 @@ public class Shop_product_barcode_print_adapter extends RecyclerView.Adapter<Sho
 
         holder.titleText.setText(response.getName());
 
+        if (response.getType().isEmpty()) {
+            holder.typeText.setVisibility(View.GONE);
+        } else {
+            holder.typeText.setVisibility(View.VISIBLE);
+            holder.typeText.setText(Html.fromHtml("Type: <b>" + response.getType() + "<b>"));
+        }
+
+        holder.priceText.setText(Html.fromHtml("Price: <b>" + response.getPrice() + "<b> tk"));
+
         if (response.getPrintCheck().equals("1")) {
             holder.checkBox.setChecked(true);
         } else {
@@ -78,7 +88,7 @@ public class Shop_product_barcode_print_adapter extends RecyclerView.Adapter<Sho
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView productImage;
-        TextView titleText;
+        TextView titleText, typeText, priceText;
         CheckBox checkBox;
 
         public ViewHolder(@NonNull View itemView) {
@@ -86,6 +96,8 @@ public class Shop_product_barcode_print_adapter extends RecyclerView.Adapter<Sho
 
             productImage = itemView.findViewById(R.id.productImage);
             titleText = itemView.findViewById(R.id.titleText);
+            typeText = itemView.findViewById(R.id.typeText);
+            priceText = itemView.findViewById(R.id.priceText);
             checkBox = itemView.findViewById(R.id.checkBox);
 
             checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

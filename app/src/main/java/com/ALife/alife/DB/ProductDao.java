@@ -26,6 +26,6 @@ public interface ProductDao {
     @Query("DELETE From tblProducts")
     void clearProducts();
 
-    @Query("UPDATE tblProducts  SET print_check = :printCheck WHERE product_id =:product_id")
-    void updatePrintCheck(String product_id, String printCheck);
+    @Query("UPDATE tblProducts  SET print_check = :printCheck WHERE id =:id")
+    void updatePrintCheck(String id, String printCheck);
 }
