@@ -40,8 +40,8 @@ import com.ALife.alife.DB.ProductDao;
 import com.ALife.alife.DB.Products;
 import com.ALife.alife.R;
 import com.ALife.alife.Utils.Helpers;
-import com.ALife.alife.adapter.Barcode_view_adapter;
-import com.ALife.alife.adapter.Shop_product_barcode_print_adapter;
+import com.ALife.alife.adapter.Barcode.Barcode_view_adapter;
+import com.ALife.alife.adapter.Barcode.Shop_product_barcode_print_adapter;
 import com.ALife.alife.model.Get_product_response;
 import com.ALife.alife.session.SessionManagement;
 import com.ALife.alife.viewmodel.Get_all_shop_product;
@@ -246,7 +246,7 @@ public class ShopPrintBarcodeFragment extends Fragment implements Shop_product_b
     private void setUpAdapter(List<Products> productList) {
 
         progressBar.setVisibility(View.GONE);
-        productAdapter = new Shop_product_barcode_print_adapter(productList);
+        productAdapter = new Shop_product_barcode_print_adapter(productList, productDao);
         productAdapter.notifyDataSetChanged();
         productAdapter.setOnClickListener(ShopPrintBarcodeFragment.this::onCheckBoxClick);
         productView.setAdapter(productAdapter);
@@ -278,5 +278,6 @@ public class ShopPrintBarcodeFragment extends Fragment implements Shop_product_b
         Products response = productList.get(position);
 
         productDao.updatePrintCheck(String.valueOf(response.getId()), state ? "1" : "0");
+
     }
 }

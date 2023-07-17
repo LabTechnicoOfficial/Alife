@@ -1,21 +1,24 @@
-package com.ALife.alife.adapter;
+package com.ALife.alife.adapter.Barcode;
 
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.ALife.alife.DB.ProductDao;
 import com.ALife.alife.DB.Products;
 import com.ALife.alife.R;
-import com.ALife.alife.model.Get_product_response;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -23,9 +26,12 @@ import java.util.List;
 
 public class Shop_product_barcode_print_adapter extends RecyclerView.Adapter<Shop_product_barcode_print_adapter.ViewHolder> {
     private List<Products> productList = new ArrayList<>();
+    List<Products> typeList = new ArrayList<>();
+    ProductDao productDao;
 
-    public Shop_product_barcode_print_adapter(List<Products> productList) {
+    public Shop_product_barcode_print_adapter(List<Products> productList, ProductDao productDao) {
         this.productList = productList;
+        this.productDao = productDao;
     }
 
     @NonNull
@@ -43,6 +49,7 @@ public class Shop_product_barcode_print_adapter extends RecyclerView.Adapter<Sho
         Picasso.get().load(response.getImage()).into(holder.productImage);
 
         holder.titleText.setText(response.getName());
+/*
 
         if (response.getType().isEmpty()) {
             holder.typeText.setVisibility(View.GONE);
@@ -50,6 +57,7 @@ public class Shop_product_barcode_print_adapter extends RecyclerView.Adapter<Sho
             holder.typeText.setVisibility(View.VISIBLE);
             holder.typeText.setText(Html.fromHtml("Type: <b>" + response.getType() + "<b>"));
         }
+*/
 
         holder.priceText.setText(Html.fromHtml("Price: <b>" + response.getPrice() + "<b> tk"));
 
@@ -69,6 +77,21 @@ public class Shop_product_barcode_print_adapter extends RecyclerView.Adapter<Sho
 //                }
 //            }
 //        });
+
+
+        typeList = productDao.getProductsTypes(response.getProductID());
+
+        if (typeList.size() > 1) {
+            holder.typeLayout.setVisibility(View.VISIBLE);
+            holder.checkBox.setVisibility(View.GONE);
+            Shop_product_type_view_adapter typeAdapter = new Shop_product_type_view_adapter(typeList, productDao);
+           // typeAdapter.setOnClickListener(Shop_product_barcode_print_adapter.this::onCheckBoxClick);
+            holder.typeView.setAdapter(typeAdapter);
+
+        } else {
+            holder.typeLayout.setVisibility(View.GONE);
+            holder.checkBox.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -77,6 +100,13 @@ public class Shop_product_barcode_print_adapter extends RecyclerView.Adapter<Sho
     }
 
     private OnCheckBoxClickListener onCheckBoxClickListener;
+
+//    @Override
+//    public void onCheckBoxClick(int position, boolean state) {
+//        //Products response = typeList.get(position);
+//
+//        Log.d("dataxx", "onCheckBoxClick: "+String.valueOf(typeList.size()));
+//    }
 
     public interface OnCheckBoxClickListener {
         void onCheckBoxClick(int position, boolean state);
@@ -90,6 +120,8 @@ public class Shop_product_barcode_print_adapter extends RecyclerView.Adapter<Sho
         ImageView productImage;
         TextView titleText, typeText, priceText;
         CheckBox checkBox;
+        LinearLayout typeLayout;
+        RecyclerView typeView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -99,6 +131,10 @@ public class Shop_product_barcode_print_adapter extends RecyclerView.Adapter<Sho
             typeText = itemView.findViewById(R.id.typeText);
             priceText = itemView.findViewById(R.id.priceText);
             checkBox = itemView.findViewById(R.id.checkBox);
+            typeLayout = itemView.findViewById(R.id.typeLayout);
+            typeView = itemView.findViewById(R.id.typeView);
+            typeView.setHasFixedSize(true);
+            typeView.setLayoutManager(new LinearLayoutManager(itemView.getContext()));
 
             checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
@@ -111,6 +147,7 @@ public class Shop_product_barcode_print_adapter extends RecyclerView.Adapter<Sho
                     }
                 }
             });
+
         }
     }
 }

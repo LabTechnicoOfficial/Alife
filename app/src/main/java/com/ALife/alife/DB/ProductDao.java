@@ -11,13 +11,13 @@ import java.util.List;
 public interface ProductDao {
 
 
-    @Query("SELECT * From tblProducts")
+    @Query("SELECT * From tblProducts GROUP BY product_id")
     List<Products> getProductsList();
 
     @Query("SELECT * From tblProducts WHERE print_check = '1'")
     List<Products> getMarkedProductList();
 
-    @Query("SELECT * from tblProducts where  name  LIKE '%' || :key || '%'")
+    @Query("SELECT * from tblProducts where  name  LIKE '%' || :key || '%' GROUP BY product_id")
     List<Products> getSearchedProductsList(String key);
 
     @Insert
@@ -28,4 +28,7 @@ public interface ProductDao {
 
     @Query("UPDATE tblProducts  SET print_check = :printCheck WHERE id =:id")
     void updatePrintCheck(String id, String printCheck);
+
+    @Query("SELECT * From tblProducts WHERE product_id= :product_id")
+    List<Products> getProductsTypes(String product_id);
 }

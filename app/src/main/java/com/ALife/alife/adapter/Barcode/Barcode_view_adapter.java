@@ -1,4 +1,4 @@
-package com.ALife.alife.adapter;
+package com.ALife.alife.adapter.Barcode;
 
 import android.annotation.SuppressLint;
 import android.text.Html;

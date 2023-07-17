@@ -5,9 +5,11 @@
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
     android:background="@drawable/border_shape"
+    android:maxWidth="250dp"
+    android:maxHeight="220dp"
     android:paddingLeft="5dp"
-    android:paddingBottom="5dp"
-    android:paddingRight="5dp">
+    android:paddingRight="5dp"
+    android:paddingBottom="5dp">
 
 
     <TextView
@@ -53,7 +55,6 @@
             android:id="@+id/sellingPriceText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="left"
             android:lines="2"
             android:text="45"
             android:textSize="10sp"
@@ -64,18 +65,19 @@
             android:id="@+id/availableTypeText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="start"
             android:text="jkjjbb"
-            android:textSize="8sp"
+            android:textSize="10sp"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent" />
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageView
         android:id="@+id/barcodeImage"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="80dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/contentLayout" />
