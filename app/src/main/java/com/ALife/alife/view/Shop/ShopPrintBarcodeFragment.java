@@ -20,7 +20,6 @@ import androidx.room.Room;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -158,7 +157,7 @@ public class ShopPrintBarcodeFragment extends Fragment implements Shop_product_b
         RecyclerView barCodeView = barcodeAlert.findViewById(R.id.barCodeView);
         barCodeView.setHasFixedSize(true);
         barCodeView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-        Barcode_view_adapter barcodeViewAdapter = new Barcode_view_adapter(markedProductList);
+        Barcode_view_adapter barcodeViewAdapter = new Barcode_view_adapter(markedProductList, sessionManagement.getSaveShopName());
         barCodeView.setAdapter(barcodeViewAdapter);
 
 
@@ -182,7 +181,7 @@ public class ShopPrintBarcodeFragment extends Fragment implements Shop_product_b
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 int item = Integer.parseInt(parent.getItemAtPosition(position).toString());
                 barCodeView.setLayoutManager(new GridLayoutManager(getActivity(), item));
-                Barcode_view_adapter barcodeViewAdapter = new Barcode_view_adapter(markedProductList);
+                Barcode_view_adapter barcodeViewAdapter = new Barcode_view_adapter(markedProductList, sessionManagement.getSaveShopName());
                 barCodeView.setAdapter(barcodeViewAdapter);
             }
 

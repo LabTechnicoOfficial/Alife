@@ -21,9 +21,11 @@ import java.util.List;
 public class Barcode_view_adapter extends RecyclerView.Adapter<Barcode_view_adapter.ViewHolder> {
 
     private List<Products> markedProductList = new ArrayList<>();
+    private String shopName;
 
-    public Barcode_view_adapter(List<Products> markedProductList) {
+    public Barcode_view_adapter(List<Products> markedProductList, String shopName) {
         this.markedProductList = markedProductList;
+        this.shopName = shopName;
     }
 
     @NonNull
@@ -54,8 +56,10 @@ public class Barcode_view_adapter extends RecyclerView.Adapter<Barcode_view_adap
         }
 
         holder.sellingPriceText.setText(Html.fromHtml("Price: <b>" + response.getPrice()+"<b> tk")+" "+sizeText);
-        String sourceString = "Powered by " + "<b>ALIFE</b>";
+        String sourceString = "<i>Powered by</i> " + "<b>ALIFE</b>";
         holder.sponsorText.setText(Html.fromHtml(sourceString));
+
+        holder.shopNameText.setText(shopName);
 
     }
 
@@ -65,7 +69,7 @@ public class Barcode_view_adapter extends RecyclerView.Adapter<Barcode_view_adap
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView titleText, barcodeText, availableTypeText, sellingPriceText, sponsorText;
+        TextView titleText, barcodeText, availableTypeText, sellingPriceText, sponsorText, shopNameText;
         ImageView barcodeImage;
 
         public ViewHolder(@NonNull View itemView) {
@@ -76,6 +80,7 @@ public class Barcode_view_adapter extends RecyclerView.Adapter<Barcode_view_adap
             availableTypeText = itemView.findViewById(R.id.availableTypeText);
             sellingPriceText = itemView.findViewById(R.id.sellingPriceText);
             sponsorText = itemView.findViewById(R.id.sponsorText);
+            shopNameText = itemView.findViewById(R.id.shopNameText);
             barcodeImage = itemView.findViewById(R.id.barcodeImage);
         }
     }

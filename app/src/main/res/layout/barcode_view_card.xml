@@ -5,7 +5,24 @@
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
     android:background="@drawable/border_shape"
-    android:padding="5dp">
+    android:paddingLeft="5dp"
+    android:paddingBottom="5dp"
+    android:paddingRight="5dp">
+
+
+    <TextView
+        android:id="@+id/shopNameText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="start"
+        android:lines="2"
+        android:text="shopname"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/titleText"
@@ -13,13 +30,13 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:gravity="start"
+        android:lines="2"
         android:text="title"
         android:textColor="@color/black"
-        android:textSize="12sp"
+        android:textSize="11sp"
         android:textStyle="bold"
-        android:lines="2"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/shopNameText" />
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -37,11 +54,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="left"
+            android:lines="2"
             android:text="45"
             android:textSize="10sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            android:lines="2"/>
+            app:layout_constraintLeft_toLeftOf="parent" />
 
         <TextView
             android:id="@+id/availableTypeText"

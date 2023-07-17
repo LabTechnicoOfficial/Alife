@@ -422,9 +422,7 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
                 name = shop_response.getName();
                 SHOP_NAME = name;
                 SHOP_NUMBER = shop_response.getPhone();
-                //Log.d("number:", shop_response.getPhone());
                 image = shop_response.getImage();
-                //Toast.makeText(homeScreen.this,name,Toast.LENGTH_SHORT).show();
                 Picasso.get().load(image).fit().centerInside().into(imageView);
                 profileName = (TextView) view.findViewById(R.id.profile_name);
                 profileName.setText(name);
