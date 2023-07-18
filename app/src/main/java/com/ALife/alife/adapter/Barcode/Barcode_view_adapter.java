@@ -45,19 +45,22 @@ public class Barcode_view_adapter extends RecyclerView.Adapter<Barcode_view_adap
         holder.barcodeImage.setImageBitmap(Helpers.barCodeGenerator(holder.itemView.getContext(), response.getBarcode()));
         holder.barcodeText.setText(response.getBarcode());
 
-        String sizeText = "";
 
-        if (response.getType().isEmpty()){
-            holder.availableTypeText.setVisibility(View.INVISIBLE);
-        }else {
-            holder.availableTypeText.setVisibility(View.INVISIBLE);
-            //holder.availableTypeText.setText(Html.fromHtml("Size: <b>" + response.getType()+"<b>"));
-            sizeText = Html.fromHtml("Size: <b>" + response.getType()+"<b>").toString();
-        }
 
-        holder.sellingPriceText.setText(Html.fromHtml("Price: <b>" + response.getPrice()+"<b> tk")+" "+sizeText);
-        String sourceString = "<i>Powered by</i> " + "<b>ALIFE</b>";
-        holder.sponsorText.setText(Html.fromHtml(sourceString));
+        holder.availableTypeText.setText(Html.fromHtml("Size: <b>" + response.getType()+"<b>"));
+
+//        if (response.getType().isEmpty()){
+//            holder.availableTypeText.setVisibility(View.INVISIBLE);
+//        }else {
+//            holder.availableTypeText.setVisibility(View.VISIBLE);
+//
+//            sizeText = Html.fromHtml("Size: <b>" + response.getType()+"<b>").toString();
+//        }
+
+        String sizeText=  !response.getType().isEmpty() ? Html.fromHtml("&emsp; Size: <b>" + response.getType()+"<b>").toString() : "";
+
+        holder.sellingPriceText.setText(Html.fromHtml("Price: <b>" + response.getPrice()+"<b> tk")+sizeText);
+        holder.sponsorText.setText(Html.fromHtml("<i>Powered by</i> " + "<font color='red'><b>ALIFE</b></font>"));
 
         holder.shopNameText.setText(shopName);
 

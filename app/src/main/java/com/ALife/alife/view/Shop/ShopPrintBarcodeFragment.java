@@ -161,6 +161,8 @@ public class ShopPrintBarcodeFragment extends Fragment implements Shop_product_b
         barCodeView.setAdapter(barcodeViewAdapter);
 
 
+
+
         List<String> items = new ArrayList<>();
         if (markedProductList.size() < 5) {
             for (int i = 0; i < markedProductList.size(); i++) {
