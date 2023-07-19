@@ -6,12 +6,12 @@ android {
     buildToolsVersion "30.0.3"
 
     defaultConfig {
-
         applicationId "com.ALife.alife"
         minSdkVersion 21
         targetSdkVersion 31
         versionCode 34
         versionName "1.01"
+
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -91,7 +91,7 @@ dependencies {
 
     //justify textview
     implementation 'me.biubiubiu.justifytext:library:1.1'
-    implementation "androidx.work:work-runtime:2.3.1"
+    implementation "androidx.work:work-runtime:2.7.1"
    // implementation 'androidx.work:work-runtime-ktx:2.8.1'
     implementation files('../app/libs/unity-ads.aar')
 
@@ -117,5 +117,7 @@ dependencies {
 
     //coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.3'
 
+    //onesignal
+    implementation 'com.onesignal:OneSignal:[4.0.0, 4.99.99]'
 
 }

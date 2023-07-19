@@ -25,6 +25,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -39,6 +40,7 @@ import android.widget.Toast;
 import com.ALife.alife.BuildConfig;
 import com.ALife.alife.Custom_Type.ProductSell;
 import com.ALife.alife.R;
+import com.ALife.alife.Utils.Constants;
 import com.ALife.alife.adapter.Instruction_adapter;
 import com.ALife.alife.model.Shop_response;
 import com.ALife.alife.model.getUser_deviceToken_response;
@@ -55,8 +57,11 @@ import com.ALife.alife.viewmodel.User_instruction;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.onesignal.OneSignal;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
@@ -99,8 +104,8 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
     Instruction_adapter instructionAdapter;
     public int leng;
     String date1 = "", date2 = "";
-    private String deviceToken;
 
+    int user;
 
     @SuppressLint("MissingPermission")
     protected void onStart() {
@@ -108,7 +113,7 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
         super.onStart();
 
         SessionManagement session = new SessionManagement(Shop_main_activity.this);
-        int user = session.getSession();
+        user = session.getSession();
 
 
         if (user == -1) {
@@ -119,51 +124,54 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
 
         }
         // check either another device loggedin or not
-//        FirebaseInstanceId.getInstance().getInstanceId()
-//                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
-//                        if (task.isSuccessful()) {
-//                            deviceToken = task.getResult().getToken();
-//                            user_deviceToken.getToken(String.valueOf(user), "shop").observe(Shop_main_activity.this, new Observer<getUser_deviceToken_response>() {
-//                                @Override
-//                                public void onChanged(getUser_deviceToken_response getUser_deviceToken_response) {
-//                                    if (!getUser_deviceToken_response.getToken().equals(deviceToken)) {
-//                                        //Log.d("token1",deviceToken);
-//                                        //Log.d("token2",getUser_deviceToken_response.getToken());
-//                                        Toast.makeText(Shop_main_activity.this, String.valueOf(user), Toast.LENGTH_SHORT).show();
-//                                        SessionManagement sessionManagement = new SessionManagement(Shop_main_activity.this);
-//                                        sessionManagement.removeSession();
-//                                        startActivity(new Intent(Shop_main_activity.this, LoginActivity.class));
-//
-//                                    }
-//                                }
-//                            });
-//                            /*user_deviceToken.getMessage(String.valueOf(user),"shop",deviceToken).observe(Shop_main_activity.this, new Observer<getUser_deviceToken_response>() {
-//                                @Override
-//                                public void onChanged(getUser_deviceToken_response getUser_deviceToken_response) {
-//                                    if(getUser_deviceToken_response.getToken().equals("no"))
-//                                    {
-//                                        Log.d("token1",deviceToken);
-//                                        Log.d("token2",getUser_deviceToken_response.getToken());
-//                                        Toast.makeText(Shop_main_activity.this,String.valueOf(user),Toast.LENGTH_SHORT).show();
-//                                        SessionManagment sessionManagment = new SessionManagment(Shop_main_activity.this);
-//                                        sessionManagment.removeSession();
-//                                        startActivity(new Intent(Shop_main_activity.this, LoginActivity.class));
-//                                    }
-//                                }
-//                            });*/
-//
-//                        } else {
-//                            SessionManagement sessionManagement = new SessionManagement(Shop_main_activity.this);
-//                            sessionManagement.removeSession();
-//                            startActivity(new Intent(Shop_main_activity.this, LoginActivity.class));
-//                            // Toast.makeText(LoginActivity.this, task.getException().toString(), Toast.LENGTH_SHORT).show();
-//                        }
-//                    }
-//                });
+        /*FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                        if (task.isSuccessful()) {
+                            deviceToken = task.getResult().getToken();
+                            user_deviceToken.getToken(String.valueOf(user), "shop").observe(Shop_main_activity.this, new Observer<getUser_deviceToken_response>() {
+                                @Override
+                                public void onChanged(getUser_deviceToken_response getUser_deviceToken_response) {
+                                    if (!getUser_deviceToken_response.getToken().equals(deviceToken)) {
+                                        //Log.d("token1",deviceToken);
+                                        //Log.d("token2",getUser_deviceToken_response.getToken());
+                                        Toast.makeText(Shop_main_activity.this, String.valueOf(user), Toast.LENGTH_SHORT).show();
+                                        SessionManagement sessionManagement = new SessionManagement(Shop_main_activity.this);
+                                        sessionManagement.removeSession();
+                                        startActivity(new Intent(Shop_main_activity.this, LoginActivity.class));
+
+                                    }
+                                }
+                            });
+                            */
+
+        /*user_deviceToken.getMessage(String.valueOf(user),"shop",deviceToken).observe(Shop_main_activity.this, new Observer<getUser_deviceToken_response>() {
+                                @Override
+                                public void onChanged(getUser_deviceToken_response getUser_deviceToken_response) {
+                                    if(getUser_deviceToken_response.getToken().equals("no"))
+                                    {
+                                        Log.d("token1",deviceToken);
+                                        Log.d("token2",getUser_deviceToken_response.getToken());
+                                        Toast.makeText(Shop_main_activity.this,String.valueOf(user),Toast.LENGTH_SHORT).show();
+                                        SessionManagment sessionManagment = new SessionManagment(Shop_main_activity.this);
+                                        sessionManagment.removeSession();
+                                        startActivity(new Intent(Shop_main_activity.this, LoginActivity.class));
+                                    }
+                                }
+                            });*//*
+
+                        } else {
+                            SessionManagement sessionManagement = new SessionManagement(Shop_main_activity.this);
+                            sessionManagement.removeSession();
+                            startActivity(new Intent(Shop_main_activity.this, LoginActivity.class));
+                            // Toast.makeText(LoginActivity.this, task.getException().toString(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });*/
         // end check
 
+        checkMultipleDeviceLogIN();
 
         // instruction_func();
         get_version.getData().observe(Shop_main_activity.this, new Observer<get_version_response>() {
@@ -219,6 +227,28 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
             }
         });
 
+    }
+
+    private void checkMultipleDeviceLogIN() {
+
+
+        OneSignal.initWithContext(getApplicationContext());
+        OneSignal.setAppId(Constants.ONESIGNAL_APP_ID);
+        String deviceToken = OneSignal.getDeviceState().getUserId();
+        Log.d("dataxx", "checkMultipleDeviceLogIN: "+deviceToken);
+
+        user_deviceToken.getToken(String.valueOf(user), "shop").observe(Shop_main_activity.this, new Observer<getUser_deviceToken_response>() {
+            @Override
+            public void onChanged(getUser_deviceToken_response getUser_deviceToken_response) {
+                if (!getUser_deviceToken_response.getToken().equals(deviceToken)) {
+
+                    SessionManagement sessionManagement = new SessionManagement(Shop_main_activity.this);
+                    sessionManagement.removeSession();
+                    startActivity(new Intent(Shop_main_activity.this, LoginActivity.class));
+
+                }
+            }
+        });
     }
 
 
@@ -423,7 +453,8 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
                 SHOP_NAME = name;
                 SHOP_NUMBER = shop_response.getPhone();
                 image = shop_response.getImage();
-                Picasso.get().load(image).fit().centerInside().into(imageView);
+                Log.d("dataxx", "onChanged: "+image);
+                //Picasso.get().load(image).fit().centerInside().into(imageView);
                 profileName = (TextView) view.findViewById(R.id.profile_name);
                 profileName.setText(name);
 

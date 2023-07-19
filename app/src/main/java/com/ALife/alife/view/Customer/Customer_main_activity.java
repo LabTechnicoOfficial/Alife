@@ -29,6 +29,7 @@ import android.widget.Toast;
 
 import com.ALife.alife.BuildConfig;
 import com.ALife.alife.R;
+import com.ALife.alife.Utils.Constants;
 import com.ALife.alife.model.Customer_response;
 import com.ALife.alife.model.getUser_deviceToken_response;
 import com.ALife.alife.model.get_version_response;
@@ -47,6 +48,7 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.onesignal.OneSignal;
 import com.squareup.picasso.Picasso;
 
 import java.util.Timer;
@@ -71,12 +73,14 @@ public class Customer_main_activity extends AppCompatActivity implements Navigat
     User_deviceToken user_deviceToken;
     AdManagerAdView mAdManagerAdView;
 
+    int userId;
+
     @SuppressLint("MissingPermission")
     protected void onStart() {
         // isInForeground = false;
         super.onStart();
         SessionManagement sessionManagement = new SessionManagement(Customer_main_activity.this);
-        int userId = sessionManagement.getSession();
+         userId = sessionManagement.getSession();
 
         SessionManagment_registration sessionManagment_registration = new SessionManagment_registration(this);
         if (userId == -1) {
@@ -86,35 +90,7 @@ public class Customer_main_activity extends AppCompatActivity implements Navigat
 
 
         }
-        // check either another device loggedin or not
-        FirebaseApp.initializeApp(getApplicationContext());
-        /*FirebaseInstanceId.getInstance().getInstanceId()
-                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
-                        if (task.isSuccessful()) {
-                            deviceToken = task.getResult().getToken();
-                            user_deviceToken.getToken(String.valueOf(userId), "customer").observe(Customer_main_activity.this, new Observer<getUser_deviceToken_response>() {
-                                @Override
-                                public void onChanged(getUser_deviceToken_response getUser_deviceToken_response) {
-                                    if (!getUser_deviceToken_response.getToken().equals(deviceToken)) {
-                                        SessionManagement sessionManagement = new SessionManagement(Customer_main_activity.this);
-                                        sessionManagement.removeSession();
-                                        startActivity(new Intent(Customer_main_activity.this, LoginActivity.class));
 
-                                    }
-                                }
-                            });
-
-                        } else {
-                            SessionManagement sessionManagement = new SessionManagement(Customer_main_activity.this);
-                            sessionManagement.removeSession();
-                            startActivity(new Intent(Customer_main_activity.this, LoginActivity.class));
-                            // Toast.makeText(LoginActivity.this, task.getException().toString(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });*/
-        // end check
         get_version.getData().observe(Customer_main_activity.this, new Observer<get_version_response>() {
             @Override
             public void onChanged(get_version_response get_version_response) {
@@ -241,6 +217,27 @@ public class Customer_main_activity extends AppCompatActivity implements Navigat
                 Picasso.get().load(image).fit().centerInside().into(imageView);
                 profileName = (TextView) view.findViewById(R.id.profile_name);
                 profileName.setText(name);
+            }
+        });
+
+        checkMultipleDeviceLogIN();
+    }
+
+    private void checkMultipleDeviceLogIN() {
+
+        OneSignal.initWithContext(getApplicationContext());
+        OneSignal.setAppId(Constants.ONESIGNAL_APP_ID);
+        String deviceToken = OneSignal.getDeviceState().getUserId();
+        Log.d("dataxx", "checkMultipleDeviceLogIN: "+deviceToken);
+        user_deviceToken.getToken(String.valueOf(userId), "customer").observe(Customer_main_activity.this, new Observer<getUser_deviceToken_response>() {
+            @Override
+            public void onChanged(getUser_deviceToken_response getUser_deviceToken_response) {
+                if (!getUser_deviceToken_response.getToken().equals(deviceToken)) {
+                    SessionManagement sessionManagement = new SessionManagement(Customer_main_activity.this);
+                    sessionManagement.removeSession();
+                    startActivity(new Intent(Customer_main_activity.this, LoginActivity.class));
+
+                }
             }
         });
     }
