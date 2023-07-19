@@ -1,6 +1,7 @@
 package com.ALife.alife.API;
 
 import com.ALife.alife.model.*;
+import com.ALife.alife.model.banner.BannerApi;
 import com.ALife.alife.model.cupon.cupon_api;
 import com.ALife.alife.model.local_sell.local_sell_api;
 import com.ALife.alife.model.shop_notification.shop_notification_api;
@@ -714,6 +715,10 @@ public class ApiUtilize {
 
     public static shop_notification_api shop_notification_api() {
         return Retrofit_client.getClient(BASE_URL).create(shop_notification_api.class);
+    }
+
+    public static BannerApi bannerApi(){
+        return Retrofit_client.getClient(BASE_URL).create(BannerApi.class);
     }
 
 }

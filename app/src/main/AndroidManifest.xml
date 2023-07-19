@@ -21,9 +21,7 @@
         tools:ignore="ScopedStorage" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission
-        android:name="android.permission.QUERY_ALL_PACKAGES"
-        tools:ignore="QueryAllPackagesPermission" />
+
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <queries>
@@ -46,42 +44,53 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Alife"
         android:usesCleartextTraffic="true"
-        tools:ignore="HardcodedDebugMode">
-        <activity
-            android:name=".view.SplashActivity"
-            android:exported="false" >
+        tools:ignore="HardcodedDebugMode"
+        tools:node="replace">
 
-
-        </activity>
-
-        <meta-data
-            android:name="com.google.android.gms.vision.DEPENDENCIES"
-            android:value="barcode" />
-
-        <activity android:name=".view.ForgotPassword.Forgot_password_activity" />
-        <activity android:name=".view.OTP.Otp_validation_activity" />
-        <activity android:name=".view.Operator.Operator_main_activity" />
-        <activity android:name=".view.Customer.Customer_main_activity" />
-        <activity android:name=".view.Shop.Shop_main_activity" />
-        <activity android:name=".view.Registration.Register_activity" />
-        <activity android:name=".view.MainActivity" />
         <activity
             android:name=".view.LoginActivity"
             android:exported="true">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
         </activity>
-        <activity android:name=".view.Registration.Shop_register_activity" />
-        <activity android:name=".EarningApp.View.Activity.MainActivity" />
 
-        <meta-data
-            android:name="preloaded_fonts"
-            android:resource="@array/preloaded_fonts" />
+        <activity
+            android:name=".view.SplashActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".view.ForgotPassword.Forgot_password_activity"
+            android:exported="false" />
+        <activity
+            android:name=".view.OTP.Otp_validation_activity"
+            android:exported="false" />
+        <activity
+            android:name=".view.Operator.Operator_main_activity"
+            android:exported="false" />
+        <activity
+            android:name=".view.Customer.Customer_main_activity"
+            android:exported="false" />
+        <activity
+            android:name=".view.Shop.Shop_main_activity"
+            android:exported="false" />
+        <activity
+            android:name=".view.Registration.Register_activity"
+            android:exported="false" />
+        <activity
+            android:name=".view.MainActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".view.Registration.Shop_register_activity"
+            android:exported="false" />
+        <activity
+            android:name=".EarningApp.View.Activity.MainActivity"
+            android:exported="false" />
+
 
         <service
             android:name=".view.Firebase.FirebaseMessagingService"
@@ -90,6 +99,7 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
         <service
             android:name=".view.Firebase.FirebaseInstanceIdService"
             android:exported="true"
@@ -98,12 +108,10 @@
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
-        <service
-            android:name="androidx.work.impl.foreground.SystemForegroundService"
-            android:foregroundServiceType="location|camera|microphone"
-            tools:ignore="MissingClass"
-            tools:node="merge"
-             />
+        <!--        <service-->
+        <!--            android:name="androidx.work.impl.foreground.SystemForegroundService"-->
+        <!--            android:exported="true"-->
+        <!--            android:foregroundServiceType="location|camera|microphone" />-->
 
         <receiver
             android:name=".view.OTP.OTP_Receiver"
@@ -111,10 +119,23 @@
             <intent-filter>
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
-        </receiver> <!-- addmob -->
+        </receiver>
+
+        <!-- addmob -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="@string/admob_id" />
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
+
+        <meta-data
+            android:name="com.google.android.gms.vision.DEPENDENCIES"
+            android:value="barcode" />
+
+        <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
+
     </application>
 
 </manifest>

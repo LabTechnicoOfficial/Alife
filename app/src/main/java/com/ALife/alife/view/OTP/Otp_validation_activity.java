@@ -243,69 +243,22 @@ public class Otp_validation_activity extends AppCompatActivity implements TextWa
 
         if (user_type.equals("shop")) {
             message = "no";
-            FirebaseInstanceId.getInstance().getInstanceId()
-                    .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<InstanceIdResult> task) {
-                            if (task.isSuccessful()) {
-                                token = task.getResult().getToken();
+//            FirebaseInstanceId.getInstance().getInstanceId()
+//                    .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+//                        @Override
+//                        public void onComplete(@NonNull Task<InstanceIdResult> task) {
+//                            if (task.isSuccessful()) {
+//                                token = task.getResult().getToken();
+//
+//
+//                            } else {
+//
+//                                Toast.makeText(Otp_validation_activity.this, task.getException().toString(), Toast.LENGTH_SHORT).show();
+//                            }
+//                        }
+//                    });
 
-                                token_update.shop_token_update(password, token).observe(Otp_validation_activity.this, new Observer<token_update_response>() {
-                                    @Override
-                                    public void onChanged(token_update_response token_update_response) {
-                                        if (token_update_response.getMessage().equals("Update successfully")) {
-                                            message = token_update_response.getMessage();
-
-                                            SimpleDateFormat objSDF = new SimpleDateFormat("yy/MM/dd HH:mm:ss");
-
-                                            String currentTime = (String) android.text.format.DateFormat.format("yy/MM/dd HH:mm:ss", new java.util.Date());
-
-                                            Log.d("dataxx", "onChanged: "+password+" "+currentTime+" "+token_update_response.getMessage());
-
-/*                                            last_logintime.getUpdate(password, currentTime, "shop").observe(Otp_validation_activity.this, new Observer<update_last_logintime_response>() {
-                                                @Override
-                                                public void onChanged(update_last_logintime_response update_last_logintime_response) {
-                                                    Log.d("dataxx", update_last_logintime_response.getMessage());
-                                                    if (update_last_logintime_response.getMessage().equals("Edited successfully")) {
-                                                        User user = new User(password, type, phone);
-                                                        SessionManagement sessionManagement = new SessionManagement(Otp_validation_activity.this);
-                                                        sessionManagement.saveSession(user);
-                                                        Intent intent = new Intent(Otp_validation_activity.this, Shop_main_activity.class);
-                                                        //intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                                                        startActivity(intent);
-                                                    } else {
-                                                        SessionManagement sessionManagement = new SessionManagement(Otp_validation_activity.this);
-                                                        sessionManagement.removeSession();
-                                                        Intent intent = new Intent(Otp_validation_activity.this, LoginActivity.class);
-                                                        //intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                                                        startActivity(intent);
-                                                    }
-                                                }
-                                            });*/
-                                            User user = new User(password, type, phone);
-                                            SessionManagement sessionManagement = new SessionManagement(Otp_validation_activity.this);
-                                            sessionManagement.saveSession(user);
-                                            Intent intent = new Intent(Otp_validation_activity.this, Shop_main_activity.class);
-                                            //intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                                            startActivity(intent);
-                                        } else {
-                                            Toast.makeText(Otp_validation_activity.this, "Something error.Try again", Toast.LENGTH_SHORT);
-                                            SessionManagement sessionManagement = new SessionManagement(Otp_validation_activity.this);
-                                            sessionManagement.removeSession();
-                                            Intent intent = new Intent(Otp_validation_activity.this, LoginActivity.class);
-                                            //intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                                            startActivity(intent);
-                                        }
-                                    }
-                                });
-
-
-                            } else {
-
-                                Toast.makeText(Otp_validation_activity.this, task.getException().toString(), Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
+            shopTokenUpdate();
         } else if (user_type.equals("customer")) {
             message = "no";
             FirebaseInstanceId.getInstance().getInstanceId()
@@ -373,6 +326,60 @@ public class Otp_validation_activity extends AppCompatActivity implements TextWa
                         }
                     });
         }
+    }
+
+    private void shopTokenUpdate() {
+        token = "xyz";
+        token_update.shop_token_update(password, token).observe(Otp_validation_activity.this, new Observer<token_update_response>() {
+            @Override
+            public void onChanged(token_update_response token_update_response) {
+                if (token_update_response.getMessage().equals("Update successfully")) {
+                    message = token_update_response.getMessage();
+
+                    SimpleDateFormat objSDF = new SimpleDateFormat("yy/MM/dd HH:mm:ss");
+
+                    String currentTime = (String) android.text.format.DateFormat.format("yy/MM/dd HH:mm:ss", new java.util.Date());
+
+                    Log.d("dataxx", "onChanged: "+password+" "+currentTime+" "+token_update_response.getMessage());
+
+/*                                            last_logintime.getUpdate(password, currentTime, "shop").observe(Otp_validation_activity.this, new Observer<update_last_logintime_response>() {
+                                                @Override
+                                                public void onChanged(update_last_logintime_response update_last_logintime_response) {
+                                                    Log.d("dataxx", update_last_logintime_response.getMessage());
+                                                    if (update_last_logintime_response.getMessage().equals("Edited successfully")) {
+                                                        User user = new User(password, type, phone);
+                                                        SessionManagement sessionManagement = new SessionManagement(Otp_validation_activity.this);
+                                                        sessionManagement.saveSession(user);
+                                                        Intent intent = new Intent(Otp_validation_activity.this, Shop_main_activity.class);
+                                                        //intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                                                        startActivity(intent);
+                                                    } else {
+                                                        SessionManagement sessionManagement = new SessionManagement(Otp_validation_activity.this);
+                                                        sessionManagement.removeSession();
+                                                        Intent intent = new Intent(Otp_validation_activity.this, LoginActivity.class);
+                                                        //intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                                                        startActivity(intent);
+                                                    }
+                                                }
+                                            });*/
+                    User user = new User(password, type, phone);
+                    SessionManagement sessionManagement = new SessionManagement(Otp_validation_activity.this);
+                    sessionManagement.saveSession(user);
+                    Intent intent = new Intent(Otp_validation_activity.this, Shop_main_activity.class);
+                    //intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(Otp_validation_activity.this, "Something error.Try again", Toast.LENGTH_SHORT);
+                    SessionManagement sessionManagement = new SessionManagement(Otp_validation_activity.this);
+                    sessionManagement.removeSession();
+                    Intent intent = new Intent(Otp_validation_activity.this, LoginActivity.class);
+                    //intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                    startActivity(intent);
+                }
+            }
+        });
+
+
     }
 
     @Override

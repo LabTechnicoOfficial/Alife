@@ -119,49 +119,49 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
 
         }
         // check either another device loggedin or not
-        FirebaseInstanceId.getInstance().getInstanceId()
-                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
-                        if (task.isSuccessful()) {
-                            deviceToken = task.getResult().getToken();
-                            user_deviceToken.getToken(String.valueOf(user), "shop").observe(Shop_main_activity.this, new Observer<getUser_deviceToken_response>() {
-                                @Override
-                                public void onChanged(getUser_deviceToken_response getUser_deviceToken_response) {
-                                    if (!getUser_deviceToken_response.getToken().equals(deviceToken)) {
-                                        //Log.d("token1",deviceToken);
-                                        //Log.d("token2",getUser_deviceToken_response.getToken());
-                                        Toast.makeText(Shop_main_activity.this, String.valueOf(user), Toast.LENGTH_SHORT).show();
-                                        SessionManagement sessionManagement = new SessionManagement(Shop_main_activity.this);
-                                        sessionManagement.removeSession();
-                                        startActivity(new Intent(Shop_main_activity.this, LoginActivity.class));
-
-                                    }
-                                }
-                            });
-                            /*user_deviceToken.getMessage(String.valueOf(user),"shop",deviceToken).observe(Shop_main_activity.this, new Observer<getUser_deviceToken_response>() {
-                                @Override
-                                public void onChanged(getUser_deviceToken_response getUser_deviceToken_response) {
-                                    if(getUser_deviceToken_response.getToken().equals("no"))
-                                    {
-                                        Log.d("token1",deviceToken);
-                                        Log.d("token2",getUser_deviceToken_response.getToken());
-                                        Toast.makeText(Shop_main_activity.this,String.valueOf(user),Toast.LENGTH_SHORT).show();
-                                        SessionManagment sessionManagment = new SessionManagment(Shop_main_activity.this);
-                                        sessionManagment.removeSession();
-                                        startActivity(new Intent(Shop_main_activity.this, LoginActivity.class));
-                                    }
-                                }
-                            });*/
-
-                        } else {
-                            SessionManagement sessionManagement = new SessionManagement(Shop_main_activity.this);
-                            sessionManagement.removeSession();
-                            startActivity(new Intent(Shop_main_activity.this, LoginActivity.class));
-                            // Toast.makeText(LoginActivity.this, task.getException().toString(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
+//        FirebaseInstanceId.getInstance().getInstanceId()
+//                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+//                        if (task.isSuccessful()) {
+//                            deviceToken = task.getResult().getToken();
+//                            user_deviceToken.getToken(String.valueOf(user), "shop").observe(Shop_main_activity.this, new Observer<getUser_deviceToken_response>() {
+//                                @Override
+//                                public void onChanged(getUser_deviceToken_response getUser_deviceToken_response) {
+//                                    if (!getUser_deviceToken_response.getToken().equals(deviceToken)) {
+//                                        //Log.d("token1",deviceToken);
+//                                        //Log.d("token2",getUser_deviceToken_response.getToken());
+//                                        Toast.makeText(Shop_main_activity.this, String.valueOf(user), Toast.LENGTH_SHORT).show();
+//                                        SessionManagement sessionManagement = new SessionManagement(Shop_main_activity.this);
+//                                        sessionManagement.removeSession();
+//                                        startActivity(new Intent(Shop_main_activity.this, LoginActivity.class));
+//
+//                                    }
+//                                }
+//                            });
+//                            /*user_deviceToken.getMessage(String.valueOf(user),"shop",deviceToken).observe(Shop_main_activity.this, new Observer<getUser_deviceToken_response>() {
+//                                @Override
+//                                public void onChanged(getUser_deviceToken_response getUser_deviceToken_response) {
+//                                    if(getUser_deviceToken_response.getToken().equals("no"))
+//                                    {
+//                                        Log.d("token1",deviceToken);
+//                                        Log.d("token2",getUser_deviceToken_response.getToken());
+//                                        Toast.makeText(Shop_main_activity.this,String.valueOf(user),Toast.LENGTH_SHORT).show();
+//                                        SessionManagment sessionManagment = new SessionManagment(Shop_main_activity.this);
+//                                        sessionManagment.removeSession();
+//                                        startActivity(new Intent(Shop_main_activity.this, LoginActivity.class));
+//                                    }
+//                                }
+//                            });*/
+//
+//                        } else {
+//                            SessionManagement sessionManagement = new SessionManagement(Shop_main_activity.this);
+//                            sessionManagement.removeSession();
+//                            startActivity(new Intent(Shop_main_activity.this, LoginActivity.class));
+//                            // Toast.makeText(LoginActivity.this, task.getException().toString(), Toast.LENGTH_SHORT).show();
+//                        }
+//                    }
+//                });
         // end check
 
 

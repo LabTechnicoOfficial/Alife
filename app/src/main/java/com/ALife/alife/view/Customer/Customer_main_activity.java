@@ -20,6 +20,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -30,6 +32,7 @@ import com.ALife.alife.R;
 import com.ALife.alife.model.Customer_response;
 import com.ALife.alife.model.getUser_deviceToken_response;
 import com.ALife.alife.model.get_version_response;
+import com.ALife.alife.view.Firebase.FirebaseMessagingService;
 import com.ALife.alife.view.LoginActivity;
 import com.ALife.alife.viewmodel.Customer_details;
 import com.ALife.alife.viewmodel.Get_version;
@@ -40,8 +43,10 @@ import com.google.android.gms.ads.admanager.AdManagerAdView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.squareup.picasso.Picasso;
 
 import java.util.Timer;
@@ -65,6 +70,7 @@ public class Customer_main_activity extends AppCompatActivity implements Navigat
     private String deviceToken;
     User_deviceToken user_deviceToken;
     AdManagerAdView mAdManagerAdView;
+
     @SuppressLint("MissingPermission")
     protected void onStart() {
         // isInForeground = false;
@@ -81,7 +87,8 @@ public class Customer_main_activity extends AppCompatActivity implements Navigat
 
         }
         // check either another device loggedin or not
-        FirebaseInstanceId.getInstance().getInstanceId()
+        FirebaseApp.initializeApp(getApplicationContext());
+        /*FirebaseInstanceId.getInstance().getInstanceId()
                 .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
                     @Override
                     public void onComplete(@NonNull Task<InstanceIdResult> task) {
@@ -106,7 +113,7 @@ public class Customer_main_activity extends AppCompatActivity implements Navigat
                             // Toast.makeText(LoginActivity.this, task.getException().toString(), Toast.LENGTH_SHORT).show();
                         }
                     }
-                });
+                });*/
         // end check
         get_version.getData().observe(Customer_main_activity.this, new Observer<get_version_response>() {
             @Override
@@ -123,8 +130,7 @@ public class Customer_main_activity extends AppCompatActivity implements Navigat
                     updateButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            //Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.ALife.alife"));
-                            //startActivity(intent);
+
                             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.ALife.alife"));
                             startActivity(intent);
                         }
@@ -152,7 +158,7 @@ public class Customer_main_activity extends AppCompatActivity implements Navigat
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         get_version = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(Get_version.class);
-        user_deviceToken=new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(User_deviceToken.class);
+        user_deviceToken = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(User_deviceToken.class);
 
         version_code = String.valueOf(BuildConfig.VERSION_CODE);
         version_name = BuildConfig.VERSION_NAME;

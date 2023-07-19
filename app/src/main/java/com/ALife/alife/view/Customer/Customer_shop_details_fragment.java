@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,7 @@ import com.ALife.alife.R;
 import com.ALife.alife.adapter.Normal_sell_details_image_adapter;
 import com.ALife.alife.adapter.Systemetic_sell_details_adapter;
 import com.ALife.alife.adapter.shop_customer_due_list_adapter;
+import com.ALife.alife.model.banner.BannerResponse;
 import com.ALife.alife.model.get_shop_customer_due_list_response;
 import com.ALife.alife.model.image;
 import com.ALife.alife.model.local_sell.get_local_sell_details_response;
@@ -36,6 +38,7 @@ import com.ALife.alife.model.systemetic_sell_details_response;
 import com.ALife.alife.viewmodel.Get_shop_customer_due_list;
 import com.ALife.alife.viewmodel.Local_sell.Get_local_sell;
 import com.ALife.alife.viewmodel.Sell_details;
+import com.ALife.alife.viewmodel.banner.BannerViewModel;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.squareup.picasso.Picasso;
 
@@ -63,6 +66,9 @@ public class Customer_shop_details_fragment extends Fragment implements shop_cus
     NestedScrollView nestedScrollView;
     ProgressBar progressBar;
     int page = 1, limit = 20, end = 0;
+    BannerViewModel bannerViewModel;
+
+    List<BannerResponse> bannerList;
 
     public Customer_shop_details_fragment(String customer_id, String shop_id, String name, String location, String phone, String image) {
         this.customer_id = customer_id;
@@ -192,6 +198,8 @@ public class Customer_shop_details_fragment extends Fragment implements shop_cus
 
         showProductsButton = (ExtendedFloatingActionButton) view.findViewById(R.id.showProductsButtonID);
 
+        bannerViewModel = new ViewModelProvider(getActivity()).get(BannerViewModel.class);
+
         shopImage = (ImageView) view.findViewById(R.id.shopImageID);
         shopName = (TextView) view.findViewById(R.id.shopNameID);
         shopLocation = (TextView) view.findViewById(R.id.shopLocationID);
@@ -221,7 +229,6 @@ public class Customer_shop_details_fragment extends Fragment implements shop_cus
                     // in this method we are incrementing page number,
                     // making progress bar visible and calling get data method.
                     if (end == 0) {
-
                         progressBar.setVisibility(View.VISIBLE);
                         page++;
                         getDuelist(page, limit);
@@ -242,7 +249,20 @@ public class Customer_shop_details_fragment extends Fragment implements shop_cus
             }
         });
 
+        loadBanner();
+
         return view;
+    }
+
+    private void loadBanner() {
+        bannerViewModel.getBannerList(shop_id).observe(getViewLifecycleOwner(), new Observer<List<BannerResponse>>() {
+            @Override
+            public void onChanged(List<BannerResponse> bannerResponses) {
+                bannerList = new ArrayList<>();
+                bannerList = bannerResponses;
+                Log.d("dataxx", "onChanged: "+String.valueOf(bannerList.size()));
+            }
+        });
     }
 
     public void refreshFragment() {

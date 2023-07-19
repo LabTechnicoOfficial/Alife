@@ -2,15 +2,14 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
     buildToolsVersion "30.0.3"
 
     defaultConfig {
 
         applicationId "com.ALife.alife"
         minSdkVersion 21
-        //noinspection ExpiredTargetSdkVersion,OldTargetApi
-        targetSdkVersion 30
+        targetSdkVersion 31
         versionCode 34
         versionName "1.01"
 
@@ -116,7 +115,7 @@ dependencies {
     //barcode
     implementation 'com.journeyapps:zxing-android-embedded:4.3.0'
 
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.3'
+    //coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.3'
 
 
 }
