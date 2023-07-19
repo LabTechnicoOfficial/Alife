@@ -224,7 +224,6 @@ public class Customer_main_activity extends AppCompatActivity implements Navigat
     }
 
     private void checkMultipleDeviceLogIN() {
-
         OneSignal.initWithContext(getApplicationContext());
         OneSignal.setAppId(Constants.ONESIGNAL_APP_ID);
         String deviceToken = OneSignal.getDeviceState().getUserId();
