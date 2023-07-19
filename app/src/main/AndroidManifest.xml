@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.ALife.alife">
+    package="com.alifew.alife">
 
     <uses-feature
         android:name="android.hardware.camera.any"
@@ -48,7 +48,7 @@
         tools:node="replace">
 
         <activity
-            android:name=".view.LoginActivity"
+            android:name="com.alifew.alife.view.LoginActivity"
             android:exported="true">
 
             <intent-filter>
@@ -59,41 +59,41 @@
         </activity>
 
         <activity
-            android:name=".view.SplashActivity"
+            android:name="com.alifew.alife.view.SplashActivity"
             android:exported="false" />
 
         <activity
-            android:name=".view.ForgotPassword.Forgot_password_activity"
+            android:name="com.alifew.alife.view.ForgotPassword.Forgot_password_activity"
             android:exported="false" />
         <activity
-            android:name=".view.OTP.Otp_validation_activity"
+            android:name="com.alifew.alife.view.OTP.Otp_validation_activity"
             android:exported="false" />
         <activity
-            android:name=".view.Operator.Operator_main_activity"
+            android:name="com.alifew.alife.view.Operator.Operator_main_activity"
             android:exported="false" />
         <activity
-            android:name=".view.Customer.Customer_main_activity"
+            android:name="com.alifew.alife.view.Customer.Customer_main_activity"
             android:exported="false" />
         <activity
-            android:name=".view.Shop.Shop_main_activity"
+            android:name="com.alifew.alife.view.Shop.Shop_main_activity"
             android:exported="false" />
         <activity
-            android:name=".view.Registration.Register_activity"
+            android:name="com.alifew.alife.view.Registration.Register_activity"
             android:exported="false" />
         <activity
-            android:name=".view.MainActivity"
+            android:name="com.alifew.alife.view.MainActivity"
             android:exported="false" />
 
         <activity
-            android:name=".view.Registration.Shop_register_activity"
+            android:name="com.alifew.alife.view.Registration.Shop_register_activity"
             android:exported="false" />
         <activity
-            android:name=".EarningApp.View.Activity.MainActivity"
+            android:name="com.alifew.alife.EarningApp.View.Activity.MainActivity"
             android:exported="false" />
 
 
         <service
-            android:name=".view.Firebase.FirebaseMessagingService"
+            android:name="com.alifew.alife.view.Firebase.FirebaseMessagingService"
             android:exported="true">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
@@ -101,7 +101,7 @@
         </service>
 
         <service
-            android:name=".view.Firebase.FirebaseInstanceIdService"
+            android:name="com.alifew.alife.view.Firebase.FirebaseInstanceIdService"
             android:exported="true"
             tools:ignore="Instantiatable">
             <intent-filter>
@@ -114,7 +114,7 @@
                     android:foregroundServiceType="location|camera|microphone" />
 
         <receiver
-            android:name=".view.OTP.OTP_Receiver"
+            android:name="com.alifew.alife.view.OTP.OTP_Receiver"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
