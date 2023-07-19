@@ -240,7 +240,7 @@ public class Otp_validation_activity extends AppCompatActivity implements TextWa
 
     private void update_token(String user_type) {
 
-        OneSignal.initWithContext(getApplicationContext());
+        OneSignal.initWithContext(this);
         OneSignal.setAppId(Constants.ONESIGNAL_APP_ID);
         String deviceToken = OneSignal.getDeviceState().getUserId();
         Log.d("dataxx", "checkMultipleDeviceLogIN: "+password+" "+deviceToken);
@@ -252,33 +252,6 @@ public class Otp_validation_activity extends AppCompatActivity implements TextWa
                 public void onChanged(token_update_response token_update_response) {
                     if (token_update_response.getMessage().equals("Update successfully")) {
                         message = token_update_response.getMessage();
-
-  /*                      SimpleDateFormat objSDF = new SimpleDateFormat("yy/MM/dd HH:mm:ss");
-
-                        String currentTime = (String) android.text.format.DateFormat.format("yy/MM/dd HH:mm:ss", new java.util.Date());
-
-
-
-                                            last_logintime.getUpdate(password, currentTime, "shop").observe(Otp_validation_activity.this, new Observer<update_last_logintime_response>() {
-                                                @Override
-                                                public void onChanged(update_last_logintime_response update_last_logintime_response) {
-                                                    Log.d("dataxx", update_last_logintime_response.getMessage());
-                                                    if (update_last_logintime_response.getMessage().equals("Edited successfully")) {
-                                                        User user = new User(password, type, phone);
-                                                        SessionManagement sessionManagement = new SessionManagement(Otp_validation_activity.this);
-                                                        sessionManagement.saveSession(user);
-                                                        Intent intent = new Intent(Otp_validation_activity.this, Shop_main_activity.class);
-                                                        //intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                                                        startActivity(intent);
-                                                    } else {
-                                                        SessionManagement sessionManagement = new SessionManagement(Otp_validation_activity.this);
-                                                        sessionManagement.removeSession();
-                                                        Intent intent = new Intent(Otp_validation_activity.this, LoginActivity.class);
-                                                        //intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                                                        startActivity(intent);
-                                                    }
-                                                }
-                                            });*/
                         User user = new User(password, type, phone);
                         SessionManagement sessionManagement = new SessionManagement(Otp_validation_activity.this);
                         sessionManagement.saveSession(user);
@@ -307,31 +280,7 @@ public class Otp_validation_activity extends AppCompatActivity implements TextWa
                         sessionManagement.saveSession(user);
                         Intent intent = new Intent(Otp_validation_activity.this, Customer_main_activity.class);
                         startActivity(intent);
-/*
-  SimpleDateFormat objSDF = new SimpleDateFormat("yy/MM/dd HH:mm:ss");
 
-                        String currentTime = (String) android.text.format.DateFormat.format("yy/MM/dd HH:mm:ss", new java.util.Date());
-                                            last_logintime.getUpdate(password, currentTime, "customer").observe(Otp_validation_activity.this, new Observer<update_last_logintime_response>() {
-                                                @Override
-                                                public void onChanged(update_last_logintime_response update_last_logintime_response) {
-                                                    if (update_last_logintime_response.getMessage().equals("Edited successfully")) {
-                                                        message = token_update_response.getMessage();
-                                                        User user = new User(password, type, phone);
-                                                        SessionManagement sessionManagement = new SessionManagement(Otp_validation_activity.this);
-                                                        sessionManagement.saveSession(user);
-                                                        Intent intent = new Intent(Otp_validation_activity.this, Customer_main_activity.class);
-                                                        //intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                                                        startActivity(intent);
-                                                    } else {
-                                                        SessionManagement sessionManagement = new SessionManagement(Otp_validation_activity.this);
-                                                        sessionManagement.removeSession();
-                                                        Intent intent = new Intent(Otp_validation_activity.this, LoginActivity.class);
-                                                        //intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                                                        startActivity(intent);
-                                                    }
-
-                                                }
-                                            });*/
 
                     } else {
 

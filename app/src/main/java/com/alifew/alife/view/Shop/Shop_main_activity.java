@@ -54,8 +54,10 @@ import com.alifew.alife.viewmodel.Shop_details;
 import com.alifew.alife.viewmodel.Shop_status;
 import com.alifew.alife.viewmodel.User_deviceToken;
 import com.alifew.alife.viewmodel.User_instruction;
+import com.bumptech.glide.Glide;
 import com.google.android.material.navigation.NavigationView;
 import com.onesignal.OneSignal;
+import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -225,10 +227,12 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
     private void checkMultipleDeviceLogIN() {
 
 
-        OneSignal.initWithContext(getApplicationContext());
+        OneSignal.initWithContext(this);
         OneSignal.setAppId(Constants.ONESIGNAL_APP_ID);
         String deviceToken = OneSignal.getDeviceState().getUserId();
         Log.d("dataxx", "checkMultipleDeviceLogIN: "+deviceToken);
+
+
 
         user_deviceToken.getToken(String.valueOf(user), "shop").observe(Shop_main_activity.this, new Observer<getUser_deviceToken_response>() {
             @Override
@@ -446,8 +450,13 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
                 SHOP_NAME = name;
                 SHOP_NUMBER = shop_response.getPhone();
                 image = shop_response.getImage();
-                Log.d("dataxx", "onChanged: "+image);
-                //Picasso.get().load(image).fit().centerInside().into(imageView);
+
+                Glide.with(getApplicationContext())
+                        .load(image)
+                        .centerCrop()
+                        .placeholder(R.drawable.loader)
+                        .into(imageView);
+
                 profileName = (TextView) view.findViewById(R.id.profile_name);
                 profileName.setText(name);
 

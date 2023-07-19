@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 ;
 import com.alifew.alife.R;
 import com.alifew.alife.model.Category_response;
+import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
@@ -108,8 +109,12 @@ public class Shop_category_adapter extends RecyclerView.Adapter<Shop_category_ad
     public void onBindViewHolder(@NonNull AppViewholder holder, int position) {
         Category_response category = categoryList.get(position);
 
-
-        Picasso.get().load(category.getCatagory01y_logo()).into(holder.categoryImage);
+        Glide.with(holder.itemView.getContext())
+                .load(category.getCatagory01y_logo())
+                .centerCrop()
+                .placeholder(R.drawable.loader)
+                .into(holder.categoryImage);
+        //Picasso.get().load(category.getCatagory01y_logo()).into(holder.categoryImage);
         holder.category.setText(category.getCatagory01y_name());
         holder.categoryUnit.setText(category.getCatagory01y_unit());
         holder.total_items.setText(category.getTotal_product());

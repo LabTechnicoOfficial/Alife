@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.alifew.alife.DB.ProductDao;
 import com.alifew.alife.DB.Products;
 import com.alifew.alife.R;
+import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -44,9 +45,18 @@ public class Shop_product_barcode_print_adapter extends RecyclerView.Adapter<Sho
     public void onBindViewHolder(@NonNull Shop_product_barcode_print_adapter.ViewHolder holder, int position) {
         Products response = productList.get(position);
 
-        Picasso.get().load(response.getImage()).into(holder.productImage);
+//        try {
+//            Picasso.get().load(response.getImage()).into(holder.productImage);
+//        }catch (Exception e){
+//
+//        }
 
         holder.titleText.setText(response.getName());
+        Glide.with(holder.itemView.getContext())
+                .load(response.getImage())
+                .centerCrop()
+                .placeholder(R.drawable.loader)
+                .into(holder.productImage);
 /*
 
         if (response.getType().isEmpty()) {

@@ -47,9 +47,13 @@ public class product_multiple_image_adapter extends RecyclerView.Adapter<product
         get_product_multiple_image_response image = imageList.get(position);
 
        // Picasso.get().load(image.getImage()).resize(400,400).centerCrop().into(holder.cardMultipleImageView);
-      Glide.with(context).load(image.getImage()).into(holder.cardMultipleImageView);
+      //Glide.with(context).load(image.getImage()).into(holder.cardMultipleImageView);
 
-
+        Glide.with(holder.itemView.getContext())
+                .load(image.getImage())
+                .centerCrop()
+                .placeholder(R.drawable.loader)
+                .into(holder.cardMultipleImageView);
 
 
     }

@@ -73,6 +73,7 @@ import com.alifew.alife.viewmodel.Get_product_type;
 import com.alifew.alife.viewmodel.Product_imagetoserver;
 import com.alifew.alife.viewmodel.Product_offer_edit_delete;
 import com.alifew.alife.viewmodel.Update_product;
+import com.bumptech.glide.Glide;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.squareup.picasso.Picasso;
@@ -167,9 +168,17 @@ public class Product_details_fragment<SharedViewModel> extends Fragment implemen
                 vaoture_image = get_product_response.getVaoture_image();
                 description = get_product_response.getProduct_description();
                 vaoture_no = get_product_response.getVaoture_no();
-                Picasso.get().load(productimage).into(productImage);
-                productImage.setClipToOutline(true);
+//                Picasso.get().load(productimage).into(productImage);
+//                productImage.setClipToOutline(true);
+
+
+                Glide.with(getActivity())
+                        .load(productimage)
+                        .centerCrop()
+                        .placeholder(R.drawable.loader)
+                        .into(productImage);
                 productName.setText(productname);
+
                 product_buyPrice.setText(String.valueOf(new DecimalFormat("##.##").format(Double.parseDouble(buyprice))));
 
                 //product_buyPrice.setText(buyprice);
@@ -200,7 +209,15 @@ public class Product_details_fragment<SharedViewModel> extends Fragment implemen
 
                 product_vaoture_no.setText(vaoture_no);
 
-                Picasso.get().load(vaoture_image).into(vaotureImage);
+                //Picasso.get().load(vaoture_image).into(vaotureImage);
+                Glide.with(getActivity())
+                        .load(vaoture_image)
+                        .centerCrop()
+                        .placeholder(R.drawable.loader)
+                        .into(vaotureImage);
+
+                productName.setText(productname);
+
             }
         });
         //end get product info
@@ -372,7 +389,14 @@ public class Product_details_fragment<SharedViewModel> extends Fragment implemen
 
                 buyPrice = (TextInputEditText) alert.findViewById(R.id.buyPriceTextID);
                 profit = (TextInputEditText) alert.findViewById(R.id.profitTextID);
-                Picasso.get().load(productimage).into(product_image);
+//                Picasso.get().load(productimage).into(product_image);
+
+                Glide.with(getActivity())
+                        .load(productimage)
+                        .centerCrop()
+                        .placeholder(R.drawable.loader)
+                        .into(product_image);
+
                 productText.setText(productname);
                 amount.setText(String.valueOf(new DecimalFormat("##.##").format(Double.parseDouble(stockamount))));
                 //amount.setText(stockamount);
@@ -400,9 +424,15 @@ public class Product_details_fragment<SharedViewModel> extends Fragment implemen
                 //profit.setText(sellprofit);
                 description_product.setText(description);
                 product_vaoture.setText(vaoture_no);
-                if (!(TextUtils.isEmpty(vaoture_image))) {
-                    Picasso.get().load(vaoture_image).into(Image_vaoture);
-                }
+//                if (!(TextUtils.isEmpty(vaoture_image))) {
+//                    Picasso.get().load(vaoture_image).into(Image_vaoture);
+//                }
+
+                Glide.with(getActivity())
+                        .load(vaoture_image)
+                        .centerCrop()
+                        .placeholder(R.drawable.loader)
+                        .into(Image_vaoture);
                 // edittext onchanged
                 buyPrice.addTextChangedListener(new TextWatcher() {
                     @Override
@@ -1563,7 +1593,13 @@ public class Product_details_fragment<SharedViewModel> extends Fragment implemen
         ImageView individualImage = (ImageView) imageDialog.findViewById(R.id.individualImageID);
         ImageView closeButton = (ImageView) imageDialog.findViewById(R.id.closeID);
         ImageView deleteImage = (ImageView) imageDialog.findViewById(R.id.individualDeleteID);
-        Picasso.get().load(image).into(individualImage);
+        //Picasso.get().load(image).into(individualImage);
+
+        Glide.with(getActivity())
+                .load(image)
+                .centerCrop()
+                .placeholder(R.drawable.loader)
+                .into(individualImage);
 
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override

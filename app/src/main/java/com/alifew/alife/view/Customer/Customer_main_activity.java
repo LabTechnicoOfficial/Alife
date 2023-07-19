@@ -37,6 +37,7 @@ import com.alifew.alife.viewmodel.Get_version;
 import com.alifew.alife.session.SessionManagement;
 import com.alifew.alife.viewmodel.SessionManagment_registration;
 import com.alifew.alife.viewmodel.User_deviceToken;
+import com.bumptech.glide.Glide;
 import com.google.android.gms.ads.admanager.AdManagerAdView;
 import com.google.android.material.navigation.NavigationView;
 import com.onesignal.OneSignal;
@@ -205,7 +206,12 @@ public class Customer_main_activity extends AppCompatActivity implements Navigat
             public void onChanged(Customer_response customer_response) {
                 name = customer_response.getName();
                 image = customer_response.getImage();
-                Picasso.get().load(image).fit().centerInside().into(imageView);
+                Glide.with(getApplicationContext())
+                        .load(customer_response.getImage())
+                        .centerCrop()
+                        .placeholder(R.drawable.loader)
+                        .into(imageView);
+//                Picasso.get().load(image).fit().centerInside().into(imageView);
                 profileName = (TextView) view.findViewById(R.id.profile_name);
                 profileName.setText(name);
             }
@@ -215,7 +221,7 @@ public class Customer_main_activity extends AppCompatActivity implements Navigat
     }
 
     private void checkMultipleDeviceLogIN() {
-        OneSignal.initWithContext(getApplicationContext());
+        OneSignal.initWithContext(this);
         OneSignal.setAppId(Constants.ONESIGNAL_APP_ID);
         String deviceToken = OneSignal.getDeviceState().getUserId();
         Log.d("dataxx", "checkMultipleDeviceLogIN: "+deviceToken);
