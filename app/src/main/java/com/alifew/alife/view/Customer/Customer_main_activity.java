@@ -125,6 +125,12 @@ public class Customer_main_activity extends AppCompatActivity implements Navigat
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        OneSignal.initWithContext(this);
+        OneSignal.setAppId(Constants.ONESIGNAL_APP_ID);
+        deviceToken = OneSignal.getDeviceState().getUserId();
+        Log.d("dataxx", "checkMultipleDeviceLogIN: "+deviceToken);
+
         get_version = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(Get_version.class);
         user_deviceToken = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(User_deviceToken.class);
 
@@ -221,10 +227,7 @@ public class Customer_main_activity extends AppCompatActivity implements Navigat
     }
 
     private void checkMultipleDeviceLogIN() {
-        OneSignal.initWithContext(this);
-        OneSignal.setAppId(Constants.ONESIGNAL_APP_ID);
-        String deviceToken = OneSignal.getDeviceState().getUserId();
-        Log.d("dataxx", "checkMultipleDeviceLogIN: "+deviceToken);
+
         user_deviceToken.getToken(String.valueOf(userId), "customer").observe(Customer_main_activity.this, new Observer<getUser_deviceToken_response>() {
             @Override
             public void onChanged(getUser_deviceToken_response getUser_deviceToken_response) {

@@ -207,172 +207,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         } else if (toggleButton.getCheckedButtonId() == R.id.customerID) {
             customerLogin(phone, password);
-            /*dialog.show();
-            type = "customer";
-            passwordText.setText("");
-            customer_login.getmessage(phone, password).observe(LoginActivity.this, new Observer<Shop_login_response>() {
 
-                @Override
-                public void onChanged(Shop_login_response shop_login_response) {
-
-                    String id = shop_login_response.getId();
-
-                    if (!(id.equals("-1"))) {
-                        // for update token
-                        FirebaseInstanceId.getInstance().getInstanceId()
-                                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
-                                        if (task.isSuccessful()) {
-                                            token = task.getResult().getToken();
-                                            token_update.customer_token_update(id, token).observe(LoginActivity.this, new Observer<token_update_response>() {
-                                                @Override
-                                                public void onChanged(token_update_response token_update_response) {
-                                                    if (token_update_response.getMessage().equals("Update successfully")) {
-                                                        User user = new User(shop_login_response.getId(), type, phone);
-                                                        SessionManagment sessionManagment = new SessionManagment(LoginActivity.this);
-                                                        sessionManagment.saveSession(user);
-                                                        Intent intent = new Intent(LoginActivity.this, Customer_main_activity.class);
-                                                        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                                                        startActivity(intent);
-                                                    } else {
-                                                        dialog.dismiss();
-                                                        Toast toast = Toast.makeText(LoginActivity.this, "Something error.Try again", Toast.LENGTH_SHORT);
-                                                        toast.show();
-                                                    }
-                                                }
-                                            });
-
-                                        } else {
-                                            Toast.makeText(LoginActivity.this, task.getException().toString(), Toast.LENGTH_SHORT).show();
-                                        }
-                                    }
-                                });
-
-                        //end update token
-
-                    } else {
-                        dialog.dismiss();
-                        Toast toast = Toast.makeText(LoginActivity.this, "Not registered", Toast.LENGTH_SHORT);
-                        toast.show();
-                    }
-                }
-            });
-
-       */
         }
     }
-
-
-    /*private void validationOk(String phone, String password) {
-
-        if (toggleButton.getCheckedButtonId() == R.id.shopkeeperID) {
-
-            agentDialog = new Dialog(LoginActivity.this);
-            agentDialog.setContentView(R.layout.shopkeeper_agent_alert);
-            agentDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-            agentDialog.show();
-
-            RadioGroup radioGroup = (RadioGroup) agentDialog.findViewById(R.id.radioGroupID);
-            TextInputEditText shopText = (TextInputEditText) agentDialog.findViewById(R.id.shopTextID);
-            TextInputLayout shopError = (TextInputLayout) agentDialog.findViewById(R.id.shopErrorID);
-            LinearLayout shopLayout = (LinearLayout) agentDialog.findViewById(R.id.shopLayoutID);
-            AppCompatButton nextButton = (AppCompatButton) agentDialog.findViewById(R.id.nextButtonID);
-
-            radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(RadioGroup group, int checkedId) {
-                    if (checkedId == R.id.adminRadioID) {
-                        shopLayout.setVisibility(View.VISIBLE);
-                    }
-                    if (checkedId == R.id.shopkepperRadioID) {
-                        shopLayout.setVisibility(View.GONE);
-                    }
-                }
-            });
-
-            nextButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (radioGroup.getCheckedRadioButtonId() == -1) {
-                        Toast.makeText(LoginActivity.this, "Ensure whether you Operator or Shopkeeper", Toast.LENGTH_SHORT).show();
-                    } else {
-                        if (radioGroup.getCheckedRadioButtonId() == R.id.adminRadioID) {
-                            shopID = shopText.getText().toString().trim();
-                            shopError.setErrorEnabled(false);
-                            if (TextUtils.isEmpty(shopID)) {
-                                shopError.setError(" ");
-                            } else {
-                                agentLogIn(shopID, phone, password);
-                            }
-
-                        } else if (radioGroup.getCheckedRadioButtonId() == R.id.shopkepperRadioID) {
-                            shopkeeperLogIn(phone, password);
-                        }
-                    }
-                }
-            });
-
-        } else if (toggleButton.getCheckedButtonId() == R.id.customerID) {
-            dialog.show();
-            type = "customer";
-            passwordText.setText("");
-            customer_login.getmessage(phone, password).observe(LoginActivity.this, new Observer<Shop_login_response>() {
-
-                @Override
-                public void onChanged(Shop_login_response shop_login_response) {
-
-                    String id = shop_login_response.getId();
-
-                    if (!(id.equals("-1"))) {
-                        Log.d("dataxx", "onChanged: ");
-                        // for update token
-                        FirebaseInstanceId.getInstance().getInstanceId()
-                                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
-                                        if (task.isSuccessful()) {
-                                            token = task.getResult().getToken();
-                                            token_update.customer_token_update(id, token).observe(LoginActivity.this, new Observer<token_update_response>() {
-                                                @Override
-                                                public void onChanged(token_update_response token_update_response) {
-                                                    if (token_update_response.getMessage().equals("Update successfully")) {
-                                                        User user = new User(shop_login_response.getId(), type, phone);
-                                                        SessionManagment sessionManagment = new SessionManagment(LoginActivity.this);
-                                                        sessionManagment.saveSession(user);
-                                                        Intent intent = new Intent(LoginActivity.this, Customer_main_activity.class);
-                                                        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                                                        startActivity(intent);
-                                                    } else {
-                                                        dialog.dismiss();
-                                                        Toast toast = Toast.makeText(LoginActivity.this, "Something error.Try again", Toast.LENGTH_SHORT);
-                                                        toast.show();
-                                                    }
-                                                }
-                                            });
-
-                                        } else {
-                                            Toast.makeText(LoginActivity.this, task.getException().toString(), Toast.LENGTH_SHORT).show();
-                                        }
-                                    }
-                                });
-
-                        //end update token
-
-                    } else {
-
-                        Log.d("dataxx", "onChanged: hi");
-                        dialog.dismiss();
-                        Toast toast = Toast.makeText(LoginActivity.this, shop_login_response.getMessage(), Toast.LENGTH_SHORT);
-                        toast.show();
-                    }
-                }
-            });
-
-        }
-
-
-    }*/
 
     private void agentLogIn(String shopID, String phone, String password) {
         dialog.show();
@@ -403,7 +240,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         dialog.show();
         type = "shopkeeper";
         passwordText.setText("");
-        last_logintime = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(Last_logintime.class);
+        last_logintime =new ViewModelProvider(this).get(Last_logintime.class); //new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(Last_logintime.class);
 
         shop_login.getmessage(phone, password).observe(LoginActivity.this, new Observer<Shop_login_response>() {
 
@@ -449,57 +286,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                         }
                                     }
                                 });
-
-/*                                String last_login_time = last_logintime_response.getLast_time();
-                                SimpleDateFormat objSDF = new SimpleDateFormat("yy/MM/dd HH:mm:ss");
-
-                                String currentTime = (String) android.text.format.DateFormat.format("yy/MM/dd HH:mm:ss", new java.util.Date());
-                                Date d1 = null;
-                                Date d2 = null;
-                                try {
-                                    d1 = objSDF.parse(last_login_time);
-                                    d2 = objSDF.parse(currentTime);
-                                } catch (Exception e) {
-
-                                }
-                                //long diff = d2.getTime() - d1.getTime();
-
-                                long diff = TimeUnit.MILLISECONDS.toHours(d2.getTime() - d1.getTime());
-                                if (diff > 47.99) {
-                                    Random r = new Random();
-                                    int ran = r.nextInt(99999 - 10000 + 1) + 10000;
-                                    String random_otp = String.valueOf(ran);
-
-                                    Toast.makeText(LoginActivity.this, random_otp, Toast.LENGTH_SHORT).show();
-                                    otp.getStatus(phone, "ALife..Your Shop LogIn OTP is -" + random_otp).observe(LoginActivity.this, new Observer<OTP_response>() {
-                                        @Override
-                                        public void onChanged(OTP_response otp_response) {
-                                            if (otp_response.getStatus().equals("queued")) {
-                                                shop_otp_activity(random_otp, id, phone);
-                                            } else {
-
-                                            }
-                                        }
-                                    });
-                                } else {
-                                    Double waiting_time = 48.00 - diff;
-                                    Toast.makeText(LoginActivity.this, "Please try after " + String.valueOf(waiting_time) + " hours.", Toast.LENGTH_SHORT).show();
-                                    dialog.dismiss();
-                                }*/
-
-
                             }
                         }
                     });
 
-
-                    // for update token
-
-
-                    //end update token
                 } else {
                     dialog.dismiss();
-                    //agentDialog.dismiss();
                     Toast toast = Toast.makeText(LoginActivity.this, "Not registered", Toast.LENGTH_SHORT);
                     toast.show();
                 }
@@ -543,42 +335,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 Toast.makeText(LoginActivity.this, "Something Wrong!!!Try again", Toast.LENGTH_SHORT).show();
                                 dialog.dismiss();
                             } else {
-/*                                String last_login_time = last_logintime_response.getLast_time();
-                                SimpleDateFormat objSDF = new SimpleDateFormat("yy/MM/dd HH:mm:ss");
 
-                                String currentTime = (String) android.text.format.DateFormat.format("yy/MM/dd HH:mm:ss", new java.util.Date());
-                                Date d1 = null;
-                                Date d2 = null;
-                                try {
-                                    d1 = objSDF.parse(last_login_time);
-                                    d2 = objSDF.parse(currentTime);
-                                } catch (Exception e) {
-
-                                }
-                                //long diff = d2.getTime() - d1.getTime();
-
-                                long diff = TimeUnit.MILLISECONDS.toHours(d2.getTime() - d1.getTime());
-                                if (diff > 47.99) {
-                                    Random r = new Random();
-                                    int ran = r.nextInt(99999 - 10000 + 1) + 10000;
-                                    String random_otp = String.valueOf(ran);
-                                    Toast.makeText(LoginActivity.this, random_otp, Toast.LENGTH_SHORT).show();
-                                    customer_otp_activity(random_otp, id, phone);
-                                    otp.getStatus(phone, "ALife..Your Customer LogIn OTP is -" + random_otp).observe(LoginActivity.this, new Observer<OTP_response>() {
-                                        @Override
-                                        public void onChanged(OTP_response otp_response) {
-                                            if (otp_response.getStatus().equals("queued")) {
-                                                customer_otp_activity(random_otp, id, phone);
-                                            } else {
-
-                                            }
-                                        }
-                                    });
-                                } else {
-                                    Double waiting_time = 48.00 - diff;
-                                    Toast.makeText(LoginActivity.this, "Please try after " + String.valueOf(waiting_time) + " hours.", Toast.LENGTH_SHORT).show();
-                                    dialog.dismiss();
-                                }*/
                                 Random r = new Random();
                                 int ran = r.nextInt(99999 - 10000 + 1) + 10000;
                                 String random_otp = String.valueOf(ran);
