@@ -64,6 +64,8 @@ public class Otp_validation_activity extends AppCompatActivity implements TextWa
     Last_logintime last_logintime;
     Dialog loader;
 
+    String deviceToken;
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -167,6 +169,11 @@ public class Otp_validation_activity extends AppCompatActivity implements TextWa
             loader.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             loader.setCancelable(false);
 
+            OneSignal.initWithContext(this);
+            OneSignal.setAppId(Constants.ONESIGNAL_APP_ID);
+            deviceToken = OneSignal.getDeviceState().getUserId();
+            Log.d("dataxx", "checkMultipleDeviceLogIN: "+password+" "+deviceToken);
+
             verifyButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -239,11 +246,6 @@ public class Otp_validation_activity extends AppCompatActivity implements TextWa
     public String message = "no";
 
     private void update_token(String user_type) {
-
-        OneSignal.initWithContext(this);
-        OneSignal.setAppId(Constants.ONESIGNAL_APP_ID);
-        String deviceToken = OneSignal.getDeviceState().getUserId();
-        Log.d("dataxx", "checkMultipleDeviceLogIN: "+password+" "+deviceToken);
 
         if (user_type.equals("shop")) {
             message = "no";

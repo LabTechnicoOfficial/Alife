@@ -8,6 +8,7 @@ import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.RequiresApi;
+import androidx.core.content.FileProvider;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
@@ -34,6 +35,7 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.alifew.alife.BuildConfig;
 import com.alifew.alife.DB.AppDatabase;
 import com.alifew.alife.DB.InsertProductThread;
 import com.alifew.alife.DB.ProductDao;
@@ -48,6 +50,7 @@ import com.alifew.alife.viewmodel.Get_all_shop_product;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class ShopPrintBarcodeFragment extends Fragment implements Shop_product_barcode_print_adapter.OnCheckBoxClickListener {
 
@@ -82,6 +85,7 @@ public class ShopPrintBarcodeFragment extends Fragment implements Shop_product_b
 
 
         loadProducts();
+
 
         printButton.setOnClickListener(new View.OnClickListener() {
             @Override
