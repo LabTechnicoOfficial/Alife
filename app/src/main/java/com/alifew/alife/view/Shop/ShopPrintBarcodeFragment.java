@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -52,7 +53,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class ShopPrintBarcodeFragment extends Fragment implements Shop_product_barcode_print_adapter.OnCheckBoxClickListener {
+public class ShopPrintBarcodeFragment extends Fragment implements Shop_product_barcode_print_adapter.OnCheckBoxClickListener, Shop_product_barcode_print_adapter.MarkAllClickListener {
 
     RecyclerView productView;
     EditText searchEditText;
@@ -241,8 +242,16 @@ public class ShopPrintBarcodeFragment extends Fragment implements Shop_product_b
     @SuppressLint("NotifyDataSetChanged")
     private void get_products() {
 
-        productList = productDao.getProductsList();
+//        AsyncTask.execute(new Runnable() {
+//            @Override
+//            public void run() {
+//                //TODO your background code
+//
+//            }
+//        });
 
+
+        productList = productDao.getProductsList();
         setUpAdapter(productList);
 
     }
@@ -252,7 +261,7 @@ public class ShopPrintBarcodeFragment extends Fragment implements Shop_product_b
         progressBar.setVisibility(View.GONE);
         productAdapter = new Shop_product_barcode_print_adapter(productList, productDao);
         productAdapter.notifyDataSetChanged();
-        productAdapter.setOnClickListener(ShopPrintBarcodeFragment.this::onCheckBoxClick);
+        productAdapter.setOnClickListener(ShopPrintBarcodeFragment.this::onCheckBoxClick, ShopPrintBarcodeFragment.this::onMarkAllClick);
         productView.setAdapter(productAdapter);
     }
 
@@ -280,8 +289,22 @@ public class ShopPrintBarcodeFragment extends Fragment implements Shop_product_b
     @Override
     public void onCheckBoxClick(int position, boolean state) {
         Products response = productList.get(position);
-
         productDao.updatePrintCheck(String.valueOf(response.getId()), state ? "1" : "0");
 
+    }
+
+    @Override
+    public void onMarkAllClick(int position) {
+        Products response = productList.get(position);
+
+        List<Products> typeList = new ArrayList<>();
+        typeList = productDao.getProductsTypes(response.getProductID());
+
+        for (int i = 0; i < typeList.size(); i++) {
+            String id = String.valueOf(typeList.get(i).getId());
+            productDao.updatePrintCheck(id, "1");
+        }
+
+       get_products();
     }
 }

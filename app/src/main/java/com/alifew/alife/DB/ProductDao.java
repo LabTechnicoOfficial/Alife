@@ -31,4 +31,7 @@ public interface ProductDao {
 
     @Query("SELECT * From tblProducts WHERE product_id= :product_id")
     List<Products> getProductsTypes(String product_id);
+
+    @Query("SELECT COUNT(*) from tblProducts WHERE product_id = :product_id")
+    int getProductCount(String product_id);
 }

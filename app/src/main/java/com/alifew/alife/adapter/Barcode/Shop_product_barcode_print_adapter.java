@@ -46,11 +46,6 @@ public class Shop_product_barcode_print_adapter extends RecyclerView.Adapter<Sho
     public void onBindViewHolder(@NonNull Shop_product_barcode_print_adapter.ViewHolder holder, int position) {
         Products response = productList.get(position);
 
-//        try {
-//            Picasso.get().load(response.getImage()).into(holder.productImage);
-//        }catch (Exception e){
-//
-//        }
 
         holder.titleText.setText(response.getName());
         Glide.with(holder.itemView.getContext())
@@ -58,35 +53,11 @@ public class Shop_product_barcode_print_adapter extends RecyclerView.Adapter<Sho
                 .centerCrop()
                 .placeholder(R.drawable.loader)
                 .into(holder.productImage);
-/*
 
-        if (response.getType().isEmpty()) {
-            holder.typeText.setVisibility(View.GONE);
-        } else {
-            holder.typeText.setVisibility(View.VISIBLE);
-            holder.typeText.setText(Html.fromHtml("Type: <b>" + response.getType() + "<b>"));
-        }
-*/
 
         holder.priceText.setText(Html.fromHtml("Price: <b>" + response.getPrice() + "<b> tk"));
 
-        if (response.getPrintCheck().equals("1")) {
-            holder.checkBox.setChecked(true);
-        } else {
-            holder.checkBox.setChecked(false);
-        }
-
-//        holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                if (isChecked) {
-//                    Toast.makeText(holder.itemView.getContext(), response.getProductID(), Toast.LENGTH_SHORT).show();
-//                } else {
-//                    Toast.makeText(holder.itemView.getContext(), response.getProductID(), Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        });
-
+        holder.checkBox.setChecked(response.getPrintCheck().equals("1"));
 
         typeList = productDao.getProductsTypes(response.getProductID());
 
@@ -94,20 +65,13 @@ public class Shop_product_barcode_print_adapter extends RecyclerView.Adapter<Sho
             holder.typeLayout.setVisibility(View.VISIBLE);
             holder.checkBox.setVisibility(View.GONE);
             Shop_product_type_view_adapter typeAdapter = new Shop_product_type_view_adapter(typeList, productDao);
-           // typeAdapter.setOnClickListener(Shop_product_barcode_print_adapter.this::onCheckBoxClick);
+            // typeAdapter.setOnClickListener(Shop_product_barcode_print_adapter.this::onCheckBoxClick);
             holder.typeView.setAdapter(typeAdapter);
 
         } else {
             holder.typeLayout.setVisibility(View.GONE);
             holder.checkBox.setVisibility(View.VISIBLE);
         }
-
-        holder.barCodeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(holder.itemView.getContext(), "working", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     @Override
@@ -116,25 +80,24 @@ public class Shop_product_barcode_print_adapter extends RecyclerView.Adapter<Sho
     }
 
     private OnCheckBoxClickListener onCheckBoxClickListener;
+    private MarkAllClickListener markAllClickListener;
 
-//    @Override
-//    public void onCheckBoxClick(int position, boolean state) {
-//        //Products response = typeList.get(position);
-//
-//        Log.d("dataxx", "onCheckBoxClick: "+String.valueOf(typeList.size()));
-//    }
+    public interface MarkAllClickListener{
+        void onMarkAllClick(int position);
+    }
 
     public interface OnCheckBoxClickListener {
         void onCheckBoxClick(int position, boolean state);
     }
 
-    public void setOnClickListener(OnCheckBoxClickListener onCheckBoxClickListener) {
+    public void setOnClickListener(OnCheckBoxClickListener onCheckBoxClickListener, MarkAllClickListener markAllClickListener) {
         this.onCheckBoxClickListener = onCheckBoxClickListener;
+        this.markAllClickListener = markAllClickListener;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView productImage, barCodeButton;
-        TextView titleText, typeText, priceText;
+        ImageView productImage;
+        TextView titleText, typeText, priceText, markAllButton;
         CheckBox checkBox;
         LinearLayout typeLayout;
         RecyclerView typeView;
@@ -148,18 +111,33 @@ public class Shop_product_barcode_print_adapter extends RecyclerView.Adapter<Sho
             priceText = itemView.findViewById(R.id.priceText);
             checkBox = itemView.findViewById(R.id.checkBox);
             typeLayout = itemView.findViewById(R.id.typeLayout);
-            barCodeButton = itemView.findViewById(R.id.barCodeButton);
             typeView = itemView.findViewById(R.id.typeView);
             typeView.setHasFixedSize(true);
             typeView.setLayoutManager(new LinearLayoutManager(itemView.getContext()));
+            markAllButton = itemView.findViewById(R.id.markAllButton);
 
             checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
                     if (onCheckBoxClickListener != null) {
                         int position = getAdapterPosition();
                         if (position != RecyclerView.NO_POSITION) {
                             onCheckBoxClickListener.onCheckBoxClick(position, isChecked);
+                        }
+                    }
+
+
+                }
+            });
+
+            markAllButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (markAllClickListener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            markAllClickListener.onMarkAllClick(position);
                         }
                     }
                 }
