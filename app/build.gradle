@@ -111,7 +111,7 @@ dependencies {
     //barcode
     implementation 'com.journeyapps:zxing-android-embedded:4.3.0'
 
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.3'
+    //coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.3'
 
     //onesignal
     implementation 'com.onesignal:OneSignal:[4.0.0, 4.99.99]'
