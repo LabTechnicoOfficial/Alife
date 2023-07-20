@@ -100,6 +100,8 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
     public int leng;
     String date1 = "", date2 = "";
 
+    String deviceToken;
+
     int user;
 
     @SuppressLint("MissingPermission")
@@ -225,14 +227,6 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
     }
 
     private void checkMultipleDeviceLogIN() {
-
-
-        OneSignal.initWithContext(this);
-        OneSignal.setAppId(Constants.ONESIGNAL_APP_ID);
-        String deviceToken = OneSignal.getDeviceState().getUserId();
-        Log.d("dataxx", "checkMultipleDeviceLogIN: "+deviceToken);
-
-
 
         user_deviceToken.getToken(String.valueOf(user), "shop").observe(Shop_main_activity.this, new Observer<getUser_deviceToken_response>() {
             @Override
@@ -379,6 +373,15 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
 
         version_code = String.valueOf(BuildConfig.VERSION_CODE);
         version_name = BuildConfig.VERSION_NAME;
+
+
+        OneSignal.initWithContext(this);
+        OneSignal.setAppId(Constants.ONESIGNAL_APP_ID);
+         deviceToken = OneSignal.getDeviceState().getUserId();
+        Log.d("dataxx", "checkMultipleDeviceLogIN: "+deviceToken);
+
+
+
         // Log.d("version: ",version_code);
         get_version.getData().observe(Shop_main_activity.this, new Observer<get_version_response>() {
             @Override

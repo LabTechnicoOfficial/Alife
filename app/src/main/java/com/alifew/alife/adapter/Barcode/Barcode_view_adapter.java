@@ -22,10 +22,12 @@ public class Barcode_view_adapter extends RecyclerView.Adapter<Barcode_view_adap
 
     private List<Products> markedProductList = new ArrayList<>();
     private String shopName;
+    int divider;
 
-    public Barcode_view_adapter(List<Products> markedProductList, String shopName) {
+    public Barcode_view_adapter(List<Products> markedProductList, String shopName, int divider) {
         this.markedProductList = markedProductList;
         this.shopName = shopName;
+        this.divider = divider;
     }
 
     @NonNull
@@ -44,7 +46,7 @@ public class Barcode_view_adapter extends RecyclerView.Adapter<Barcode_view_adap
         holder.titleText.setText(response.getName());
         holder.barcodeImage.setImageBitmap(Helpers.barCodeGenerator(holder.itemView.getContext(), response.getBarcode()));
         holder.barcodeText.setText(response.getBarcode());
-
+        holder.barcodeImage.getLayoutParams().height = 220/divider;
 
 
         holder.availableTypeText.setText(Html.fromHtml("Size: <b>" + response.getType()+"<b>"));

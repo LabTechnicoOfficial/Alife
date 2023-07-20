@@ -9,6 +9,7 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -100,6 +101,13 @@ public class Shop_product_barcode_print_adapter extends RecyclerView.Adapter<Sho
             holder.typeLayout.setVisibility(View.GONE);
             holder.checkBox.setVisibility(View.VISIBLE);
         }
+
+        holder.barCodeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(holder.itemView.getContext(), "working", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
@@ -125,7 +133,7 @@ public class Shop_product_barcode_print_adapter extends RecyclerView.Adapter<Sho
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView productImage;
+        ImageView productImage, barCodeButton;
         TextView titleText, typeText, priceText;
         CheckBox checkBox;
         LinearLayout typeLayout;
@@ -140,6 +148,7 @@ public class Shop_product_barcode_print_adapter extends RecyclerView.Adapter<Sho
             priceText = itemView.findViewById(R.id.priceText);
             checkBox = itemView.findViewById(R.id.checkBox);
             typeLayout = itemView.findViewById(R.id.typeLayout);
+            barCodeButton = itemView.findViewById(R.id.barCodeButton);
             typeView = itemView.findViewById(R.id.typeView);
             typeView.setHasFixedSize(true);
             typeView.setLayoutManager(new LinearLayoutManager(itemView.getContext()));

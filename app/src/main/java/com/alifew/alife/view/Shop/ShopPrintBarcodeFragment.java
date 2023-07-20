@@ -160,11 +160,9 @@ public class ShopPrintBarcodeFragment extends Fragment implements Shop_product_b
 
         RecyclerView barCodeView = barcodeAlert.findViewById(R.id.barCodeView);
         barCodeView.setHasFixedSize(true);
-        barCodeView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-        Barcode_view_adapter barcodeViewAdapter = new Barcode_view_adapter(markedProductList, sessionManagement.getSaveShopName());
-        barCodeView.setAdapter(barcodeViewAdapter);
-
-
+//        barCodeView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+//        Barcode_view_adapter barcodeViewAdapter = new Barcode_view_adapter(markedProductList, sessionManagement.getSaveShopName());
+//        barCodeView.setAdapter(barcodeViewAdapter);
 
 
         List<String> items = new ArrayList<>();
@@ -187,7 +185,7 @@ public class ShopPrintBarcodeFragment extends Fragment implements Shop_product_b
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 int item = Integer.parseInt(parent.getItemAtPosition(position).toString());
                 barCodeView.setLayoutManager(new GridLayoutManager(getActivity(), item));
-                Barcode_view_adapter barcodeViewAdapter = new Barcode_view_adapter(markedProductList, sessionManagement.getSaveShopName());
+                Barcode_view_adapter barcodeViewAdapter = new Barcode_view_adapter(markedProductList, sessionManagement.getSaveShopName(), item);
                 barCodeView.setAdapter(barcodeViewAdapter);
             }
 

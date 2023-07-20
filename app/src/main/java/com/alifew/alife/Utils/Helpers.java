@@ -1,6 +1,9 @@
 package com.alifew.alife.Utils;
 
+import static com.unity3d.services.core.properties.ClientProperties.getApplicationContext;
+
 import android.annotation.SuppressLint;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -9,10 +12,17 @@ import android.graphics.pdf.PdfDocument;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.text.Html;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.core.content.FileProvider;
+import androidx.core.text.HtmlCompat;
+
+import com.alifew.alife.BuildConfig;
+import com.alifew.alife.R;
 import com.gkemon.XMLtoPDF.PdfGenerator;
 import com.gkemon.XMLtoPDF.PdfGeneratorListener;
 import com.gkemon.XMLtoPDF.model.FailureResponse;
@@ -25,6 +35,7 @@ import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.Objects;
 
 public class Helpers {
 
@@ -59,26 +70,25 @@ public class Helpers {
 
     public static void createPDF(View view, Context context, String fileName) {
 
-//By the following statements, we are changing the text view inside of our target "view" which is going to be changed.
-//So if we now print the "view" then you will see the changed text in the pdf.
-
         PdfGenerator.getBuilder()
                 .setContext(context)
                 .fromViewSource()
                 .fromView(view)
                 .setFileName(generateFileName(fileName))
-                .setFolderName("BARCODE")
+                .setFolderName(Environment.DIRECTORY_DOCUMENTS)
                 .openPDFafterGeneration(true)
                 .build(new PdfGeneratorListener() {
                     @Override
                     public void onFailure(FailureResponse failureResponse) {
                         super.onFailure(failureResponse);
-                        Log.d("dataxx", "onFailure: "+failureResponse.getErrorMessage());
+                        Log.d("dataxx", "onFailure: " + failureResponse.getErrorMessage());
                     }
 
                     @Override
                     public void showLog(String log) {
                         super.showLog(log);
+
+                        Log.d("dataxx", "showLog: " + log);
                     }
 
                     @Override
@@ -95,9 +105,12 @@ public class Helpers {
                     public void onSuccess(SuccessResponse response) {
                         super.onSuccess(response);
 
-                        Log.d("dataxx", "onSuccesPATH: "+response.getPath());
-
-                        //openPDF(response.getPath(), context);
+                        Log.d("dataxx", "onSuccesPATH: " + response.getPath() + " ab: " + response.getFile().getAbsolutePath());
+                        Toast.makeText(context, context.getResources().getString(R.string.file_save) + Html.fromHtml("\n<b>" + response.getPath() + "<b>"), Toast.LENGTH_SHORT).show();
+//                        Intent myIntent = new Intent(Intent.ACTION_VIEW);
+//                        myIntent.setDataAndType(FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".provider", response.getFile()), "application/pdf");
+//                        Intent j = Intent.createChooser(myIntent, "Choose an application to open with:");
+//                        context.startActivity(j);
 
 
                     }
@@ -169,7 +182,7 @@ public class Helpers {
         PdfDocument document = new PdfDocument();
 
         File file = new File(targetPDF);
-        Log.d("dataxx", "savePDF: "+targetPDF);
+        Log.d("dataxx", "savePDF: " + targetPDF);
         try {
             FileOutputStream fileOutputStream = new FileOutputStream(file);
             document.writeTo(fileOutputStream);
@@ -193,12 +206,47 @@ public class Helpers {
         return fileName + new SimpleDateFormat("yyMMddHHmmss").format(Calendar.getInstance().getTime());
     }
 
-    private static void openPDF(String path, Context context) {
-        Log.d("dataxx", "openPDF: "+path);
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setDataAndType(Uri.fromFile(new File(path)), "application/pdf");
-        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-        context.startActivity(intent);
+    private static void openGeneratedPDF(String targetPdf, Context context) {
+
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+//            //dir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS) + "/" + FolderName);
+//
+//            targetPDF = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).toURI());
+//        } else {
+//            targetPDF = new File(Environment.getExternalStorageDirectory().toURI());
+//
+//        }
+        String baseDir = Environment.getExternalStorageDirectory().getAbsolutePath();
+        targetPdf = baseDir + targetPdf;
+
+        Log.d("dataxx", "TARGET: " + targetPdf);
+
+        try {
+            File file = new File(targetPdf);
+            if (file.exists()) {
+                Uri path = FileProvider.getUriForFile(context, context.getPackageName() + ".xmlToPdf.provider", file);
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setDataAndType(path, "application/pdf");
+
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+
+                try {
+                    context.startActivity(intent);
+                } catch (Exception e) {
+                    //postFailure(e);
+                    Log.d("dataxx", "OPENACTIVITYERROR: " + e.getMessage());
+                }
+            } else {
+                //String path = TextUtils.isEmpty(directoryPath) ? "null" : directoryPath;
+                Log.d("dataxx", "PDFOPENERROR: ELSE");
+            }
+        } catch (Exception exception) {
+            Log.d("dataxx", "PDFOPENERROR: " + exception.getMessage());
+        }
+
     }
 
     public static Bitmap loadBitmap(View v, int width, int height) {
