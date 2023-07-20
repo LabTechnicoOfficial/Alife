@@ -49,7 +49,7 @@ public class Barcode_view_adapter extends RecyclerView.Adapter<Barcode_view_adap
         holder.barcodeImage.getLayoutParams().height = 220/divider;
 
 
-        holder.availableTypeText.setText(Html.fromHtml("Size: <b>" + response.getType()+"<b>"));
+       // holder.availableTypeText.setText("Size: "+Html.fromHtml("<b>" + response.getType()+"<b>"));
 
 //        if (response.getType().isEmpty()){
 //            holder.availableTypeText.setVisibility(View.INVISIBLE);
@@ -59,9 +59,9 @@ public class Barcode_view_adapter extends RecyclerView.Adapter<Barcode_view_adap
 //            sizeText = Html.fromHtml("Size: <b>" + response.getType()+"<b>").toString();
 //        }
 
-        String sizeText=  !response.getType().isEmpty() ? Html.fromHtml("&emsp; Size: <b>" + response.getType()+"<b>").toString() : "";
+        String sizeText=  !response.getType().isEmpty() ? Html.fromHtml("&emsp; Size: <b>" + response.getType()+"</b>").toString() : "";
 
-        holder.sellingPriceText.setText(Html.fromHtml("Price: <b>" + response.getPrice()+"<b> tk")+sizeText);
+        holder.sellingPriceText.setText(Html.fromHtml("Price: <b>" + response.getPrice()+"</b> tk")+sizeText);
         holder.sponsorText.setText(Html.fromHtml("<i>Powered by</i> " + "<font color='red'><b>ALIFE</b></font>"));
 
         holder.shopNameText.setText(shopName);
