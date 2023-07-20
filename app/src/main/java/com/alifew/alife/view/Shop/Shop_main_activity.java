@@ -56,6 +56,8 @@ import com.alifew.alife.viewmodel.User_deviceToken;
 import com.alifew.alife.viewmodel.User_instruction;
 import com.bumptech.glide.Glide;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.onesignal.OneSignal;
 import com.squareup.picasso.Picasso;
 
@@ -103,6 +105,8 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
     String deviceToken;
 
     int user;
+
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     @SuppressLint("MissingPermission")
     protected void onStart() {
@@ -360,6 +364,8 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
         ActivityCompat.requestPermissions(Shop_main_activity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.INTERNET, Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.CALL_PHONE, Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.READ_PHONE_STATE}, 1);
         //instruction_func();
 
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
         dialog = new Dialog(Shop_main_activity.this);
         dialog.setContentView(R.layout.update_alert);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -379,9 +385,16 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
         OneSignal.setAppId(Constants.ONESIGNAL_APP_ID);
          deviceToken = OneSignal.getDeviceState().getUserId();
         Log.d("dataxx", "checkMultipleDeviceLogIN: "+deviceToken);
+//
+//        Bundle bundle = new Bundle();
+//        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, deviceToken);
+//        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, name);
+//        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
 
-
-
+//        FirebaseCrashlytics crashlytics = FirebaseCrashlytics.getInstance();
+//
+//        crashlytics.setCustomKey("current_level", 3);
+//        crashlytics.setCustomKey("last_UI_action", "logged_in");
         // Log.d("version: ",version_code);
         get_version.getData().observe(Shop_main_activity.this, new Observer<get_version_response>() {
             @Override
