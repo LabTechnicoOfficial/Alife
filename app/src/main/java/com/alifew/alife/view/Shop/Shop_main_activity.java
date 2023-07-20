@@ -393,7 +393,7 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
 
 //        FirebaseCrashlytics crashlytics = FirebaseCrashlytics.getInstance();
 //
-//        crashlytics.setCustomKey("current_level", 3);
+//        crashlytics.setCustomKey("current_level", 3);K
 //        crashlytics.setCustomKey("last_UI_action", "logged_in");
         // Log.d("version: ",version_code);
         get_version.getData().observe(Shop_main_activity.this, new Observer<get_version_response>() {
