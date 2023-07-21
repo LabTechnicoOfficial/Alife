@@ -16,32 +16,28 @@
         <item
             android:id="@+id/customerListID"
             android:icon="@drawable/customer_icon"
-            android:title="Customer List"/>
+            android:title="Customer List" />
 
         <item
             android:id="@+id/categoryListID"
             android:icon="@drawable/category_icon"
-            android:title="Categories"/>
+            android:title="Categories" />
 
         <item
             android:id="@+id/productsID"
             android:icon="@drawable/products_icon"
-            android:title="All Products"/>
+            android:title="All Products" />
 
         <item
             android:id="@+id/sellProductsID"
             android:icon="@drawable/sell_icon"
             android:title="Sell Products" />
 
-        <!--<item
-            android:id="@+id/adminListID"
-            android:icon="@drawable/admin_icon"
-            android:title="Operator"/>
 
         <item
-            android:id="@+id/sub_shopID"
-            android:icon="@drawable/sub_shop_icon"
-            android:title="Sub Shop" />-->
+            android:id="@+id/addBanner"
+            android:icon="@drawable/banner"
+            android:title="Banner" />
 
         <item
             android:id="@+id/log_out"

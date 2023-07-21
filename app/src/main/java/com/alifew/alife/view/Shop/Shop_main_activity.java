@@ -491,48 +491,53 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
         return super.onOptionsItemSelected(item);
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        alertControl();
-        if (item.getItemId() == R.id.log_out) {
+        //alertControl();
+        switch (item.getItemId()) {
+            case R.id.log_out:
 
-            SessionManagement sessionManagement = new SessionManagement(Shop_main_activity.this);
-            sessionManagement.removeSession();
-            startActivity(new Intent(Shop_main_activity.this, LoginActivity.class));
+                SessionManagement sessionManagement = new SessionManagement(Shop_main_activity.this);
+                sessionManagement.removeSession();
+                startActivity(new Intent(Shop_main_activity.this, LoginActivity.class));
 
-        } else if (item.getItemId() == R.id.categoryListID) {
+                break;
+            case R.id.categoryListID:
 
-            getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, new Shop_categories_fragment(shop_id)).addToBackStack(null).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, new Shop_categories_fragment(shop_id)).addToBackStack(null).commit();
 
-        } else if (item.getItemId() == R.id.profile) {
+                break;
+            case R.id.profile:
 
-            getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, new Shop_profile_fragments()).addToBackStack(null).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, new Shop_profile_fragments()).addToBackStack(null).commit();
 
-        } else if (item.getItemId() == R.id.customerListID) {
+                break;
+            case R.id.customerListID:
 
-            getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, new Shop_customer_list_fragments(shop_id)).addToBackStack(null).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, new Shop_customer_list_fragments(shop_id)).addToBackStack(null).commit();
 
-        }/* else if (item.getItemId() == R.id.sub_shopID) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, new Sub_shop_fragment()).addToBackStack(null).commit();
+                break;
+            case R.id.productsID:
 
-        } else if (item.getItemId() == R.id.adminListID) {
+                getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, new Shop_all_products_fragment(shop_id)).addToBackStack(null).commit();
 
-            getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, new Shop_admin_fragments(shop_id)).addToBackStack(null).commit();
+                break;
+            case R.id.sellProductsID:
 
-        } */ else if (item.getItemId() == R.id.productsID) {
+                List<ProductSell> sellList;
+                sellList = new ArrayList<>();
+                getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, new Shop_sellcategoriesORproducts_fragment(shop_id, sellList)).addToBackStack(null).commit();
 
-            getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, new Shop_all_products_fragment(shop_id)).addToBackStack(null).commit();
+                break;
+            case R.id.nav_home:
 
-        } else if (item.getItemId() == R.id.sellProductsID) {
+                getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, new Shop_homescreen_fragment()).commit();
 
-            List<ProductSell> sellList;
-            sellList = new ArrayList<>();
-            getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, new Shop_sellcategoriesORproducts_fragment(shop_id, sellList)).addToBackStack(null).commit();
-
-        } else if (item.getItemId() == R.id.nav_home) {
-
-            getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, new Shop_homescreen_fragment()).commit();
-
+                break;
+            case R.id.addBanner:
+                getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, new BannerFragment()).addToBackStack(null).commit();
+                break;
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
