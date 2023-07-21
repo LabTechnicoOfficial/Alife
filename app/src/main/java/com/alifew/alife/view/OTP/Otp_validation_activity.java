@@ -169,6 +169,8 @@ public class Otp_validation_activity extends AppCompatActivity implements TextWa
             loader.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             loader.setCancelable(false);
 
+            Toast.makeText(this, otp, Toast.LENGTH_SHORT).show();
+
             OneSignal.initWithContext(this);
             OneSignal.setAppId(Constants.ONESIGNAL_APP_ID);
             deviceToken = OneSignal.getDeviceState().getUserId();

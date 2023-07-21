@@ -39,6 +39,7 @@ import com.alifew.alife.viewmodel.Get_shop_customer_due_list;
 import com.alifew.alife.viewmodel.Local_sell.Get_local_sell;
 import com.alifew.alife.viewmodel.Sell_details;
 import com.alifew.alife.viewmodel.banner.BannerViewModel;
+import com.bumptech.glide.Glide;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.squareup.picasso.Picasso;
 
@@ -212,7 +213,12 @@ public class Customer_shop_details_fragment extends Fragment implements shop_cus
         dueListView.setHasFixedSize(true);
         dueListView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        Picasso.get().load(image).into(shopImage);
+        Glide.with(getActivity())
+                .load(image)
+                .centerCrop()
+                .placeholder(R.drawable.loader)
+                .into(shopImage);
+
         shopName.setText(name);
         shopLocation.setText(location);
         contactTextview.setText(phone);

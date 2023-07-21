@@ -312,8 +312,24 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                 String id = shop_login_response.getId();
 
-                if (!(id.equals("-1"))) {
-                    last_logintime.getTime(id, "customer").observe(LoginActivity.this, new Observer<last_logintime_response>() {
+                if (!id.equals("-1") || id != null) {
+
+                    Random r = new Random();
+                    int ran = r.nextInt(99999 - 10000 + 1) + 10000;
+                    String random_otp = String.valueOf(ran);
+
+                    otp.getStatus(phone, "ALife..Your Customer LogIn OTP is -" + random_otp).observe(LoginActivity.this, new Observer<OTP_response>() {
+                        @Override
+                        public void onChanged(OTP_response otp_response) {
+                            if (otp_response.getStatus().equals("queued")) {
+                                customer_otp_activity(random_otp, id, phone);
+                            } else {
+
+                            }
+                        }
+                    });
+
+                 /*   last_logintime.getTime(id, "customer").observe(LoginActivity.this, new Observer<last_logintime_response>() {
                         @Override
                         public void onChanged(last_logintime_response last_logintime_response) {
                             if (last_logintime_response.getLast_time().equals("0")) {
@@ -354,15 +370,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             }
                         }
                     });
+*/
 
-
-                    // for update token
-
-
-                    //end update token
                 } else {
                     dialog.dismiss();
-                    //agentDialog.dismiss();
                     Toast toast = Toast.makeText(LoginActivity.this, shop_login_response.getMessage(), Toast.LENGTH_SHORT);
                     toast.show();
                 }
@@ -371,7 +382,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void shop_otp_activity(String random_otp, String id, String phone) {
-       Toast.makeText(this, random_otp, Toast.LENGTH_SHORT).show();
+
         registration registration;
         registration = new registration("", "", phone, "shopkeeper", "", id, "login_varification", random_otp, "login");
 

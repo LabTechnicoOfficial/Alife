@@ -9,14 +9,14 @@ plugins {
 
 }
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
     buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "com.alifew.alife"
         minSdkVersion 21
         //noinspection ExpiredTargetSdkVersion
-        targetSdkVersion 30
+        targetSdkVersion 31
         versionCode 34
         versionName "1.01"
 
@@ -95,7 +95,7 @@ dependencies {
 
     //justify textview
     implementation 'me.biubiubiu.justifytext:library:1.1'
-    //implementation "androidx.work:work-runtime:2.3.1"
+    implementation "androidx.work:work-runtime:2.7.1"
     //implementation 'androidx.work:work-runtime-ktx:2.3.1'
     implementation files('../app/libs/unity-ads.aar')
 
@@ -123,5 +123,8 @@ dependencies {
 
     //onesignal
     implementation 'com.onesignal:OneSignal:[4.0.0, 4.99.99]'
+
+    //sliderview
+    implementation 'com.github.smarteist:autoimageslider:1.4.0-appcompat'
 
 }

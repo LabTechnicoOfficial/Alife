@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.alifew.alife.R;
 import com.alifew.alife.model.user_instruction_response;
+import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -35,11 +36,13 @@ public class Instruction_adapter extends RecyclerView.Adapter<Instruction_adapte
     public void onBindViewHolder(@NonNull AppViewholder holder, int position) {
         user_instruction_response response = instructionList.get(position);
         holder.instructionText.setText(response.getTitle());
-        try{
-            Picasso.get().load(response.getImage()).into(holder.instructionImage);
-        }catch (Exception e){
 
-        }
+
+        Glide.with(holder.itemView.getContext())
+                .load(response.getImage())
+                .centerCrop()
+                .placeholder(R.drawable.loader)
+                .into(holder.instructionImage);
     }
 
     @Override

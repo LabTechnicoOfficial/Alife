@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.alifew.alife.R;
 import com.alifew.alife.model.customer_shopList_response;
+import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -44,10 +45,16 @@ public class Customer_shopList_adapter extends RecyclerView.Adapter<Customer_sho
     @Override
     public void onBindViewHolder(@NonNull Customer_shopList_adapter.AppViewholder holder, int position) {
         customer_shopList_response shop = shopList.get(position);
-        Picasso.get().load(shop.getStore01e_image()).into(holder.shopImage);
+
         holder.shopName.setText(shop.getStore01e_name());
         holder.totalDueText.setText(shop.getTotal_due());
 
+
+        Glide.with(holder.itemView.getContext())
+                .load(shop.getStore01e_image())
+                .centerCrop()
+                .placeholder(R.drawable.loader)
+                .into(holder.shopImage);
 
     }
 

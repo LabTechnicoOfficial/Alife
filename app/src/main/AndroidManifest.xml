@@ -35,7 +35,8 @@
             <action android:name="android.media.action.ACTION_IMAGE_CAPTURE" />
         </intent>
         <intent>
-            <action android:name="android.intent.action.MAIN" />
+            <action android:name="android.intent.action.VIEW" />
+            <data android:mimeType="*/*" />
         </intent>
     </queries>
 
@@ -49,7 +50,7 @@
         android:theme="@style/Theme.Alife"
         android:usesCleartextTraffic="true"
         tools:ignore="HardcodedDebugMode"
-        tools:node="merge">
+        tools:node="replace">
 
         <activity
             android:name="com.alifew.alife.view.LoginActivity"
@@ -139,9 +140,9 @@
             android:name="com.google.android.gms.vision.DEPENDENCIES"
             android:value="barcode" />
 
-<!--        <meta-data-->
-<!--            android:name="com.google.android.gms.version"-->
-<!--            android:value="@integer/google_play_services_version" />-->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
