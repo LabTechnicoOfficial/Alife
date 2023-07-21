@@ -27,6 +27,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.alifew.alife.R;
 import com.alifew.alife.adapter.Normal_sell_details_image_adapter;
+import com.alifew.alife.adapter.Slider.CustomerSliderViewAdapter;
 import com.alifew.alife.adapter.Systemetic_sell_details_adapter;
 import com.alifew.alife.adapter.shop_customer_due_list_adapter;
 import com.alifew.alife.model.banner.BannerResponse;
@@ -41,6 +42,10 @@ import com.alifew.alife.viewmodel.Sell_details;
 import com.alifew.alife.viewmodel.banner.BannerViewModel;
 import com.bumptech.glide.Glide;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
+import com.smarteist.autoimageslider.SliderAnimations;
+import com.smarteist.autoimageslider.SliderView;
+import com.smarteist.autoimageslider.SliderViewAdapter;
 import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
@@ -70,6 +75,8 @@ public class Customer_shop_details_fragment extends Fragment implements shop_cus
     BannerViewModel bannerViewModel;
 
     List<BannerResponse> bannerList;
+
+    SliderView imageSliderView;
 
     public Customer_shop_details_fragment(String customer_id, String shop_id, String name, String location, String phone, String image) {
         this.customer_id = customer_id;
@@ -213,6 +220,8 @@ public class Customer_shop_details_fragment extends Fragment implements shop_cus
         dueListView.setHasFixedSize(true);
         dueListView.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        imageSliderView = view.findViewById(R.id.imageSliderView);
+
         Glide.with(getActivity())
                 .load(image)
                 .centerCrop()
@@ -266,7 +275,15 @@ public class Customer_shop_details_fragment extends Fragment implements shop_cus
             public void onChanged(List<BannerResponse> bannerResponses) {
                 bannerList = new ArrayList<>();
                 bannerList = bannerResponses;
-                Log.d("dataxx", "onChanged: "+String.valueOf(bannerList.size()));
+                CustomerSliderViewAdapter sliderViewAdapter = new CustomerSliderViewAdapter(bannerList);
+                imageSliderView.setSliderAdapter(sliderViewAdapter);
+                imageSliderView.setIndicatorAnimation(IndicatorAnimationType.WORM); //set indicator animation by using IndicatorAnimationType. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
+                imageSliderView.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
+                imageSliderView.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_BACK_AND_FORTH);
+                imageSliderView.setIndicatorSelectedColor(Color.WHITE);
+                imageSliderView.setIndicatorUnselectedColor(Color.GRAY);
+                imageSliderView.setScrollTimeInSec(2); //set scroll delay in seconds :
+                imageSliderView.startAutoCycle();
             }
         });
     }
