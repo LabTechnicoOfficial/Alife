@@ -1,5 +1,6 @@
 package com.alifew.alife.model.slider;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.alifew.alife.API.ApiUtilize;
@@ -48,6 +49,25 @@ public class SliderRepositories {
     public MutableLiveData<CommonResponse> updateBannerStatus(String shopID, String bannerID, String status) {
 
         Call<CommonResponse> call = sliderApi.updateSliderStatus(shopID, bannerID, status);
+        call.enqueue(new Callback<CommonResponse>() {
+            @Override
+            public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
+                if (response.isSuccessful()) {
+                    commonResponse.postValue(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CommonResponse> call, Throwable t) {
+
+            }
+        });
+
+        return commonResponse;
+    }
+
+    public MutableLiveData<CommonResponse> uploadSlider(String shopID, String image) {
+        Call<CommonResponse> call = sliderApi.uploadSlider(shopID, image);
         call.enqueue(new Callback<CommonResponse>() {
             @Override
             public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {

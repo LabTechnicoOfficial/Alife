@@ -17,4 +17,8 @@ public class SliderViewModel extends ViewModel {
     public LiveData<CommonResponse> updateBannerStatus(String shopID, String bannerID,String status){
         return SliderRepositories.getInstance().updateBannerStatus(shopID, bannerID, status);
     }
+
+    public LiveData<CommonResponse> uploadSlider(String shopID, String image){
+        return SliderRepositories.getInstance().uploadSlider(shopID, image);
+    }
 }

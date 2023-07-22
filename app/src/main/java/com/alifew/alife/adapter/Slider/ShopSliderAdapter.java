@@ -37,24 +37,15 @@ public class ShopSliderAdapter extends RecyclerView.Adapter<ShopSliderAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull ShopSliderAdapter.ViewHolder holder, int position) {
         SliderResponse response = sliderList.get(position);
+
         Glide.with(holder.itemView.getContext())
                 .load(response.bannerLink)
                 .centerCrop()
                 .placeholder(R.drawable.loader)
                 .into(holder.sliderImage);
 
-        //  Boolean checked = response.status.equals("active");
-
         holder.statusSwitch.setChecked(response.status.equals("active"));
 
-//
-//        if (response.status.equals("active")) {
-//            holder.statusSwitch.setChecked(true);
-//            //holder.statusSwitch.getTrackDrawable().setColorFilter(ContextCompat.getColor(holder.itemView.getContext(), R.color.default_color), PorterDuff.Mode.SRC_IN);
-//        } else {
-//            holder.statusSwitch.setChecked(false);
-//            //holder.statusSwitch.getTrackDrawable().setColorFilter(ContextCompat.getColor(holder.itemView.getContext(), R.color.grey), PorterDuff.Mode.SRC_IN);
-//        }
     }
 
     @Override

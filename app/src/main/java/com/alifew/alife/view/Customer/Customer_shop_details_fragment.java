@@ -272,7 +272,14 @@ public class Customer_shop_details_fragment extends Fragment implements shop_cus
             @Override
             public void onChanged(List<SliderResponse> sliderRespons) {
                 bannerList = new ArrayList<>();
-                bannerList = sliderRespons;
+
+                for (int i = 0; i < sliderRespons.size(); i++) {
+                    if (sliderRespons.get(i).status.equals("active")){
+                        bannerList.add(sliderRespons.get(i));
+                    }
+                }
+
+                //bannerList = sliderRespons;
                 CustomerSliderViewAdapter sliderViewAdapter = new CustomerSliderViewAdapter(bannerList);
                 imageSliderView.setSliderAdapter(sliderViewAdapter);
                 imageSliderView.setIndicatorAnimation(IndicatorAnimationType.WORM); //set indicator animation by using IndicatorAnimationType. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
