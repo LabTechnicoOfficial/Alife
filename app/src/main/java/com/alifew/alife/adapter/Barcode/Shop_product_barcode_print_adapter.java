@@ -82,7 +82,7 @@ public class Shop_product_barcode_print_adapter extends RecyclerView.Adapter<Sho
     private OnCheckBoxClickListener onCheckBoxClickListener;
     private MarkAllClickListener markAllClickListener;
 
-    public interface MarkAllClickListener{
+    public interface MarkAllClickListener {
         void onMarkAllClick(int position);
     }
 
@@ -120,13 +120,14 @@ public class Shop_product_barcode_print_adapter extends RecyclerView.Adapter<Sho
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-                    if (onCheckBoxClickListener != null) {
-                        int position = getAdapterPosition();
-                        if (position != RecyclerView.NO_POSITION) {
-                            onCheckBoxClickListener.onCheckBoxClick(position, isChecked);
+                    if (buttonView.isPressed()) {
+                        if (onCheckBoxClickListener != null) {
+                            int position = getAdapterPosition();
+                            if (position != RecyclerView.NO_POSITION) {
+                                onCheckBoxClickListener.onCheckBoxClick(position, isChecked);
+                            }
                         }
                     }
-
 
                 }
             });
