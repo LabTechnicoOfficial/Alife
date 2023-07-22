@@ -1,7 +1,7 @@
 package com.alifew.alife.API;
 
 import com.alifew.alife.model.*;
-import com.alifew.alife.model.banner.BannerApi;
+import com.alifew.alife.model.slider.SliderApi;
 import com.alifew.alife.model.cupon.cupon_api;
 import com.alifew.alife.model.local_sell.local_sell_api;
 import com.alifew.alife.model.shop_notification.shop_notification_api;
@@ -717,8 +717,8 @@ public class ApiUtilize {
         return Retrofit_client.getClient(BASE_URL).create(shop_notification_api.class);
     }
 
-    public static BannerApi bannerApi(){
-        return Retrofit_client.getClient(BASE_URL).create(BannerApi.class);
+    public static SliderApi bannerApi(){
+        return Retrofit_client.getClient(BASE_URL).create(SliderApi.class);
     }
 
 }

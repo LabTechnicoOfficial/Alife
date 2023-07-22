@@ -7,7 +7,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +29,7 @@ import com.alifew.alife.adapter.Normal_sell_details_image_adapter;
 import com.alifew.alife.adapter.Slider.CustomerSliderViewAdapter;
 import com.alifew.alife.adapter.Systemetic_sell_details_adapter;
 import com.alifew.alife.adapter.shop_customer_due_list_adapter;
-import com.alifew.alife.model.banner.BannerResponse;
+import com.alifew.alife.model.slider.SliderResponse;
 import com.alifew.alife.model.get_shop_customer_due_list_response;
 import com.alifew.alife.model.image;
 import com.alifew.alife.model.local_sell.get_local_sell_details_response;
@@ -45,7 +44,6 @@ import com.google.android.material.floatingactionbutton.ExtendedFloatingActionBu
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
-import com.smarteist.autoimageslider.SliderViewAdapter;
 import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
@@ -74,7 +72,7 @@ public class Customer_shop_details_fragment extends Fragment implements shop_cus
     int page = 1, limit = 20, end = 0;
     BannerViewModel bannerViewModel;
 
-    List<BannerResponse> bannerList;
+    List<SliderResponse> bannerList;
 
     SliderView imageSliderView;
 
@@ -270,11 +268,11 @@ public class Customer_shop_details_fragment extends Fragment implements shop_cus
     }
 
     private void loadBanner() {
-        bannerViewModel.getBannerList(shop_id).observe(getViewLifecycleOwner(), new Observer<List<BannerResponse>>() {
+        bannerViewModel.getBannerList(shop_id).observe(getViewLifecycleOwner(), new Observer<List<SliderResponse>>() {
             @Override
-            public void onChanged(List<BannerResponse> bannerResponses) {
+            public void onChanged(List<SliderResponse> sliderRespons) {
                 bannerList = new ArrayList<>();
-                bannerList = bannerResponses;
+                bannerList = sliderRespons;
                 CustomerSliderViewAdapter sliderViewAdapter = new CustomerSliderViewAdapter(bannerList);
                 imageSliderView.setSliderAdapter(sliderViewAdapter);
                 imageSliderView.setIndicatorAnimation(IndicatorAnimationType.WORM); //set indicator animation by using IndicatorAnimationType. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!

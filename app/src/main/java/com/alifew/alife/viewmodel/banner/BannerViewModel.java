@@ -3,13 +3,13 @@ package com.alifew.alife.viewmodel.banner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.alifew.alife.model.banner.BannerRepositories;
-import com.alifew.alife.model.banner.BannerResponse;
+import com.alifew.alife.model.slider.SliderRepositories;
+import com.alifew.alife.model.slider.SliderResponse;
 
 import java.util.List;
 
 public class BannerViewModel extends ViewModel {
-    public LiveData<List<BannerResponse>> getBannerList(String id) {
-        return BannerRepositories.getInstance().getBannerList(id);
+    public LiveData<List<SliderResponse>> getBannerList(String id) {
+        return SliderRepositories.getInstance().getBannerList(id);
     }
 }

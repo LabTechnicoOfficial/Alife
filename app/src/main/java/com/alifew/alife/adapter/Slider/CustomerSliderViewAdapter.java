@@ -1,13 +1,12 @@
 package com.alifew.alife.adapter.Slider;
 
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.alifew.alife.R;
-import com.alifew.alife.model.banner.BannerResponse;
+import com.alifew.alife.model.slider.SliderResponse;
 import com.bumptech.glide.Glide;
 import com.smarteist.autoimageslider.SliderViewAdapter;
 
@@ -15,9 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CustomerSliderViewAdapter extends SliderViewAdapter<CustomerSliderViewAdapter.ViewHolder> {
-    private List<BannerResponse> bannerList = new ArrayList<>();
+    private List<SliderResponse> bannerList = new ArrayList<>();
 
-    public CustomerSliderViewAdapter(List<BannerResponse> bannerList) {
+    public CustomerSliderViewAdapter(List<SliderResponse> bannerList) {
         this.bannerList = bannerList;
     }
 
@@ -36,7 +35,7 @@ public class CustomerSliderViewAdapter extends SliderViewAdapter<CustomerSliderV
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
-        BannerResponse response = bannerList.get(position);
+        SliderResponse response = bannerList.get(position);
         Glide.with(viewHolder.itemView.getContext())
                 .load(response.bannerLink)
                 .centerCrop()

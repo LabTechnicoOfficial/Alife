@@ -57,9 +57,7 @@ import com.alifew.alife.viewmodel.User_instruction;
 import com.bumptech.glide.Glide;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.analytics.FirebaseAnalytics;
-import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.onesignal.OneSignal;
-import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -535,7 +533,7 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
                 getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, new Shop_homescreen_fragment()).commit();
 
                 break;
-            case R.id.addBanner:
+            case R.id.addSlider:
                 getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, new BannerFragment()).addToBackStack(null).commit();
                 break;
         }

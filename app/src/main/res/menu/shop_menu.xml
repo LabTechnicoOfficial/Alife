@@ -35,9 +35,9 @@
 
 
         <item
-            android:id="@+id/addBanner"
-            android:icon="@drawable/banner"
-            android:title="Banner" />
+            android:id="@+id/addSlider"
+            android:icon="@drawable/slider"
+            android:title="Slider" />
 
         <item
             android:id="@+id/log_out"
