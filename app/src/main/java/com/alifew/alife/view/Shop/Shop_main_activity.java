@@ -534,7 +534,7 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
 
                 break;
             case R.id.addSlider:
-                getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, new BannerFragment()).addToBackStack(null).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, new ShopSliderFragment()).addToBackStack(null).commit();
                 break;
         }
         drawerLayout.closeDrawer(GravityCompat.START);

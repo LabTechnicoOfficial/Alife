@@ -3,6 +3,7 @@ package com.alifew.alife.model.slider;
 import androidx.lifecycle.MutableLiveData;
 
 import com.alifew.alife.API.ApiUtilize;
+import com.alifew.alife.model.CommonResponse;
 
 import java.util.List;
 
@@ -11,9 +12,11 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SliderRepositories {
-    private MutableLiveData<List<SliderResponse>> banner = new MutableLiveData<>();
+    private MutableLiveData<List<SliderResponse>> slidersList = new MutableLiveData<>();
     private SliderApi sliderApi = ApiUtilize.bannerApi();
     private static SliderRepositories sliderRepositories;
+
+    private MutableLiveData<CommonResponse> commonResponse = new MutableLiveData<>();
 
     public synchronized static SliderRepositories getInstance() {
 
@@ -30,7 +33,7 @@ public class SliderRepositories {
             @Override
             public void onResponse(Call<List<SliderResponse>> call, Response<List<SliderResponse>> response) {
                 if (response.isSuccessful()) {
-                    banner.postValue(response.body());
+                    slidersList.postValue(response.body());
                 }
             }
 
@@ -39,7 +42,26 @@ public class SliderRepositories {
 
             }
         });
-        return banner;
+        return slidersList;
     }
 
+    public MutableLiveData<CommonResponse> updateBannerStatus(String shopID, String bannerID, String status) {
+
+        Call<CommonResponse> call = sliderApi.updateSliderStatus(shopID, bannerID, status);
+        call.enqueue(new Callback<CommonResponse>() {
+            @Override
+            public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
+                if (response.isSuccessful()) {
+                    commonResponse.postValue(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CommonResponse> call, Throwable t) {
+
+            }
+        });
+
+        return commonResponse;
+    }
 }

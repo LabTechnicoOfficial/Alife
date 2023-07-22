@@ -38,7 +38,7 @@ import com.alifew.alife.model.systemetic_sell_details_response;
 import com.alifew.alife.viewmodel.Get_shop_customer_due_list;
 import com.alifew.alife.viewmodel.Local_sell.Get_local_sell;
 import com.alifew.alife.viewmodel.Sell_details;
-import com.alifew.alife.viewmodel.banner.BannerViewModel;
+import com.alifew.alife.viewmodel.banner.SliderViewModel;
 import com.bumptech.glide.Glide;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
@@ -70,7 +70,7 @@ public class Customer_shop_details_fragment extends Fragment implements shop_cus
     NestedScrollView nestedScrollView;
     ProgressBar progressBar;
     int page = 1, limit = 20, end = 0;
-    BannerViewModel bannerViewModel;
+    SliderViewModel sliderViewModel;
 
     List<SliderResponse> bannerList;
 
@@ -204,7 +204,7 @@ public class Customer_shop_details_fragment extends Fragment implements shop_cus
 
         showProductsButton = (ExtendedFloatingActionButton) view.findViewById(R.id.showProductsButtonID);
 
-        bannerViewModel = new ViewModelProvider(getActivity()).get(BannerViewModel.class);
+        sliderViewModel = new ViewModelProvider(getActivity()).get(SliderViewModel.class);
 
         shopImage = (ImageView) view.findViewById(R.id.shopImageID);
         shopName = (TextView) view.findViewById(R.id.shopNameID);
@@ -268,7 +268,7 @@ public class Customer_shop_details_fragment extends Fragment implements shop_cus
     }
 
     private void loadBanner() {
-        bannerViewModel.getBannerList(shop_id).observe(getViewLifecycleOwner(), new Observer<List<SliderResponse>>() {
+        sliderViewModel.getBannerList(shop_id).observe(getViewLifecycleOwner(), new Observer<List<SliderResponse>>() {
             @Override
             public void onChanged(List<SliderResponse> sliderRespons) {
                 bannerList = new ArrayList<>();
