@@ -34,4 +34,7 @@ public interface ProductDao {
 
     @Query("SELECT COUNT(*) from tblProducts WHERE product_id = :product_id")
     int getProductCount(String product_id);
+
+    @Query("SELECT * from tblProducts WHERE barcode = :barcode GROUP BY product_id")
+    List<Products> getProductsByBarCode(String barcode);
 }
