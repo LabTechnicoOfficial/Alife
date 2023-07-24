@@ -82,7 +82,7 @@ public class Shop_due_customer_fragment extends Fragment implements Shop_due_cus
 
                 ImageView closeButton = addCustomerAlert.findViewById(R.id.closeID);
                 AppCompatButton submitButton = addCustomerAlert.findViewById(R.id.submitButtonID);
-                TextInputEditText phoneText = addCustomerAlert.findViewById(R.id.phoneTextID);
+                TextInputEditText phoneText = addCustomerAlert.findViewById(R.id.contactText);
                 TextInputLayout phoneError = addCustomerAlert.findViewById(R.id.phoneErrorID);
 
                 submitButton.setOnClickListener(new View.OnClickListener() {

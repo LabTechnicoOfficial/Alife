@@ -58,7 +58,7 @@ public class Customer_coupon_package_customer_list_adapter extends RecyclerView.
         public AppViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            phoneText = itemView.findViewById(R.id.phoneTextID);
+            phoneText = itemView.findViewById(R.id.contactText);
             sellAmountText = itemView.findViewById(R.id.sellAmountTextID);
             positionText = itemView.findViewById(R.id.positionText);
         }

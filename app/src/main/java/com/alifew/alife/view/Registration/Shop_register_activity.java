@@ -83,13 +83,13 @@ public class Shop_register_activity extends AppCompatActivity implements View.On
 
         backButton = (ImageView) findViewById(R.id.backButtonID);
         profileImage = (ImageView) findViewById(R.id.profile_imageID);
-        shopName = (TextInputEditText) findViewById(R.id.shopNameTextID);
+        shopName = (TextInputEditText) findViewById(R.id.nameText);
         ownerName = (TextInputEditText) findViewById(R.id.ownerNameTextID);
         location = (TextInputEditText) findViewById(R.id.locationTextID);
-        phone = (TextInputEditText) findViewById(R.id.contactTextID);
-        password = (TextInputEditText) findViewById(R.id.passwordTextID);
-        repassword = (TextInputEditText) findViewById(R.id.repasswordTextID);
-        registerButton = (Button) findViewById(R.id.registrationID);
+        phone = (TextInputEditText) findViewById(R.id.contactText);
+        password = (TextInputEditText) findViewById(R.id.passwordText);
+        repassword = (TextInputEditText) findViewById(R.id.rePasswordText);
+        registerButton = (Button) findViewById(R.id.registrationButton);
 
         shopNameError = (TextInputLayout) findViewById(R.id.shopNameErrorID);
         ownerNameError = (TextInputLayout) findViewById(R.id.ownerNameErrorID);
@@ -131,7 +131,7 @@ public class Shop_register_activity extends AppCompatActivity implements View.On
             dialog.show();
             Intent intent = new Intent(this, Register_activity.class);
             startActivity(intent);
-        } else if (v.getId() == R.id.registrationID) {
+        } else if (v.getId() == R.id.registrationButton) {
             shop = shopName.getText().toString().trim();
             owner = ownerName.getText().toString().trim();
             loc = location.getText().toString().trim();

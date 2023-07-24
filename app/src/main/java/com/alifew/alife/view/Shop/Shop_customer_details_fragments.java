@@ -729,11 +729,11 @@ public class Shop_customer_details_fragments extends Fragment implements shop_cu
 
       //  ImageView closeButton = successDialog.findViewById(R.id.closeButtonID);
         LinearLayout mainLayout = successDialog.findViewById(R.id.mainLayoutID);
-        TextView shopNameText = successDialog.findViewById(R.id.shopNameTextID);
+        TextView shopNameText = successDialog.findViewById(R.id.nameText);
         TextView productDetailsTextPDF = successDialog.findViewById(R.id.productDetailsTextID);
         TextView totalPriceTextPDF = successDialog.findViewById(R.id.totalPriceTextID);
         TextView paidPriceTextPDF = successDialog.findViewById(R.id.paidPriceTextID);
-        TextView phoneTextPDF = successDialog.findViewById(R.id.phoneTextID);
+        TextView phoneTextPDF = successDialog.findViewById(R.id.contactText);
         TextView dateText = successDialog.findViewById(R.id.dateTextID);
         LinearLayout savePDFButton = successDialog.findViewById(R.id.savePDFButtonID);
 

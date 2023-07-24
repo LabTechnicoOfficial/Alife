@@ -82,9 +82,9 @@ public class Shop_add_admin_fragment extends Fragment {
 
         adminImage = (com.mikhaellopez.circularimageview.CircularImageView) view.findViewById(R.id.admin_imageID);
         adminNameText = (TextInputEditText) view.findViewById(R.id.adminNameID);
-        phoneText = (TextInputEditText) view.findViewById(R.id.phoneTextID);
-        passwordText = (TextInputEditText) view.findViewById(R.id.passwordTextID);
-        rePasswordText = (TextInputEditText) view.findViewById(R.id.rePasswordTextID);
+        phoneText = (TextInputEditText) view.findViewById(R.id.contactText);
+        passwordText = (TextInputEditText) view.findViewById(R.id.passwordText);
+        rePasswordText = (TextInputEditText) view.findViewById(R.id.rePasswordText);
 
         adminNameError = (TextInputLayout) view.findViewById(R.id.adminNameErrorID);
         phoneError = (TextInputLayout) view.findViewById(R.id.phoneErrorID);

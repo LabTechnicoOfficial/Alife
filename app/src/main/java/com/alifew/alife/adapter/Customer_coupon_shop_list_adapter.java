@@ -63,8 +63,8 @@ public class Customer_coupon_shop_list_adapter extends RecyclerView.Adapter<Cust
             super(itemView);
 
             shopImage = itemView.findViewById(R.id.shopImageID);
-            shopNameText = itemView.findViewById(R.id.shopNameTextID);
-            phoneText = itemView.findViewById(R.id.phoneTextID);
+            shopNameText = itemView.findViewById(R.id.nameText);
+            phoneText = itemView.findViewById(R.id.contactText);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -32,14 +32,15 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.alifew.alife.R;
+import com.alifew.alife.Utils.ShowToast;
 import com.alifew.alife.model.OTP_response;
 import com.alifew.alife.model.registration;
 import com.alifew.alife.view.OTP.Otp_validation_activity;
 import com.alifew.alife.viewmodel.Customer_registration;
 import com.alifew.alife.viewmodel.OTP;
 import com.alifew.alife.viewmodel.SessionManagment_registration;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 
@@ -66,8 +67,7 @@ public class Customer_registration_fragment extends Fragment implements View.OnC
     ImageView backButton, addimage;
     Dialog loaderDialog;
     TextInputEditText cusName, address, phone, password, repassword;
-    TextInputLayout cusNameError, addressError, phoneError, passError, repassError;
-    Button registerButton;
+    ExtendedFloatingActionButton registerButton;
 
     String type = "customer", cname, addr, phn, pass, repass, task_type = "registration";
     OTP otp;
@@ -82,19 +82,13 @@ public class Customer_registration_fragment extends Fragment implements View.OnC
 
         addimage = (ImageView) view.findViewById(R.id.profile_image);
 
-        cusName = (TextInputEditText) view.findViewById(R.id.customerNameTextID);
-        address = (TextInputEditText) view.findViewById(R.id.addressTextID);
-        phone = (TextInputEditText) view.findViewById(R.id.phoneTextID);
-        password = (TextInputEditText) view.findViewById(R.id.passwordTextID);
-        repassword = (TextInputEditText) view.findViewById(R.id.repasswordTextID);
+        cusName = (TextInputEditText) view.findViewById(R.id.nameText);
+        address = (TextInputEditText) view.findViewById(R.id.addressText);
+        phone = (TextInputEditText) view.findViewById(R.id.contactText);
+        password = (TextInputEditText) view.findViewById(R.id.passwordText);
+        repassword = (TextInputEditText) view.findViewById(R.id.rePasswordText);
 
-        registerButton = (Button) view.findViewById(R.id.registerButtonID);
-
-        cusNameError = (TextInputLayout) view.findViewById(R.id.customerNameErrorID);
-        addressError = (TextInputLayout) view.findViewById(R.id.addressErrorID);
-        phoneError = (TextInputLayout) view.findViewById(R.id.phoneErrorID);
-        passError = (TextInputLayout) view.findViewById(R.id.passwordErrorID);
-        repassError = (TextInputLayout) view.findViewById(R.id.repasswordErrorID);
+        registerButton =  view.findViewById(R.id.registrationButton);
 
         loaderDialog = new Dialog(getActivity());
         loaderDialog.setContentView(R.layout.loader);
@@ -117,7 +111,7 @@ public class Customer_registration_fragment extends Fragment implements View.OnC
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.registerButtonID) {
+        if (v.getId() == R.id.registerButton) {
             cname = cusName.getText().toString().trim();
             addr = address.getText().toString().trim();
             phn = phone.getText().toString().trim();
@@ -130,26 +124,24 @@ public class Customer_registration_fragment extends Fragment implements View.OnC
 
     private void validation(String cname, String addr, String phn, String pass, String repass) {
         if (!(TextUtils.isEmpty(cname) || TextUtils.isEmpty(addr) || TextUtils.isEmpty(phn) || TextUtils.isEmpty(pass) || TextUtils.isEmpty(repass))) {
-            cusNameError.setErrorEnabled(false);
-            addressError.setErrorEnabled(false);
-            phoneError.setErrorEnabled(false);
-            passError.setErrorEnabled(false);
-            repassError.setErrorEnabled(false);
+
             int len = pass.length();
 
             if (len < 5 || len > 6) {
 
+                String message = "";
                 if (len < 5) {
-                    passError.setError("Min. Password length 5");
+                    message = "Min. Password length 5";
+
                 } else if (len > 6) {
-                    passError.setError("Max. Password length 6");
+                    message = "Max. Password length 6";
                 }
 
-
+                ShowToast.errorToast(message, getActivity());
             } else {
                 if (pass.equals(repass)) {
 
-                    passError.setErrorEnabled(false);
+
                     if (phone_validation(phn) == true) {
                         if (check == 1) {
                             loaderDialog.show();
@@ -196,31 +188,35 @@ public class Customer_registration_fragment extends Fragment implements View.OnC
                             Toast.makeText(getActivity(), "Upload image", Toast.LENGTH_SHORT).show();
                         }
                     } else {
-                        phoneError.setError("Phone Number Not Valid");
+
+                        ShowToast.errorToast("Phone Number Not Valid", getActivity());
+
                     }
                 } else {
-                    repassError.setErrorEnabled(true);
-                    repassError.setError("Password Don't match");
+                    ShowToast.errorToast("Password Don't match", getActivity());
+
                 }
             }
         } else {
-            cusNameError.setErrorEnabled(false);
-            addressError.setErrorEnabled(false);
-            phoneError.setErrorEnabled(false);
-            passError.setErrorEnabled(false);
-            repassError.setErrorEnabled(false);
-
+            String message = "";
             if (TextUtils.isEmpty(cname)) {
-                cusNameError.setError(" ");
+                message = "empty name";
+
             } else if (TextUtils.isEmpty(addr)) {
-                addressError.setError(" ");
+                message = "empty address";
+
             } else if (TextUtils.isEmpty(phn)) {
-                phoneError.setError(" ");
+                message = "empty phone";
+
             } else if (TextUtils.isEmpty(pass)) {
-                passError.setError(" ");
+                message = "empty password";
+
             } else if (TextUtils.isEmpty(repass)) {
-                repassError.setError(" ");
+                message = "empty re-password";
+
             }
+
+            ShowToast.errorToast(message, getActivity());
         }
     }
 
@@ -239,7 +235,7 @@ public class Customer_registration_fragment extends Fragment implements View.OnC
 
     private void otp_activity(String otp) {
         registration registration;
-       // Log.d("phonexxx",phn);
+        // Log.d("phonexxx",phn);
         registration = new registration(cname, "xxx", phn, type, addr, pass, imgdata, otp, task_type);
 
         SessionManagment_registration sessionManagment_registration = new SessionManagment_registration(getActivity());

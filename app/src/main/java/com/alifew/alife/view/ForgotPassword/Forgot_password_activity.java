@@ -87,7 +87,7 @@ public class Forgot_password_activity extends AppCompatActivity implements Adapt
         editText4 = (EditText) findViewById(R.id.editText4ID);
         editText5 = (EditText) findViewById(R.id.editText5ID);
 
-        passwordText = (TextInputEditText) findViewById(R.id.passwordTextID);
+        passwordText = (TextInputEditText) findViewById(R.id.passwordText);
         retypePasswordText = (TextInputEditText) findViewById(R.id.retypePasswordTextID);
 
         passwordError = (TextInputLayout) findViewById(R.id.passwordErrorID);

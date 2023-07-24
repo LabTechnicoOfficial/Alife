@@ -1147,7 +1147,7 @@ public class Shop_sell_selected_product_list_fragment extends Fragment implement
         TextView doneButton = (TextView) alert.findViewById(R.id.doneButtonID);
 
         TextInputEditText nameText = (TextInputEditText) alert.findViewById(R.id.nameTextID);
-        TextInputEditText phoneText = (TextInputEditText) alert.findViewById(R.id.phoneTextID);
+        TextInputEditText phoneText = (TextInputEditText) alert.findViewById(R.id.contactText);
         TextInputEditText locationText = (TextInputEditText) alert.findViewById(R.id.locationTextID);
 
         TextInputLayout nameError = (TextInputLayout) alert.findViewById(R.id.nameErrorID);
@@ -1677,7 +1677,7 @@ public class Shop_sell_selected_product_list_fragment extends Fragment implement
         wlp.width = WindowManager.LayoutParams.MATCH_PARENT;
         wlp.height = WindowManager.LayoutParams.MATCH_PARENT;
         window.setAttributes(wlp);
-        TextView shopNameText = (TextView) successAlert.findViewById(R.id.shopNameTextID);
+        TextView shopNameText = (TextView) successAlert.findViewById(R.id.nameText);
         TextView customerName = (TextView) successAlert.findViewById(R.id.customerNameID);
         TextView customerPhone = (TextView) successAlert.findViewById(R.id.customerPhoneID);
         TextView subtotal = (TextView) successAlert.findViewById(R.id.subtotalPriceID);

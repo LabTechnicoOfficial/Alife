@@ -184,7 +184,7 @@ public class Shop_local_sell_fragment extends Fragment implements AdapterView.On
         paidPriceText = view.findViewById(R.id.paidPriceTextID);
         buyPriceText = view.findViewById(R.id.buyPriceTextID);
         profitText = view.findViewById(R.id.profitTextID);
-        phoneText = view.findViewById(R.id.phoneTextID);
+        phoneText = view.findViewById(R.id.contactText);
         selectImage = view.findViewById(R.id.selectImageId);
         listImage = view.findViewById(R.id.listImageId);
 
@@ -518,11 +518,11 @@ public class Shop_local_sell_fragment extends Fragment implements AdapterView.On
 
         ImageView closeButton = memoAlert.findViewById(R.id.closeButtonID);
         LinearLayout mainLayout = memoAlert.findViewById(R.id.mainLayoutID);
-        TextView shopNameText = memoAlert.findViewById(R.id.shopNameTextID);
+        TextView shopNameText = memoAlert.findViewById(R.id.nameText);
         TextView productDetailsTextPDF = memoAlert.findViewById(R.id.productDetailsTextID);
         TextView totalPriceTextPDF = memoAlert.findViewById(R.id.totalPriceTextID);
         TextView paidPriceTextPDF = memoAlert.findViewById(R.id.paidPriceTextID);
-        TextView phoneTextPDF = memoAlert.findViewById(R.id.phoneTextID);
+        TextView phoneTextPDF = memoAlert.findViewById(R.id.contactText);
         TextView dateText = memoAlert.findViewById(R.id.dateTextID);
         LinearLayout savePDFButton = memoAlert.findViewById(R.id.savePDFButtonID);
 

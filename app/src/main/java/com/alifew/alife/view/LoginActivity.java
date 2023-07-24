@@ -17,7 +17,6 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,7 +25,6 @@ import com.alifew.alife.R;
 import com.alifew.alife.Utils.ShowToast;
 import com.alifew.alife.model.OTP_response;
 import com.alifew.alife.model.Shop_login_response;
-import com.alifew.alife.model.last_logintime_response;
 import com.alifew.alife.model.registration;
 import com.alifew.alife.model.shop_admin_login_response;
 import com.alifew.alife.view.Customer.Customer_main_activity;
@@ -46,7 +44,6 @@ import com.alifew.alife.viewmodel.Token_update;
 import com.alifew.alife.viewmodel.User;
 import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
-import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.Random;
 
@@ -100,8 +97,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         signInButton = findViewById(R.id.signInButton);
         registerClick = findViewById(R.id.registerID);
         forgotPasswordClick = (TextView) findViewById(R.id.forgotPasswordID);
-        phoneText = (EditText) findViewById(R.id.phoneTextID);
-        passwordText = (EditText) findViewById(R.id.passwordTextID);
+        phoneText = (EditText) findViewById(R.id.contactText);
+        passwordText = (EditText) findViewById(R.id.passwordText);
         toggleButton = findViewById(R.id.toggleGroup);
 
 
@@ -233,52 +230,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             if (otp_response.getStatus().equals("queued")) {
                                 shop_otp_activity(random_otp, id, phone);
                             } else {
-
+                                Toast.makeText(LoginActivity.this, otp_response.getStatus(), Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
-/*
-                    last_logintime.getTime(id, "shop").observe(LoginActivity.this, new Observer<last_logintime_response>() {
-
-                        @Override
-                        public void onChanged(last_logintime_response last_logintime_response) {
-                            if (last_logintime_response.getLast_time().equals("0")) {
-                                Random r = new Random();
-                                int ran = r.nextInt(99999 - 10000 + 1) + 10000;
-                                String random_otp = String.valueOf(ran);
-
-                                otp.getStatus(phone, "ALife..Your Shop LogIn OTP is -" + random_otp).observe(LoginActivity.this, new Observer<OTP_response>() {
-                                    @Override
-                                    public void onChanged(OTP_response otp_response) {
-                                        if (otp_response.getStatus().equals("queued")) {
-                                            shop_otp_activity(random_otp, id, phone);
-                                        } else {
-
-                                        }
-                                    }
-                                });
-                            } else if (last_logintime_response.getLast_time().isEmpty()) {
-                                Toast.makeText(LoginActivity.this, "Something Wrong!!!Try again", Toast.LENGTH_SHORT).show();
-                                dialog.dismiss();
-                            } else {
-                                Random r = new Random();
-                                int ran = r.nextInt(99999 - 10000 + 1) + 10000;
-                                String random_otp = String.valueOf(ran);
-
-                                otp.getStatus(phone, "ALife..Your Shop LogIn OTP is -" + random_otp).observe(LoginActivity.this, new Observer<OTP_response>() {
-                                    @Override
-                                    public void onChanged(OTP_response otp_response) {
-                                        if (otp_response.getStatus().equals("queued")) {
-                                            shop_otp_activity(random_otp, id, phone);
-                                        } else {
-
-                                        }
-                                    }
-                                });
-                            }
-                        }
-                    });
-*/
 
                 } else {
                     dialog.dismiss();
@@ -315,53 +270,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             if (otp_response.getStatus().equals("queued")) {
                                 customer_otp_activity(random_otp, id, phone);
                             } else {
-
+                                Toast.makeText(LoginActivity.this, otp_response.getStatus(), Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
 
-                 /*   last_logintime.getTime(id, "customer").observe(LoginActivity.this, new Observer<last_logintime_response>() {
-                        @Override
-                        public void onChanged(last_logintime_response last_logintime_response) {
-                            if (last_logintime_response.getLast_time().equals("0")) {
-                                Random r = new Random();
-                                int ran = r.nextInt(99999 - 10000 + 1) + 10000;
-                                String random_otp = String.valueOf(ran);
-
-                                otp.getStatus(phone, "ALife..Your Customer LogIn OTP is -" + random_otp).observe(LoginActivity.this, new Observer<OTP_response>() {
-                                    @Override
-                                    public void onChanged(OTP_response otp_response) {
-                                        if (otp_response.getStatus().equals("queued")) {
-                                            customer_otp_activity(random_otp, id, phone);
-                                        } else {
-
-                                        }
-                                    }
-                                });
-                            } else if (last_logintime_response.getLast_time().isEmpty()) {
-                                Toast.makeText(LoginActivity.this, "Something Wrong!!!Try again", Toast.LENGTH_SHORT).show();
-                                dialog.dismiss();
-                            } else {
-
-                                Random r = new Random();
-                                int ran = r.nextInt(99999 - 10000 + 1) + 10000;
-                                String random_otp = String.valueOf(ran);
-
-                                otp.getStatus(phone, "ALife..Your Customer LogIn OTP is -" + random_otp).observe(LoginActivity.this, new Observer<OTP_response>() {
-                                    @Override
-                                    public void onChanged(OTP_response otp_response) {
-                                        if (otp_response.getStatus().equals("queued")) {
-                                            customer_otp_activity(random_otp, id, phone);
-                                        } else {
-
-                                        }
-                                    }
-                                });
-
-                            }
-                        }
-                    });
-*/
 
                 } else {
                     dialog.dismiss();

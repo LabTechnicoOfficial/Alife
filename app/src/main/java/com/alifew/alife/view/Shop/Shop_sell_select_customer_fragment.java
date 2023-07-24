@@ -97,7 +97,7 @@ public class Shop_sell_select_customer_fragment extends Fragment implements Shop
         TextView doneButton = (TextView) alert.findViewById(R.id.doneButtonID);
 
         TextInputEditText nameText = (TextInputEditText) alert.findViewById(R.id.nameTextID);
-        TextInputEditText phoneText = (TextInputEditText) alert.findViewById(R.id.phoneTextID);
+        TextInputEditText phoneText = (TextInputEditText) alert.findViewById(R.id.contactText);
         TextInputEditText locationText = (TextInputEditText) alert.findViewById(R.id.locationTextID);
 
         TextInputLayout nameError = (TextInputLayout) alert.findViewById(R.id.nameErrorID);

@@ -211,7 +211,7 @@ public class Cash_out_fragment extends Fragment implements AdapterView.OnItemSel
         balanceText = (TextView) view.findViewById(R.id.balanceTextID);
         dateText = (TextView) view.findViewById(R.id.dateTextID);
 
-        phoneText = (TextInputEditText) view.findViewById(R.id.phoneTextID);
+        phoneText = (TextInputEditText) view.findViewById(R.id.contactText);
 
         phoneError = (TextInputLayout) view.findViewById(R.id.phoneErrorID);
         submitButton = (AppCompatButton) view.findViewById(R.id.submitButtonID);

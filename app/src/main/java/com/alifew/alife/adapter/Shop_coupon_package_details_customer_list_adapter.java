@@ -47,7 +47,7 @@ public class Shop_coupon_package_details_customer_list_adapter extends RecyclerV
         public AppViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            phoneText = itemView.findViewById(R.id.phoneTextID);
+            phoneText = itemView.findViewById(R.id.contactText);
             sellAmountText = itemView.findViewById(R.id.sellAmountTextID);
         }
     }

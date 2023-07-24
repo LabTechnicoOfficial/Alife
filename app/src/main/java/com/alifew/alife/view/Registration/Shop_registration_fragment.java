@@ -27,19 +27,19 @@ import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.alifew.alife.R;
+import com.alifew.alife.Utils.ShowToast;
 import com.alifew.alife.model.OTP_response;
 import com.alifew.alife.model.registration;
 import com.alifew.alife.view.OTP.Otp_validation_activity;
 import com.alifew.alife.viewmodel.OTP;
 import com.alifew.alife.viewmodel.SessionManagment_registration;
 import com.alifew.alife.viewmodel.Shop_registration;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -59,12 +59,11 @@ public class Shop_registration_fragment extends Fragment implements View.OnClick
     final int IMAGE_REQUEST_CODE = 999;
     private Uri filepath;
     private Bitmap bitmap;
-    Button registerButton;
+    ExtendedFloatingActionButton registerButton;
     ImageView backButton, profileImage;
     Dialog loaderDialog;
 
     TextInputEditText shopName, phone, password, repassword;
-    TextInputLayout shopNameError, phoneError, passwordError, repasswordError;
     OTP otp;
 
     String shop, owner, loc, cont, phn, pass, repass, type = "shopkeeper", task_type = "registration";
@@ -90,16 +89,11 @@ public class Shop_registration_fragment extends Fragment implements View.OnClick
         View view = inflater.inflate(R.layout.shop_registration_fragment, container, false);
 
         profileImage = (ImageView) view.findViewById(R.id.profile_imageID);
-        shopName = (TextInputEditText) view.findViewById(R.id.shopNameTextID);
-        phone = (TextInputEditText) view.findViewById(R.id.contactTextID);
-        password = (TextInputEditText) view.findViewById(R.id.passwordTextID);
-        repassword = (TextInputEditText) view.findViewById(R.id.repasswordTextID);
-        registerButton = (Button) view.findViewById(R.id.registrationID);
-
-        shopNameError = (TextInputLayout) view.findViewById(R.id.shopNameErrorID);
-        phoneError = (TextInputLayout) view.findViewById(R.id.contactErrorID);
-        passwordError = (TextInputLayout) view.findViewById(R.id.passwordErrorID);
-        repasswordError = (TextInputLayout) view.findViewById(R.id.repasswordErrorID);
+        shopName = (TextInputEditText) view.findViewById(R.id.nameText);
+        phone = (TextInputEditText) view.findViewById(R.id.contactText);
+        password = (TextInputEditText) view.findViewById(R.id.passwordText);
+        repassword = (TextInputEditText) view.findViewById(R.id.rePasswordText);
+        registerButton = view.findViewById(R.id.registrationButton);
 
         registerButton.setOnClickListener(this);
 
@@ -115,7 +109,7 @@ public class Shop_registration_fragment extends Fragment implements View.OnClick
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.registrationID) {
+        if (v.getId() == R.id.registrationButton) {
             shop = shopName.getText().toString().trim();
             phn = phone.getText().toString().trim();
             pass = password.getText().toString().trim();
@@ -123,10 +117,6 @@ public class Shop_registration_fragment extends Fragment implements View.OnClick
             owner = "";
             loc = "";
 
-            shopNameError.setErrorEnabled(false);
-            phoneError.setErrorEnabled(false);
-            passwordError.setErrorEnabled(false);
-            repasswordError.setErrorEnabled(false);
 
             validation(shop, owner, loc, phn, pass, repass);
         }
@@ -141,18 +131,21 @@ public class Shop_registration_fragment extends Fragment implements View.OnClick
 
             if (len < 5 || len > 6) {
 
+                String message = "";
                 if (len < 5) {
-                    passwordError.setError("Min. Password length 5");
-                } else if (len > 6) {
-                    passwordError.setError("Max. Password length 6");
-                }
+                    message = "Min. Password length 5";
 
+                } else if (len > 6) {
+                    message = "Max. Password length 6";
+
+                }
+                ShowToast.errorToast(message, getActivity());
 
             } else {
                 if (!TextUtils.isEmpty(repass)) {
 
                     if (pass.equals(repass)) {
-                        if (phone_validation(phn) == true) {
+                        if (phone_validation(phn)) {
                             if (check == 1) {
                                 loaderDialog.show();
                                 imgdata = imgToString(bitmap);
@@ -183,7 +176,6 @@ public class Shop_registration_fragment extends Fragment implements View.OnClick
                                                     }
                                                 });
 
-                                                // Toast.makeText(Shop_register_activity.this,s,Toast.LENGTH_SHORT).show();
                                             }
                                         }
                                     });
@@ -196,28 +188,28 @@ public class Shop_registration_fragment extends Fragment implements View.OnClick
                             }
 
                         } else {
-                            phoneError.setError("Phone Number Not Valid");
+                            ShowToast.errorToast("Phone Number Not Valid", getActivity());
                         }
                     } else {
-                        repasswordError.setError("Password Don't match");
+                        ShowToast.errorToast("Password Don't match", getActivity());
+
                     }
                 } else if (TextUtils.isEmpty(repass)) {
-
-                    repasswordError.setError("Empty Retype Password");
+                    ShowToast.errorToast("Empty Retype Password", getActivity());
                 }
 
             }
         } else {
 
-
             if (TextUtils.isEmpty(shop)) {
-                shopNameError.setError("Empty Shop Name");
+                ShowToast.errorToast("Empty Shop Name", getActivity());
+
             } else if (TextUtils.isEmpty(phn)) {
+                ShowToast.errorToast("Empty Phone", getActivity());
 
-                phoneError.setError("Empty Phone");
             } else if (TextUtils.isEmpty(pass)) {
+                ShowToast.errorToast("Empty password", getActivity());
 
-                passwordError.setError("Empty Password");
             }
         }
     }

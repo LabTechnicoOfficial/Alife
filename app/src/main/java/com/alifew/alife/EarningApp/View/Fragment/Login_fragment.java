@@ -57,10 +57,10 @@ public class Login_fragment extends Fragment {
         loginViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
         loginApi = APIUtilize.loginApi();
 
-        registerButton = (TextView) view.findViewById(R.id.registerButtonID);
+        registerButton = (TextView) view.findViewById(R.id.registerButton);
         signInButton = (AppCompatButton) view.findViewById(R.id.signInButtonID);
-        phoneText = (TextInputEditText) view.findViewById(R.id.phoneTextID);
-        passwordText = (TextInputEditText) view.findViewById(R.id.passwordTextID);
+        phoneText = (TextInputEditText) view.findViewById(R.id.contactText);
+        passwordText = (TextInputEditText) view.findViewById(R.id.passwordText);
 
         phoneError = (TextInputLayout) view.findViewById(R.id.phoneErrorID);
         passwordError = (TextInputLayout) view.findViewById(R.id.passwordErrorID);

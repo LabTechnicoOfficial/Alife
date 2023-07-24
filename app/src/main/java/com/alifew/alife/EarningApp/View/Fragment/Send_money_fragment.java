@@ -71,9 +71,9 @@ public class Send_money_fragment extends Fragment {
         ).replace(R.id.frame_container, new Home_fragment(userID)).commit());
 
         dateText = (TextView) view.findViewById(R.id.dateTextID);
-        phoneText = (TextInputEditText) view.findViewById(R.id.phoneTextID);
+        phoneText = (TextInputEditText) view.findViewById(R.id.contactText);
         amountText = (TextInputEditText) view.findViewById(R.id.amountTextID);
-        passwordText = view.findViewById(R.id.passwordTextID);
+        passwordText = view.findViewById(R.id.passwordText);
         phoneError = (TextInputLayout) view.findViewById(R.id.phoneErrorID);
         amountTError = (TextInputLayout) view.findViewById(R.id.amountErrorID);
         passwordError = (TextInputLayout) view.findViewById(R.id.passwordErrorID);

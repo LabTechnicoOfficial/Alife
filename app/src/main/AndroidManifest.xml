@@ -84,7 +84,9 @@
             android:exported="false" />
         <activity
             android:name="com.alifew.alife.view.Registration.Register_activity"
-            android:exported="false" />
+            android:exported="false" >
+
+        </activity>
         <activity
             android:name="com.alifew.alife.view.MainActivity"
             android:exported="false" />

@@ -49,7 +49,7 @@ public class Team_adapter extends RecyclerView.Adapter<Team_adapter.AppViewholde
         public AppViewholder(@NonNull View itemView) {
             super(itemView);
             nameText = itemView.findViewById(R.id.nameTextID);
-            phoneText = itemView.findViewById(R.id.phoneTextID);
+            phoneText = itemView.findViewById(R.id.contactText);
             mailText = itemView.findViewById(R.id.mailTextID);
         }
     }

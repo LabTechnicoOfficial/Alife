@@ -268,7 +268,7 @@ public class Home_fragment extends Fragment {
         //actionBarDrawerToggle.syncState();
 
         userNameText = (TextView) view.findViewById(R.id.userNameTextID);
-        phoneText = (TextView) view.findViewById(R.id.phoneTextID);
+        phoneText = (TextView) view.findViewById(R.id.contactText);
         balanceText = (TextView) view.findViewById(R.id.balanceTextID);
         referIDText = (TextView) view.findViewById(R.id.referIDTextID);
         //myBalanceText = (TextView) view.findViewById(R.id.myBalanceTextID);

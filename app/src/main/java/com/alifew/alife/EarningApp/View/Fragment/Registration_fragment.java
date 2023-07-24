@@ -107,9 +107,9 @@ public class Registration_fragment extends Fragment {
         backButton = (ImageView) view.findViewById(R.id.backButtonID);
 
         nameText = (TextInputEditText) view.findViewById(R.id.nameTextID);
-        phoneText = (TextInputEditText) view.findViewById(R.id.phoneTextID);
+        phoneText = (TextInputEditText) view.findViewById(R.id.contactText);
         mailText = (TextInputEditText) view.findViewById(R.id.mailTextID);
-        passwordText = (TextInputEditText) view.findViewById(R.id.passwordTextID);
+        passwordText = (TextInputEditText) view.findViewById(R.id.passwordText);
         rePasswordText = (TextInputEditText) view.findViewById(R.id.retypePasswordTextID);
         referText = (TextInputEditText) view.findViewById(R.id.referTextID);
 
