@@ -142,7 +142,7 @@
                 app:startIconDrawable="@drawable/home">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/shopNameTextID"
+                    android:id="@+id/nameText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="text"
@@ -199,7 +199,7 @@
                 app:startIconDrawable="@drawable/phone">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/contactTextID"
+                    android:id="@+id/contactText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="phone"
@@ -219,7 +219,7 @@
                 app:startIconDrawable="@drawable/lock">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/passwordTextID"
+                    android:id="@+id/passwordText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPassword"
@@ -238,7 +238,7 @@
                 app:startIconDrawable="@drawable/lock">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/repasswordTextID"
+                    android:id="@+id/rePasswordText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPassword"
@@ -254,7 +254,7 @@
         android:gravity="bottom">
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/registrationID"
+            android:id="@+id/registrationButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/ripple_effect"

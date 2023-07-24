@@ -209,19 +209,21 @@
                     android:src="@drawable/search_icon" />
 
                 <EditText
-                    android:id="@+id/productSearchID"
+                    android:id="@+id/searchEditText"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:backgroundTint="@color/black"
-                    android:hint="Search" />
+                    android:hint="Search"
+                    android:textCursorDrawable="@drawable/cursor_color" />
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-        <HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        <HorizontalScrollView
             android:id="@+id/horizontalScrollViewID"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:scrollbars="none">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -253,6 +255,16 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="Name"
+                        android:textColor="@color/black"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Barcode"
                         android:textColor="@color/black"
                         android:textSize="15sp"
                         android:textStyle="bold" />
@@ -383,7 +395,8 @@
                 <androidx.core.widget.NestedScrollView
                     android:id="@+id/nestedRecyclerViewID"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:scrollbars="none">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -394,8 +407,7 @@
                             android:id="@+id/recyclerViewID"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:scrollbarStyle="outsideOverlay"
-                            android:scrollbars="vertical" />
+                            android:scrollbars="none" />
 
                     </LinearLayout>
 
@@ -439,7 +451,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:backgroundTint="@color/black"
-                    android:hint="Search" />
+                    android:hint="Search"
+                    android:textCursorDrawable="@drawable/cursor_color" />
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -447,7 +460,8 @@
         <androidx.core.widget.NestedScrollView
             android:id="@+id/gridNestedRecyclerViewID"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:scrollbars="none">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -458,8 +472,7 @@
                     android:id="@+id/gridRecyclerViewID"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:scrollbarStyle="outsideOverlay"
-                    android:scrollbars="vertical" />
+                    android:scrollbars="none" />
 
                 <!--<ProgressBar
                     android:id="@+id/gridProgressBarID"
@@ -479,7 +492,7 @@
         android:gravity="bottom|center">
 
         <ProgressBar
-            android:id="@+id/progressBarID"
+            android:id="@+id/progressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:theme="@style/ProgressBarStyle"
@@ -499,7 +512,6 @@
             android:layout_gravity="bottom|right"
             android:layout_margin="16dp"
             android:backgroundTint="@color/pink"
-
             android:text="Products"
             android:textAllCaps="false"
             android:textStyle="bold"

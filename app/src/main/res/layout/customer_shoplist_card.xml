@@ -72,6 +72,16 @@
                 android:orientation="vertical">
 
 
+                <ImageView
+                    android:id="@+id/barcodeScanButton"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/barcode"
+                    android:layout_marginBottom="5dp"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:clickable="true"/>
+
+
                 <LinearLayout
                     android:id="@+id/unfollowLayoutID"
                     android:layout_width="wrap_content"

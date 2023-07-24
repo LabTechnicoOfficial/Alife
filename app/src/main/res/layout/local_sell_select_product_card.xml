@@ -67,7 +67,7 @@
 
 
         <ImageView
-            android:id="@+id/productImageID"
+            android:id="@+id/productImage"
             android:layout_width="wrap_content"
             android:layout_height="96dp"
             android:src="@drawable/no_image"

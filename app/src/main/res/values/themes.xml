@@ -56,4 +56,8 @@
         <item name="android:windowFullscreen">true</item>
     </style>
 
+    <style name="ToggleButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">@color/toggle_button_selector</item>
+    </style>
+
 </resources>

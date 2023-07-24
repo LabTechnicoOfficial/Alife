@@ -76,48 +76,66 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:weightSum="2">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/shape"
+                android:backgroundTint="@color/default_color"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:text="Total Products:"
-                    android:textColor="@color/black"
-                    android:textSize="15sp" />
+                    android:gravity="center"
+                    android:text="Total Products"
+                    android:textColor="@color/light_grey"
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/totalProductsID"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:textColor="@color/black"
+                    android:text=""
+                    android:textColor="@color/white"
                     android:textSize="15sp"
                     android:textStyle="bold" />
             </LinearLayout>
 
+
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="right"
-                android:orientation="horizontal">
+                android:layout_marginLeft="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/shape"
+                android:backgroundTint="@color/default_color"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:text="Total Profit:"
-                    android:textColor="@color/black" />
+                    android:gravity="center"
+                    android:text="Total Profit"
+                    android:textColor="@color/light_grey"
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/totalProfitID"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:textColor="@color/black"
+                    android:text=""
+                    android:textColor="@color/white"
                     android:textSize="15sp"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -126,53 +144,69 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:weightSum="2">
 
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/shape"
+                android:backgroundTint="@color/default_color"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="Total Buy Price:"
-                    android:textColor="@color/black"
-                    android:textSize="15sp" />
+                    android:text="Total Buy Price"
+                    android:textColor="@color/light_grey"
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/totalBuyPriceID"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/black"
+                    android:text=""
+                    android:textColor="@color/white"
                     android:textSize="15sp"
-                    android:layout_marginLeft="5dp"
                     android:textStyle="bold" />
 
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="right"
-                android:orientation="horizontal">
+                android:layout_marginLeft="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/shape"
+                android:backgroundTint="@color/default_color"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:text="Total Sell Price:"
-                    android:textColor="@color/black"
-                    android:textSize="15sp" />
+                    android:gravity="center"
+                    android:text="Total Sell Price"
+                    android:textColor="@color/light_grey"
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/totalSellPriceID"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:textColor="@color/black"
+                    android:text=""
+                    android:textColor="@color/white"
                     android:textSize="15sp"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -182,35 +216,31 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:gravity="center"
             android:orientation="horizontal">
 
             <LinearLayout
+                android:id="@+id/setDiscountLayoutID"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape"
+                android:backgroundTint="@color/default_color"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:orientation="horizontal"
+                android:padding="10dp">
 
-                <LinearLayout
-                    android:id="@+id/setDiscountLayoutID"
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="3dp"
-                        android:text="Set Discount"
-                        android:textColor="@color/red"
-                        android:textSize="15sp" />
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/fix_icon" />
-                </LinearLayout>
-
+                    android:layout_marginRight="3dp"
+                    android:text="Set Discount"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
@@ -248,11 +278,12 @@
                 android:src="@drawable/search_icon" />
 
             <EditText
-                android:id="@+id/productSearchID"
+                android:id="@+id/searchEditText"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:backgroundTint="@color/black"
-                android:hint="Search" />
+                android:hint="Search"
+                    android:textCursorDrawable="@drawable/cursor_color" />
 
         </LinearLayout>
 
@@ -260,7 +291,8 @@
         <HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/horizontalScrollViewID"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:scrollbars="none">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -292,6 +324,15 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="Name"
+                        android:textColor="@color/black"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Barcode"
                         android:textColor="@color/black"
                         android:textSize="15sp"
                         android:textStyle="bold" />
@@ -421,7 +462,8 @@
                 <androidx.core.widget.NestedScrollView
                     android:id="@+id/nestedRecyclerViewID"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:scrollbars="none">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -432,8 +474,7 @@
                             android:id="@+id/recyclerViewID"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:scrollbarStyle="outsideOverlay"
-                            android:scrollbars="vertical" />
+                            android:scrollbars="none" />
 
                     </LinearLayout>
 
@@ -478,7 +519,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:backgroundTint="@color/black"
-                    android:hint="Search" />
+                    android:hint="Search"
+                    android:textCursorDrawable="@drawable/cursor_color" />
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -486,7 +528,8 @@
         <androidx.core.widget.NestedScrollView
             android:id="@+id/gridNestedRecyclerViewID"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:scrollbars="none">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -497,8 +540,7 @@
                     android:id="@+id/recyclerView2ID"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:scrollbarStyle="outsideOverlay"
-                    android:scrollbars="vertical" />
+                    android:scrollbars="none" />
 
             </LinearLayout>
 
@@ -512,7 +554,7 @@
         android:gravity="bottom|center">
 
         <ProgressBar
-            android:id="@+id/progressBarID"
+            android:id="@+id/progressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:theme="@style/ProgressBarStyle"
@@ -532,11 +574,12 @@
             android:layout_gravity="bottom|right"
             android:layout_margin="16dp"
             android:backgroundTint="@color/pink"
-
             android:text="Offers"
             android:textAllCaps="false"
+            android:textColor="@color/white"
             android:textStyle="bold"
-            app:icon="@drawable/offer_icon" />
+            app:icon="@drawable/offer_icon"
+            app:iconTint="@color/white" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

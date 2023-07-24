@@ -38,7 +38,7 @@
                     app:tint="@color/white" />
 
                 <TextView
-                    android:id="@+id/titleTextID"
+                    android:id="@+id/titleText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Add Member"
@@ -96,7 +96,7 @@
             app:startIconDrawable="@drawable/earning_phone_icon">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/phoneTextID"
+                android:id="@+id/contactText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number" />
@@ -172,7 +172,7 @@
             app:startIconDrawable="@drawable/earning_lock_icon">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/passwordTextID"
+                android:id="@+id/passwordText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="numberPassword"

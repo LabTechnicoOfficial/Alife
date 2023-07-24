@@ -43,21 +43,24 @@
                     android:layout_marginBottom="5dp"
                     android:orientation="vertical">
 
-                    <LinearLayout
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:weightSum="2">
+                        android:layout_height="wrap_content">
 
                         <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/codeLayoutError"
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                            android:layout_marginRight="@dimen/distance"
                             android:hint="Product Code (Optional)"
                             app:boxStrokeColor="@color/black"
                             app:endIconMode="clear_text"
-                            app:hintTextColor="@color/black">
+                            app:hintTextColor="@color/black"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toLeftOf="@id/barCodeScannerButtonID"
+                            app:layout_constraintTop_toTopOf="parent">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/productCodeTextID"
@@ -70,36 +73,35 @@
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="right">
+                            android:id="@+id/barCodeScannerButtonID"
+                            android:layout_width="0dp"
+                            android:layout_height="50dp"
+                            android:background="@drawable/border_shape"
+                            android:backgroundTint="@color/light_white"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:padding="5dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
 
-                            <LinearLayout
-                                android:id="@+id/barCodeScannerButtonID"
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/barcode" />
+
+                            <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:clickable="true"
-                                android:focusable="true"
-                                android:gravity="center"
-                                android:orientation="vertical">
-
-                                <ImageView
-                                    android:layout_width="30dp"
-                                    android:layout_height="30dp"
-                                    android:src="@drawable/barcode_50px" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="BARCODE"
-                                    android:textColor="@color/black" />
-
-                            </LinearLayout>
+                                android:text="BARCODE"
+                                android:textColor="@color/black"
+                                android:textSize="10dp" />
 
                         </LinearLayout>
 
-                    </LinearLayout>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/productErrorID"
@@ -820,7 +822,7 @@
                         android:gravity="center">
 
                         <de.hdodenhof.circleimageview.CircleImageView
-                            android:id="@+id/productImageID"
+                            android:id="@+id/productImage"
                             android:layout_width="96dp"
                             android:layout_height="96dp"
                             android:clickable="true"

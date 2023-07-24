@@ -47,6 +47,22 @@
                 android:textColor="@color/black"
                 android:textSize="15sp" />
 
+            <LinearLayout
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+
+
+                <ImageView
+                    android:id="@+id/barCodeButton"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:src="@drawable/barcode"/>
+
+            </LinearLayout>
+
             <TextView
                 android:id="@+id/sellPriceID"
                 android:layout_width="100dp"
