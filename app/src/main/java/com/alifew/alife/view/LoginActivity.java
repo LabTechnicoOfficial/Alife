@@ -311,6 +311,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     otp.getStatus(phone, "Your customer login OTP code is -" + random_otp+" "+". Powered by ALIFE.").observe(LoginActivity.this, new Observer<OTP_response>() {
                         @Override
                         public void onChanged(OTP_response otp_response) {
+                            dialog.dismiss();
                             if (otp_response.getStatus().equals("queued")) {
                                 customer_otp_activity(random_otp, id, phone);
                             } else {
