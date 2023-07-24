@@ -1,215 +1,184 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient"
-    android:orientation="vertical"
-    android:padding="@dimen/distance"
+    android:background="@drawable/top_round_shape"
     tools:context=".view.LoginActivity">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_marginBottom="5dp"
-        android:gravity="center">
-
-        <RelativeLayout
-            android:layout_width="150dp"
-            android:layout_height="150dp">
-
-            <com.mikhaellopez.circularimageview.CircularImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/pink_background" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center">
-
-                <ImageView
-                    android:layout_width="140dp"
-                    android:layout_height="140dp"
-                    android:src="@drawable/alifelogo" />
-
-            </LinearLayout>
+    <ImageView
+        android:id="@+id/logoImage"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/circle_shape"
+        android:src="@drawable/alifelogo"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
-        </RelativeLayout>
-
-
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/titleText"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/shape"
-        android:orientation="vertical">
-
-        <com.google.android.material.button.MaterialButtonToggleGroup
-            android:id="@+id/toggleGroup"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:weightSum="2"
-            app:checkedButton="@id/shopkeeperID"
-            app:singleSelection="true">
-
-            <Button
-                android:id="@+id/shopkeeperID"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Shopkeeper"
-                android:textAllCaps="false"
-                android:textColor="@color/black"
-                android:textSize="15sp" />
-
-            <Button
-                android:id="@+id/customerID"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Customer"
-                android:textAllCaps="false"
-                android:textColor="@color/black"
-                android:textSize="15sp" />
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/signin"
+        android:textAllCaps="true"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/logoImage" />
 
 
+    <com.google.android.material.button.MaterialButtonToggleGroup
+        android:id="@+id/toggleGroup"
+        style="@style/ToggleButtonStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:gravity="center"
+        android:weightSum="2"
+        app:checkedButton="@id/shopkeeperID"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/titleText"
+        app:singleSelection="true">
 
-        </com.google.android.material.button.MaterialButtonToggleGroup>
-
-
-        <LinearLayout
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/shopkeeperID"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:padding="@dimen/distance">
+            android:layout_weight="1"
+            android:backgroundTint="@color/toggle_button_selector"
+            android:text="@string/shopkeeper"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="15sp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/customerID"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/toggle_button_selector"
+            android:text="@string/customer"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="15sp" />
 
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+    </com.google.android.material.button.MaterialButtonToggleGroup>
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/phoneErrorID"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Phone"
-                    app:boxStrokeColor="@color/black"
-                    app:endIconMode="clear_text"
-                    app:hintTextColor="@color/black"
-                    app:startIconDrawable="@drawable/phone">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/phoneTextID"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="phone"
-                        android:textColor="@color/black"
-                        android:textCursorDrawable="@drawable/cursor_color" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/passwordErrorID"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Password"
-                    app:boxStrokeColor="@color/black"
-                    app:endIconMode="password_toggle"
-                    app:hintTextColor="@color/black"
-                    app:startIconDrawable="@drawable/lock">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/passwordTextID"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="numberPassword"
-                        android:maxLength="6"
-                        android:textColor="@color/black"
-                        android:textCursorDrawable="@drawable/cursor_color" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:gravity="right">
-
-                <TextView
-                    android:id="@+id/forgotPasswordID"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:text="Forgot Password?"
-                    android:textColor="@color/grey" />
-
-            </LinearLayout>
-
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/signinButtonID"
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/phoneTextID"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/shape"
+        android:drawableLeft="@drawable/baseline_phone_android_24"
+        android:drawablePadding="5dp"
+        android:drawableTint="@color/black"
+        android:hint="@string/phone"
+        android:inputType="phone"
+        android:padding="15dp"
+        android:textColor="@color/black"
+        android:textCursorDrawable="@drawable/cursor_color"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toggleGroup" />
+
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/passwordTextID"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
         android:layout_marginTop="10dp"
-        android:background="@drawable/ripple_effect"
-        android:backgroundTintMode="add"
-        android:drawableEnd="@drawable/arrow_forwarded"
-        android:padding="5dp"
-        android:text="@string/signin"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/shape"
+        android:drawableLeft="@drawable/lock"
+        android:drawablePadding="5dp"
+        android:drawableTint="@color/black"
+        android:hint="@string/password"
+        android:inputType="numberPassword"
+        android:maxLength="6"
+        android:padding="15dp"
+        android:textColor="@color/black"
+        android:textCursorDrawable="@drawable/cursor_color"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/phoneTextID" />
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/signInButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
+        android:backgroundTint="@color/pink"
+        android:drawableTint="@color/white"
+        android:text="Sign In"
+        android:gravity="center"
         android:textAllCaps="false"
         android:textColor="@color/white"
-        android:textSize="@dimen/font_medium"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        app:iconTint="@color/white"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/passwordTextID" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/forgotPasswordID"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:gravity="center"
-        android:orientation="horizontal">
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:src="@drawable/arrow_back"
+        android:text="@string/forgot_password"
+        android:textColor="@color/light_grey"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/signInButton" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Don't have an account?"
-            android:textColor="@color/white" />
+    <TextView
+        android:id="@+id/noAccount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/don_t_have_an_account"
+        android:textColor="@color/white"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/forgotPasswordID" />
 
-        <TextView
-            android:id="@+id/registerID"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="3dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:text="Register"
-            android:textColor="@color/yellow"
-            android:textSize="15sp"
-            android:textStyle="bold" />
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/registerID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:backgroundTint="@color/default_color"
+        app:icon="@drawable/arrow_forwarded"
+        app:iconTint="@color/white"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/noAccount" />
 
-    </LinearLayout>
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
 

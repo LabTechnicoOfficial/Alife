@@ -16,8 +16,6 @@ import com.google.android.material.button.MaterialButtonToggleGroup;
 
 public class Register_activity extends AppCompatActivity implements View.OnClickListener {
     ImageView backButton;
-    Button registerButton;
-
     MaterialButtonToggleGroup toggleButton;
 
     @Override
@@ -28,14 +26,9 @@ public class Register_activity extends AppCompatActivity implements View.OnClick
             getSupportFragmentManager().beginTransaction().replace(R.id.registration_frame_container, new Shop_registration_fragment()).commit();
         }
         setContentView(R.layout.register_activity);
-        try {
-            this.getSupportActionBar().hide();
-        } catch (Exception e) {
-        }
 
         backButton = (ImageView) findViewById(R.id.backButtonID);
 
-        registerButton = (Button) findViewById(R.id.registerButtonID);
         toggleButton = findViewById(R.id.toggleGroup);
 
         backButton.setOnClickListener(this);
@@ -59,15 +52,15 @@ public class Register_activity extends AppCompatActivity implements View.OnClick
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.backButtonID) {
-            Intent intent = new Intent(this, LoginActivity.class);
-            startActivity(intent);
+            finish();
         }
     }
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
+//        Intent intent = new Intent(this, LoginActivity.class);
+//        startActivity(intent);
+        finish();
     }
 
     @Override

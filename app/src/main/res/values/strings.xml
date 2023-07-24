@@ -18,6 +18,9 @@
     //rewards ad id
     <string name="reward_ads_id"> ca-app-pub-9914022847917901/8146509442</string>
     <string name="print_barcode">প্রিন্ট বারকোড</string>
+    <string name="password">পাসওয়ার্ড</string>
+    <string name="don_t_have_an_account">Don\'t have an account?</string>
+    <string name="forgot_password">Forgot Password?</string>
     // test
     //admob id
     <!--<string name="admob_id">ca-app-pub-3940256099942544~3347511713</string>

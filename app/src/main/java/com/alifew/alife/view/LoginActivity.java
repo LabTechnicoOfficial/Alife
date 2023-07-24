@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alifew.alife.R;
+import com.alifew.alife.Utils.ShowToast;
 import com.alifew.alife.model.OTP_response;
 import com.alifew.alife.model.Shop_login_response;
 import com.alifew.alife.model.last_logintime_response;
@@ -44,21 +45,22 @@ import com.alifew.alife.viewmodel.Shop_login;
 import com.alifew.alife.viewmodel.Token_update;
 import com.alifew.alife.viewmodel.User;
 import com.google.android.material.button.MaterialButtonToggleGroup;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.Random;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
-    TextView registerClick, forgotPasswordClick;
+    ExtendedFloatingActionButton registerClick;
+    TextView forgotPasswordClick;
     Dialog dialog, agentDialog;
-    Button signInButton;
+    ExtendedFloatingActionButton signInButton;
     EditText phoneText, passwordText;
     String type, phone, password, shopID;
     Shop_login shop_login;
     Customer_login customer_login;
     OTP otp;
     MaterialButtonToggleGroup toggleButton;
-    TextInputLayout phoneError, passwordError;
     Token_update token_update;
     String token = "x";
     Last_logintime last_logintime;
@@ -67,26 +69,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onStart() {
         super.onStart();
-        SessionManagement sessionManagement = new SessionManagement(LoginActivity.this);
-        int userId = sessionManagement.getSession();
-        String type = sessionManagement.getType();
-        String phone = sessionManagement.getPhone();
-        if (userId != -1) {
-            if (type.equals("shopkeeper")) {
-                Intent intent = new Intent(LoginActivity.this, Shop_main_activity.class);
-                //intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                startActivity(intent);
-            } else if (type.equals("customer")) {
-                Intent intent = new Intent(LoginActivity.this, Customer_main_activity.class);
-                //intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                startActivity(intent);
-            } else if (type.equals("admin")) {
-                Intent intent = new Intent(LoginActivity.this, Operator_main_activity.class);
-                //intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                startActivity(intent);
-            }
 
-        }
     }
 
     @Override
@@ -98,40 +81,29 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         int userId = sessionManagement.getSession();
         String type = sessionManagement.getType();
         String phone = sessionManagement.getPhone();
-//
-//        if (userId != -1) {
-//            if (type.equals("shopkeeper")) {
-//                Intent intent = new Intent(LoginActivity.this, Shop_main_activity.class);
-//                //intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-//                startActivity(intent);
-//            } else if (type.equals("customer")) {
-//                Intent intent = new Intent(LoginActivity.this, Customer_main_activity.class);
-//                //intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-//                startActivity(intent);
-//            } else if (type.equals("admin")) {
-//                Intent intent = new Intent(LoginActivity.this, Operator_main_activity.class);
-//                //.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-//                startActivity(intent);
-//            }
-//
-//        }
-        //overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+        if (userId != -1) {
+            if (type.equals("shopkeeper")) {
+                Intent intent = new Intent(LoginActivity.this, Shop_main_activity.class);
+                startActivity(intent);
+            } else if (type.equals("customer")) {
+                Intent intent = new Intent(LoginActivity.this, Customer_main_activity.class);
+                startActivity(intent);
+            } else if (type.equals("admin")) {
+                Intent intent = new Intent(LoginActivity.this, Operator_main_activity.class);
+                startActivity(intent);
+            }
+
+        }
+
         setContentView(R.layout.activity_login);
 
-        signInButton = (Button) findViewById(R.id.signinButtonID);
-        registerClick = (TextView) findViewById(R.id.registerID);
+        signInButton = findViewById(R.id.signInButton);
+        registerClick = findViewById(R.id.registerID);
         forgotPasswordClick = (TextView) findViewById(R.id.forgotPasswordID);
         phoneText = (EditText) findViewById(R.id.phoneTextID);
         passwordText = (EditText) findViewById(R.id.passwordTextID);
         toggleButton = findViewById(R.id.toggleGroup);
 
-        phoneError = (TextInputLayout) findViewById(R.id.phoneErrorID);
-        passwordError = (TextInputLayout) findViewById(R.id.passwordErrorID);
-
-        try {
-            this.getSupportActionBar().hide();
-        } catch (Exception e) {
-        }
 
         dialog = new Dialog(LoginActivity.this);
         dialog.setContentView(R.layout.loader);
@@ -154,11 +126,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.registerID) {
-            dialog.show();
             Intent intent = new Intent(this, Register_activity.class);
             startActivity(intent);
 
-        } else if (v.getId() == R.id.signinButtonID) {
+        } else if (v.getId() == R.id.signInButton) {
             phone = phoneText.getText().toString().trim();
             password = passwordText.getText().toString().trim();
 
@@ -171,20 +142,20 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
 
     private void validation(String phone, String password) {
-        phoneError.setErrorEnabled(false);
-        passwordError.setErrorEnabled(false);
+
         if (TextUtils.isEmpty(phone) || TextUtils.isEmpty(password)) {
-            phoneError.setErrorEnabled(false);
-            passwordError.setErrorEnabled(false);
+            String message = "";
             if (TextUtils.isEmpty(phone)) {
-                phoneError.setError("Enter Phone");
+                message = "empty phone";
             } else if (TextUtils.isEmpty(password)) {
-                passwordError.setError("Empty Password");
+                message = "empty password";
             }
+
+            ShowToast.errorToast(message, getApplicationContext());
         } else {
-            passwordError.setErrorEnabled(false);
+
             if (password.length() < 5) {
-                phoneError.setError("Password Too short");
+                ShowToast.errorToast("password must be more than 5 character", getApplicationContext());
             } else {
 
                 ConnectivityManager manager = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -240,15 +211,33 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         dialog.show();
         type = "shopkeeper";
         passwordText.setText("");
-        last_logintime =new ViewModelProvider(this).get(Last_logintime.class); //new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(Last_logintime.class);
+        last_logintime = new ViewModelProvider(this).get(Last_logintime.class); //new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(Last_logintime.class);
 
         shop_login.getmessage(phone, password).observe(LoginActivity.this, new Observer<Shop_login_response>() {
 
             @Override
             public void onChanged(Shop_login_response shop_login_response) {
 
+
                 String id = shop_login_response.getId();
                 if (!(id.equals("-1"))) {
+
+                    Random r = new Random();
+                    int ran = r.nextInt(99999 - 10000 + 1) + 10000;
+                    String random_otp = String.valueOf(ran);
+                    otp.getStatus(phone, "Your shopkeeper login OTP code is -" + random_otp+" "+". Powered by ALIFE.").observe(LoginActivity.this, new Observer<OTP_response>() {
+                        @Override
+                        public void onChanged(OTP_response otp_response) {
+                            dialog.dismiss();
+                            //Toast.makeText(LoginActivity.this, otp_response.getStatus(), Toast.LENGTH_SHORT).show();
+                            if (otp_response.getStatus().equals("queued")) {
+                                shop_otp_activity(random_otp, id, phone);
+                            } else {
+
+                            }
+                        }
+                    });
+/*
                     last_logintime.getTime(id, "shop").observe(LoginActivity.this, new Observer<last_logintime_response>() {
 
                         @Override
@@ -289,6 +278,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             }
                         }
                     });
+*/
 
                 } else {
                     dialog.dismiss();
@@ -318,7 +308,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     int ran = r.nextInt(99999 - 10000 + 1) + 10000;
                     String random_otp = String.valueOf(ran);
 
-                    otp.getStatus(phone, "ALife..Your Customer LogIn OTP is -" + random_otp).observe(LoginActivity.this, new Observer<OTP_response>() {
+                    otp.getStatus(phone, "Your customer login OTP code is -" + random_otp+" "+". Powered by ALIFE.").observe(LoginActivity.this, new Observer<OTP_response>() {
                         @Override
                         public void onChanged(OTP_response otp_response) {
                             if (otp_response.getStatus().equals("queued")) {
@@ -394,10 +384,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void customer_otp_activity(String random_otp, String id, String phone) {
-      //  Toast.makeText(this, random_otp, Toast.LENGTH_SHORT).show();
+        //  Toast.makeText(this, random_otp, Toast.LENGTH_SHORT).show();
         registration registration;
         registration = new registration("", "", phone, "customer", "", id, "login_varification", random_otp, "login");
-
 
 
         SessionManagment_registration sessionManagment_registration = new SessionManagment_registration(LoginActivity.this);
@@ -406,37 +395,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         Intent intent = new Intent(LoginActivity.this, Otp_validation_activity.class);
         startActivity(intent);
     }
-
-   /*  @Override
-   public void onBackPressed() {
-
-        Dialog alert = new Dialog(LoginActivity.this);
-        alert.setContentView(R.layout.exit_alert);
-        alert.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        alert.setCancelable(false);
-        alert.show();
-
-        TextView yesButton = (TextView) alert.findViewById(R.id.yesButtonID);
-        TextView noButton = (TextView) alert.findViewById(R.id.noButtonID);
-
-        yesButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                moveTaskToBack(true);
-                android.os.Process.killProcess(android.os.Process.myPid());
-                System.exit(1);
-            }
-        });
-
-        noButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alert.cancel();
-            }
-        });
-
-
-    }*/
 
     @Override
     protected void attachBaseContext(Context newBase) {
