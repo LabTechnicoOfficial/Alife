@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "291407419482",
-    "project_id": "alife-48efa",
-    "storage_bucket": "alife-48efa.appspot.com"
+    "project_number": "136250164577",
+    "project_id": "alife-de514",
+    "storage_bucket": "alife-de514.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:291407419482:android:4068a8d708c80689fb6063",
+        "mobilesdk_app_id": "1:136250164577:android:d8e89a13b0dc9cd25bb120",
         "android_client_info": {
-          "package_name": "com.ALife.alife"
+          "package_name": "com.alifew.alife"
         }
       },
       "oauth_client": [
         {
-          "client_id": "291407419482-m0tea7kv9nekqca40bgl6no57uphto2g.apps.googleusercontent.com",
+          "client_id": "136250164577-sdcieun702funtjlfulojlfumt87qr2i.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyA6wsJfBaG_qUKJ73gtRaM5ZWH3-_uR414"
+          "current_key": "AIzaSyDUWbjN6K6JNQG3Tbd2Mw64QsR-MPIL1VI"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "291407419482-m0tea7kv9nekqca40bgl6no57uphto2g.apps.googleusercontent.com",
+              "client_id": "136250164577-sdcieun702funtjlfulojlfumt87qr2i.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

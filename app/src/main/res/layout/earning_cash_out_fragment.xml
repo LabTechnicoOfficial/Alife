@@ -105,7 +105,7 @@
             app:startIconDrawable="@drawable/earning_phone_icon">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/phoneTextID"
+                android:id="@+id/contactText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="phone"

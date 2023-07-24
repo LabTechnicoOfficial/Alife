@@ -167,7 +167,7 @@
                     app:cardCornerRadius="8dp">
 
                     <ImageView
-                        android:id="@+id/productImageID"
+                        android:id="@+id/productImage"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:clickable="true"
