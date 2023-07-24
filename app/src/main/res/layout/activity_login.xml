@@ -16,8 +16,6 @@
         app:cardCornerRadius="15dp"
         app:cardElevation="5dp"
         app:cardMaxElevation="5dp"
-        app:cardPreventCornerOverlap="true"
-        app:cardUseCompatPadding="true"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent">
