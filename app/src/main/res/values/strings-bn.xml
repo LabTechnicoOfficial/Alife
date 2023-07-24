@@ -18,6 +18,7 @@
     <string name="date">তারিখ</string>
     <string name="account">লেনদেন</string>
     <string name="customers">গ্রাহক</string>
+    <string name="products">পণ্য</string>
     <string name="sell_products">পণ্য বিক্রয়</string>
     <string name="add_products">পণ্য যোগ</string>
     <string name="all_products">সবপণ্য</string>
@@ -77,4 +78,5 @@
     <string name="bar_code_search">bar code search</string>
     <string name="notification">নোটিফিকেশন</string>
     <string name="qr_scan">স্ক্যান</string>
+    <string name="file_save">ফাইল লোকেশন</string>
 </resources>

@@ -30,7 +30,7 @@
             android:padding="@dimen/distance">
 
             <TextView
-                android:id="@+id/shopNameTextID"
+                android:id="@+id/nameText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/distance"
@@ -141,7 +141,7 @@
                     android:gravity="right">
 
                     <TextView
-                        android:id="@+id/phoneTextID"
+                        android:id="@+id/contactText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/black" />
