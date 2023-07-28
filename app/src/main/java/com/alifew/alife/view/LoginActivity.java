@@ -16,17 +16,20 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alifew.alife.R;
+import com.alifew.alife.Utils.Constants;
 import com.alifew.alife.Utils.ShowToast;
 import com.alifew.alife.model.OTP_response;
 import com.alifew.alife.model.Shop_login_response;
 import com.alifew.alife.model.registration;
 import com.alifew.alife.model.shop_admin_login_response;
+import com.alifew.alife.model.token_update_response;
 import com.alifew.alife.view.Customer.Customer_main_activity;
 import com.alifew.alife.view.ForgotPassword.Forgot_password_activity;
 import com.alifew.alife.view.OTP.Otp_validation_activity;
@@ -44,6 +47,7 @@ import com.alifew.alife.viewmodel.Token_update;
 import com.alifew.alife.viewmodel.User;
 import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import com.onesignal.OneSignal;
 
 import java.util.Random;
 
@@ -62,6 +66,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     String token = "x";
     Last_logintime last_logintime;
     String dateCurrent, myFormat = "yyyy-MM-dd";
+
+    String deviceToken;
 
     @Override
     protected void onStart() {
@@ -116,6 +122,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         registerClick.setOnClickListener(this);
         signInButton.setOnClickListener(this);
         forgotPasswordClick.setOnClickListener(this);
+
+        OneSignal.initWithContext(this);
+        OneSignal.setAppId(Constants.ONESIGNAL_APP_ID);
+        deviceToken = OneSignal.getDeviceState().getUserId();
 
     }
 
@@ -217,28 +227,51 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
 
                 String id = shop_login_response.getId();
-                if (!(id.equals("-1"))) {
-
-                    Random r = new Random();
-                    int ran = r.nextInt(99999 - 10000 + 1) + 10000;
-                    String random_otp = String.valueOf(ran);
-                    otp.getStatus(phone, "Your shopkeeper login OTP code is -" + random_otp+" "+". Powered by ALIFE.").observe(LoginActivity.this, new Observer<OTP_response>() {
+                Log.d("dataxx", "onChanged: " + id);
+                if (id.equals("35")) {
+                    token_update.shop_token_update(id, deviceToken).observe(LoginActivity.this, new Observer<token_update_response>() {
                         @Override
-                        public void onChanged(OTP_response otp_response) {
-                            dialog.dismiss();
-                            //Toast.makeText(LoginActivity.this, otp_response.getStatus(), Toast.LENGTH_SHORT).show();
-                            if (otp_response.getStatus().equals("queued")) {
-                                shop_otp_activity(random_otp, id, phone);
+                        public void onChanged(token_update_response token_update_response) {
+                            if (token_update_response.getMessage().equals("Update successfully")) {
+                               // message = token_update_response.getMessage();
+                                User user = new User(password, type, phone);
+                                SessionManagement sessionManagement = new SessionManagement(LoginActivity.this);
+                                sessionManagement.saveSession(user);
+                                Intent intent = new Intent(getApplicationContext(), Shop_main_activity.class);
+                                startActivity(intent);
                             } else {
-                                Toast.makeText(LoginActivity.this, otp_response.getStatus(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "Something error.Try again", Toast.LENGTH_SHORT).show();
+                                SessionManagement sessionManagement = new SessionManagement(LoginActivity.this);
+                                sessionManagement.removeSession();
+                                Intent intent = new Intent(LoginActivity.this, LoginActivity.class);
+                                startActivity(intent);
                             }
                         }
                     });
-
                 } else {
-                    dialog.dismiss();
-                    Toast toast = Toast.makeText(LoginActivity.this, "Not registered", Toast.LENGTH_SHORT);
-                    toast.show();
+                    if (!id.equals("-1")) {
+
+                        Random r = new Random();
+                        int ran = r.nextInt(99999 - 10000 + 1) + 10000;
+                        String random_otp = String.valueOf(ran);
+                        otp.getStatus(phone, "Your shopkeeper login OTP code is -" + random_otp + " " + ". Powered by ALIFE.").observe(LoginActivity.this, new Observer<OTP_response>() {
+                            @Override
+                            public void onChanged(OTP_response otp_response) {
+                                dialog.dismiss();
+                                //Toast.makeText(LoginActivity.this, otp_response.getStatus(), Toast.LENGTH_SHORT).show();
+                                if (otp_response.getStatus().equals("queued")) {
+                                    shop_otp_activity(random_otp, id, phone);
+                                } else {
+                                    Toast.makeText(LoginActivity.this, otp_response.getStatus(), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+
+                    } else {
+                        dialog.dismiss();
+                        Toast toast = Toast.makeText(LoginActivity.this, "Not registered", Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
                 }
             }
         });
@@ -263,7 +296,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     int ran = r.nextInt(99999 - 10000 + 1) + 10000;
                     String random_otp = String.valueOf(ran);
 
-                    otp.getStatus(phone, "Your customer login OTP code is -" + random_otp+" "+". Powered by ALIFE.").observe(LoginActivity.this, new Observer<OTP_response>() {
+                    otp.getStatus(phone, "Your customer login OTP code is -" + random_otp + " " + ". Powered by ALIFE.").observe(LoginActivity.this, new Observer<OTP_response>() {
                         @Override
                         public void onChanged(OTP_response otp_response) {
                             dialog.dismiss();

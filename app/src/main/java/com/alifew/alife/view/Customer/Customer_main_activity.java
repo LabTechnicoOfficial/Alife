@@ -60,7 +60,6 @@ public class Customer_main_activity extends AppCompatActivity implements Navigat
     private String customer_id;
     Get_version get_version;
     private String version_name, version_code;
-    Dialog dialog;
     private String deviceToken;
     User_deviceToken user_deviceToken;
     AdManagerAdView mAdManagerAdView;
@@ -83,13 +82,24 @@ public class Customer_main_activity extends AppCompatActivity implements Navigat
 
         }
 
+        //checkVersion();
+    }
+
+    private void checkVersion() {
+
+        get_version = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(Get_version.class);
+
+        version_code = String.valueOf(BuildConfig.VERSION_CODE);
+        version_name = BuildConfig.VERSION_NAME;
+        Dialog dialog = new Dialog(Customer_main_activity.this);
+        dialog.setContentView(R.layout.update_alert);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.setCancelable(false);
         get_version.getData().observe(Customer_main_activity.this, new Observer<get_version_response>() {
             @Override
             public void onChanged(get_version_response get_version_response) {
                 if (!(get_version_response.getVersion_code().equals(version_code))) {
 
-                    dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                    dialog.setCancelable(false);
                     dialog.show();
                     TextView updateButton = dialog.findViewById(R.id.updateButton);
                     TextView noButton = dialog.findViewById(R.id.noButton);
@@ -131,45 +141,9 @@ public class Customer_main_activity extends AppCompatActivity implements Navigat
         deviceToken = OneSignal.getDeviceState().getUserId();
         Log.d("dataxx", "checkMultipleDeviceLogIN: "+deviceToken);
 
-        get_version = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(Get_version.class);
         user_deviceToken = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(User_deviceToken.class);
 
-        version_code = String.valueOf(BuildConfig.VERSION_CODE);
-        version_name = BuildConfig.VERSION_NAME;
-        dialog = new Dialog(Customer_main_activity.this);
-        dialog.setContentView(R.layout.update_alert);
-        get_version.getData().observe(Customer_main_activity.this, new Observer<get_version_response>() {
-            @Override
-            public void onChanged(get_version_response get_version_response) {
-                if (!(get_version_response.getVersion_code().equals(version_code))) {
 
-
-                    dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                    dialog.setCancelable(false);
-                    dialog.show();
-                    TextView updateButton = dialog.findViewById(R.id.updateButton);
-                    TextView noButton = dialog.findViewById(R.id.noButton);
-
-                    updateButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            //Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.ALife.alife"));
-                            //startActivity(intent);
-                            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.ALife.alife"));
-                            startActivity(intent);
-                        }
-                    });
-                    noButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            moveTaskToBack(true);
-                            android.os.Process.killProcess(android.os.Process.myPid());
-                            System.exit(1);
-                        }
-                    });
-                }
-            }
-        });
 
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         if (savedInstanceState == null) {

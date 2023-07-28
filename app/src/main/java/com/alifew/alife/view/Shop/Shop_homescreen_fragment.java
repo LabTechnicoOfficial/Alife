@@ -137,7 +137,7 @@ public class Shop_homescreen_fragment extends Fragment implements Instruction_ad
         });
 */
         main();
-        instruction_func();
+       // instruction_func();
     }
 
 

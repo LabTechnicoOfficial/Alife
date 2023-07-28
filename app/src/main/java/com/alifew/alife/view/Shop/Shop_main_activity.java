@@ -92,7 +92,7 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
     int internet_permission = 1;
     int access_network_permission = 1;
     int call_phone_permission = 1;
-    Dialog dialog, statusdialog;
+    Dialog  statusdialog;
     User_instruction userInstruction;
     User_deviceToken user_deviceToken;
     private List<user_instruction_response> instructionList;
@@ -120,63 +120,41 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
             intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
             startActivity(intent);
 
-
         }
-        // check either another device loggedin or not
-        /*FirebaseInstanceId.getInstance().getInstanceId()
-                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
-                        if (task.isSuccessful()) {
-                            deviceToken = task.getResult().getToken();
-                            user_deviceToken.getToken(String.valueOf(user), "shop").observe(Shop_main_activity.this, new Observer<getUser_deviceToken_response>() {
-                                @Override
-                                public void onChanged(getUser_deviceToken_response getUser_deviceToken_response) {
-                                    if (!getUser_deviceToken_response.getToken().equals(deviceToken)) {
-                                        //Log.d("token1",deviceToken);
-                                        //Log.d("token2",getUser_deviceToken_response.getToken());
-                                        Toast.makeText(Shop_main_activity.this, String.valueOf(user), Toast.LENGTH_SHORT).show();
-                                        SessionManagement sessionManagement = new SessionManagement(Shop_main_activity.this);
-                                        sessionManagement.removeSession();
-                                        startActivity(new Intent(Shop_main_activity.this, LoginActivity.class));
 
-                                    }
-                                }
-                            });
-                            */
-
-        /*user_deviceToken.getMessage(String.valueOf(user),"shop",deviceToken).observe(Shop_main_activity.this, new Observer<getUser_deviceToken_response>() {
-                                @Override
-                                public void onChanged(getUser_deviceToken_response getUser_deviceToken_response) {
-                                    if(getUser_deviceToken_response.getToken().equals("no"))
-                                    {
-                                        Log.d("token1",deviceToken);
-                                        Log.d("token2",getUser_deviceToken_response.getToken());
-                                        Toast.makeText(Shop_main_activity.this,String.valueOf(user),Toast.LENGTH_SHORT).show();
-                                        SessionManagment sessionManagment = new SessionManagment(Shop_main_activity.this);
-                                        sessionManagment.removeSession();
-                                        startActivity(new Intent(Shop_main_activity.this, LoginActivity.class));
-                                    }
-                                }
-                            });*//*
-
-                        } else {
-                            SessionManagement sessionManagement = new SessionManagement(Shop_main_activity.this);
-                            sessionManagement.removeSession();
-                            startActivity(new Intent(Shop_main_activity.this, LoginActivity.class));
-                            // Toast.makeText(LoginActivity.this, task.getException().toString(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });*/
-        // end check
 
         checkMultipleDeviceLogIN();
 
-        // instruction_func();
+        instruction_func();
+        shop_status.getStatus(shop_id).observe(Shop_main_activity.this, new Observer<shop_status_response>() {
+            @Override
+            public void onChanged(shop_status_response shop_status_response) {
+                //Toast.makeText(Shop_main_activity.this,shop_status_response.getStatus(),Toast.LENGTH_SHORT).show();
+                if (shop_status_response.getStatus().equals("1")) {
+                    statusdialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    statusdialog.setCancelable(false);
+                    statusdialog.show();
+
+                    Toast.makeText(Shop_main_activity.this, "InActive", Toast.LENGTH_SHORT).show();
+                } else {
+                    statusdialog.dismiss();
+                }
+            }
+        });
+
+        //checkVersion();
+
+    }
+
+    private void checkVersion() {
+        Dialog dialog = new Dialog(Shop_main_activity.this);
+        dialog.setContentView(R.layout.update_alert);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.setCancelable(false);
         get_version.getData().observe(Shop_main_activity.this, new Observer<get_version_response>() {
             @Override
             public void onChanged(get_version_response get_version_response) {
-               // Log.d("dataxx", "onChanged: "+get_version_response.getVersion_code().toString()+" "+version_code);
+                // Log.d("dataxx", "onChanged: "+get_version_response.getVersion_code().toString()+" "+version_code);
                 if (!(get_version_response.getVersion_code().equals(version_code))) {
 
 
@@ -210,22 +188,6 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
                 }
             }
         });
-        shop_status.getStatus(shop_id).observe(Shop_main_activity.this, new Observer<shop_status_response>() {
-            @Override
-            public void onChanged(shop_status_response shop_status_response) {
-                //Toast.makeText(Shop_main_activity.this,shop_status_response.getStatus(),Toast.LENGTH_SHORT).show();
-                if (shop_status_response.getStatus().equals("1")) {
-                    statusdialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                    statusdialog.setCancelable(false);
-                    statusdialog.show();
-
-                    Toast.makeText(Shop_main_activity.this, "InActive", Toast.LENGTH_SHORT).show();
-                } else {
-                    statusdialog.dismiss();
-                }
-            }
-        });
-
     }
 
     private void checkMultipleDeviceLogIN() {
@@ -364,10 +326,7 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
 
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
-        dialog = new Dialog(Shop_main_activity.this);
-        dialog.setContentView(R.layout.update_alert);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.setCancelable(false);
+
 
         statusdialog = new Dialog(Shop_main_activity.this);
         statusdialog.setContentView(R.layout.inactive_status_alert);
@@ -381,8 +340,8 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
 
         OneSignal.initWithContext(this);
         OneSignal.setAppId(Constants.ONESIGNAL_APP_ID);
-         deviceToken = OneSignal.getDeviceState().getUserId();
-        Log.d("dataxx", "checkMultipleDeviceLogIN: "+deviceToken);
+        deviceToken = OneSignal.getDeviceState().getUserId();
+        Log.d("dataxx", "checkMultipleDeviceLogIN: " + deviceToken);
 //
 //        Bundle bundle = new Bundle();
 //        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, deviceToken);
@@ -394,38 +353,6 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
 //        crashlytics.setCustomKey("current_level", 3);K
 //        crashlytics.setCustomKey("last_UI_action", "logged_in");
         // Log.d("version: ",version_code);
-        get_version.getData().observe(Shop_main_activity.this, new Observer<get_version_response>() {
-            @Override
-            public void onChanged(get_version_response get_version_response) {
-                if (!(get_version_response.getVersion_code().equals(version_code))) {
-                    dialog.show();
-                    TextView updateButton = dialog.findViewById(R.id.updateButton);
-                    TextView noButton = dialog.findViewById(R.id.noButton);
-                    //updateButton.setMovementMethod(LinkMovementMethod.getInstance());
-
-                    updateButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            //Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.ALife.alife"));
-                            //startActivity(intent);
-                            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.ALife.alife"));
-                            startActivity(intent);
-                        }
-                    });
-                    noButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            moveTaskToBack(true);
-                            android.os.Process.killProcess(android.os.Process.myPid());
-                            System.exit(1);
-                        }
-                    });
-
-                    //getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, new Shop_homescreen_fragment()).commit();
-
-                }
-            }
-        });
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, new Shop_homescreen_fragment()).commit();
