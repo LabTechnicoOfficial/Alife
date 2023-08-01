@@ -1,12 +1,22 @@
 package com.alifew.alife.view.Shop;
 
+import static com.unity3d.services.core.properties.ClientProperties.getApplicationContext;
+
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.ActivityNotFoundException;
+import android.content.ClipData;
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
-import android.os.AsyncTask;
+import android.graphics.pdf.PdfDocument;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -23,9 +33,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
+import android.os.Environment;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.Gravity;
@@ -45,16 +58,15 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.alifew.alife.BuildConfig;
 import com.alifew.alife.DB.AppDatabase;
 import com.alifew.alife.DB.InsertProductThread;
 import com.alifew.alife.DB.ProductDao;
 import com.alifew.alife.DB.Products;
+import com.alifew.alife.PrintActivity;
 import com.alifew.alife.R;
 import com.alifew.alife.Utils.Helpers;
 import com.alifew.alife.adapter.Barcode.Barcode_view_adapter;
 import com.alifew.alife.adapter.Barcode.Shop_product_barcode_print_adapter;
-import com.alifew.alife.model.Fetch_product_detail_by_bar_code_response;
 import com.alifew.alife.model.Get_product_response;
 import com.alifew.alife.session.SessionManagement;
 import com.alifew.alife.viewmodel.Get_all_shop_product;
@@ -62,12 +74,14 @@ import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
-import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.Serializable;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class ShopPrintBarcodeFragment extends Fragment implements Shop_product_barcode_print_adapter.OnCheckBoxClickListener, Shop_product_barcode_print_adapter.MarkAllClickListener {
 
@@ -116,13 +130,21 @@ public class ShopPrintBarcodeFragment extends Fragment implements Shop_product_b
             public void onClick(View v) {
                 List<Products> markedProductList = new ArrayList<>();
                 markedProductList.addAll(productDao.getMarkedProductList());
-
-                //Toast.makeText(getActivity(), String.valueOf(markedProductList.size()), Toast.LENGTH_SHORT).show();
+//
+//                //Toast.makeText(getActivity(), String.valueOf(markedProductList.size()), Toast.LENGTH_SHORT).show();
                 if (markedProductList.size() > 0) {
-                    barCodeGeneratePrint(markedProductList);
+                    // barCodeGeneratePrint(markedProductList);
+                    Intent intent = new Intent(getActivity(), PrintActivity.class);
+                    intent.putParcelableArrayListExtra(
+                            "BARCODELIST", (ArrayList<? extends Parcelable>) markedProductList);
+                    getActivity().startActivity(intent);
+
                 } else {
                     Toast.makeText(getActivity(), "No product selected", Toast.LENGTH_SHORT).show();
                 }
+
+                //getActivity().startActivity(new Intent(getActivity(), PrintActivity.class));
+
 
             }
         });
@@ -160,6 +182,7 @@ public class ShopPrintBarcodeFragment extends Fragment implements Shop_product_b
             @Override
             public void onClick(View v) {
                 openBarcodeDialog();
+
             }
         });
 
@@ -371,7 +394,10 @@ public class ShopPrintBarcodeFragment extends Fragment implements Shop_product_b
         printButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Helpers.createPDF(barCodeLayout, getActivity(), "bcp");
+//                Helpers.createPDF(barCodeLayout, getActivity(), "bcp");
+//                Log.d("dataxx", "onClick: " + String.valueOf(barCodeLayout.getHeight()) + " " + String.valueOf(barCodeLayout.getWidth()));
+
+                createPDF(barCodeLayout, barCodeLayout.getWidth(), barCodeLayout.getHeight());
             }
         });
 
@@ -437,6 +463,8 @@ public class ShopPrintBarcodeFragment extends Fragment implements Shop_product_b
         searchEditText = view.findViewById(R.id.searchEditText);
         shopID = String.valueOf(sessionManagement.getSession());
 
+        Log.d("dataxx", "init_view: id" + shopID);
+
         barCodeButton = view.findViewById(R.id.barCodeButton);
 
 
@@ -471,4 +499,59 @@ public class ShopPrintBarcodeFragment extends Fragment implements Shop_product_b
 
         get_products();
     }
+
+    @SuppressLint("SdCardPath")
+    private void createPDF(View barCodeLayout, int width, int height) {
+        Log.d("dataxx", "size: " + String.valueOf(width) + " " + String.valueOf(height));
+        Bitmap bitmap = Helpers.loadBitmap(barCodeLayout);
+        WindowManager windowManager = (WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE);
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int convertedWidth = (int) displayMetrics.widthPixels;
+        int convertedHeight = (int) displayMetrics.heightPixels;
+
+        PdfDocument document = new PdfDocument();
+        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(convertedWidth, convertedHeight, 1).create();
+        PdfDocument.Page page = document.startPage(pageInfo);
+
+        Canvas canvas = page.getCanvas();
+        Paint paint = new Paint();
+        canvas.drawPaint(paint);
+        bitmap = Bitmap.createScaledBitmap(bitmap, convertedWidth, convertedHeight, true);
+        canvas.drawBitmap(bitmap, 0, 0, null);
+        document.finishPage(page);
+
+
+        String folderName = "Alife";
+
+
+        File dir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), folderName);
+
+        if (!dir.exists()) {
+            dir.mkdir();
+
+        }
+
+        File file = new File(dir, Helpers.generateFileName("bar") + ".pdf");
+
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                document.writeTo(Files.newOutputStream(file.toPath()));
+            }
+
+            Helpers.openPdf(file.getPath().toString(), getActivity());
+
+            Log.d("dataxx", "path: " + file.getPath().toString());
+        } catch (Exception e) {
+            Log.d("dataxx", "createPDF: " + e.getMessage());
+            Toast.makeText(getActivity(), "failed", Toast.LENGTH_SHORT).show();
+            Log.d("dataxx", "epath: " + file.getPath().toString());
+            document.close();
+
+            //openPdf(file.getPath().toString());
+//            Toast.makeText(getActivity(), "PDF", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
 }

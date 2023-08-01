@@ -1,11 +1,14 @@
 package com.alifew.alife.DB;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "tblProducts")
-public class Products {
+public class Products implements Parcelable {
     @PrimaryKey(autoGenerate = true)
     public int id;
 
@@ -47,6 +50,31 @@ public class Products {
         this.unit = unit;
         this.type = type;
     }
+
+    protected Products(Parcel in) {
+        id = in.readInt();
+        productID = in.readString();
+        name = in.readString();
+        printCheck = in.readString();
+        image = in.readString();
+        barcode = in.readString();
+        stock = in.readString();
+        price = in.readString();
+        unit = in.readString();
+        type = in.readString();
+    }
+
+    public static final Creator<Products> CREATOR = new Creator<Products>() {
+        @Override
+        public Products createFromParcel(Parcel in) {
+            return new Products(in);
+        }
+
+        @Override
+        public Products[] newArray(int size) {
+            return new Products[size];
+        }
+    };
 
     public String getType() {
         return type;
@@ -126,5 +154,24 @@ public class Products {
 
     public void setUnit(String unit) {
         this.unit = unit;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(id);
+        parcel.writeString(productID);
+        parcel.writeString(name);
+        parcel.writeString(printCheck);
+        parcel.writeString(image);
+        parcel.writeString(barcode);
+        parcel.writeString(stock);
+        parcel.writeString(price);
+        parcel.writeString(unit);
+        parcel.writeString(type);
     }
 }

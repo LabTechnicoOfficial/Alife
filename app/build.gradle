@@ -129,4 +129,6 @@ dependencies {
 
     implementation 'io.github.shashank02051997:FancyToast:2.0.2'
 
+    implementation 'com.itextpdf:itextg:5.5.10'
+
 }

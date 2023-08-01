@@ -234,7 +234,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         public void onChanged(token_update_response token_update_response) {
                             if (token_update_response.getMessage().equals("Update successfully")) {
                                // message = token_update_response.getMessage();
-                                User user = new User(password, type, phone);
+                                User user = new User(id, type, phone);
                                 SessionManagement sessionManagement = new SessionManagement(LoginActivity.this);
                                 sessionManagement.saveSession(user);
                                 Intent intent = new Intent(getApplicationContext(), Shop_main_activity.class);

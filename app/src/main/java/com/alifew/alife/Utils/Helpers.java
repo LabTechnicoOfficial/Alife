@@ -1,6 +1,8 @@
 package com.alifew.alife.Utils;
 
 import android.annotation.SuppressLint;
+import android.content.ActivityNotFoundException;
+import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -12,6 +14,7 @@ import android.os.Environment;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import androidx.core.content.FileProvider;
@@ -102,12 +105,8 @@ public class Helpers {
 
                         Log.d("dataxx", "onSuccesPATH: " + response.getPath() + " ab: " + response.getFile().getAbsolutePath());
                         Toast.makeText(context, context.getResources().getString(R.string.file_save) + Html.fromHtml(" \n<b>" + response.getPath() + "<b>"), Toast.LENGTH_SHORT).show();
-//                        Intent myIntent = new Intent(Intent.ACTION_VIEW);
-//                        myIntent.setDataAndType(Uri.fromFile(response.getFile()), "application/pdf");
-//                        myIntent.createChooser(myIntent, "Choose an application to open with:");
-//                        context.startActivity(myIntent);
 
-                        //copyFile(response.getFile(), Environment.DIRECTORY_DOCUMENTS, context);
+                        openPdf(response.getPath(), context);
 
                     }
                 });
@@ -116,18 +115,40 @@ public class Helpers {
 
 
     @SuppressLint("SimpleDateFormat")
-    private static String generateFileName(String fileName) {
+    public static String generateFileName(String fileName) {
 
 
         return fileName + new SimpleDateFormat("yyMMddHHmmss").format(Calendar.getInstance().getTime());
     }
 
-    public static Bitmap loadBitmap(View v, int width, int height) {
-        Bitmap bitmapPDF = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+    public static Bitmap loadBitmap(View view) {
+        Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
 
-        Canvas canvas = new Canvas(bitmapPDF);
-        v.draw(canvas);
+        Canvas canvas = new Canvas(bitmap);
+        view.draw(canvas);
 
-        return bitmapPDF;
+        return bitmap;
+    }
+
+    public static void openPdf(String filePath, Context context) {
+        File file = new File(filePath);
+        if (file.exists()) {
+
+            Uri uriPdfPath = FileProvider.getUriForFile(context, context.getApplicationContext().getPackageName() + ".provider", file);
+
+            Intent pdfOpenIntent = new Intent(Intent.ACTION_VIEW);
+            pdfOpenIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            pdfOpenIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            pdfOpenIntent.setClipData(ClipData.newRawUri("", uriPdfPath));
+            pdfOpenIntent.setDataAndType(uriPdfPath, "application/pdf");
+            pdfOpenIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION |  Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+
+            try {
+                context.startActivity(pdfOpenIntent);
+            } catch (ActivityNotFoundException activityNotFoundException) {
+                Toast.makeText(context,"There is no app to load corresponding PDF",Toast.LENGTH_LONG).show();
+
+            }
+        }
     }
 }
