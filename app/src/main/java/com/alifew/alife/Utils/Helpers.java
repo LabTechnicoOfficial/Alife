@@ -7,17 +7,24 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
 import android.graphics.pdf.PdfDocument;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.text.Html;
 import android.util.Log;
+import android.util.LruCache;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
 import androidx.core.content.FileProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.alifew.alife.BuildConfig;
 import com.alifew.alife.R;
@@ -68,12 +75,12 @@ public class Helpers {
 
     public static void createPDF(View view, Context context, String fileName) {
 
-        PdfGenerator.getBuilder()
+        GeneratePDF.getBuilder()
                 .setContext(context)
                 .fromViewSource()
                 .fromView(view)
                 .setFileName(generateFileName(fileName))
-                .setFolderName(Environment.DIRECTORY_DOCUMENTS)
+                .setFolderName("Alife")
                 .openPDFafterGeneration(true)
                 .build(new PdfGeneratorListener() {
                     @Override
@@ -106,7 +113,7 @@ public class Helpers {
                         Log.d("dataxx", "onSuccesPATH: " + response.getPath() + " ab: " + response.getFile().getAbsolutePath());
                         Toast.makeText(context, context.getResources().getString(R.string.file_save) + Html.fromHtml(" \n<b>" + response.getPath() + "<b>"), Toast.LENGTH_SHORT).show();
 
-                        openPdf(response.getPath(), context);
+                        //openPdf(response.getPath(), context);
 
                     }
                 });
@@ -128,6 +135,78 @@ public class Helpers {
         view.draw(canvas);
 
         return bitmap;
+    }
+
+    public static Bitmap createBitmapFromScrollView(ScrollView scrollView) {
+        if (scrollView == null) {
+            return null;
+        }/*from  www. j  a  v a 2 s .  co  m*/
+        int totalHeight = scrollView.getChildAt(0).getHeight();
+        int totalWidth = scrollView.getChildAt(0).getWidth();
+        Bitmap b = getBitmapFromView(scrollView, totalHeight, totalWidth);
+        return b;
+    }
+
+    public static Bitmap getBitmapFromView(View view, int totalHeight,
+                                           int totalWidth) {
+        Bitmap returnedBitmap = Bitmap.createBitmap(totalWidth,
+                totalHeight, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(returnedBitmap);
+        Drawable bgDrawable = view.getBackground();
+        if (bgDrawable != null)
+            bgDrawable.draw(canvas);
+        else
+            canvas.drawColor(Color.WHITE);
+        view.draw(canvas);
+        return returnedBitmap;
+    }
+
+    public static Bitmap getScreenshotFromRecyclerView(RecyclerView view,Context context, int column) {
+        view.setHasFixedSize(true);
+        view.setLayoutManager(new GridLayoutManager(context, column));
+        RecyclerView.Adapter adapter = view.getAdapter();
+        Bitmap bigBitmap = null;
+        if (adapter != null) {
+            int size = adapter.getItemCount();
+            int height = 0;
+            Paint paint = new Paint();
+            int iHeight = 0;
+            final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
+
+            // Use 1/8th of the available memory for this memory cache.
+            final int cacheSize = maxMemory / 8;
+            LruCache<String, Bitmap> bitmaCache = new LruCache<>(cacheSize);
+            for (int i = 0; i < size; i++) {
+                RecyclerView.ViewHolder holder = adapter.createViewHolder(view, adapter.getItemViewType(i));
+                adapter.onBindViewHolder(holder, i);
+                holder.itemView.measure(View.MeasureSpec.makeMeasureSpec(view.getWidth(), View.MeasureSpec.EXACTLY),
+                        View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+                holder.itemView.layout(0, 0, holder.itemView.getMeasuredWidth(), holder.itemView.getMeasuredHeight());
+                holder.itemView.setDrawingCacheEnabled(true);
+                holder.itemView.buildDrawingCache();
+                Bitmap drawingCache = holder.itemView.getDrawingCache();
+                if (drawingCache != null) {
+
+                    bitmaCache.put(String.valueOf(i), drawingCache);
+                }
+//                holder.itemView.setDrawingCacheEnabled(false);
+//                holder.itemView.destroyDrawingCache();
+                height += holder.itemView.getMeasuredHeight();
+            }
+
+            bigBitmap = Bitmap.createBitmap(view.getMeasuredWidth(), height, Bitmap.Config.ARGB_8888);
+            Canvas bigCanvas = new Canvas(bigBitmap);
+            bigCanvas.drawColor(Color.WHITE);
+
+            for (int i = 0; i < size; i++) {
+                Bitmap bitmap = bitmaCache.get(String.valueOf(i));
+                bigCanvas.drawBitmap(bitmap, 0f, iHeight, paint);
+                iHeight += bitmap.getHeight();
+                bitmap.recycle();
+            }
+
+        }
+        return bigBitmap;
     }
 
     public static void openPdf(String filePath, Context context) {

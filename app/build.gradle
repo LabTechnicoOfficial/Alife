@@ -130,5 +130,8 @@ dependencies {
     implementation 'io.github.shashank02051997:FancyToast:2.0.2'
 
     implementation 'com.itextpdf:itextg:5.5.10'
+    implementation 'com.karumi:dexter:6.2.3'
+    implementation 'io.reactivex.rxjava3:rxandroid:3.0.2'
+
 
 }
