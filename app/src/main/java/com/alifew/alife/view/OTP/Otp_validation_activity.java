@@ -65,162 +65,140 @@ public class Otp_validation_activity extends AppCompatActivity implements TextWa
     Dialog loader;
 
     String deviceToken;
+    SessionManagement sessionManagement;
 
     @Override
     protected void onStart() {
         super.onStart();
-        SessionManagement sessionManagement = new SessionManagement(Otp_validation_activity.this);
-        int userId = sessionManagement.getSession();
-        String Type = sessionManagement.getType();
-        phone = sessionManagement.getPhone();
-        if (userId != -1) {
-            if (Type.equals("shopkeeper")) {
-                Intent intent = new Intent(Otp_validation_activity.this, Shop_main_activity.class);
-                // intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                startActivity(intent);
-            } else if (Type.equals("customer")) {
-                Intent intent = new Intent(Otp_validation_activity.this, Customer_main_activity.class);
-                //intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                startActivity(intent);
-            } else if (Type.equals("admin")) {
-                Intent intent = new Intent(Otp_validation_activity.this, Operator_main_activity.class);
-                //intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                startActivity(intent);
-            }
-
-        }
+//        SessionManagement sessionManagement = new SessionManagement(Otp_validation_activity.this);
+//        int userId = sessionManagement.getSession();
+//        String Type = sessionManagement.getType();
+//        phone = sessionManagement.getPhone();
+//        if (userId != -1) {
+//            if (Type.equals("shopkeeper")) {
+//                Intent intent = new Intent(Otp_validation_activity.this, Shop_main_activity.class);
+//                // intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+//                startActivity(intent);
+//            } else if (Type.equals("customer")) {
+//                Intent intent = new Intent(Otp_validation_activity.this, Customer_main_activity.class);
+//                //intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+//                startActivity(intent);
+//            } else if (Type.equals("admin")) {
+//                Intent intent = new Intent(Otp_validation_activity.this, Operator_main_activity.class);
+//                //intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+//                startActivity(intent);
+//            }
+//
+//        }
 
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SessionManagement sessionManagement = new SessionManagement(Otp_validation_activity.this);
+        sessionManagement = new SessionManagement(Otp_validation_activity.this);
         int userId = sessionManagement.getSession();
         String Type = sessionManagement.getType();
         // String phone = sessionManagment.getPhone();
-        if (userId != -1) {
-            if (Type.equals("shopkeeper")) {
-                Intent intent = new Intent(Otp_validation_activity.this, Shop_main_activity.class);
-                //intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                startActivity(intent);
-            } else if (Type.equals("customer")) {
-                Intent intent = new Intent(Otp_validation_activity.this, Customer_main_activity.class);
-                //intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                startActivity(intent);
-            } else if (Type.equals("admin")) {
-                Intent intent = new Intent(Otp_validation_activity.this, Operator_main_activity.class);
-                //intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                startActivity(intent);
-            }
 
-        } else {
-            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 
-            setContentView(R.layout.otp_validation_activity);
+        setContentView(R.layout.otp_validation_activity);
+        SessionManagement sessionManagement1 = new SessionManagement(this);
 
-            SessionManagment_registration sessionManagment_registration = new SessionManagment_registration(Otp_validation_activity.this);
+        SessionManagment_registration sessionManagment_registration = new SessionManagment_registration(Otp_validation_activity.this);
 
-            shopname = sessionManagment_registration.getName();
-            ownername = sessionManagment_registration.getOwner();
-            location = sessionManagment_registration.getLocation();
-            registration_phone = sessionManagment_registration.getPhone();
-            phone = sessionManagment_registration.getPhone();
-            password = sessionManagment_registration.getPassword();
-            image = sessionManagment_registration.getImage();
-            type = sessionManagment_registration.getType();
-            otp = sessionManagment_registration.getOtp();
-            task_type = sessionManagment_registration.getSESSION_TASK_TYPE();
+        shopname = sessionManagment_registration.getName();
+        ownername = sessionManagment_registration.getOwner();
+        location = sessionManagment_registration.getLocation();
+        registration_phone = sessionManagment_registration.getPhone();
+        phone = sessionManagment_registration.getPhone();
+        password = sessionManagment_registration.getPassword();
+        image = sessionManagment_registration.getImage();
+        type = sessionManagment_registration.getType();
+        otp = sessionManagment_registration.getOtp();
+        task_type = sessionManagment_registration.getSESSION_TASK_TYPE();
 
-         //   sessionManagment_registration.removeSession();
-            try {
-                this.getSupportActionBar().hide();
-            } catch (Exception e) {
+        shop_registration = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(Shop_registration.class);
 
-            }
+        customer_registration = new ViewModelProvider(this).get(Customer_registration.class);
 
-            shop_registration = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(Shop_registration.class);
+        token_update = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(Token_update.class);
+        last_logintime = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(Last_logintime.class);
 
-            customer_registration = new ViewModelProvider(this).get(Customer_registration.class);
+        editText1 = (EditText) findViewById(R.id.editText1ID);
+        editText2 = (EditText) findViewById(R.id.editText2ID);
+        editText3 = (EditText) findViewById(R.id.editText3ID);
+        editText4 = (EditText) findViewById(R.id.editText4ID);
+        editText5 = (EditText) findViewById(R.id.editText5ID);
 
-            token_update = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(Token_update.class);
-            last_logintime = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(Last_logintime.class);
+        backButton = (ImageView) findViewById(R.id.backButtonID);
 
-            editText1 = (EditText) findViewById(R.id.editText1ID);
-            editText2 = (EditText) findViewById(R.id.editText2ID);
-            editText3 = (EditText) findViewById(R.id.editText3ID);
-            editText4 = (EditText) findViewById(R.id.editText4ID);
-            editText5 = (EditText) findViewById(R.id.editText5ID);
+        verifyButton = (AppCompatButton) findViewById(R.id.verifyButtonID);
 
-            backButton = (ImageView) findViewById(R.id.backButtonID);
+        editText1.addTextChangedListener(this);
+        editText2.addTextChangedListener(this);
+        editText3.addTextChangedListener(this);
+        editText4.addTextChangedListener(this);
+        editText5.addTextChangedListener(this);
+        //requestsmspermission();
 
-            verifyButton = (AppCompatButton) findViewById(R.id.verifyButtonID);
+        new OTP_Receiver().setEditText(editText1, editText2, editText3, editText4, editText5);
+        loader = new Dialog(Otp_validation_activity.this);
+        loader.setContentView(R.layout.loader);
+        loader.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        loader.setCancelable(false);
 
-            editText1.addTextChangedListener(this);
-            editText2.addTextChangedListener(this);
-            editText3.addTextChangedListener(this);
-            editText4.addTextChangedListener(this);
-            editText5.addTextChangedListener(this);
-            //requestsmspermission();
+        Toast.makeText(this, otp, Toast.LENGTH_SHORT).show();
 
-            new OTP_Receiver().setEditText(editText1, editText2, editText3, editText4, editText5);
-            loader = new Dialog(Otp_validation_activity.this);
-            loader.setContentView(R.layout.loader);
-            loader.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-            loader.setCancelable(false);
+        deviceToken = sessionManagement.getDeviceToken();
+        Log.d("dataxx", "otpcheckMultipleDeviceLogIN: " + password + " " + deviceToken);
 
-            Toast.makeText(this, otp, Toast.LENGTH_SHORT).show();
+        verifyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String s1 = editText1.getText().toString();
+                String s2 = editText2.getText().toString();
+                String s3 = editText3.getText().toString();
+                String s4 = editText4.getText().toString();
+                String s5 = editText5.getText().toString();
 
-            OneSignal.initWithContext(this);
-            OneSignal.setAppId(Constants.ONESIGNAL_APP_ID);
-            deviceToken = OneSignal.getDeviceState().getUserId();
-            Log.d("dataxx", "checkMultipleDeviceLogIN: "+password+" "+deviceToken);
+                if (TextUtils.isEmpty(s1) || TextUtils.isEmpty(s2) || TextUtils.isEmpty(s3) || TextUtils.isEmpty(s4) || TextUtils.isEmpty(s5)) {
+                    Toast.makeText(getBaseContext(), "Field empty", Toast.LENGTH_SHORT).show();
+                } else {
+                    otpcode = s1 + s2 + s3 + s4 + s5;
 
-            verifyButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    String s1 = editText1.getText().toString();
-                    String s2 = editText2.getText().toString();
-                    String s3 = editText3.getText().toString();
-                    String s4 = editText4.getText().toString();
-                    String s5 = editText5.getText().toString();
+                    if (otp.equals(otpcode)) {
+                        loader.show();
+                        if (type.equals("shopkeeper")) {
+                            if (image.equals("login_varification")) {
 
-                    if (TextUtils.isEmpty(s1) || TextUtils.isEmpty(s2) || TextUtils.isEmpty(s3) || TextUtils.isEmpty(s4) || TextUtils.isEmpty(s5)) {
-                        Toast.makeText(getBaseContext(), "Field empty", Toast.LENGTH_SHORT).show();
-                    } else {
-                        otpcode = s1 + s2 + s3 + s4 + s5;
-
-                        if (otp.equals(otpcode)) {
-                            loader.show();
-                            if (type.equals("shopkeeper")) {
-                                if (image.equals("login_varification")) {
-
-                                    update_token("shop");
-                                } else {
-                                    shop_registration();
-                                }
-                            } else if (type.equals("customer")) {
-                                if (image.equals("login_varification")) {
-                                    update_token("customer");
-                                } else {
-                                    customer_registration();
-                                }
+                                update_token("shop");
+                            } else {
+                                shop_registration();
                             }
-
-                        } else {
-                            Toast.makeText(Otp_validation_activity.this, "Invalid OTP Code", Toast.LENGTH_SHORT).show();
+                        } else if (type.equals("customer")) {
+                            if (image.equals("login_varification")) {
+                                update_token("customer");
+                            } else {
+                                customer_registration();
+                            }
                         }
+
+                    } else {
+                        Toast.makeText(Otp_validation_activity.this, "Invalid OTP Code", Toast.LENGTH_SHORT).show();
                     }
                 }
-            });
+            }
+        });
 
-            backButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    back_function();
-                }
-            });
-        }
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                back_function();
+            }
+        });
+
     }
 
     public void requestsmspermission() {
@@ -257,13 +235,13 @@ public class Otp_validation_activity extends AppCompatActivity implements TextWa
                     if (token_update_response.getMessage().equals("Update successfully")) {
                         message = token_update_response.getMessage();
                         User user = new User(password, type, phone);
-                        SessionManagement sessionManagement = new SessionManagement(Otp_validation_activity.this);
+
                         sessionManagement.saveSession(user);
                         Intent intent = new Intent(Otp_validation_activity.this, Shop_main_activity.class);
                         startActivity(intent);
                     } else {
                         Toast.makeText(Otp_validation_activity.this, "Something error.Try again", Toast.LENGTH_SHORT);
-                        SessionManagement sessionManagement = new SessionManagement(Otp_validation_activity.this);
+
                         sessionManagement.removeSession();
                         Intent intent = new Intent(Otp_validation_activity.this, LoginActivity.class);
                         startActivity(intent);
@@ -280,7 +258,7 @@ public class Otp_validation_activity extends AppCompatActivity implements TextWa
                     if (token_update_response.getMessage().equals("Update successfully")) {
 
                         User user = new User(password, type, phone);
-                        SessionManagement sessionManagement = new SessionManagement(Otp_validation_activity.this);
+
                         sessionManagement.saveSession(user);
                         Intent intent = new Intent(Otp_validation_activity.this, Customer_main_activity.class);
                         startActivity(intent);
@@ -288,7 +266,6 @@ public class Otp_validation_activity extends AppCompatActivity implements TextWa
 
                     } else {
 
-                        SessionManagement sessionManagement = new SessionManagement(Otp_validation_activity.this);
                         sessionManagement.removeSession();
                         Intent intent = new Intent(Otp_validation_activity.this, LoginActivity.class);
                         startActivity(intent);

@@ -65,12 +65,13 @@ public class Customer_main_activity extends AppCompatActivity implements Navigat
     AdManagerAdView mAdManagerAdView;
 
     int userId;
+    SessionManagement sessionManagement;
 
     @SuppressLint("MissingPermission")
     protected void onStart() {
         // isInForeground = false;
         super.onStart();
-        SessionManagement sessionManagement = new SessionManagement(Customer_main_activity.this);
+
          userId = sessionManagement.getSession();
 
         SessionManagment_registration sessionManagment_registration = new SessionManagment_registration(this);
@@ -136,10 +137,8 @@ public class Customer_main_activity extends AppCompatActivity implements Navigat
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        OneSignal.initWithContext(this);
-        OneSignal.setAppId(Constants.ONESIGNAL_APP_ID);
-        deviceToken = OneSignal.getDeviceState().getUserId();
-        Log.d("dataxx", "checkMultipleDeviceLogIN: "+deviceToken);
+
+
 
         user_deviceToken = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(User_deviceToken.class);
 
@@ -152,6 +151,11 @@ public class Customer_main_activity extends AppCompatActivity implements Navigat
         }
         setContentView(R.layout.customer_main_activity);
         checkConnection();
+
+        sessionManagement = new SessionManagement(Customer_main_activity.this);
+        deviceToken = sessionManagement.getDeviceToken();
+
+        Log.d("dataxx", "checkMultipleDeviceLogIN: "+deviceToken);
 
         alertCustom = new Dialog(Customer_main_activity.this);
         alertCustom.setContentView(R.layout.loader);

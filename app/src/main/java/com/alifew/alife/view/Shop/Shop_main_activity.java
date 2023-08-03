@@ -92,7 +92,7 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
     int internet_permission = 1;
     int access_network_permission = 1;
     int call_phone_permission = 1;
-    Dialog  statusdialog;
+    Dialog statusdialog;
     User_instruction userInstruction;
     User_deviceToken user_deviceToken;
     private List<user_instruction_response> instructionList;
@@ -105,22 +105,23 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
     int user;
 
     private FirebaseAnalytics mFirebaseAnalytics;
+    SessionManagement sessionManagement;
 
     @SuppressLint("MissingPermission")
     protected void onStart() {
 
         super.onStart();
 
-        SessionManagement session = new SessionManagement(Shop_main_activity.this);
-        user = session.getSession();
+
+        user = sessionManagement.getSession();
 
 
-        if (user == -1) {
-            Intent intent = new Intent(Shop_main_activity.this, LoginActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-            startActivity(intent);
-
-        }
+//        if (user == -1) {
+//            Intent intent = new Intent(Shop_main_activity.this, LoginActivity.class);
+//            intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+//            startActivity(intent);
+//
+//        }
 
 
         checkMultipleDeviceLogIN();
@@ -323,9 +324,9 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
         super.onCreate(savedInstanceState);
         ActivityCompat.requestPermissions(Shop_main_activity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.INTERNET, Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.CALL_PHONE, Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.READ_PHONE_STATE}, 1);
         //instruction_func();
+        sessionManagement = new SessionManagement(this);
 
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-
 
 
         statusdialog = new Dialog(Shop_main_activity.this);
@@ -338,21 +339,9 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
         version_name = BuildConfig.VERSION_NAME;
 
 
-        OneSignal.initWithContext(this);
-        OneSignal.setAppId(Constants.ONESIGNAL_APP_ID);
-        deviceToken = OneSignal.getDeviceState().getUserId();
+        deviceToken = sessionManagement.getDeviceToken();
         Log.d("dataxx", "checkMultipleDeviceLogIN: " + deviceToken);
-//
-//        Bundle bundle = new Bundle();
-//        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, deviceToken);
-//        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, name);
-//        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
 
-//        FirebaseCrashlytics crashlytics = FirebaseCrashlytics.getInstance();
-//
-//        crashlytics.setCustomKey("current_level", 3);K
-//        crashlytics.setCustomKey("last_UI_action", "logged_in");
-        // Log.d("version: ",version_code);
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, new Shop_homescreen_fragment()).commit();
@@ -361,7 +350,7 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
         setContentView(R.layout.shop_main_activity);
         checkConnection();
 
-        SessionManagement sessionManagement = new SessionManagement(Shop_main_activity.this);
+
         int userId = sessionManagement.getSession();
         shop_id = String.valueOf(userId);
         type = sessionManagement.getType();
@@ -425,7 +414,7 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
 
                 SessionManagement sessionManagement = new SessionManagement(Shop_main_activity.this);
                 sessionManagement.removeSession();
-                startActivity(new Intent(Shop_main_activity.this, LoginActivity.class));
+                finish();
 
                 break;
             case R.id.categoryListID:

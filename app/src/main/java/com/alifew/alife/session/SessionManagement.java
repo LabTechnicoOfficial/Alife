@@ -13,6 +13,8 @@ public class SessionManagement {
     String SESSION_TYPE = "session_type";
     String SESSION_PHONE = "session_phone";
 
+    String SESSION_TOKEN = "alife_token";
+
 
     String SESSION_SHOP_NAME = "session_shop_name";
 
@@ -56,5 +58,13 @@ public class SessionManagement {
 
     public String getSaveShopName(){
         return sharedpreferences.getString(SESSION_SHOP_NAME, "");
+    }
+
+    public void saveDeviceToken(String token){
+        editor.putString(SESSION_TOKEN, token).commit();
+    }
+
+    public String getDeviceToken(){
+        return sharedpreferences.getString(SESSION_TOKEN, "");
     }
 }

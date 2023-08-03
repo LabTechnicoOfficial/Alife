@@ -13,6 +13,8 @@
         android:name="android.hardware.camera.flash"
         android:required="false" />
 
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -56,6 +58,11 @@
             android:exported="false" />
         <activity
             android:name=".view.LoginActivity"
+            android:exported="false">
+
+        </activity>
+        <activity
+            android:name=".view.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -63,9 +70,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".view.SplashActivity"
-            android:exported="false" />
         <activity
             android:name=".view.ForgotPassword.Forgot_password_activity"
             android:exported="false" />
@@ -128,9 +132,10 @@
             android:resource="@array/preloaded_fonts" />
         <meta-data
             android:name="com.google.android.gms.vision.DEPENDENCIES"
-            android:value="barcode" /> <!-- <meta-data -->
-        <!-- android:name="com.google.android.gms.version" -->
-        <!-- android:value="@integer/google_play_services_version" /> -->
+            android:value="barcode" />
+         <meta-data
+         android:name="com.google.android.gms.version"
+         android:value="@integer/google_play_services_version" />
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.alifew.alife.provider"

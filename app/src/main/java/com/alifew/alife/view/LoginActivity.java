@@ -68,6 +68,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     String dateCurrent, myFormat = "yyyy-MM-dd";
 
     String deviceToken;
+    SessionManagement sessionManagement;
+
 
     @Override
     protected void onStart() {
@@ -80,25 +82,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         ActivityCompat.requestPermissions(LoginActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.INTERNET, Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.READ_PHONE_STATE}, 1);
         //  AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        SessionManagement sessionManagement = new SessionManagement(LoginActivity.this);
-        int userId = sessionManagement.getSession();
-        String type = sessionManagement.getType();
-        String phone = sessionManagement.getPhone();
-        if (userId != -1) {
-            if (type.equals("shopkeeper")) {
-                Intent intent = new Intent(LoginActivity.this, Shop_main_activity.class);
-                startActivity(intent);
-            } else if (type.equals("customer")) {
-                Intent intent = new Intent(LoginActivity.this, Customer_main_activity.class);
-                startActivity(intent);
-            } else if (type.equals("admin")) {
-                Intent intent = new Intent(LoginActivity.this, Operator_main_activity.class);
-                startActivity(intent);
-            }
 
-        }
 
         setContentView(R.layout.activity_login);
+
+        sessionManagement = new SessionManagement(LoginActivity.this);
 
         signInButton = findViewById(R.id.signInButton);
         registerClick = findViewById(R.id.registerID);
@@ -200,7 +188,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             public void onChanged(shop_admin_login_response shop_admin_login_response) {
                 if (shop_admin_login_response.getMessage().equals("successfull")) {
                     User user = new User(shop_admin_login_response.getId(), type, phone);
-                    SessionManagement sessionManagement = new SessionManagement(LoginActivity.this);
+
                     sessionManagement.saveSession(user);
                     Intent intent = new Intent(LoginActivity.this, Operator_main_activity.class);
                     startActivity(intent);
@@ -224,24 +212,25 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             @Override
             public void onChanged(Shop_login_response shop_login_response) {
-
-
+                //dialog.dismiss();
+                sessionManagement.saveDeviceToken(deviceToken);
                 String id = shop_login_response.getId();
                 Log.d("dataxx", "onChanged: " + id);
-                if (id.equals("35")) {
+                if (id.equals("36")) {
                     token_update.shop_token_update(id, deviceToken).observe(LoginActivity.this, new Observer<token_update_response>() {
                         @Override
                         public void onChanged(token_update_response token_update_response) {
                             if (token_update_response.getMessage().equals("Update successfully")) {
-                               // message = token_update_response.getMessage();
+
+                                // message = token_update_response.getMessage();
                                 User user = new User(id, type, phone);
-                                SessionManagement sessionManagement = new SessionManagement(LoginActivity.this);
+
                                 sessionManagement.saveSession(user);
                                 Intent intent = new Intent(getApplicationContext(), Shop_main_activity.class);
                                 startActivity(intent);
                             } else {
                                 Toast.makeText(getApplicationContext(), "Something error.Try again", Toast.LENGTH_SHORT).show();
-                                SessionManagement sessionManagement = new SessionManagement(LoginActivity.this);
+
                                 sessionManagement.removeSession();
                                 Intent intent = new Intent(LoginActivity.this, LoginActivity.class);
                                 startActivity(intent);
@@ -287,9 +276,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             @Override
             public void onChanged(Shop_login_response shop_login_response) {
-
+                //dialog.dismiss();
                 String id = shop_login_response.getId();
-
+                sessionManagement.saveDeviceToken(deviceToken);
                 if (!id.equals("-1") || id != null) {
 
                     Random r = new Random();
