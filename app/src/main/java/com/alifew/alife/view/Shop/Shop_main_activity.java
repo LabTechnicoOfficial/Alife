@@ -340,7 +340,7 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
 
 
         deviceToken = sessionManagement.getDeviceToken();
-        Log.d("dataxx", "checkMultipleDeviceLogIN: " + deviceToken);
+        Log.d("dataxx", "mac: " + deviceToken);
 
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         if (savedInstanceState == null) {
@@ -417,6 +417,7 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
 
                 SessionManagement sessionManagement = new SessionManagement(Shop_main_activity.this);
                 sessionManagement.removeSession();
+                startActivity(new Intent(this, LoginActivity.class));
                 finish();
 
                 break;

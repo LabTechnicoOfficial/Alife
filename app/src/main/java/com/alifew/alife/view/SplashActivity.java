@@ -19,6 +19,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -37,6 +38,7 @@ import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 
 import java.text.DecimalFormat;
 import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -47,37 +49,34 @@ public class SplashActivity extends AppCompatActivity implements LocationListene
     private final int SPLASH_DISPLAY_LENGTH = 1500;
     SessionManagement sessionManagement;
     private static final int REQUEST_LOCATION = 12;
-    String latitude, longitude;
+    TextView locationText;
+
+    int userId;
+    String type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-//
-//        ActivityCompat.requestPermissions(this,
-//                new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
 
         initView();
 
 
-        //checkSession();
-
         checkPermission();
-
 
     }
 
 
     private void initView() {
         sessionManagement = new SessionManagement(SplashActivity.this);
+        locationText = findViewById(R.id.locationText);
+
+        userId = sessionManagement.getSession();
+        type = sessionManagement.getType();
     }
 
 
     private void checkSession() {
-
-        int userId = sessionManagement.getSession();
-        String type = sessionManagement.getType();
-        String phone = sessionManagement.getPhone();
 
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -105,56 +104,11 @@ public class SplashActivity extends AppCompatActivity implements LocationListene
         }, SPLASH_DISPLAY_LENGTH);
     }
 
-  /*  private void checkPermission() {
-        Log.d("dataxx", "checkPermission: ");
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            OnGPS();
-        } else {
-            getLocation();
-        }
-    }
-
-    private void OnGPS() {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Enable GPS").setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-            }
-        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-        final AlertDialog alertDialog = builder.create();
-        alertDialog.show();
-    }
-
-    private void getLocation() {
-        if (ActivityCompat.checkSelfPermission(
-                SplashActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                SplashActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
-        } else {
-            Location locationGPS = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-            if (locationGPS != null) {
-                double lat = locationGPS.getLatitude();
-                double longi = locationGPS.getLongitude();
-                latitude = String.valueOf(lat);
-                longitude = String.valueOf(longi);
-
-                Toast.makeText(this, latitude + " " + longitude, Toast.LENGTH_SHORT).show();
-
-                checkSession();
-            } else {
-                Toast.makeText(this, "Unable to find location.", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }*/
-
     private void checkPermission() {
+
+
+        locationText.setText("🚩 Fetching location");
+
         Dexter.withContext(this)
                 .withPermissions(Arrays.asList(
                         android.Manifest.permission.ACCESS_FINE_LOCATION,
@@ -275,10 +229,17 @@ public class SplashActivity extends AppCompatActivity implements LocationListene
     private void setLocation() {
 
 
-        if(AddressLocation != null){
+        if (AddressLocation != null) {
             String latitude = String.valueOf(new DecimalFormat("##.#####").format(AddressLocation.getLatitude()));
             String longitude = String.valueOf(new DecimalFormat("##.#####").format(AddressLocation.getLongitude()));
-            Log.d("locationxx", " lat: " + String.valueOf(AddressLocation.getLatitude()) + " lang " + String.valueOf(AddressLocation.getLongitude()));
+
+            LinkedHashMap<String, Object> body = new LinkedHashMap<>();
+            body.put("latitude", String.valueOf(AddressLocation.getLatitude()));
+            body.put("longitude", String.valueOf(AddressLocation.getLongitude()));
+
+            Log.d("dataxx", body.toString());
+
+            locationText.setText("Let's Go");
 
             sessionManagement.saveLocation(latitude, longitude);
             checkSession();
