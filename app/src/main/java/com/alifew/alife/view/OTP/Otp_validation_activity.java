@@ -70,26 +70,7 @@ public class Otp_validation_activity extends AppCompatActivity implements TextWa
     @Override
     protected void onStart() {
         super.onStart();
-//        SessionManagement sessionManagement = new SessionManagement(Otp_validation_activity.this);
-//        int userId = sessionManagement.getSession();
-//        String Type = sessionManagement.getType();
-//        phone = sessionManagement.getPhone();
-//        if (userId != -1) {
-//            if (Type.equals("shopkeeper")) {
-//                Intent intent = new Intent(Otp_validation_activity.this, Shop_main_activity.class);
-//                // intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-//                startActivity(intent);
-//            } else if (Type.equals("customer")) {
-//                Intent intent = new Intent(Otp_validation_activity.this, Customer_main_activity.class);
-//                //intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-//                startActivity(intent);
-//            } else if (Type.equals("admin")) {
-//                Intent intent = new Intent(Otp_validation_activity.this, Operator_main_activity.class);
-//                //intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-//                startActivity(intent);
-//            }
-//
-//        }
+
 
     }
 
