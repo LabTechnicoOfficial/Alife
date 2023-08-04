@@ -237,7 +237,7 @@ public class SplashActivity extends AppCompatActivity implements LocationListene
             body.put("latitude", String.valueOf(AddressLocation.getLatitude()));
             body.put("longitude", String.valueOf(AddressLocation.getLongitude()));
 
-            Log.d("dataxx", body.toString());
+          //  Log.d("dataxx", body.toString());
 
             locationText.setText("Let's Go");
 

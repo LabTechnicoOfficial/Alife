@@ -340,7 +340,7 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
 
 
         deviceToken = sessionManagement.getDeviceToken();
-        Log.d("dataxx", "mac: " + deviceToken);
+        //Log.d("dataxx", "mac: " + deviceToken);
 
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         if (savedInstanceState == null) {
@@ -371,7 +371,7 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
         alertCustom = new Dialog(Shop_main_activity.this);
         alertCustom.setContentView(R.layout.loader);
 
-        Toast.makeText(this, sessionManagement.getLatitude() + " " + sessionManagement.getLongitude(), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, sessionManagement.getLatitude() + " " + sessionManagement.getLongitude(), Toast.LENGTH_SHORT).show();
 
 
 

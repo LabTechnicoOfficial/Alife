@@ -155,7 +155,7 @@ public class Customer_main_activity extends AppCompatActivity implements Navigat
         sessionManagement = new SessionManagement(Customer_main_activity.this);
         deviceToken = sessionManagement.getDeviceToken();
 
-        Log.d("dataxx", "checkMultipleDeviceLogIN: "+deviceToken);
+     //   Log.d("dataxx", "checkMultipleDeviceLogIN: "+deviceToken);
 
         alertCustom = new Dialog(Customer_main_activity.this);
         alertCustom.setContentView(R.layout.loader);

@@ -17,7 +17,7 @@ android {
         minSdkVersion 21
         //noinspection ExpiredTargetSdkVersion
         targetSdkVersion 31
-        versionCode 36
+        versionCode 37
         versionName "1.01"
 
 
