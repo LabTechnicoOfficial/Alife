@@ -134,4 +134,7 @@ dependencies {
     implementation 'io.reactivex.rxjava3:rxandroid:3.0.2'
 
 
+    implementation 'com.google.android.gms:play-services-location:18.0.0'
+
+
 }

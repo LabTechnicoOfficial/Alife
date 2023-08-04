@@ -17,6 +17,8 @@ public class SessionManagement {
 
 
     String SESSION_SHOP_NAME = "session_shop_name";
+    String SESSION_LATITUDE = "alife_location";
+    String SESSION_LONGITUDE = "alife_longitude";
 
     public SessionManagement(Context context) {
         sharedpreferences = context.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
@@ -66,5 +68,18 @@ public class SessionManagement {
 
     public String getDeviceToken(){
         return sharedpreferences.getString(SESSION_TOKEN, "");
+    }
+
+    public void saveLocation(String latitude, String longitude){
+        editor.putString(SESSION_LATITUDE, latitude).commit();
+        editor.putString(SESSION_LONGITUDE, longitude).commit();
+    }
+
+    public String getLatitude(){
+        return sharedpreferences.getString(SESSION_LATITUDE, "");
+    }
+
+    public String getLongitude(){
+        return sharedpreferences.getString(SESSION_LONGITUDE, "");
     }
 }

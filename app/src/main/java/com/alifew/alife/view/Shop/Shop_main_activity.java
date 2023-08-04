@@ -371,6 +371,9 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
         alertCustom = new Dialog(Shop_main_activity.this);
         alertCustom.setContentView(R.layout.loader);
 
+        Toast.makeText(this, sessionManagement.getLatitude() + " " + sessionManagement.getLongitude(), Toast.LENGTH_SHORT).show();
+
+
 
         shop_details = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(Shop_details.class);
         shop_details.getdata(String.valueOf(userId)).observe(Shop_main_activity.this, new Observer<Shop_response>() {
