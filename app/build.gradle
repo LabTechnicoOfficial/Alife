@@ -17,7 +17,7 @@ android {
         minSdkVersion 21
         //noinspection ExpiredTargetSdkVersion
         targetSdkVersion 31
-        versionCode 37
+        versionCode 39
         versionName "1.01"
 
 
@@ -39,6 +39,10 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    configurations.all {
+        exclude group: 'com.google.android.gms', module: 'play-services-safetynet'
     }
 }
 
