@@ -21,8 +21,11 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.alifew.alife.BuildConfig;
@@ -32,6 +35,7 @@ import com.alifew.alife.model.Customer_response;
 import com.alifew.alife.model.getUser_deviceToken_response;
 import com.alifew.alife.model.get_version_response;
 import com.alifew.alife.view.LoginActivity;
+import com.alifew.alife.view.Shop.Shop_main_activity;
 import com.alifew.alife.viewmodel.Customer_details;
 import com.alifew.alife.viewmodel.Get_version;
 import com.alifew.alife.session.SessionManagement;
@@ -210,9 +214,32 @@ public class Customer_main_activity extends AppCompatActivity implements Navigat
             @Override
             public void onChanged(getUser_deviceToken_response getUser_deviceToken_response) {
                 if (!getUser_deviceToken_response.getToken().equals(deviceToken)) {
-                    SessionManagement sessionManagement = new SessionManagement(Customer_main_activity.this);
-                    sessionManagement.removeSession();
-                    startActivity(new Intent(Customer_main_activity.this, LoginActivity.class));
+
+                    Dialog sessionOutAlert = new Dialog(Customer_main_activity.this);
+                    sessionOutAlert.setContentView(R.layout.session_out_alert);
+                    sessionOutAlert.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    sessionOutAlert.setCancelable(false);
+                    sessionOutAlert.show();
+
+                    Window window = sessionOutAlert.getWindow();
+                    WindowManager.LayoutParams wlp = window.getAttributes();
+                    wlp.gravity = Gravity.CENTER;
+                    wlp.width = android.view.WindowManager.LayoutParams.MATCH_PARENT;
+                    wlp.height = android.view.WindowManager.LayoutParams.WRAP_CONTENT;
+                    window.setAttributes(wlp);
+
+                    TextView okButton = sessionOutAlert.findViewById(R.id.okButton);
+
+                    okButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            //Toast.makeText(Shop_main_activity.this, "ok", Toast.LENGTH_SHORT).show();
+                            sessionManagement = new SessionManagement(Customer_main_activity.this);
+                            sessionManagement.removeSession();
+                            startActivity(new Intent(Customer_main_activity.this, LoginActivity.class));
+                            finish();
+                        }
+                    });
 
                 }
             }

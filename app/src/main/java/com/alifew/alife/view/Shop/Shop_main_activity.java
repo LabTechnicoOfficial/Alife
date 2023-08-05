@@ -199,20 +199,20 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
                 if (!getUser_deviceToken_response.getToken().equals(deviceToken)) {
 
 
-                    Dialog sessiounOutAlert = new Dialog(Shop_main_activity.this);
-                    sessiounOutAlert.setContentView(R.layout.session_out_alert);
-                    sessiounOutAlert.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                    sessiounOutAlert.setCancelable(false);
-                    sessiounOutAlert.show();
+                    Dialog sessionOutAlert = new Dialog(Shop_main_activity.this);
+                    sessionOutAlert.setContentView(R.layout.session_out_alert);
+                    sessionOutAlert.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    sessionOutAlert.setCancelable(false);
+                    sessionOutAlert.show();
 
-                    Window window = sessiounOutAlert.getWindow();
+                    Window window = sessionOutAlert.getWindow();
                     WindowManager.LayoutParams wlp = window.getAttributes();
                     wlp.gravity = Gravity.CENTER;
                     wlp.width = android.view.WindowManager.LayoutParams.MATCH_PARENT;
                     wlp.height = android.view.WindowManager.LayoutParams.WRAP_CONTENT;
                     window.setAttributes(wlp);
 
-                    TextView okButton = sessiounOutAlert.findViewById(R.id.okButton);
+                    TextView okButton = sessionOutAlert.findViewById(R.id.okButton);
 
                     okButton.setOnClickListener(new View.OnClickListener() {
                         @Override
