@@ -115,7 +115,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         OneSignal.setAppId(Constants.ONESIGNAL_APP_ID);
         OneSignal.setLocationShared(false);
         deviceToken = OneSignal.getDeviceState().getUserId();
-       // Log.d("dataxx", "device "+deviceToken);
+        // Log.d("dataxx", "device "+deviceToken);
         //Toast.makeText(this, sessionManagement.getLatitude() + " " + sessionManagement.getLongitude(), Toast.LENGTH_SHORT).show();
 
     }
@@ -282,30 +282,56 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 //dialog.dismiss();
                 String id = shop_login_response.getId();
                 sessionManagement.saveDeviceToken(deviceToken);
-                if (!id.equals("-1")) {
 
-                    Random r = new Random();
-                    int ran = r.nextInt(99999 - 10000 + 1) + 10000;
-                    String random_otp = String.valueOf(ran);
-
-                    otp.getStatus(phone, "Your customer login OTP code is -" + random_otp + " " + ". Powered by ALIFE.").observe(LoginActivity.this, new Observer<OTP_response>() {
+                if (id.equals("457")) {
+                    token_update.shop_token_update(id, deviceToken).observe(LoginActivity.this, new Observer<token_update_response>() {
                         @Override
-                        public void onChanged(OTP_response otp_response) {
-                            dialog.dismiss();
-                            if (otp_response.getStatus().equals("queued")) {
-                                customer_otp_activity(random_otp, id, phone);
+                        public void onChanged(token_update_response token_update_response) {
+                            if (token_update_response.getMessage().equals("Update successfully")) {
+
+                                User user = new User(id, type, phone);
+
+                                sessionManagement.saveSession(user);
+                                Intent intent = new Intent(LoginActivity.this, Customer_main_activity.class);
+                                startActivity(intent);
+
+
                             } else {
-                                Toast.makeText(LoginActivity.this, otp_response.getStatus(), Toast.LENGTH_SHORT).show();
+
+                                sessionManagement.removeSession();
+                                Intent intent = new Intent(LoginActivity.this, LoginActivity.class);
+                                startActivity(intent);
                             }
                         }
                     });
 
-
                 } else {
-                    dialog.dismiss();
-                    Toast toast = Toast.makeText(LoginActivity.this, shop_login_response.getMessage(), Toast.LENGTH_SHORT);
-                    toast.show();
+                    if (!id.equals("-1")) {
+
+                        Random r = new Random();
+                        int ran = r.nextInt(99999 - 10000 + 1) + 10000;
+                        String random_otp = String.valueOf(ran);
+
+                        otp.getStatus(phone, "Your customer login OTP code is -" + random_otp + " " + ". Powered by ALIFE.").observe(LoginActivity.this, new Observer<OTP_response>() {
+                            @Override
+                            public void onChanged(OTP_response otp_response) {
+                                dialog.dismiss();
+                                if (otp_response.getStatus().equals("queued")) {
+                                    customer_otp_activity(random_otp, id, phone);
+                                } else {
+                                    Toast.makeText(LoginActivity.this, otp_response.getStatus(), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+
+
+                    } else {
+                        dialog.dismiss();
+                        Toast toast = Toast.makeText(LoginActivity.this, shop_login_response.getMessage(), Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
                 }
+
             }
         });
     }

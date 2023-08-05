@@ -57,6 +57,7 @@ public class Customer_homescreen_fragment extends Fragment implements Instructio
     private AdManagerAdView mAdManagerAdView;
 
     private InterstitialAd InterstitialAd;
+
     @SuppressLint("MissingPermission")
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -71,9 +72,8 @@ public class Customer_homescreen_fragment extends Fragment implements Instructio
 
 
         main();
-       // instruction_func();
+        instruction_func();
     }
-
 
 
     @Override
@@ -91,7 +91,7 @@ public class Customer_homescreen_fragment extends Fragment implements Instructio
 
         fragmentManager = getFragmentManager();
         //banner add
-        mAdManagerAdView =view.findViewById(R.id.adManagerAdView);
+        mAdManagerAdView = view.findViewById(R.id.adManagerAdView);
 
         SessionManagement sessionManagement = new SessionManagement(getActivity());
         int userId = sessionManagement.getSession();
@@ -251,6 +251,7 @@ public class Customer_homescreen_fragment extends Fragment implements Instructio
                                     }
                                 });
                     }
+
                     @Override
                     public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
                         // Handle the error

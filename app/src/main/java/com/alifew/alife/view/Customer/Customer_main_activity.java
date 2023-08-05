@@ -3,6 +3,7 @@ package com.alifew.alife.view.Customer;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -11,8 +12,10 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -45,6 +48,16 @@ import com.alifew.alife.viewmodel.User_deviceToken;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.ads.admanager.AdManagerAdView;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.play.core.appupdate.AppUpdateInfo;
+import com.google.android.play.core.appupdate.AppUpdateManager;
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
+import com.google.android.play.core.install.InstallState;
+import com.google.android.play.core.install.InstallStateUpdatedListener;
+import com.google.android.play.core.install.model.AppUpdateType;
+import com.google.android.play.core.install.model.InstallStatus;
+import com.google.android.play.core.install.model.UpdateAvailability;
+import com.google.android.play.core.tasks.Task;
 import com.onesignal.OneSignal;
 import com.squareup.picasso.Picasso;
 
@@ -77,16 +90,9 @@ public class Customer_main_activity extends AppCompatActivity implements Navigat
         // isInForeground = false;
         super.onStart();
 
-         userId = sessionManagement.getSession();
+        userId = sessionManagement.getSession();
 
-        SessionManagment_registration sessionManagment_registration = new SessionManagment_registration(this);
-        if (userId == -1) {
-            Intent intent = new Intent(Customer_main_activity.this, LoginActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-            startActivity(intent);
-
-
-        }
+        checkForAppUpdate();
 
         //checkVersion();
     }
@@ -143,10 +149,7 @@ public class Customer_main_activity extends AppCompatActivity implements Navigat
         super.onCreate(savedInstanceState);
 
 
-
-
         user_deviceToken = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(User_deviceToken.class);
-
 
 
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
@@ -160,7 +163,7 @@ public class Customer_main_activity extends AppCompatActivity implements Navigat
         sessionManagement = new SessionManagement(Customer_main_activity.this);
         deviceToken = sessionManagement.getDeviceToken();
 
-     //   Log.d("dataxx", "checkMultipleDeviceLogIN: "+deviceToken);
+        //   Log.d("dataxx", "checkMultipleDeviceLogIN: "+deviceToken);
 
         alertCustom = new Dialog(Customer_main_activity.this);
         alertCustom.setContentView(R.layout.loader);
@@ -357,6 +360,194 @@ public class Customer_main_activity extends AppCompatActivity implements Navigat
         final Configuration override = new Configuration(newBase.getResources().getConfiguration());
         override.fontScale = .9f;
         applyOverrideConfiguration(override);
+    }
+
+    private static final int REQ_CODE_VERSION_UPDATE = 530;
+    private AppUpdateManager appUpdateManager;
+    private InstallStateUpdatedListener installStateUpdatedListener;
+
+    @Override
+    public void onActivityResult(int requestCode, final int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+
+        switch (requestCode) {
+
+            case REQ_CODE_VERSION_UPDATE:
+                if (resultCode != RESULT_OK) { //RESULT_OK / RESULT_CANCELED / RESULT_IN_APP_UPDATE_FAILED
+                    // Log.d("Update flow failed! Result code: " + resultCode);
+                    // If the update is cancelled or fails,
+                    // you can request to start the update again.
+                    unregisterInstallStateUpdListener();
+                }
+
+                break;
+
+        }
+    }
+
+
+    private void checkForAppUpdate() {
+        // Creates instance of the manager.
+        appUpdateManager = AppUpdateManagerFactory.create(getApplicationContext());
+
+        // Returns an intent object that you use to check for an update.
+        Task<AppUpdateInfo> appUpdateInfoTask = appUpdateManager.getAppUpdateInfo();
+
+        // Create a listener to track request state updates.
+        installStateUpdatedListener = new InstallStateUpdatedListener() {
+            @Override
+            public void onStateUpdate(InstallState installState) {
+                // Show module progress, log state, or install the update.
+                if (installState.installStatus() == InstallStatus.DOWNLOADED)
+                    // After the update is downloaded, show a notification
+                    // and request user confirmation to restart the app.
+                    popupSnackbarForCompleteUpdateAndUnregister();
+            }
+        };
+
+        // Checks that the platform will allow the specified type of update.
+        appUpdateInfoTask.addOnSuccessListener(appUpdateInfo -> {
+            if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE) {
+                // Request the update.
+                if (appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)) {
+
+                    // Before starting an update, register a listener for updates.
+                    appUpdateManager.registerListener(installStateUpdatedListener);
+                    // Start an update.
+                    //startAppUpdateFlexible(appUpdateInfo);
+
+                    force_app_update(appUpdateInfo);
+                } else if (appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
+                    // Start an update.
+                    //startAppUpdateImmediate(appUpdateInfo);
+
+                    force_app_update(appUpdateInfo);
+                }
+            }
+        });
+    }
+
+    private void startAppUpdateImmediate(AppUpdateInfo appUpdateInfo) {
+        try {
+            appUpdateManager.startUpdateFlowForResult(
+                    appUpdateInfo,
+                    AppUpdateType.IMMEDIATE,
+                    // The current activity making the update request.
+                    this,
+                    // Include a request code to later monitor this update request.
+                    REQ_CODE_VERSION_UPDATE);
+        } catch (IntentSender.SendIntentException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void startAppUpdateFlexible(AppUpdateInfo appUpdateInfo) {
+        try {
+            appUpdateManager.startUpdateFlowForResult(
+                    appUpdateInfo,
+                    AppUpdateType.FLEXIBLE,
+                    // The current activity making the update request.
+                    this,
+                    // Include a request code to later monitor this update request.
+                    REQ_CODE_VERSION_UPDATE);
+        } catch (IntentSender.SendIntentException e) {
+            e.printStackTrace();
+            unregisterInstallStateUpdListener();
+        }
+    }
+
+    /**
+     * Displays the snackbar notification and call to action.
+     * Needed only for Flexible app update
+     */
+    private void popupSnackbarForCompleteUpdateAndUnregister() {
+        Snackbar snackbar =
+                Snackbar.make(drawerLayout, "Updating", Snackbar.LENGTH_INDEFINITE);
+        snackbar.setAction(R.string.restart, new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                appUpdateManager.completeUpdate();
+            }
+        });
+        snackbar.setActionTextColor(getResources().getColor(R.color.white));
+        snackbar.show();
+
+        unregisterInstallStateUpdListener();
+    }
+
+    /**
+     * Checks that the update is not stalled during 'onResume()'.
+     * However, you should execute this check at all app entry points.
+     */
+    private void checkNewAppVersionState() {
+        appUpdateManager
+                .getAppUpdateInfo()
+                .addOnSuccessListener(
+                        appUpdateInfo -> {
+                            //FLEXIBLE:
+                            // If the update is downloaded but not installed,
+                            // notify the user to complete the update.
+                            if (appUpdateInfo.installStatus() == InstallStatus.DOWNLOADED) {
+                                popupSnackbarForCompleteUpdateAndUnregister();
+                            }
+
+                            //IMMEDIATE:
+                            if (appUpdateInfo.updateAvailability()
+                                    == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS) {
+                                // If an in-app update is already running, resume the update.
+                                startAppUpdateImmediate(appUpdateInfo);
+                                //Toast.makeText(this, "update available", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+    }
+
+    /**
+     * Needed only for FLEXIBLE update
+     */
+    private void unregisterInstallStateUpdListener() {
+        if (appUpdateManager != null && installStateUpdatedListener != null)
+            appUpdateManager.unregisterListener(installStateUpdatedListener);
+    }
+
+
+    //force app update
+
+    @SuppressLint("SetTextI18n")
+    public void force_app_update(AppUpdateInfo appUpdateInfo) {
+
+
+        Dialog alertDialog = new Dialog(this);
+        alertDialog.setContentView(R.layout.update_app_alert);
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        alertDialog.setCancelable(false);
+        alertDialog.show();
+
+        Window window = alertDialog.getWindow();
+        WindowManager.LayoutParams wlp = window.getAttributes();
+        wlp.gravity = Gravity.CENTER;
+        wlp.width = android.view.WindowManager.LayoutParams.MATCH_PARENT;
+        wlp.height = android.view.WindowManager.LayoutParams.WRAP_CONTENT;
+        window.setAttributes(wlp);
+
+        TextView titleText = alertDialog.findViewById(R.id.titleText);
+        TextView messageText = alertDialog.findViewById(R.id.messageText);
+
+        titleText.setText("Update " + getString(R.string.app_name));
+        messageText.setText(getString(R.string.app_name) + " recommends that you update to the latest version. You aren't authorized to access features of this without upgrading to the latest version.");
+
+        AppCompatButton updateButton = alertDialog.findViewById(R.id.updateButton);
+
+        updateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    startActivity(new Intent("android.intent.action.VIEW", Uri.parse("market://details?id=" + getPackageName())));
+                } catch (ActivityNotFoundException e) {
+                    startActivity(new Intent("android.intent.action.VIEW", Uri.parse("https://play.google.com/store/apps/details?id=" + getPackageName())));
+                }
+            }
+        });
     }
 }
 

@@ -3,12 +3,20 @@ package com.alifew.alife.view;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
+import android.app.Dialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -19,6 +27,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +42,16 @@ import com.alifew.alife.session.SessionManagement;
 import com.alifew.alife.view.Customer.Customer_main_activity;
 import com.alifew.alife.view.Operator.Operator_main_activity;
 import com.alifew.alife.view.Shop.Shop_main_activity;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.play.core.appupdate.AppUpdateInfo;
+import com.google.android.play.core.appupdate.AppUpdateManager;
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
+import com.google.android.play.core.install.InstallState;
+import com.google.android.play.core.install.InstallStateUpdatedListener;
+import com.google.android.play.core.install.model.AppUpdateType;
+import com.google.android.play.core.install.model.InstallStatus;
+import com.google.android.play.core.install.model.UpdateAvailability;
+import com.google.android.play.core.tasks.Task;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -54,6 +76,7 @@ public class SplashActivity extends AppCompatActivity implements LocationListene
     int userId;
     String type;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +87,9 @@ public class SplashActivity extends AppCompatActivity implements LocationListene
 
         checkPermission();
 
+    }
+
+    private void checkPlayStoreVersion() {
     }
 
 
@@ -237,7 +263,7 @@ public class SplashActivity extends AppCompatActivity implements LocationListene
             body.put("latitude", String.valueOf(AddressLocation.getLatitude()));
             body.put("longitude", String.valueOf(AddressLocation.getLongitude()));
 
-          //  Log.d("dataxx", body.toString());
+            //  Log.d("dataxx", body.toString());
 
             locationText.setText("Let's Go");
 
@@ -246,4 +272,5 @@ public class SplashActivity extends AppCompatActivity implements LocationListene
         }
 
     }
+
 }
