@@ -185,7 +185,7 @@ public class Shop_due_customer_fragment extends Fragment implements Shop_due_cus
         TextView titleText = (TextView) successAlert.findViewById(R.id.titleText);
         titleText.setText("Successfully Added");
 
-        AppCompatButton okButton = (AppCompatButton) successAlert.findViewById(R.id.okButtonID);
+        AppCompatButton okButton = (AppCompatButton) successAlert.findViewById(R.id.okButton);
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

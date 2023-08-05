@@ -1600,7 +1600,7 @@ public class Shop_products_fragment<SharedViewModel> extends Fragment implements
         successDialog.setCancelable(false);
         successDialog.show();
 
-        AppCompatButton okButton = (AppCompatButton) successDialog.findViewById(R.id.okButtonID);
+        AppCompatButton okButton = (AppCompatButton) successDialog.findViewById(R.id.okButton);
         TextView product_name, product_stock, sell_price;
         product_name = (TextView) successDialog.findViewById(R.id.productNameID);
         product_stock = (TextView) successDialog.findViewById(R.id.stockAmountID);

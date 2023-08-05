@@ -198,9 +198,32 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
             public void onChanged(getUser_deviceToken_response getUser_deviceToken_response) {
                 if (!getUser_deviceToken_response.getToken().equals(deviceToken)) {
 
-                    SessionManagement sessionManagement = new SessionManagement(Shop_main_activity.this);
-                    sessionManagement.removeSession();
-                    startActivity(new Intent(Shop_main_activity.this, LoginActivity.class));
+
+                    Dialog sessiounOutAlert = new Dialog(Shop_main_activity.this);
+                    sessiounOutAlert.setContentView(R.layout.session_out_alert);
+                    sessiounOutAlert.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    sessiounOutAlert.setCancelable(false);
+                    sessiounOutAlert.show();
+
+                    Window window = sessiounOutAlert.getWindow();
+                    WindowManager.LayoutParams wlp = window.getAttributes();
+                    wlp.gravity = Gravity.CENTER;
+                    wlp.width = android.view.WindowManager.LayoutParams.MATCH_PARENT;
+                    wlp.height = android.view.WindowManager.LayoutParams.WRAP_CONTENT;
+                    window.setAttributes(wlp);
+
+                    TextView okButton = sessiounOutAlert.findViewById(R.id.okButton);
+
+                    okButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            //Toast.makeText(Shop_main_activity.this, "ok", Toast.LENGTH_SHORT).show();
+                            sessionManagement = new SessionManagement(Shop_main_activity.this);
+                            sessionManagement.removeSession();
+                            startActivity(new Intent(Shop_main_activity.this, LoginActivity.class));
+                            finish();
+                        }
+                    });
 
                 }
             }
@@ -372,7 +395,6 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
         alertCustom.setContentView(R.layout.loader);
 
         //Toast.makeText(this, sessionManagement.getLatitude() + " " + sessionManagement.getLongitude(), Toast.LENGTH_SHORT).show();
-
 
 
         shop_details = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(Shop_details.class);

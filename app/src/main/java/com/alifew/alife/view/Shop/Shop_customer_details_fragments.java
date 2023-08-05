@@ -761,7 +761,7 @@ public class Shop_customer_details_fragments extends Fragment implements shop_cu
                 createPDF();
             }
         });
-        AppCompatButton okButton = (AppCompatButton) successDialog.findViewById(R.id.okButtonID);
+        AppCompatButton okButton = (AppCompatButton) successDialog.findViewById(R.id.okButton);
         TextView titleText = (TextView) successDialog.findViewById(R.id.titleText);
 
         titleText.setText("Sell Successful");
