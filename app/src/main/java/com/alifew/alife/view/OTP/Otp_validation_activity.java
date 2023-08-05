@@ -130,7 +130,7 @@ public class Otp_validation_activity extends AppCompatActivity implements TextWa
         loader.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         loader.setCancelable(false);
 
-        Toast.makeText(this, otp, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, sessionManagement.getLatitude()+" "+sessionManagement.getLongitude(), Toast.LENGTH_SHORT).show();
 
         deviceToken = sessionManagement.getDeviceToken();
         Log.d("dataxx", "otpcheckMultipleDeviceLogIN: " + password + " " + deviceToken);
@@ -340,7 +340,7 @@ public class Otp_validation_activity extends AppCompatActivity implements TextWa
     }
 
     public void shop_registration() {
-        shop_registration.getmessage(shopname, ownername, location, registration_phone, password, image, deviceToken).observe(Otp_validation_activity.this, new Observer<String>() {
+        shop_registration.getmessage(shopname, ownername, location, registration_phone, password, image, deviceToken, sessionManagement.getLatitude(), sessionManagement.getLongitude()).observe(Otp_validation_activity.this, new Observer<String>() {
             @Override
             public void onChanged(String s) {
                 loader.dismiss();
