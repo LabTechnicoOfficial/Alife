@@ -39,7 +39,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alifew.alife.Custom_Type.ProductSell;
-import com.alifew.alife.EarningApp.ViewModel.AddInterval;
 import com.alifew.alife.R;
 import com.alifew.alife.adapter.Instruction_adapter;
 import com.alifew.alife.adapter.Shop_barcode_type_adapter;
@@ -81,7 +80,6 @@ public class Shop_homescreen_fragment extends Fragment implements Instruction_ad
     private int timeLimit_UseriNSTRUCTION = 0;
     EarningViewModel earningViewModel;
     private AdManagerAdView mAdManagerAdView;
-    private AddInterval addInterval;
     private InterstitialAd InterstitialAd;
 
     TextView barcodeText;
@@ -104,38 +102,7 @@ public class Shop_homescreen_fragment extends Fragment implements Instruction_ad
 //                loadAd();
 //            }
 //        });
-    /*    AdManagerAdRequest adRequest = new AdManagerAdRequest.Builder().build();
-       mAdManagerAdView.loadAd(adRequest);
-        mAdManagerAdView.setAdListener(new AdListener() {
-            @Override
-            public void onAdLoaded() {
-                // Code to be executed when an ad finishes loading.
-                // Toast.makeText(Shop_main_activity.this,"fiinsh",Toast.LENGTH_SHORT).show();
-            }
 
-            @Override
-            public void onAdFailedToLoad(LoadAdError adError) {
-                // Code to be executed when an ad request fails.
-            }
-
-            @Override
-            public void onAdOpened() {
-                // Code to be executed when an ad opens an overlay that
-                // covers the screen.
-            }
-
-            @Override
-            public void onAdClicked() {
-                // Code to be executed when the user clicks on an ad.
-            }
-
-            @Override
-            public void onAdClosed() {
-                // Code to be executed when the user is about to return
-                // to the app after tapping on an ad.
-            }
-        });
-*/
         main();
        // instruction_func();
     }

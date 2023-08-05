@@ -26,7 +26,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.alifew.alife.EarningApp.ViewModel.AddInterval;
 import com.alifew.alife.R;
 import com.alifew.alife.adapter.Instruction_adapter;
 import com.alifew.alife.model.user_instruction_response;
@@ -56,7 +55,7 @@ public class Customer_homescreen_fragment extends Fragment implements Instructio
     private List<user_instruction_response> instructionList;
     Instruction_adapter instructionAdapter;
     private AdManagerAdView mAdManagerAdView;
-    AddInterval addInterval;
+
     private InterstitialAd InterstitialAd;
     @SuppressLint("MissingPermission")
     @Override
