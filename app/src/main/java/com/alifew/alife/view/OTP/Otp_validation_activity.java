@@ -48,7 +48,7 @@ import com.google.firebase.iid.InstanceIdResult;
 import com.onesignal.OneSignal;
 
 public class Otp_validation_activity extends AppCompatActivity implements TextWatcher {
-    String token = "x";
+
     FirebaseAuth mAuth;
 
     EditText editText1, editText2, editText3, editText4, editText5;
@@ -340,67 +340,47 @@ public class Otp_validation_activity extends AppCompatActivity implements TextWa
     }
 
     public void shop_registration() {
-        FirebaseInstanceId.getInstance().getInstanceId()
-                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
-                        if (task.isSuccessful()) {
-                            token = task.getResult().getToken();
+        shop_registration.getmessage(shopname, ownername, location, registration_phone, password, image, deviceToken).observe(Otp_validation_activity.this, new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                loader.dismiss();
+                if (s.equals("Registration complete successfully")) {
+                    Toast.makeText(Otp_validation_activity.this, "Registration Completed", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(Otp_validation_activity.this, LoginActivity.class));
+                } else {
+                    loader.dismiss();
 
-                            shop_registration.getmessage(shopname, ownername, location, registration_phone, password, image, token).observe(Otp_validation_activity.this, new Observer<String>() {
-                                @Override
-                                public void onChanged(String s) {
-                                    loader.dismiss();
-                                    if (s.equals("Registration complete successfully")) {
-                                        Toast.makeText(Otp_validation_activity.this, "Registration Completed", Toast.LENGTH_SHORT).show();
-                                        startActivity(new Intent(Otp_validation_activity.this, LoginActivity.class));
-                                    } else {
-                                        loader.dismiss();
+                    Toast.makeText(Otp_validation_activity.this, "Failed", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
-                                        Toast.makeText(Otp_validation_activity.this, "Failed", Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            });
-                        }
-                    }
-                });
     }
 
     private void customer_registration() {
-        FirebaseInstanceId.getInstance().getInstanceId()
-                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
-                        if (task.isSuccessful()) {
-                            token = task.getResult().getToken();
-                            customer_registration.getmessage(shopname, location, registration_phone, password, image, token).observe(Otp_validation_activity.this, new Observer<customer_registration_response>() {
-                                @Override
-                                public void onChanged(customer_registration_response s) {
-                                    loader.dismiss();
-                                    if (s.getMessage().equals("Success")) {
+        customer_registration.getmessage(shopname, location, registration_phone, password, image, deviceToken).observe(Otp_validation_activity.this, new Observer<customer_registration_response>() {
+            @Override
+            public void onChanged(customer_registration_response s) {
+                loader.dismiss();
+                if (s.getMessage().equals("Success")) {
 
-                                        Toast.makeText(Otp_validation_activity.this, "Registration Completed", Toast.LENGTH_SHORT).show();
-                                        //update_content
-                                        customer_registration.getData(s.getCustomer_id(), phone).observe(Otp_validation_activity.this, new Observer<update_shop_customer_record_response>() {
-                                            @Override
-                                            public void onChanged(update_shop_customer_record_response update_shop_customer_record_response) {
-                                                startActivity(new Intent(Otp_validation_activity.this, LoginActivity.class));
+                    Toast.makeText(Otp_validation_activity.this, "Registration Completed", Toast.LENGTH_SHORT).show();
+                    //update_content
+                    customer_registration.getData(s.getCustomer_id(), phone).observe(Otp_validation_activity.this, new Observer<update_shop_customer_record_response>() {
+                        @Override
+                        public void onChanged(update_shop_customer_record_response update_shop_customer_record_response) {
+                            startActivity(new Intent(Otp_validation_activity.this, LoginActivity.class));
 
-                                            }
-                                        });
-                                        //end update content
-                                        startActivity(new Intent(Otp_validation_activity.this, LoginActivity.class));
-                                    } else {
-                                        Toast.makeText(Otp_validation_activity.this, "Fail.Try Again", Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            });
-
-                        } else {
-                            Toast.makeText(Otp_validation_activity.this, task.getException().toString(), Toast.LENGTH_SHORT).show();
                         }
-                    }
-                });
+                    });
+                    //end update content
+                    startActivity(new Intent(Otp_validation_activity.this, LoginActivity.class));
+                } else {
+                    Toast.makeText(Otp_validation_activity.this, "Fail.Try Again", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
     }
 
     @Override

@@ -282,7 +282,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 //dialog.dismiss();
                 String id = shop_login_response.getId();
                 sessionManagement.saveDeviceToken(deviceToken);
-                if (!id.equals("-1") || id != null) {
+                if (!id.equals("-1")) {
 
                     Random r = new Random();
                     int ran = r.nextInt(99999 - 10000 + 1) + 10000;
