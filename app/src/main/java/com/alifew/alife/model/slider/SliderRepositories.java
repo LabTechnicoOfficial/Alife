@@ -14,6 +14,7 @@ import retrofit2.Response;
 
 public class SliderRepositories {
     private MutableLiveData<List<SliderResponse>> slidersList = new MutableLiveData<>();
+    private MutableLiveData<List<Customer_slider_response>> sliderListByLatLong = new MutableLiveData<>();
     private SliderApi sliderApi = ApiUtilize.bannerApi();
     private static SliderRepositories sliderRepositories;
 
@@ -83,5 +84,24 @@ public class SliderRepositories {
         });
 
         return commonResponse;
+    }
+
+    public MutableLiveData<List<Customer_slider_response>> getSliderListByLatLong(String latitude, String longitude) {
+        Call<List<Customer_slider_response>> call = sliderApi.getSliderByLatLong(latitude, longitude);
+        call.enqueue(new Callback<List<Customer_slider_response>>() {
+            @Override
+            public void onResponse(Call<List<Customer_slider_response>> call, Response<List<Customer_slider_response>> response) {
+                if (response.isSuccessful()) {
+                    sliderListByLatLong.postValue(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Customer_slider_response>> call, Throwable t) {
+
+            }
+        });
+
+        return sliderListByLatLong;
     }
 }

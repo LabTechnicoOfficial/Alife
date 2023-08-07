@@ -26,4 +26,8 @@ public interface SliderApi {
                                             @Field("banner_id") String bannerID,
                                             @Field("status") String status);
 
+    @GET("get_customer_slider_list.php")
+    Call<List<Customer_slider_response>> getSliderByLatLong(@Query("latitude") String latitude,
+                                                            @Query("longitude") String longitude);
+
 }
