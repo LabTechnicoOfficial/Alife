@@ -60,6 +60,7 @@ import com.alifew.alife.viewmodel.Shop_status;
 import com.alifew.alife.viewmodel.User_deviceToken;
 import com.alifew.alife.viewmodel.User_instruction;
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.play.core.appupdate.AppUpdateInfo;
@@ -70,7 +71,7 @@ import com.google.android.play.core.install.InstallStateUpdatedListener;
 import com.google.android.play.core.install.model.AppUpdateType;
 import com.google.android.play.core.install.model.InstallStatus;
 import com.google.android.play.core.install.model.UpdateAvailability;
-import com.google.android.play.core.tasks.Task;
+
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.onesignal.OneSignal;
 
@@ -301,7 +302,7 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
             try {
                 d1 = objSDF.parse(date1);
                 d2 = objSDF.parse(date2);
-            } catch (Exception e) {
+            } catch (Exception ignored) {
 
             }
 //            long diff = d2.getTime() - d1.getTime();
@@ -595,23 +596,20 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
     public void onActivityResult(int requestCode, final int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
 
-        switch (requestCode) {
-
-            case REQ_CODE_VERSION_UPDATE:
-                if (resultCode != RESULT_OK) { //RESULT_OK / RESULT_CANCELED / RESULT_IN_APP_UPDATE_FAILED
-                    // Log.d("Update flow failed! Result code: " + resultCode);
-                    // If the update is cancelled or fails,
-                    // you can request to start the update again.
-                    unregisterInstallStateUpdListener();
-                }
-
-                break;
-
+        if (requestCode == REQ_CODE_VERSION_UPDATE) {
+            if (resultCode != RESULT_OK) { //RESULT_OK / RESULT_CANCELED / RESULT_IN_APP_UPDATE_FAILED
+                // Log.d("Update flow failed! Result code: " + resultCode);
+                // If the update is cancelled or fails,
+                // you can request to start the update again.
+                unregisterInstallStateUpdListener();
+            }
         }
     }
 
 
     private void checkForAppUpdate() {
+
+        Log.d("updatexx", "checkForAppUpdate: ");
         // Creates instance of the manager.
         appUpdateManager = AppUpdateManagerFactory.create(getApplicationContext());
 

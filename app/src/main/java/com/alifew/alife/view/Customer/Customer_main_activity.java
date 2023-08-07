@@ -47,6 +47,7 @@ import com.alifew.alife.viewmodel.SessionManagment_registration;
 import com.alifew.alife.viewmodel.User_deviceToken;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.ads.admanager.AdManagerAdView;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.play.core.appupdate.AppUpdateInfo;
@@ -57,7 +58,7 @@ import com.google.android.play.core.install.InstallStateUpdatedListener;
 import com.google.android.play.core.install.model.AppUpdateType;
 import com.google.android.play.core.install.model.InstallStatus;
 import com.google.android.play.core.install.model.UpdateAvailability;
-import com.google.android.play.core.tasks.Task;
+
 import com.onesignal.OneSignal;
 import com.squareup.picasso.Picasso;
 
@@ -370,47 +371,43 @@ public class Customer_main_activity extends AppCompatActivity implements Navigat
     public void onActivityResult(int requestCode, final int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
 
-        switch (requestCode) {
-
-            case REQ_CODE_VERSION_UPDATE:
-                if (resultCode != RESULT_OK) { //RESULT_OK / RESULT_CANCELED / RESULT_IN_APP_UPDATE_FAILED
-                    // Log.d("Update flow failed! Result code: " + resultCode);
-                    // If the update is cancelled or fails,
-                    // you can request to start the update again.
-                    unregisterInstallStateUpdListener();
-                }
-
-                break;
-
+        if (requestCode == REQ_CODE_VERSION_UPDATE) {
+            if (resultCode != RESULT_OK) { //RESULT_OK / RESULT_CANCELED / RESULT_IN_APP_UPDATE_FAILED
+                 Log.d("dataxx","Update flow failed! Result code: " + resultCode);
+                // If the update is cancelled or fails,
+                // you can request to start the update again.
+                unregisterInstallStateUpdListener();
+            }
         }
     }
 
 
     private void checkForAppUpdate() {
-        // Creates instance of the manager.
+        Log.d("dataxx", "checkForAppUpdate: ");
         appUpdateManager = AppUpdateManagerFactory.create(getApplicationContext());
 
-        // Returns an intent object that you use to check for an update.
         Task<AppUpdateInfo> appUpdateInfoTask = appUpdateManager.getAppUpdateInfo();
 
-        // Create a listener to track request state updates.
         installStateUpdatedListener = new InstallStateUpdatedListener() {
             @Override
             public void onStateUpdate(InstallState installState) {
                 // Show module progress, log state, or install the update.
+                Log.d("dataxx", "onStateUpdate: ");
                 if (installState.installStatus() == InstallStatus.DOWNLOADED)
                     // After the update is downloaded, show a notification
                     // and request user confirmation to restart the app.
-                    popupSnackbarForCompleteUpdateAndUnregister();
+                    Log.d("dataxx", "onStateUpdate: DOWNLOADED");
+                popupSnackbarForCompleteUpdateAndUnregister();
             }
         };
 
         // Checks that the platform will allow the specified type of update.
         appUpdateInfoTask.addOnSuccessListener(appUpdateInfo -> {
             if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE) {
-                // Request the update.
+                Log.d("dataxx", "UPDATE AVAILABLE: ");
                 if (appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)) {
 
+                    Log.d("dataxx", "checkForAppUpdate: FLEXIBLE");
                     // Before starting an update, register a listener for updates.
                     appUpdateManager.registerListener(installStateUpdatedListener);
                     // Start an update.
@@ -420,9 +417,12 @@ public class Customer_main_activity extends AppCompatActivity implements Navigat
                 } else if (appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
                     // Start an update.
                     //startAppUpdateImmediate(appUpdateInfo);
+                    Log.d("dataxx", "checkForAppUpdate: IMMEDIATE");
 
                     force_app_update(appUpdateInfo);
                 }
+            }else {
+                Log.d("dataxx", "NOT AVAILABLE");
             }
         });
     }
