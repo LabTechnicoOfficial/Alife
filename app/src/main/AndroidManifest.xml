@@ -99,7 +99,7 @@
             android:name=".view.Registration.Shop_register_activity"
             android:exported="false" />
         <activity
-            android:name=".EarningApp.View.Activity.MainActivity"
+            android:name="com.google.android.play.core.common.PlayCoreDialogWrapperActivity"
             android:exported="false" />
 
         <service

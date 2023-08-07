@@ -22,6 +22,7 @@ import android.view.WindowManager;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
+import androidx.core.app.ShareCompat;
 import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -161,7 +162,7 @@ public class Helpers {
         return returnedBitmap;
     }
 
-    public static Bitmap getScreenshotFromRecyclerView(RecyclerView view,Context context, int column) {
+    public static Bitmap getScreenshotFromRecyclerView(RecyclerView view, Context context, int column) {
         view.setHasFixedSize(true);
         view.setLayoutManager(new GridLayoutManager(context, column));
         RecyclerView.Adapter adapter = view.getAdapter();
@@ -220,14 +221,29 @@ public class Helpers {
             pdfOpenIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             pdfOpenIntent.setClipData(ClipData.newRawUri("", uriPdfPath));
             pdfOpenIntent.setDataAndType(uriPdfPath, "application/pdf");
-            pdfOpenIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION |  Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+            pdfOpenIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
 
             try {
                 context.startActivity(pdfOpenIntent);
             } catch (ActivityNotFoundException activityNotFoundException) {
-                Toast.makeText(context,"There is no app to load corresponding PDF",Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "There is no app to load corresponding PDF", Toast.LENGTH_LONG).show();
 
             }
+        }
+    }
+
+    public static void appShare(Context context) {
+        String message = "Boost your business with ALIFE. Get it from- ";
+        message = message + "https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID;
+        try {
+            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+            shareIntent.setType("text/plain");
+            shareIntent.putExtra(Intent.EXTRA_SUBJECT, context.getResources().getString(R.string.app_name));
+            shareIntent.putExtra(Intent.EXTRA_TEXT, message);
+            shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(Intent.createChooser(shareIntent, "choose one"));
+        } catch(Exception e) {
+            Log.d("dataxx", "appShare: "+e.getMessage());
         }
     }
 }

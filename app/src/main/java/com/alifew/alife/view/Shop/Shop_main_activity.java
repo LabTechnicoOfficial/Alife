@@ -60,6 +60,7 @@ import com.alifew.alife.viewmodel.Shop_status;
 import com.alifew.alife.viewmodel.User_deviceToken;
 import com.alifew.alife.viewmodel.User_instruction;
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
@@ -72,6 +73,9 @@ import com.google.android.play.core.install.model.AppUpdateType;
 import com.google.android.play.core.install.model.InstallStatus;
 import com.google.android.play.core.install.model.UpdateAvailability;
 
+import com.google.android.play.core.review.ReviewInfo;
+import com.google.android.play.core.review.ReviewManager;
+import com.google.android.play.core.review.ReviewManagerFactory;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.onesignal.OneSignal;
 
@@ -430,6 +434,8 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
             }
         });
 
+        getReviewInfo();
+
     }
 
 
@@ -489,9 +495,66 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
             case R.id.addSlider:
                 getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, new ShopSliderFragment()).addToBackStack(null).commit();
                 break;
+            case R.id.shareButton:
+                appShare();
+                break;
+            case R.id.rateButton:
+                startReviewFlow();
+                break;
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void appShare() {
+        String message = "Boost your business with ALIFE. Get it from- ";
+        message = message + "https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID;
+        try {
+            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+            shareIntent.setType("text/plain");
+            shareIntent.putExtra(Intent.EXTRA_SUBJECT, getApplicationContext().getResources().getString(R.string.app_name));
+            shareIntent.putExtra(Intent.EXTRA_TEXT, message);
+            shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(Intent.createChooser(shareIntent, "choose one"));
+        } catch (Exception e) {
+            Log.d("dataxx", "appShare: " + e.getMessage());
+        }
+    }
+
+    ReviewManager reviewManager;
+    ReviewInfo reviewInfo = null;
+
+    private void getReviewInfo() {
+        reviewManager = ReviewManagerFactory.create(getApplicationContext());
+        Task<ReviewInfo> manager = reviewManager.requestReviewFlow();
+        manager.addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                reviewInfo = task.getResult();
+            } else {
+                // Toast.makeText(getActivity(), "In App ReviewFlow failed to start", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    public void startReviewFlow() {
+        if (reviewInfo != null) {
+            Task<Void> flow = reviewManager.launchReviewFlow(this, reviewInfo);
+            flow.addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(Task<Void> task) {
+                    //Toast.makeText(getActivity(), "In App Rating complete", Toast.LENGTH_LONG).show();
+                    Uri uri = Uri.parse("market://details?id=" + getApplicationContext().getPackageName());
+                    Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
+                    try {
+                        startActivity(goToMarket);
+                    } catch (ActivityNotFoundException e) {
+                        //UtilityClass.showAlertDialog(context, ERROR, "Couldn't launch the Google Playstore app", null, 0);
+                    }
+                }
+            });
+        } else {
+            //Toast.makeText(getActivity(), "In App Rating failed", Toast.LENGTH_LONG).show();
+        }
     }
 
     private void alertControl() {

@@ -35,6 +35,7 @@ import android.widget.Toast;
 import com.alifew.alife.BuildConfig;
 import com.alifew.alife.R;
 import com.alifew.alife.Utils.Constants;
+import com.alifew.alife.Utils.Helpers;
 import com.alifew.alife.model.Customer_response;
 import com.alifew.alife.model.getUser_deviceToken_response;
 import com.alifew.alife.model.get_version_response;
@@ -47,6 +48,7 @@ import com.alifew.alife.viewmodel.SessionManagment_registration;
 import com.alifew.alife.viewmodel.User_deviceToken;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.ads.admanager.AdManagerAdView;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
@@ -59,6 +61,9 @@ import com.google.android.play.core.install.model.AppUpdateType;
 import com.google.android.play.core.install.model.InstallStatus;
 import com.google.android.play.core.install.model.UpdateAvailability;
 
+import com.google.android.play.core.review.ReviewInfo;
+import com.google.android.play.core.review.ReviewManager;
+import com.google.android.play.core.review.ReviewManagerFactory;
 import com.onesignal.OneSignal;
 import com.squareup.picasso.Picasso;
 
@@ -211,6 +216,8 @@ public class Customer_main_activity extends AppCompatActivity implements Navigat
         });
 
         checkMultipleDeviceLogIN();
+
+        getReviewInfo();
     }
 
     private void checkMultipleDeviceLogIN() {
@@ -260,25 +267,87 @@ public class Customer_main_activity extends AppCompatActivity implements Navigat
         return super.onOptionsItemSelected(item);
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.log_out) {
-            alertControl();
-            SessionManagement sessionManagement = new SessionManagement(Customer_main_activity.this);
-            sessionManagement.removeSession();
-            startActivity(new Intent(Customer_main_activity.this, LoginActivity.class));
-        } else if (item.getItemId() == R.id.profile) {
-            alertControl();
-            getSupportFragmentManager().beginTransaction().replace(R.id.cus_frame_container, new Customer_profile_fragments()).addToBackStack(null).commit();
-        } else if (item.getItemId() == R.id.shopListID) {
-            alertControl();
-            getSupportFragmentManager().beginTransaction().replace(R.id.cus_frame_container, new Customer_shopList_fragment(customer_id)).addToBackStack(null).commit();
+        switch (item.getItemId()) {
+            case R.id.log_out:
+                alertControl();
+                SessionManagement sessionManagement = new SessionManagement(Customer_main_activity.this);
+                sessionManagement.removeSession();
+                startActivity(new Intent(Customer_main_activity.this, LoginActivity.class));
+                break;
+            case R.id.profile:
+                alertControl();
+                getSupportFragmentManager().beginTransaction().replace(R.id.cus_frame_container, new Customer_profile_fragments()).addToBackStack(null).commit();
+                break;
+            case R.id.shopListID:
+                alertControl();
+                getSupportFragmentManager().beginTransaction().replace(R.id.cus_frame_container, new Customer_shopList_fragment(customer_id)).addToBackStack(null).commit();
+                break;
+            case R.id.shareButton:
+                appShare();
+                break;
+            case R.id.rateButton:
+                startReviewFlow();
+                break;
         }
 
 
         //close drawer
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void appShare() {
+        String message = "Boost your business with ALIFE. Get it from- ";
+        message = message + "https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID;
+        try {
+            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+            shareIntent.setType("text/plain");
+            shareIntent.putExtra(Intent.EXTRA_SUBJECT, getApplicationContext().getResources().getString(R.string.app_name));
+            shareIntent.putExtra(Intent.EXTRA_TEXT, message);
+            shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(Intent.createChooser(shareIntent, "choose one"));
+        } catch (Exception e) {
+            Log.d("dataxx", "appShare: " + e.getMessage());
+        }
+    }
+
+    ReviewManager reviewManager;
+    ReviewInfo reviewInfo = null;
+
+    private void getReviewInfo() {
+        reviewManager = ReviewManagerFactory.create(getApplicationContext());
+        Task<ReviewInfo> manager = reviewManager.requestReviewFlow();
+        manager.addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                reviewInfo = task.getResult();
+            } else {
+                // Toast.makeText(getActivity(), "In App ReviewFlow failed to start", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    public void startReviewFlow() {
+        if (reviewInfo != null) {
+            Task<Void> flow = reviewManager.launchReviewFlow(this, reviewInfo);
+            flow.addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(Task<Void> task) {
+                    //Toast.makeText(getActivity(), "In App Rating complete", Toast.LENGTH_LONG).show();
+                    Uri uri = Uri.parse("market://details?id=" + getApplicationContext().getPackageName());
+                    Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
+                    try {
+                        startActivity(goToMarket);
+                    } catch (ActivityNotFoundException e) {
+                        //UtilityClass.showAlertDialog(context, ERROR, "Couldn't launch the Google Playstore app", null, 0);
+                    }
+                }
+            });
+        } else {
+            //Toast.makeText(getActivity(), "In App Rating failed", Toast.LENGTH_LONG).show();
+        }
     }
 
     private void alertControl() {
@@ -373,7 +442,7 @@ public class Customer_main_activity extends AppCompatActivity implements Navigat
 
         if (requestCode == REQ_CODE_VERSION_UPDATE) {
             if (resultCode != RESULT_OK) { //RESULT_OK / RESULT_CANCELED / RESULT_IN_APP_UPDATE_FAILED
-                 Log.d("dataxx","Update flow failed! Result code: " + resultCode);
+                Log.d("dataxx", "Update flow failed! Result code: " + resultCode);
                 // If the update is cancelled or fails,
                 // you can request to start the update again.
                 unregisterInstallStateUpdListener();
@@ -421,7 +490,7 @@ public class Customer_main_activity extends AppCompatActivity implements Navigat
 
                     force_app_update(appUpdateInfo);
                 }
-            }else {
+            } else {
                 Log.d("dataxx", "NOT AVAILABLE");
             }
         });
