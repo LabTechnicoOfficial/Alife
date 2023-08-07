@@ -1690,7 +1690,7 @@ public class Shop_products_fragment<SharedViewModel> extends Fragment implements
         recyclerView2 = view.findViewById(R.id.gridRecyclerViewID);
         gridBUtton = (ToggleButton) view.findViewById(R.id.toggleButtonID);
         gridOffLayout = (LinearLayout) view.findViewById(R.id.gridOffLayoutID);
-        gridSearchLayout = (LinearLayout) view.findViewById(R.id.gridLayoutID);
+        gridSearchLayout = (LinearLayout) view.findViewById(R.id.gridLayout);
         //gridOffLayout.setVisibility(View.GONE);
         recyclerView1.setHasFixedSize(true);
         recyclerView2.setHasFixedSize(true);

@@ -51,7 +51,7 @@
                     <ImageView
                         android:layout_width="45dp"
                         android:layout_height="45dp"
-                        android:src="@drawable/notebook_image" />
+                        android:src="@drawable/due_book_icon" />
 
 
                     <TextView
@@ -77,7 +77,7 @@
                     <ImageView
                         android:layout_width="45dp"
                         android:layout_height="45dp"
-                        android:src="@drawable/due_list" />
+                        android:src="@drawable/due_list_icon" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -128,7 +128,7 @@
                     <ImageView
                         android:layout_width="45dp"
                         android:layout_height="45dp"
-                        android:src="@drawable/coupon_48px" />
+                        android:src="@drawable/coupon_icon" />
 
                     <TextView
                         android:layout_width="wrap_content"

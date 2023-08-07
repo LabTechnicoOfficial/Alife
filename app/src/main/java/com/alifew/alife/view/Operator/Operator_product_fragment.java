@@ -1582,7 +1582,7 @@ public class Operator_product_fragment<SharedViewModel> extends Fragment impleme
         recyclerView2 = view.findViewById(R.id.recyclerView2ID);
         gridButton = (ToggleButton) view.findViewById(R.id.toggleButtonID);
         gridOffLayout = (LinearLayout) view.findViewById(R.id.gridOffLayoutID);
-        gridSearchLayout = (LinearLayout) view.findViewById(R.id.gridLayoutID);
+        gridSearchLayout = (LinearLayout) view.findViewById(R.id.gridLayout);
         //gridOffLayout.setVisibility(View.GONE);
         recyclerView1.setHasFixedSize(true);
         recyclerView2.setHasFixedSize(true);

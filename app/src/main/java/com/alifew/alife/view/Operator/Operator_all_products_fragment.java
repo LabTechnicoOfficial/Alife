@@ -393,7 +393,7 @@ public class Operator_all_products_fragment extends Fragment implements Operator
 
         gridBUtton = (ToggleButton) view.findViewById(R.id.toggleButtonID);
         gridOffLayout = (LinearLayout) view.findViewById(R.id.gridOffLayoutID);
-        gridSearchLayout = (LinearLayout) view.findViewById(R.id.gridLayoutID);
+        gridSearchLayout = (LinearLayout) view.findViewById(R.id.gridLayout);
         fragmentTitle = (TextView) view.findViewById(R.id.fragmentTitleID);
         recyclerView1.setHasFixedSize(true);
         recyclerView2.setHasFixedSize(true);
