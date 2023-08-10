@@ -47,6 +47,7 @@ import com.alifew.alife.viewmodel.Token_update;
 import com.alifew.alife.viewmodel.User;
 import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import com.onesignal.OSDeviceState;
 import com.onesignal.OneSignal;
 
 import java.util.Random;
@@ -116,8 +117,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         OneSignal.setLocationShared(false);
         deviceToken = OneSignal.getDeviceState().getUserId();
         OneSignal.promptForPushNotifications();
-        // Log.d("dataxx", "device "+deviceToken);
-        //Toast.makeText(this, sessionManagement.getLatitude() + " " + sessionManagement.getLongitude(), Toast.LENGTH_SHORT).show();
 
     }
 
