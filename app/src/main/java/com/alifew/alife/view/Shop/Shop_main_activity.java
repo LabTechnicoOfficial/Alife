@@ -207,7 +207,7 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
     }
 
     private void checkMultipleDeviceLogIN() {
-
+        Log.d("dataxx", "token: "+deviceToken);
         user_deviceToken.getToken(String.valueOf(user), "shop").observe(Shop_main_activity.this, new Observer<getUser_deviceToken_response>() {
             @Override
             public void onChanged(getUser_deviceToken_response getUser_deviceToken_response) {

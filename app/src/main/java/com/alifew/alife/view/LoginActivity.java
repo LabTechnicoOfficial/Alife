@@ -115,6 +115,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         OneSignal.setAppId(Constants.ONESIGNAL_APP_ID);
         OneSignal.setLocationShared(false);
         deviceToken = OneSignal.getDeviceState().getUserId();
+        OneSignal.promptForPushNotifications();
         // Log.d("dataxx", "device "+deviceToken);
         //Toast.makeText(this, sessionManagement.getLatitude() + " " + sessionManagement.getLongitude(), Toast.LENGTH_SHORT).show();
 
