@@ -60,12 +60,12 @@
             android:layout_marginBottom="5dp"
             android:gravity="center"
             android:orientation="vertical"
-            android:padding="3dp">
+            android:padding="5dp">
 
 
             <ImageView
-                android:layout_width="35dp"
-                android:layout_height="35dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:src="@drawable/due_book_icon" />
 
 
@@ -86,11 +86,11 @@
             android:layout_marginBottom="5dp"
             android:gravity="center"
             android:orientation="vertical"
-            android:padding="3dp">
+            android:padding="5dp">
 
             <ImageView
-                android:layout_width="35dp"
-                android:layout_height="35dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:src="@drawable/due_list_icon" />
 
             <TextView
@@ -110,11 +110,11 @@
             android:layout_marginBottom="5dp"
             android:gravity="center"
             android:orientation="vertical"
-            android:padding="3dp">
+            android:padding="5dp">
 
             <ImageView
-                android:layout_width="35dp"
-                android:layout_height="35dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:src="@drawable/shop_icon" />
 
             <TextView
@@ -135,12 +135,12 @@
 
             android:gravity="center"
             android:orientation="vertical"
-            android:padding="3dp">
+            android:padding="5dp">
 
 
             <ImageView
-                android:layout_width="35dp"
-                android:layout_height="35dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:src="@drawable/coupon_icon" />
 
             <TextView
@@ -160,13 +160,13 @@
             android:layout_marginBottom="5dp"
             android:gravity="center"
             android:orientation="vertical"
-            android:padding="3dp"
+            android:padding="5dp"
             android:visibility="gone">
 
 
             <ImageView
-                android:layout_width="35dp"
-                android:layout_height="35dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:src="@drawable/earning_s_coins_48px" />
 
             <TextView
