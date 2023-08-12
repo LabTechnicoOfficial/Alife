@@ -73,6 +73,9 @@ public class Customer_homescreen_fragment extends Fragment implements Instructio
     SessionManagement sessionManagement;
     CardView sliderCard;
 
+    LinearLayout instructionLayout;
+    RecyclerView instructionView;
+
     @SuppressLint("MissingPermission")
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -99,20 +102,6 @@ public class Customer_homescreen_fragment extends Fragment implements Instructio
 
         initView(view);
 
-        dueListButton = (LinearLayout) view.findViewById(R.id.dueListButtonID);
-        shopListButton = (LinearLayout) view.findViewById(R.id.ShopListButtonID);
-        dueShopsButton = (LinearLayout) view.findViewById(R.id.dueShopsLayoutID);
-        earnMoneyButton = (LinearLayout) view.findViewById(R.id.earnMoneyButtonID);
-        couponButton = (LinearLayout) view.findViewById(R.id.couponButtonID);
-
-        earningViewModel = new ViewModelProvider(this).get(EarningViewModel.class);
-
-        fragmentManager = getFragmentManager();
-        //banner add
-        mAdManagerAdView = view.findViewById(R.id.adManagerAdView);
-
-
-        customer_id = String.valueOf(sessionManagement.getSession());
 
         shopListButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -166,49 +155,44 @@ public class Customer_homescreen_fragment extends Fragment implements Instructio
         sliderViewModel = new ViewModelProvider(getActivity()).get(SliderViewModel.class);
         imageSliderView = view.findViewById(R.id.imageSliderView);
         sliderCard = view.findViewById(R.id.sliderCard);
+
+        dueListButton = view.findViewById(R.id.dueListButtonID);
+        shopListButton = view.findViewById(R.id.ShopListButtonID);
+        dueShopsButton = view.findViewById(R.id.dueShopsLayoutID);
+        earnMoneyButton = view.findViewById(R.id.earnMoneyButtonID);
+        couponButton = view.findViewById(R.id.couponButtonID);
+
+        earningViewModel = new ViewModelProvider(this).get(EarningViewModel.class);
+
+        fragmentManager = getFragmentManager();
+        //banner add
+        mAdManagerAdView = view.findViewById(R.id.adManagerAdView);
+
+
+        customer_id = String.valueOf(sessionManagement.getSession());
+
+        userInstruction = new ViewModelProvider(getActivity()).get(User_instruction.class);
+
+        instructionLayout = view.findViewById(R.id.instructorLayout);
+
+        instructionView = view.findViewById(R.id.instructionView);
+        instructionView.setHasFixedSize(true);
+        instructionView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+
     }
 
     private void instruction_func() {
 
-        userInstruction = new ViewModelProvider(getActivity()).get(User_instruction.class);
+
         userInstruction.getInstruction("user").observe(getViewLifecycleOwner(), new Observer<List<user_instruction_response>>() {
             @Override
             public void onChanged(List<user_instruction_response> user_instruction_responses) {
-                int leng = user_instruction_responses.size();
-                instructionList = new ArrayList<>();
 
-                instructionList = user_instruction_responses;
-                instructionAdapter = new Instruction_adapter(instructionList);
+                if (user_instruction_responses.size() > 0) {
 
-                if (leng > 0) {
-                    Dialog instructionAlert = new Dialog(getActivity());
-                    instructionAlert.setContentView(R.layout.user_instruction_alert);
-                    instructionAlert.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                    instructionAlert.setCancelable(true);
-                    instructionAlert.show();
-
-                    Window window = instructionAlert.getWindow();
-                    WindowManager.LayoutParams wlp = window.getAttributes();
-
-                    wlp.gravity = Gravity.BOTTOM;
-                    wlp.flags &= ~WindowManager.LayoutParams.FLAG_DIM_BEHIND;
-                    wlp.windowAnimations = R.style.DialogAnimation;
-                    //wlp.width = android.view.WindowManager.LayoutParams.MATCH_PARENT;
-                    // wlp.height = android.view.WindowManager.LayoutParams.WRAP_CONTENT;
-                    window.setAttributes(wlp);
-
-                    ImageView closeButton = instructionAlert.findViewById(R.id.closeID);
-                    closeButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            instructionAlert.dismiss();
-
-                        }
-                    });
-
-                    RecyclerView instructionView = (RecyclerView) instructionAlert.findViewById(R.id.instructionView);
-                    instructionView.setHasFixedSize(true);
-                    instructionView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+                    instructionList = new ArrayList<>();
+                    instructionList = user_instruction_responses;
+                    instructionAdapter = new Instruction_adapter(instructionList);
                     instructionAdapter.setOnClickListener(Customer_homescreen_fragment.this::OnInstructorItemClick);
                     instructionView.setAdapter(instructionAdapter);
                 }

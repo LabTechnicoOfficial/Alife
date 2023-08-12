@@ -34,14 +34,8 @@ public class Instruction_adapter extends RecyclerView.Adapter<Instruction_adapte
     @Override
     public void onBindViewHolder(@NonNull AppViewholder holder, int position) {
         user_instruction_response response = instructionList.get(position);
+
         holder.instructionText.setText(response.getTitle());
-
-
-//        Glide.with(holder.itemView.getContext())
-//                .load(response.getImage())
-//                .centerCrop()
-//                .placeholder(R.drawable.loader)
-//                .into(holder.instructionImage);
 
         ImageHelper.imageLoader(holder.instructionImage.getContext(), holder.instructionImage, response.getImage());
     }
