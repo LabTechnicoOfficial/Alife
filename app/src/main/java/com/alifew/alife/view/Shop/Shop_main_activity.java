@@ -1,7 +1,6 @@
 package com.alifew.alife.view.Shop;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
@@ -25,7 +24,6 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 
-import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -45,7 +43,6 @@ import android.widget.Toast;
 import com.alifew.alife.BuildConfig;
 import com.alifew.alife.Custom_Type.ProductSell;
 import com.alifew.alife.R;
-import com.alifew.alife.Utils.Constants;
 import com.alifew.alife.adapter.Instruction_adapter;
 import com.alifew.alife.model.Shop_response;
 import com.alifew.alife.model.getUser_deviceToken_response;
@@ -77,7 +74,6 @@ import com.google.android.play.core.review.ReviewInfo;
 import com.google.android.play.core.review.ReviewManager;
 import com.google.android.play.core.review.ReviewManagerFactory;
 import com.google.firebase.analytics.FirebaseAnalytics;
-import com.onesignal.OneSignal;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -141,7 +137,7 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
 
         checkMultipleDeviceLogIN();
 
-        instruction_func();
+        //instruction_func();
         shop_status.getStatus(shop_id).observe(Shop_main_activity.this, new Observer<shop_status_response>() {
             @Override
             public void onChanged(shop_status_response shop_status_response) {
@@ -289,10 +285,10 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
                             }
                         });
 
-                        RecyclerView instructionView = (RecyclerView) instructionAlert.findViewById(R.id.instructionViewID);
+                        RecyclerView instructionView = (RecyclerView) instructionAlert.findViewById(R.id.instructionView);
                         instructionView.setHasFixedSize(true);
                         instructionView.setLayoutManager(new LinearLayoutManager(Shop_main_activity.this, LinearLayoutManager.HORIZONTAL, false));
-                        instructionAdapter.setOnClickListener(Shop_main_activity.this::OnItemClick);
+                        instructionAdapter.setOnClickListener(Shop_main_activity.this::OnInstructorItemClick);
                         instructionView.setAdapter(instructionAdapter);
                     }
                 }
@@ -341,10 +337,10 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
                                 }
                             });
 
-                            RecyclerView instructionView = (RecyclerView) instructionAlert.findViewById(R.id.instructionViewID);
+                            RecyclerView instructionView = (RecyclerView) instructionAlert.findViewById(R.id.instructionView);
                             instructionView.setHasFixedSize(true);
                             instructionView.setLayoutManager(new LinearLayoutManager(Shop_main_activity.this));
-                            instructionAdapter.setOnClickListener(Shop_main_activity.this::OnItemClick);
+                            instructionAdapter.setOnClickListener(Shop_main_activity.this::OnInstructorItemClick);
                             instructionView.setAdapter(instructionAdapter);
                         }
                     }
@@ -642,7 +638,7 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
     }
 
     @Override
-    public void OnItemClick(int position) {
+    public void OnInstructorItemClick(int position) {
         user_instruction_response response = instructionList.get(position);
         String link = response.getLink();
         Intent intent = new Intent(Intent.ACTION_VIEW);

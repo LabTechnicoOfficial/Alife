@@ -31,7 +31,6 @@ import com.alifew.alife.R;
 import com.alifew.alife.adapter.Instruction_adapter;
 import com.alifew.alife.adapter.Slider.CustomerSliderViewAdapter;
 import com.alifew.alife.model.slider.Customer_slider_response;
-import com.alifew.alife.model.slider.SliderResponse;
 import com.alifew.alife.model.user_instruction_response;
 import com.alifew.alife.viewmodel.EarningViewModel;
 import com.alifew.alife.session.SessionManagement;
@@ -207,10 +206,10 @@ public class Customer_homescreen_fragment extends Fragment implements Instructio
                         }
                     });
 
-                    RecyclerView instructionView = (RecyclerView) instructionAlert.findViewById(R.id.instructionViewID);
+                    RecyclerView instructionView = (RecyclerView) instructionAlert.findViewById(R.id.instructionView);
                     instructionView.setHasFixedSize(true);
                     instructionView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-                    instructionAdapter.setOnClickListener(Customer_homescreen_fragment.this::OnItemClick);
+                    instructionAdapter.setOnClickListener(Customer_homescreen_fragment.this::OnInstructorItemClick);
                     instructionView.setAdapter(instructionAdapter);
                 }
             }
@@ -222,7 +221,7 @@ public class Customer_homescreen_fragment extends Fragment implements Instructio
     }
 
     @Override
-    public void OnItemClick(int position) {
+    public void OnInstructorItemClick(int position) {
         user_instruction_response response = instructionList.get(position);
         String link = response.getLink();
         Intent intent = new Intent(Intent.ACTION_VIEW);

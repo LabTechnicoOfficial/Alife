@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_grey"
-    android:padding="@dimen/_10sdp"
     tools:context=".view.Shop.Shop_homescreen_fragment">
 
 
@@ -31,11 +30,11 @@
             android:foreground="?android:attr/selectableItemBackground"
             android:gravity="center"
             android:orientation="vertical"
-            android:padding="3dp">
+            android:padding="5dp">
 
             <ImageView
-                android:layout_width="35dp"
-                android:layout_height="35dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_marginBottom="5dp"
                 android:src="@drawable/due_book_icon" />
 
@@ -58,12 +57,12 @@
             android:foreground="?android:attr/selectableItemBackground"
             android:gravity="center"
             android:orientation="vertical"
-            android:padding="3dp">
+            android:padding="5dp">
 
 
             <ImageView
-                android:layout_width="35dp"
-                android:layout_height="35dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_marginBottom="5dp"
                 android:src="@drawable/due_list_icon" />
 
@@ -87,12 +86,12 @@
             android:foreground="?android:attr/selectableItemBackground"
             android:gravity="center"
             android:orientation="vertical"
-            android:padding="3dp">
+            android:padding="5dp">
 
 
             <ImageView
-                android:layout_width="35dp"
-                android:layout_height="35dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_marginBottom="5dp"
                 android:src="@drawable/local_page_icon" />
 
@@ -115,12 +114,12 @@
             android:foreground="?android:attr/selectableItemBackground"
             android:gravity="center"
             android:orientation="vertical"
-            android:padding="3dp">
+            android:padding="5dp">
 
 
             <ImageView
-                android:layout_width="35dp"
-                android:layout_height="35dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_marginBottom="5dp"
                 android:src="@drawable/debit_credit_icon" />
 
@@ -144,12 +143,12 @@
             android:foreground="?android:attr/selectableItemBackground"
             android:gravity="center"
             android:orientation="vertical"
-            android:padding="3dp">
+            android:padding="5dp">
 
 
             <ImageView
-                android:layout_width="35dp"
-                android:layout_height="35dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_marginBottom="5dp"
                 android:src="@drawable/cart_icon" />
 
@@ -173,12 +172,12 @@
             android:foreground="?android:attr/selectableItemBackground"
             android:gravity="center"
             android:orientation="vertical"
-            android:padding="3dp">
+            android:padding="5dp">
 
 
             <ImageView
-                android:layout_width="35dp"
-                android:layout_height="35dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_marginBottom="5dp"
                 android:src="@drawable/cart_add_icon" />
 
@@ -202,12 +201,12 @@
             android:foreground="?android:attr/selectableItemBackground"
             android:gravity="center"
             android:orientation="vertical"
-            android:padding="3dp">
+            android:padding="5dp">
 
 
             <ImageView
-                android:layout_width="35dp"
-                android:layout_height="35dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_marginBottom="5dp"
                 android:src="@drawable/product_icon" />
 
@@ -232,12 +231,12 @@
             android:foreground="?android:attr/selectableItemBackground"
             android:gravity="center"
             android:orientation="vertical"
-            android:padding="3dp">
+            android:padding="5dp">
 
 
             <ImageView
-                android:layout_width="35dp"
-                android:layout_height="35dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_marginBottom="5dp"
                 android:src="@drawable/transaction_icon" />
 
@@ -260,12 +259,12 @@
             android:foreground="?android:attr/selectableItemBackground"
             android:gravity="center"
             android:orientation="vertical"
-            android:padding="3dp">
+            android:padding="5dp">
 
 
             <ImageView
-                android:layout_width="35dp"
-                android:layout_height="35dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_marginBottom="5dp"
                 android:src="@drawable/user_icon" />
 
@@ -289,12 +288,12 @@
             android:foreground="?android:attr/selectableItemBackground"
             android:gravity="center"
             android:orientation="vertical"
-            android:padding="3dp">
+            android:padding="5dp">
 
 
             <ImageView
-                android:layout_width="35dp"
-                android:layout_height="35dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_marginBottom="5dp"
                 android:src="@drawable/history_icon" />
 
@@ -318,12 +317,12 @@
             android:foreground="?android:attr/selectableItemBackground"
             android:gravity="center"
             android:orientation="vertical"
-            android:padding="3dp">
+            android:padding="5dp">
 
 
             <ImageView
-                android:layout_width="35dp"
-                android:layout_height="35dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_marginBottom="5dp"
                 android:src="@drawable/local_sell_icon" />
 
@@ -346,11 +345,11 @@
             android:foreground="?android:attr/selectableItemBackground"
             android:gravity="center"
             android:orientation="vertical"
-            android:padding="3dp">
+            android:padding="5dp">
 
             <ImageView
-                android:layout_width="35dp"
-                android:layout_height="35dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_marginBottom="5dp"
                 android:src="@drawable/coupon_icon" />
 
@@ -373,12 +372,12 @@
             android:foreground="?android:attr/selectableItemBackground"
             android:gravity="center"
             android:orientation="vertical"
-            android:padding="3dp">
+            android:padding="5dp">
 
 
             <ImageView
-                android:layout_width="35dp"
-                android:layout_height="35dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_marginBottom="5dp"
                 android:src="@drawable/bell_icon" />
 
@@ -401,12 +400,12 @@
             android:foreground="?android:attr/selectableItemBackground"
             android:gravity="center"
             android:orientation="vertical"
-            android:padding="3dp">
+            android:padding="5dp">
 
 
             <ImageView
-                android:layout_width="35dp"
-                android:layout_height="35dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_marginBottom="5dp"
                 android:src="@drawable/barcode"
                 app:tint="@color/default_color" />
@@ -430,12 +429,12 @@
             android:foreground="?android:attr/selectableItemBackground"
             android:gravity="center"
             android:orientation="vertical"
-            android:padding="3dp">
+            android:padding="5dp">
 
 
             <ImageView
-                android:layout_width="35dp"
-                android:layout_height="35dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_marginBottom="5dp"
                 android:src="@drawable/print_icon" />
 
@@ -449,6 +448,27 @@
         </LinearLayout>
 
     </GridLayout>
+
+    <LinearLayout
+        android:id="@+id/instructorLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:layout_marginTop="@dimen/_5sdp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/gridLayout"
+        android:visibility="gone">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/instructionView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none" />
+
+    </LinearLayout>
 
 
     <com.google.android.gms.ads.admanager.AdManagerAdView xmlns:ads="http://schemas.android.com/apk/res-auto"
