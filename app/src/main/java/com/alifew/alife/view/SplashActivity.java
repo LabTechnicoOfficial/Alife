@@ -29,6 +29,7 @@ import android.os.Handler;
 import android.provider.Settings;
 import android.util.Log;
 import android.widget.TextView;
+
 import com.alifew.alife.R;
 
 import com.alifew.alife.Utils.GPSLocationTurnOn;
@@ -56,10 +57,10 @@ public class SplashActivity extends AppCompatActivity implements LocationListene
     private final int SPLASH_DISPLAY_LENGTH = 1500;
     SessionManagement sessionManagement;
     private static final int REQUEST_LOCATION = 12;
-    TextView locationText;
+    TextView locationText, titleText;
 
     int userId;
-    String type;
+    String type, title;
 
 
     @Override
@@ -68,13 +69,25 @@ public class SplashActivity extends AppCompatActivity implements LocationListene
         setContentView(R.layout.activity_splash);
 
         initView();
+        setTitle();
 
 
         checkPermission();
 
+
     }
 
-    private void checkPlayStoreVersion() {
+    private void setTitle() {
+        for (int i = 0; i < title.length(); i++) {
+            int finalI = i;
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    titleText.append(String.valueOf(title.charAt(finalI)));
+                }
+            }, 300L * finalI);
+
+        }
     }
 
 
@@ -84,6 +97,10 @@ public class SplashActivity extends AppCompatActivity implements LocationListene
 
         userId = sessionManagement.getSession();
         type = sessionManagement.getType();
+
+        titleText = findViewById(R.id.titleText);
+
+        title = getResources().getString(R.string.app_name);
     }
 
 
@@ -115,6 +132,7 @@ public class SplashActivity extends AppCompatActivity implements LocationListene
         }, SPLASH_DISPLAY_LENGTH);
     }
 
+    @SuppressLint("SetTextI18n")
     private void checkPermission() {
 
 
@@ -247,8 +265,6 @@ public class SplashActivity extends AppCompatActivity implements LocationListene
             LinkedHashMap<String, Object> body = new LinkedHashMap<>();
             body.put("latitude", String.valueOf(AddressLocation.getLatitude()));
             body.put("longitude", String.valueOf(AddressLocation.getLongitude()));
-
-            //  Log.d("dataxx", body.toString());
 
             locationText.setText("Let's Go");
 
