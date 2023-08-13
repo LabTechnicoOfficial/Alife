@@ -8,5 +8,5 @@ import retrofit2.http.Query;
 
 public interface fetch_shop_selected_CustomerList_api {
     @GET("fetch_shop_selected_customerList.php")
-    Call<List<get_shop_customer_response>> getcustomer(@Query("id") String id);
+    Call<List<Get_shop_customer_response>> getcustomer(@Query("id") String id);
 }

@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -42,16 +43,22 @@ import android.widget.Toast;
 
 import com.alifew.alife.BuildConfig;
 import com.alifew.alife.Custom_Type.ProductSell;
+import com.alifew.alife.DB.AppDatabase;
+import com.alifew.alife.DB.InsertCustomerThread;
+import com.alifew.alife.DB.dao.CustomerDao;
+import com.alifew.alife.DB.entity.Customer;
 import com.alifew.alife.R;
 import com.alifew.alife.adapter.Instruction_adapter;
 import com.alifew.alife.model.Shop_response;
 import com.alifew.alife.model.getUser_deviceToken_response;
+import com.alifew.alife.model.Get_shop_customer_response;
 import com.alifew.alife.model.get_version_response;
 import com.alifew.alife.model.shop_status_response;
 import com.alifew.alife.model.user_instruction_response;
 import com.alifew.alife.view.LoginActivity;
 import com.alifew.alife.viewmodel.Get_version;
 import com.alifew.alife.session.SessionManagement;
+import com.alifew.alife.viewmodel.ShopCustomerViewModel;
 import com.alifew.alife.viewmodel.Shop_details;
 import com.alifew.alife.viewmodel.Shop_status;
 import com.alifew.alife.viewmodel.User_deviceToken;
@@ -123,6 +130,8 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
     private FirebaseAnalytics mFirebaseAnalytics;
     SessionManagement sessionManagement;
 
+    ShopCustomerViewModel shopCustomerViewModel;
+    CustomerDao customerDao;
 
     @SuppressLint("MissingPermission")
     protected void onStart() {
@@ -203,7 +212,7 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
     }
 
     private void checkMultipleDeviceLogIN() {
-        Log.d("dataxx", "token: "+deviceToken);
+        Log.d("dataxx", "token: " + deviceToken);
         user_deviceToken.getToken(String.valueOf(user), "shop").observe(Shop_main_activity.this, new Observer<getUser_deviceToken_response>() {
             @Override
             public void onChanged(getUser_deviceToken_response getUser_deviceToken_response) {
@@ -356,8 +365,69 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.shop_main_activity);
         ActivityCompat.requestPermissions(Shop_main_activity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.INTERNET, Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.CALL_PHONE, Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.READ_PHONE_STATE}, 1);
         //instruction_func();
+
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, new Shop_homescreen_fragment()).commit();
+        }
+
+
+        checkConnection();
+
+        initView();
+
+        shop_details.getdata(String.valueOf(shop_id)).observe(Shop_main_activity.this, new Observer<Shop_response>() {
+            @Override
+            public void onChanged(Shop_response shop_response) {
+                name = shop_response.getName();
+                SHOP_NAME = name;
+                SHOP_NUMBER = shop_response.getPhone();
+                image = shop_response.getImage();
+
+                Glide.with(getApplicationContext())
+                        .load(image)
+                        .centerCrop()
+                        .placeholder(R.drawable.loader)
+                        .into(imageView);
+
+                profileName.setText(name);
+
+                sessionManagement.saveShopName(name);
+            }
+        });
+
+        getReviewInfo();
+
+        getAllCustomer();
+
+    }
+
+    private void getAllCustomer() {
+        shopCustomerViewModel.getAllCustomer().observe(this, new Observer<List<Get_shop_customer_response>>() {
+            @Override
+            public void onChanged(List<Get_shop_customer_response> getShopCustomerResponses) {
+                //Toast.makeText(Shop_main_activity.this, String.valueOf(getShopCustomerResponses.size()), Toast.LENGTH_SHORT).show();
+                for (int i = 0; i < getShopCustomerResponses.size(); i++) {
+                    Get_shop_customer_response response = getShopCustomerResponses.get(i);
+//                    InsertCustomerThread insertCustomerThread = new InsertCustomerThread(response, getApplicationContext());
+//                    insertCustomerThread.start();
+                    customerDao.insertCustomers(new Customer(response.getCustomer01r_id(), response.getCustomer01r_name(), response.getCustomer01r_address(), response.getCustomer01r_phone(), response.getCustomer01r_image()));
+                }
+            }
+        });
+    }
+
+    private void initView() {
+
+        AppDatabase db = AppDatabase.getDatabase(getApplicationContext());
+        customerDao = db.customerDao();
+
+        customerDao.deleteAllCustomer();
+        customerDao.resetPrimaryKeySequence("tblCustomer");
+
         sessionManagement = new SessionManagement(this);
 
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
@@ -375,18 +445,7 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
 
         deviceToken = sessionManagement.getDeviceToken();
         //Log.d("dataxx", "mac: " + deviceToken);
-
-        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, new Shop_homescreen_fragment()).commit();
-        }
-
-        setContentView(R.layout.shop_main_activity);
-        checkConnection();
-
-
-        int userId = sessionManagement.getSession();
-        shop_id = String.valueOf(userId);
+        shop_id = String.valueOf(sessionManagement.getSession());
         type = sessionManagement.getType();
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -408,30 +467,10 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
         //Toast.makeText(this, sessionManagement.getLatitude() + " " + sessionManagement.getLongitude(), Toast.LENGTH_SHORT).show();
 
 
-        shop_details = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(Shop_details.class);
-        shop_details.getdata(String.valueOf(userId)).observe(Shop_main_activity.this, new Observer<Shop_response>() {
-            @Override
-            public void onChanged(Shop_response shop_response) {
-                name = shop_response.getName();
-                SHOP_NAME = name;
-                SHOP_NUMBER = shop_response.getPhone();
-                image = shop_response.getImage();
+        shop_details = new ViewModelProvider(this).get(Shop_details.class);
+        shopCustomerViewModel = new ViewModelProvider(this).get(ShopCustomerViewModel.class);
 
-                Glide.with(getApplicationContext())
-                        .load(image)
-                        .centerCrop()
-                        .placeholder(R.drawable.loader)
-                        .into(imageView);
-
-                profileName = (TextView) view.findViewById(R.id.profile_name);
-                profileName.setText(name);
-
-                sessionManagement.saveShopName(name);
-            }
-        });
-
-        getReviewInfo();
-
+        profileName = view.findViewById(R.id.profile_name);
     }
 
 

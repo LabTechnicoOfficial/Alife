@@ -1,15 +1,16 @@
-package com.alifew.alife.DB;
+package com.alifew.alife.DB.dao;
 
 
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
 
+import com.alifew.alife.DB.entity.Products;
+
 import java.util.List;
 
 @Dao
 public interface ProductDao {
-
 
     @Query("SELECT * From tblProducts GROUP BY product_id")
     List<Products> getProductsList();
@@ -37,4 +38,7 @@ public interface ProductDao {
 
     @Query("SELECT * from tblProducts WHERE barcode = :barcode GROUP BY product_id")
     List<Products> getProductsByBarCode(String barcode);
+
+    @Query("DELETE FROM sqlite_sequence WHERE name = :tableName")
+    void resetPrimaryKeySequence(String tableName);
 }

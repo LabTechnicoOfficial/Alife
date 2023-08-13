@@ -105,35 +105,6 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/businessAccountButtonID"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_columnWeight="1"
-            android:layout_margin="5dp"
-            android:clickable="true"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:padding="5dp">
-
-
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginBottom="5dp"
-                android:src="@drawable/debit_credit_icon" />
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/business_account"
-                android:textAllCaps="false"
-                android:textColor="@color/black" />
-
-        </LinearLayout>
-
-        <LinearLayout
             android:id="@+id/sellProductsButtonID"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -220,93 +191,6 @@
 
         </LinearLayout>
 
-
-        <LinearLayout
-            android:id="@+id/dailyAccountButtonID"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_columnWeight="1"
-            android:layout_margin="5dp"
-            android:clickable="true"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:padding="5dp">
-
-
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginBottom="5dp"
-                android:src="@drawable/transaction_icon" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/account"
-                android:textAllCaps="false"
-                android:textColor="@color/black" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/customerListButtonID"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_columnWeight="1"
-            android:layout_margin="5dp"
-            android:clickable="true"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:padding="5dp">
-
-
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginBottom="5dp"
-                android:src="@drawable/user_icon" />
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/customers"
-                android:textAllCaps="false"
-                android:textColor="@color/black" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/sellHistoryButtonID"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_columnWeight="1"
-            android:layout_margin="5dp"
-            android:clickable="true"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:padding="5dp">
-
-
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginBottom="5dp"
-                android:src="@drawable/history_icon" />
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/sell_history"
-                android:textAllCaps="false"
-                android:textColor="@color/black" />
-
-        </LinearLayout>
-
         <LinearLayout
             android:id="@+id/localSellButtonID"
             android:layout_width="wrap_content"
@@ -363,7 +247,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/sendNotificationButtonID"
+            android:id="@+id/sellHistoryButtonID"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_columnWeight="1"
@@ -379,12 +263,127 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginBottom="5dp"
-                android:src="@drawable/bell_icon" />
+                android:src="@drawable/history_icon" />
+
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/notification"
+                android:text="@string/sell_history"
+                android:textAllCaps="false"
+                android:textColor="@color/black" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/customerListButtonID"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_margin="5dp"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="5dp">
+
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginBottom="5dp"
+                android:src="@drawable/user_icon" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/customers"
+                android:textAllCaps="false"
+                android:textColor="@color/black" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/businessAccountButtonID"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_margin="5dp"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="5dp">
+
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginBottom="5dp"
+                android:src="@drawable/debit_credit_icon" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/business_account"
+                android:textAllCaps="false"
+                android:textColor="@color/black" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/dailyAccountButtonID"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_margin="5dp"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="5dp">
+
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginBottom="5dp"
+                android:src="@drawable/transaction_icon" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/account"
+                android:textAllCaps="false"
+                android:textColor="@color/black" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/printBarcodeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_margin="5dp"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="5dp">
+
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginBottom="5dp"
+                android:src="@drawable/print_icon" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/print_barcode"
                 android:textAllCaps="false"
                 android:textColor="@color/black" />
 
@@ -420,7 +419,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/printBarcodeButton"
+            android:id="@+id/sendNotificationButtonID"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_columnWeight="1"
@@ -436,12 +435,12 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginBottom="5dp"
-                android:src="@drawable/print_icon" />
+                android:src="@drawable/bell_icon" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/print_barcode"
+                android:text="@string/notification"
                 android:textAllCaps="false"
                 android:textColor="@color/black" />
 

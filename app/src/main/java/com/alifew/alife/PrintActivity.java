@@ -20,11 +20,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.alifew.alife.DB.Products;
+import com.alifew.alife.DB.entity.Products;
 import com.alifew.alife.Utils.Helpers;
 import com.alifew.alife.adapter.Barcode.Barcode_view_adapter;
 import com.alifew.alife.session.SessionManagement;
@@ -34,7 +33,6 @@ import com.itextpdf.text.pdf.PdfWriter;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;

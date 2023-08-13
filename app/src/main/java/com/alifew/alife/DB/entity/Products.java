@@ -1,4 +1,4 @@
-package com.alifew.alife.DB;
+package com.alifew.alife.DB.entity;
 
 import android.os.Parcel;
 import android.os.Parcelable;

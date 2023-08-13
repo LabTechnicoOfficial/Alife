@@ -37,7 +37,7 @@ import com.alifew.alife.model.phone_verification_response;
 import com.alifew.alife.model.shop_due_customer_response;
 import com.alifew.alife.viewmodel.Customer_registration;
 import com.alifew.alife.viewmodel.Phone_verification;
-import com.alifew.alife.viewmodel.Shop_customer;
+import com.alifew.alife.viewmodel.ShopCustomerViewModel;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -53,7 +53,7 @@ public class Shop_due_customer_fragment extends Fragment implements Shop_due_cus
     EditText search;
     TextView totalDueText, totalDueTitle, totalCustomer;
     private String shop_id;
-    Shop_customer shop_customer;
+    ShopCustomerViewModel shop_customer;
     private Shop_due_customer_adapter adapter;
     private List<shop_due_customer_response> customerList;
     ExtendedFloatingActionButton addCustomerButton;
@@ -252,7 +252,7 @@ public class Shop_due_customer_fragment extends Fragment implements Shop_due_cus
     private void due_customer(int Page, int Limit) {
         progressBar.setVisibility(View.GONE);
         if (Page == 1) {
-            shop_customer = new ViewModelProvider(getActivity()).get(Shop_customer.class);
+            shop_customer = new ViewModelProvider(getActivity()).get(ShopCustomerViewModel.class);
             shop_customer.get_due_customer(shop_id).observe(getViewLifecycleOwner(), new Observer<List<shop_due_customer_response>>() {
                 @Override
                 public void onChanged(List<shop_due_customer_response> shop_due_customer_responses) {

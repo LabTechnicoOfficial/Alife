@@ -69,7 +69,7 @@ import com.alifew.alife.viewmodel.Local_sell.Get_local_sell;
 import com.alifew.alife.viewmodel.Product_sell;
 import com.alifew.alife.viewmodel.Product_sell_payment;
 import com.alifew.alife.viewmodel.Push_notification;
-import com.alifew.alife.viewmodel.Shop_customer;
+import com.alifew.alife.viewmodel.ShopCustomerViewModel;
 import com.alifew.alife.viewmodel.Shop_profile;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -103,7 +103,7 @@ public class Shop_local_sell_fragment extends Fragment implements AdapterView.On
     private Uri filepath;
     private Bitmap bitmap;
     Dialog loader;
-    Shop_customer shop_customer;
+    ShopCustomerViewModel shop_customer;
     Customer_exist_check customer_exist_check;
     Customer_registration customer_registration;
     Product_sell product_sell;
@@ -415,7 +415,7 @@ public class Shop_local_sell_fragment extends Fragment implements AdapterView.On
                             buyPrice = "0";
                         }
                         customer_exist_check = new ViewModelProvider(getActivity()).get(Customer_exist_check.class);
-                        shop_customer = new ViewModelProvider(getActivity()).get(Shop_customer.class);
+                        shop_customer = new ViewModelProvider(getActivity()).get(ShopCustomerViewModel.class);
                         push_notification = new ViewModelProvider(getActivity()).get(Push_notification.class);
                         customer_exist_check.getData(phone).observe(getViewLifecycleOwner(), new Observer<customer_exist_check_response>() {
                             @Override

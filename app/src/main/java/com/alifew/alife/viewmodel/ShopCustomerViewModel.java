@@ -6,31 +6,35 @@ import androidx.lifecycle.ViewModel;
 import com.alifew.alife.model.get_shop_all_due_details_repositories;
 import com.alifew.alife.model.get_shop_all_due_details_response;
 import com.alifew.alife.model.get_shop_customer_repositories;
-import com.alifew.alife.model.get_shop_customer_response;
+import com.alifew.alife.model.Get_shop_customer_response;
 import com.alifew.alife.model.shop_due_customer_repositories;
 import com.alifew.alife.model.shop_due_customer_response;
 
 import java.util.List;
 
-public class Shop_customer extends ViewModel {
+public class ShopCustomerViewModel extends ViewModel {
     get_shop_customer_repositories repositories;
     get_shop_all_due_details_repositories due_repositories;
 
     shop_due_customer_repositories due_customer_repositories;
 
-    public LiveData<List<get_shop_customer_response>> getData(String shop_id, int page, int limit) {
+    public LiveData<List<Get_shop_customer_response>> getAllCustomer() {
+        return get_shop_customer_repositories.getInstance().getAllCustomerList();
+    }
+
+    public LiveData<List<Get_shop_customer_response>> getData(String shop_id, int page, int limit) {
         // repositories = new get_shop_customer_repositories(shop_id, page, limit);
         // return repositories.getData();
         return get_shop_customer_repositories.getInstance().getData(shop_id, page, limit);
     }
 
-    public LiveData<List<get_shop_customer_response>> getSearchData(String shop_id, String search) {
+    public LiveData<List<Get_shop_customer_response>> getSearchData(String shop_id, String search) {
         //repositories = new get_shop_customer_repositories(shop_id, search);
         //return repositories.getSearchData();
         return get_shop_customer_repositories.getInstance().getSearchData(shop_id, search);
     }
 
-    public LiveData<List<get_shop_customer_response>> get_selected_customer(String shop_id) {
+    public LiveData<List<Get_shop_customer_response>> get_selected_customer(String shop_id) {
         //repositories = new get_shop_customer_repositories(shop_id);
         //return repositories.get_selected_customer();
         return get_shop_customer_repositories.getInstance().get_selected_customer(shop_id);

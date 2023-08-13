@@ -13,7 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alifew.alife.R;
-import com.alifew.alife.model.get_shop_customer_response;
+import com.alifew.alife.model.Get_shop_customer_response;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -24,11 +24,11 @@ public class get_shop_allcustomer_adapter extends RecyclerView.Adapter<get_shop_
 
     private LayoutInflater layoutInflater;
     LinearLayout addButton;
-    List<get_shop_customer_response> customerList;
-    List<get_shop_customer_response> customerListAll;
+    List<Get_shop_customer_response> customerList;
+    List<Get_shop_customer_response> customerListAll;
     private OnAddItemListener mListener;
 
-    public get_shop_allcustomer_adapter(List<get_shop_customer_response> customerList) {
+    public get_shop_allcustomer_adapter(List<Get_shop_customer_response> customerList) {
         this.customerList = customerList;
         this.customerListAll=new ArrayList<>();
         this.customerListAll=customerList;
@@ -44,7 +44,7 @@ public class get_shop_allcustomer_adapter extends RecyclerView.Adapter<get_shop_
 
     @Override
     public void onBindViewHolder(@NonNull get_shop_allcustomer_adapter.AppViewholder holder, int position) {
-        get_shop_customer_response customer=customerList.get(position);
+        Get_shop_customer_response customer=customerList.get(position);
 
         Picasso.get().load(customer.getCustomer01r_image()).into(holder.customerImage);
         holder.customerName.setText(customer.getCustomer01r_name());
@@ -64,11 +64,11 @@ public class get_shop_allcustomer_adapter extends RecyclerView.Adapter<get_shop_
     Filter filter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
-            List<get_shop_customer_response> filterList = new ArrayList<>();
+            List<Get_shop_customer_response> filterList = new ArrayList<>();
             if (constraint.toString().isEmpty()) {
                 filterList.addAll(customerListAll);
             } else {
-                for (get_shop_customer_response customer : customerListAll) {
+                for (Get_shop_customer_response customer : customerListAll) {
                     if (customer.getCustomer01r_name().toLowerCase().contains(constraint.toString().toLowerCase())) {
                         filterList.add(customer);
                     }
@@ -82,7 +82,7 @@ public class get_shop_allcustomer_adapter extends RecyclerView.Adapter<get_shop_
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             customerList.clear();
-           customerList.addAll((Collection<? extends get_shop_customer_response>) results.values);
+           customerList.addAll((Collection<? extends Get_shop_customer_response>) results.values);
             notifyDataSetChanged();
 
         }

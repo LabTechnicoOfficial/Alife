@@ -69,7 +69,7 @@ import com.alifew.alife.viewmodel.Get_product_type;
 import com.alifew.alife.viewmodel.Product_sell;
 import com.alifew.alife.viewmodel.Product_sell_payment;
 import com.alifew.alife.viewmodel.Push_notification;
-import com.alifew.alife.viewmodel.Shop_customer;
+import com.alifew.alife.viewmodel.ShopCustomerViewModel;
 import com.alifew.alife.viewmodel.Shop_profile;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -126,7 +126,7 @@ public class Operator_sell_selected_product_list_fragment extends Fragment imple
     private String offer_type = "none";
 
     ExtendedFloatingActionButton addUnregisteredCustomer;
-    private Shop_customer get_customer;
+    private ShopCustomerViewModel get_customer;
 
     TextView customerName, customerLocation, customerPhone, customerID, price, showDate, noProductsAvailableText;
 
@@ -838,7 +838,7 @@ public class Operator_sell_selected_product_list_fragment extends Fragment imple
     }
 
     public void get_shop_customer(String search) {
-        get_customer = new ViewModelProvider(getActivity()).get(Shop_customer.class);
+        get_customer = new ViewModelProvider(getActivity()).get(ShopCustomerViewModel.class);
         get_customer.get_due_customer_by_search(shop_id, search).observe(getViewLifecycleOwner(), new Observer<List<shop_due_customer_response>>() {
             @Override
             public void onChanged(List<shop_due_customer_response> get_shop_customer_responses) {

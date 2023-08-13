@@ -3,8 +3,6 @@ package com.alifew.alife.view.Shop;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
-import android.content.ActivityNotFoundException;
-import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -56,8 +54,8 @@ import android.widget.Toast;
 
 import com.alifew.alife.DB.AppDatabase;
 import com.alifew.alife.DB.InsertProductThread;
-import com.alifew.alife.DB.ProductDao;
-import com.alifew.alife.DB.Products;
+import com.alifew.alife.DB.dao.ProductDao;
+import com.alifew.alife.DB.entity.Products;
 import com.alifew.alife.PrintActivity;
 import com.alifew.alife.R;
 import com.alifew.alife.Utils.Helpers;
@@ -72,9 +70,7 @@ import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.Serializable;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
@@ -413,8 +409,9 @@ public class ShopPrintBarcodeFragment extends Fragment implements Shop_product_b
                 for (int i = 0; i < get_product_responses.size(); i++) {
                     String printCheck = "0";
                     Get_product_response response = get_product_responses.get(i);
-                    InsertProductThread insertProductThread = new InsertProductThread(response.getProduct_id(), response.getProduct_name(), printCheck, response.getProduct_image(), response.getCode(), response.getStock_amount(), response.getSelling_price(), response.getProduct_unit(), response.getType(), getActivity());
-                    insertProductThread.start();
+                    productDao.insertProducts(new Products(response.getProduct_id(), response.getProduct_name(), printCheck, response.getProduct_image(), response.getCode(), response.getStock_amount(), response.getSelling_price(), response.getProduct_unit(), response.getType()));
+//                    InsertProductThread insertProductThread = new InsertProductThread(response.getProduct_id(), response.getProduct_name(), printCheck, response.getProduct_image(), response.getCode(), response.getStock_amount(), response.getSelling_price(), response.getProduct_unit(), response.getType(), getActivity());
+//                    insertProductThread.start();
 
                 }
 
@@ -464,10 +461,10 @@ public class ShopPrintBarcodeFragment extends Fragment implements Shop_product_b
         barCodeButton = view.findViewById(R.id.barCodeButton);
 
 
-        AppDatabase db = Room.databaseBuilder(getActivity(), AppDatabase.class, "alifeDB").allowMainThreadQueries().fallbackToDestructiveMigration().build();
-
+        AppDatabase db = AppDatabase.getDatabase(getActivity());
         productDao = db.productDao();
         productDao.clearProducts();
+        productDao.resetPrimaryKeySequence("tblProducts");
 
         printButton = view.findViewById(R.id.printButton);
         reloadButton = view.findViewById(R.id.reloadButton);

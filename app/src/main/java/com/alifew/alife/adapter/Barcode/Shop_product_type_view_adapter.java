@@ -11,8 +11,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.alifew.alife.DB.ProductDao;
-import com.alifew.alife.DB.Products;
+import com.alifew.alife.DB.dao.ProductDao;
+import com.alifew.alife.DB.entity.Products;
 import com.alifew.alife.R;
 
 import java.util.List;

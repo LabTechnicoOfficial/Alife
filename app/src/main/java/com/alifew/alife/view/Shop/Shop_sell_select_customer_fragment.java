@@ -28,7 +28,7 @@ import com.alifew.alife.Custom_Type.ProductSell;
 import com.alifew.alife.R;
 import com.alifew.alife.adapter.Shop_registered_customer_adapter;
 import com.alifew.alife.model.shop_due_customer_response;
-import com.alifew.alife.viewmodel.Shop_customer;
+import com.alifew.alife.viewmodel.ShopCustomerViewModel;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -42,7 +42,7 @@ public class Shop_sell_select_customer_fragment extends Fragment implements Shop
     ExtendedFloatingActionButton addCustomer;
     private List<ProductSell> productsList;
     private String shop_id;
-    private Shop_customer get_customer;
+    private ShopCustomerViewModel get_customer;
     private List<shop_due_customer_response> customerList;
     private Shop_registered_customer_adapter adapter;
     LinearLayout layout;
@@ -73,7 +73,7 @@ public class Shop_sell_select_customer_fragment extends Fragment implements Shop
     }
 
     public void get_shop_customer() {
-        get_customer = new ViewModelProvider(getActivity()).get(Shop_customer.class);
+        get_customer = new ViewModelProvider(getActivity()).get(ShopCustomerViewModel.class);
         get_customer.get_due_customer(shop_id).observe(getViewLifecycleOwner(), new Observer<List<shop_due_customer_response>>() {
             @Override
             public void onChanged(List<shop_due_customer_response> get_shop_customer_responses) {

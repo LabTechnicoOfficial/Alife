@@ -9,17 +9,15 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.alifew.alife.DB.ProductDao;
-import com.alifew.alife.DB.Products;
+import com.alifew.alife.DB.dao.ProductDao;
+import com.alifew.alife.DB.entity.Products;
 import com.alifew.alife.R;
 import com.bumptech.glide.Glide;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
