@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alifew.alife.R;
+import com.alifew.alife.Utils.ImageHelper;
 import com.alifew.alife.model.local_sell.get_local_sell_product_response;
 import com.squareup.picasso.Picasso;
 
@@ -41,9 +42,7 @@ public class Local_sell_product_adapter extends RecyclerView.Adapter<Local_sell_
         holder.productNameText.setText(response.getProduct_details());
         holder.priceText.setText(response.getPrice());
 
-        if (!TextUtils.isEmpty(response.getImage())) {
-            Picasso.get().load(response.getImage()).into(holder.productImage);
-        }
+        ImageHelper.imageLoader(holder.itemView.getContext(), holder.productImage, response.getImage());
 
     }
 

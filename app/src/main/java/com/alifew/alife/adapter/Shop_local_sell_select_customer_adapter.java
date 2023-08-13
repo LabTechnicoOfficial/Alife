@@ -17,6 +17,7 @@ public class Shop_local_sell_select_customer_adapter extends RecyclerView.Adapte
     private List<customer_phone_response> phoneList;
     private LayoutInflater layoutInflater;
     private OnItemClickListener listener;
+
     public Shop_local_sell_select_customer_adapter(List<customer_phone_response> phoneList) {
         this.phoneList = phoneList;
     }
@@ -32,9 +33,9 @@ public class Shop_local_sell_select_customer_adapter extends RecyclerView.Adapte
 
     @Override
     public void onBindViewHolder(@NonNull Shop_local_sell_select_customer_adapter.AppViewholder holder, int position) {
-        customer_phone_response customer=phoneList.get(position);
+        customer_phone_response customer = phoneList.get(position);
         holder.customer_phone.setText(customer.getCustomer_phone());
-        if(!customer.getCustomer_name().isEmpty())
+        if (!customer.getCustomer_name().isEmpty())
             holder.customer_name.setText(customer.getCustomer_name());
 
     }
@@ -48,34 +49,31 @@ public class Shop_local_sell_select_customer_adapter extends RecyclerView.Adapte
         void itemClick(int position);
 
     }
-    public void setOnClickListener(OnItemClickListener listener)
-    {
-        this.listener=listener;
+
+    public void setOnClickListener(OnItemClickListener listener) {
+        this.listener = listener;
     }
 
     public class AppViewholder extends RecyclerView.ViewHolder {
-        TextView customer_name,customer_phone;
+        TextView customer_name, customer_phone;
         de.hdodenhof.circleimageview.CircleImageView categoryImage;
 
         public AppViewholder(@NonNull View itemView) {
             super(itemView);
 
-       customer_name=itemView.findViewById(R.id.customerNameId);
-       customer_phone=itemView.findViewById(R.id.customerPhoneId);
-       itemView.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-               if (listener != null) {
-                   int position = getAdapterPosition();
-                   if (position != RecyclerView.NO_POSITION) {
-                       listener.itemClick(position);
-                   }
-               }
-           }
-       });
-
-
-
+            customer_name = itemView.findViewById(R.id.customerNameId);
+            customer_phone = itemView.findViewById(R.id.customerPhoneId);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            listener.itemClick(position);
+                        }
+                    }
+                }
+            });
 
 
         }
