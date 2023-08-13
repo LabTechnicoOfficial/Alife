@@ -36,6 +36,7 @@ import com.alifew.alife.BuildConfig;
 import com.alifew.alife.R;
 import com.alifew.alife.Utils.Constants;
 import com.alifew.alife.Utils.Helpers;
+import com.alifew.alife.Utils.ImageHelper;
 import com.alifew.alife.model.Customer_response;
 import com.alifew.alife.model.getUser_deviceToken_response;
 import com.alifew.alife.model.get_version_response;
@@ -203,14 +204,8 @@ public class Customer_main_activity extends AppCompatActivity implements Navigat
             @Override
             public void onChanged(Customer_response customer_response) {
                 name = customer_response.getName();
-                image = customer_response.getImage();
-                Glide.with(getApplicationContext())
-                        .load(customer_response.getImage())
-                        .centerCrop()
-                        .placeholder(R.drawable.loader)
-                        .into(imageView);
-//                Picasso.get().load(image).fit().centerInside().into(imageView);
-                profileName = (TextView) view.findViewById(R.id.profile_name);
+                ImageHelper.imageLoader(getApplicationContext(), imageView, customer_response.getImage());
+                profileName =  view.findViewById(R.id.profile_name);
                 profileName.setText(name);
             }
         });
@@ -584,8 +579,6 @@ public class Customer_main_activity extends AppCompatActivity implements Navigat
 
     @SuppressLint("SetTextI18n")
     public void force_app_update(AppUpdateInfo appUpdateInfo) {
-
-
         Dialog alertDialog = new Dialog(this);
         alertDialog.setContentView(R.layout.update_app_alert);
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));

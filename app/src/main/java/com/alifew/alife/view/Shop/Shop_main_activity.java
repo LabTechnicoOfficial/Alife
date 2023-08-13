@@ -48,6 +48,7 @@ import com.alifew.alife.DB.InsertCustomerThread;
 import com.alifew.alife.DB.dao.CustomerDao;
 import com.alifew.alife.DB.entity.Customer;
 import com.alifew.alife.R;
+import com.alifew.alife.Utils.ImageHelper;
 import com.alifew.alife.adapter.Instruction_adapter;
 import com.alifew.alife.model.Shop_response;
 import com.alifew.alife.model.getUser_deviceToken_response;
@@ -385,16 +386,8 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
                 name = shop_response.getName();
                 SHOP_NAME = name;
                 SHOP_NUMBER = shop_response.getPhone();
-                image = shop_response.getImage();
-
-                Glide.with(getApplicationContext())
-                        .load(image)
-                        .centerCrop()
-                        .placeholder(R.drawable.loader)
-                        .into(imageView);
-
+                ImageHelper.imageLoader(getApplicationContext(), imageView, shop_response.getImage());
                 profileName.setText(name);
-
                 sessionManagement.saveShopName(name);
             }
         });
