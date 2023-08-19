@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alifew.alife.R;
+import com.alifew.alife.Utils.ImageHelper;
 import com.alifew.alife.model.local_sell.get_local_sell_product_response;
 import com.squareup.picasso.Picasso;
 
@@ -37,8 +38,8 @@ private OnItemClickListener listener;
         get_local_sell_product_response response = productList.get(position);
         holder.product_name.setText(response.getProduct_details());
         holder.product_price.setText(response.getPrice());
-        if(!response.getImage().isEmpty())
-        Picasso.get().load(response.getImage()).into(holder.product_image);
+
+        ImageHelper.imageLoader(holder.itemView.getContext(), holder.product_image, response.getImage());
     }
 
     @Override

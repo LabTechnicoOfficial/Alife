@@ -388,7 +388,7 @@ public class Operator_all_products_fragment extends Fragment implements Operator
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(operator_product_fragment, container, false);
         checkConnection();
-        recyclerView1 = view.findViewById(R.id.recyclerViewID);
+        recyclerView1 = view.findViewById(R.id.itemView);
         recyclerView2 = view.findViewById(R.id.recyclerView2ID);
 
         gridBUtton = (ToggleButton) view.findViewById(R.id.toggleButtonID);

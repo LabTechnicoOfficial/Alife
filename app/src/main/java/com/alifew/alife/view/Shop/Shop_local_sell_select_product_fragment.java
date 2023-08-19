@@ -146,7 +146,7 @@ public class Shop_local_sell_select_product_fragment extends Fragment implements
                 R.anim.fade_out,  // exit
                 R.anim.fade_in,   // popEnter
                 R.anim.slide_out  // popExit
-        ).replace(R.id.frame_container, new Shop_local_sell_fragment(shop_id, 2)).addToBackStack(null).commit();
+        ).replace(R.id.frame_container, new Shop_local_sell_fragment(shop_id, 2)).commit();
 
 
     }

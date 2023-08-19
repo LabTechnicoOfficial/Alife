@@ -240,7 +240,7 @@ public class Customer_shopList_fragment extends Fragment implements Customer_all
         detailsLayout = (HorizontalScrollView) view.findViewById(R.id.detailsLayoutID);
 
         toggleButton = (MaterialButtonToggleGroup) view.findViewById(R.id.toggleGroupID);
-        search = (EditText) view.findViewById(R.id.searchID);
+        search = (EditText) view.findViewById(R.id.searchEditText);
         all_search = (EditText) view.findViewById(R.id.AllShopSearchID);
         customerRequestButton = (ImageView) view.findViewById(R.id.customerRequestButtonID);
         requestValue = (TextView) view.findViewById(R.id.requestValueID);

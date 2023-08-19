@@ -941,7 +941,7 @@ public class Shop_sell_product_selected_fragment extends Fragment implements Sho
         addMoreAlert.show();
         ImageView closeButton = (ImageView) addMoreAlert.findViewById(R.id.crossID);
         all_productView = (RecyclerView) addMoreAlert.findViewById(R.id.productsViewID);
-        searchBar = (EditText) addMoreAlert.findViewById(R.id.searchID);
+        searchBar = (EditText) addMoreAlert.findViewById(R.id.searchEditText);
         // allDiscountText = (TextView) addMoreAlert.findViewById(R.id.allDiscountID);
 
         all_productView.setHasFixedSize(true);

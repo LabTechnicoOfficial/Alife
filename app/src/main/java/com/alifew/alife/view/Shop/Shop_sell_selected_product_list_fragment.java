@@ -563,7 +563,7 @@ public class Shop_sell_selected_product_list_fragment extends Fragment implement
         ImageView closeButton = (ImageView) addMoreAlert.findViewById(R.id.crossID);
         layoutManager1 = new LinearLayoutManager(getActivity());
         all_productView = (RecyclerView) addMoreAlert.findViewById(R.id.productsViewID);
-        searchBar = (EditText) addMoreAlert.findViewById(R.id.searchID);
+        searchBar = (EditText) addMoreAlert.findViewById(R.id.searchEditText);
         allDiscountText = (TextView) addMoreAlert.findViewById(R.id.allDiscountID);
 
         all_productView.setHasFixedSize(true);
@@ -1052,7 +1052,7 @@ public class Shop_sell_selected_product_list_fragment extends Fragment implement
         customerView = (RecyclerView) selectCustomerAlert.findViewById(R.id.customersViewID);
         addUnregisteredCustomer = (ExtendedFloatingActionButton) selectCustomerAlert.findViewById(R.id.addCustomerID);
         ImageView closeButton = (ImageView) selectCustomerAlert.findViewById(R.id.closeButtonID);
-        EditText searchBox = (EditText) selectCustomerAlert.findViewById(R.id.searchID);
+        EditText searchBox = (EditText) selectCustomerAlert.findViewById(R.id.searchEditText);
 
         layoutManager2 = new LinearLayoutManager(getContext());
         customerView.setHasFixedSize(true);

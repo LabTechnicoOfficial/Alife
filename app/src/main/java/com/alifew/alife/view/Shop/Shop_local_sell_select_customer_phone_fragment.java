@@ -4,7 +4,6 @@ import android.os.Bundle;
 
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,14 +13,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import com.alifew.alife.DB.AppDatabase;
+import com.alifew.alife.DB.dao.CustomerDao;
+import com.alifew.alife.DB.entity.Customer;
 import com.alifew.alife.R;
 import com.alifew.alife.adapter.Shop_local_sell_select_customer_adapter;
 import com.alifew.alife.model.local_sell.LocalSell_property;
 import com.alifew.alife.model.local_sell.customer_phone_response;
+import com.alifew.alife.session.SessionManagement;
 import com.alifew.alife.viewmodel.Local_sell.Get_local_sell;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 public class Shop_local_sell_select_customer_phone_fragment extends Fragment implements Shop_local_sell_select_customer_adapter.OnItemClickListener {
@@ -30,16 +34,11 @@ public class Shop_local_sell_select_customer_phone_fragment extends Fragment imp
     private List<customer_phone_response> phoneList;
     RecyclerView recyclerView;
     private Shop_local_sell_select_customer_adapter adapter;
-    int page = 1, limit = 15, end = 0;
-    ProgressBar progressBar;
-    NestedScrollView nestedScrollView;
-    private RecyclerView.LayoutManager layoutmanager;
+ //   ProgressBar progressBar;
 
-    public Shop_local_sell_select_customer_phone_fragment(String shop_id) {
-        // Required empty public constructor
-        this.shop_id = shop_id;
-    }
-
+    SessionManagement sessionManagement;
+    CustomerDao customerDao;
+    List<Customer> customerList = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -51,43 +50,45 @@ public class Shop_local_sell_select_customer_phone_fragment extends Fragment imp
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_shop_local_sell_select_customer_phone_fragment, container, false);
-        get_local_sell = new ViewModelProvider(this).get(Get_local_sell.class);
-        recyclerView = view.findViewById(R.id.recyclerViewID);
-        recyclerView.setHasFixedSize(true);
-        layoutmanager = new LinearLayoutManager(view.getContext());
-        recyclerView.setLayoutManager(layoutmanager);
-        page = 1;
-        limit = 15;
 
-        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-        nestedScrollView = (NestedScrollView) view.findViewById(R.id.nestedRecyclerViewID);
-        get_phone(page, limit);
-        nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+        initView(view);
+
+       // getPhone();
+
+        requireActivity().runOnUiThread(new Runnable() {
             @Override
-            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-
-                //mFloatingActionButton.show();
-                if (scrollY == v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight()) {
-                    if (end == 0) {
-                        progressBar.setVisibility(View.VISIBLE);
-                        page++;
-                        get_phone(page, limit);
-                    }
-                }
+            public void run() {
+                getPhone();
             }
         });
+
+
         return view;
     }
 
-    private void get_phone(int Page, int Limit) {
-        progressBar.setVisibility(View.GONE);
-        if (Page == 1) {
+    private void initView(View view) {
+        sessionManagement = new SessionManagement(getActivity());
+        //shop_id = sessionManagement.getSaveShopName()
+        shop_id = String.valueOf(sessionManagement.getSession());
+        // Toast.makeText(getActivity(), sessionManagement.getSaveShopName(), Toast.LENGTH_SHORT).show();
+        get_local_sell = new ViewModelProvider(this).get(Get_local_sell.class);
+        recyclerView = view.findViewById(R.id.itemView);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+      //  progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+        AppDatabase db = AppDatabase.getDatabase(getActivity());
+        customerDao = db.customerDao();
+    }
+
+    private void getPhone() {
+
+     //   progressBar.setVisibility(View.GONE);
+/*        if (Page == 1) {
             phoneList = new ArrayList<>();
             adapter = new Shop_local_sell_select_customer_adapter(phoneList);
             adapter.setOnClickListener(Shop_local_sell_select_customer_phone_fragment.this::itemClick);
 
             recyclerView.setAdapter(adapter);
-
 
         }
         get_local_sell.getCustomer(shop_id, Page, Limit).observe(getViewLifecycleOwner(), new Observer<List<customer_phone_response>>() {
@@ -96,27 +97,32 @@ public class Shop_local_sell_select_customer_phone_fragment extends Fragment imp
                 if (customer_phone_responses.size() < limit) {
                     end = 1;
                 }
-                for (int i = 0; i < customer_phone_responses.size(); i++) {
-                    phoneList.add(customer_phone_responses.get(i));
-                }
+                phoneList.addAll(customer_phone_responses);
                 adapter = new Shop_local_sell_select_customer_adapter(phoneList);
                 adapter.setOnClickListener(Shop_local_sell_select_customer_phone_fragment.this::itemClick);
                 recyclerView.setAdapter(adapter);
             }
-        });
+        });*/
 
+        customerList = customerDao.getAllCustomer();
+        adapter = new Shop_local_sell_select_customer_adapter(customerList);
+        adapter.setOnClickListener(Shop_local_sell_select_customer_phone_fragment.this::itemClick);
+        recyclerView.setAdapter(adapter);
+
+      //  Toast.makeText(getActivity(), String.valueOf(customerList.size()), Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void itemClick(int position) {
-        LocalSell_property.Customer_phone = phoneList.get(position).getCustomer_phone();
+        LocalSell_property.Customer_phone = customerList.get(position).getPhone();
+       // getActivity().getSupportFragmentManager().popBackStack();
 
         getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(
                 R.anim.slide_in,  // enter
                 R.anim.fade_out,  // exit
                 R.anim.fade_in,   // popEnter
                 R.anim.slide_out  // popExit
-        ).replace(R.id.frame_container, new Shop_local_sell_fragment(shop_id, 3)).addToBackStack(null).commit();
+        ).replace(R.id.frame_container, new Shop_local_sell_fragment(shop_id, 3)).commit();
 
 
     }

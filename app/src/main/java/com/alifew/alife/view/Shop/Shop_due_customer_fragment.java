@@ -337,7 +337,7 @@ public class Shop_due_customer_fragment extends Fragment implements Shop_due_cus
         View view = inflater.inflate(shop_due_customer_fragment, container, false);
         checkConnection();
 
-        search = (EditText) view.findViewById(R.id.searchID);
+        search = (EditText) view.findViewById(R.id.searchEditText);
         totalDueText = (TextView) view.findViewById(R.id.totalDueID);
         totalDueTitle = (TextView) view.findViewById(R.id.totalDueTitleId);
         totalCustomer = (TextView) view.findViewById(R.id.totalCustomerID);

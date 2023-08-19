@@ -576,7 +576,7 @@ public class Shop_local_page_details_fragment extends Fragment implements Shop_l
 
         addButton = (ExtendedFloatingActionButton) view.findViewById(R.id.addButtonID);
         TOTAL_PRICE = (TextView) view.findViewById(R.id.totalPriceID);
-        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewID);
+        recyclerView = (RecyclerView) view.findViewById(R.id.itemView);
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

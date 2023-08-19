@@ -212,7 +212,7 @@ public class Operator_sell_category_fragment extends Fragment implements Sell_ca
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.operator_sell_category_fragment, container, false);
-        searchBar = (EditText) view.findViewById(R.id.searchID);
+        searchBar = (EditText) view.findViewById(R.id.searchEditText);
         categoriesView = (RecyclerView) view.findViewById(R.id.categoriesViewID);
         categoriesView.setHasFixedSize(true);
 

@@ -442,7 +442,7 @@ public class Shop_customer_list_fragments extends Fragment implements get_shop_c
         detailsLayout = (HorizontalScrollView) view.findViewById(R.id.detailsLayoutID);
 
         toggleGroup = view.findViewById(R.id.toggleGroupID);
-        search = (EditText) view.findViewById(R.id.searchID);
+        search = (EditText) view.findViewById(R.id.searchEditText);
         all_search = (EditText) view.findViewById(R.id.allCustomerSearchID);
 
         requestValue = (TextView) view.findViewById(R.id.requestValueID);

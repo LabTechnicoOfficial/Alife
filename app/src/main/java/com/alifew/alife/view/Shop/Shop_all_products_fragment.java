@@ -150,7 +150,7 @@ public class Shop_all_products_fragment extends Fragment implements get_product_
 
         offersButton = (ExtendedFloatingActionButton) view.findViewById(R.id.offersButtonID);
 
-        recyclerView1 = view.findViewById(R.id.recyclerViewID);
+        recyclerView1 = view.findViewById(R.id.itemView);
         recyclerView2 = view.findViewById(R.id.recyclerView2ID);
 
         gridBUtton = (ToggleButton) view.findViewById(R.id.toggleButtonID);

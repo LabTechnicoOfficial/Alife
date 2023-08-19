@@ -76,7 +76,6 @@ import com.alifew.alife.viewmodel.Update_product;
 import com.bumptech.glide.Glide;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -352,7 +351,7 @@ public class Product_details_fragment<SharedViewModel> extends Fragment implemen
 
                 get_product_type = new ViewModelProvider(getActivity()).get(Get_product_type.class);
                 data = new ArrayList<>();
-                recyclerView = alert.findViewById(R.id.recyclerViewID);
+                recyclerView = alert.findViewById(R.id.itemView);
                 recyclerView.setHasFixedSize(true);
                 layoutmanager = new LinearLayoutManager(alert.getContext());
                 recyclerView.setLayoutManager(layoutmanager);
@@ -714,7 +713,7 @@ public class Product_details_fragment<SharedViewModel> extends Fragment implemen
                                 ImageView closeButton = (ImageView) submit_alert.findViewById(R.id.closeID);
                                 Add = (ImageView) submit_alert.findViewById(R.id.addItemButtonID);
                                 submit = (TextView) submit_alert.findViewById(R.id.submit_ID);
-                                recyclerView = submit_alert.findViewById(R.id.recyclerViewID);
+                                recyclerView = submit_alert.findViewById(R.id.itemView);
                                 recyclerView.setHasFixedSize(true);
                                 layoutmanager = new LinearLayoutManager(alert.getContext());
                                 recyclerView.setLayoutManager(layoutmanager);
@@ -1174,7 +1173,7 @@ public class Product_details_fragment<SharedViewModel> extends Fragment implemen
         View view = inflater.inflate(product_details_fragment, container, false);
         checkConnection();
 
-        recyclerView = view.findViewById(R.id.recyclerViewID);
+        recyclerView = view.findViewById(R.id.itemView);
         recyclerView.setHasFixedSize(true);
         layoutmanager = new LinearLayoutManager(view.getContext());
         recyclerView.setLayoutManager(layoutmanager);

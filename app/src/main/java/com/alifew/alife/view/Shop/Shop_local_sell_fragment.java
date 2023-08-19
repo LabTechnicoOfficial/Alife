@@ -203,15 +203,14 @@ public class Shop_local_sell_fragment extends Fragment implements AdapterView.On
             check = 2;
             imageList = new ArrayList<>();
             // Toast.makeText(getActivity(), String.valueOf(LocalSell_property.Product_image.size()), Toast.LENGTH_SHORT).show();
-            for (int i = 0; i < LocalSell_property.Product_image.size(); i++) {
-                imageList.add(LocalSell_property.Product_image.get(i));
-            }
+            imageList.addAll(LocalSell_property.Product_image);
         }
         productDetailsText.setText(LocalSell_property.Product_description);
         productPriceText.setText(LocalSell_property.Product_price);
+        paidPriceText.setText(LocalSell_property.Product_price);
         buyPriceText.setText(LocalSell_property.Product_buePrice);
         profitText.setText(LocalSell_property.SellProfit);
-        phoneText.setText(LocalSell_property.Customer_phone);
+
 
         productPriceText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -350,7 +349,7 @@ public class Shop_local_sell_fragment extends Fragment implements AdapterView.On
                         R.anim.fade_out,  // exit
                         R.anim.fade_in,   // popEnter
                         R.anim.slide_out  // popExit
-                ).replace(R.id.frame_container, new Shop_local_sell_select_customer_phone_fragment(shopID)).addToBackStack(null).commit();
+                ).replace(R.id.frame_container, new Shop_local_sell_select_customer_phone_fragment()).addToBackStack(null).commit();
 
 
             }
@@ -499,6 +498,13 @@ public class Shop_local_sell_fragment extends Fragment implements AdapterView.On
         });
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        phoneText.setText(LocalSell_property.Customer_phone);
     }
 
     private void convert_pdf() {

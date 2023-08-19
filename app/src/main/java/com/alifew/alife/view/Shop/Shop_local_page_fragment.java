@@ -147,7 +147,7 @@ public class Shop_local_page_fragment extends Fragment implements Shop_local_pag
         View view = inflater.inflate(R.layout.shop_local_page_fragment, container, false);
 
         addButton = (ExtendedFloatingActionButton) view.findViewById(R.id.addButtonID);
-        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewID);
+        recyclerView = (RecyclerView) view.findViewById(R.id.itemView);
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
