@@ -2,6 +2,7 @@ package com.alifew.alife.view.Shop;
 
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -92,10 +93,10 @@ public class Shop_local_sell_fragment extends Fragment implements AdapterView.On
     String shopID;
 
     String productName, productDetails, productPrice, paidPrice, phone, buyPrice;
-    TextInputEditText productNameText, productPriceText, paidPriceText, phoneText, buyPriceText;
+    TextInputEditText productNameText, productPriceText, paidPriceText, buyPriceText;
     TextInputLayout productNameError, productDetailsError, paidPriceError, phoneError;
     EditText productDetailsText;
-    TextView choseImageButton, select_product, select_phone, profitText;
+    TextView choseImageButton, select_product, select_phone, profitText, duePriceText,phoneText, nameText;
     LinearLayout bar_code_search;
     AppCompatButton sellButton;
 
@@ -132,6 +133,7 @@ public class Shop_local_sell_fragment extends Fragment implements AdapterView.On
     private int loopItem;
     LinearLayout selectImage, listImage;
     Shop_local_sell_image_list_adapter adapter;
+    Double duePrice = 0.0;
 
     public Shop_local_sell_fragment(String shopID, int state) {
         this.shopID = shopID;
@@ -173,22 +175,9 @@ public class Shop_local_sell_fragment extends Fragment implements AdapterView.On
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.shop_local_sell_fragment, container, false);
 
-        get_local_sell = new ViewModelProvider(this).get(Get_local_sell.class);
-        //productNameText = view.findViewById(R.id.productNameTextID);
-        imageRecyclerView = view.findViewById(R.id.imageRecyclerViewID);
-        imageRecyclerView.setHasFixedSize(true);
-        imageRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        initView(view);
 
-        productDetailsText = view.findViewById(R.id.productDetailsTextID);
-        productPriceText = view.findViewById(R.id.productPriceTextID);
-        paidPriceText = view.findViewById(R.id.paidPriceTextID);
-        buyPriceText = view.findViewById(R.id.buyPriceTextID);
-        profitText = view.findViewById(R.id.profitTextID);
-        phoneText = view.findViewById(R.id.contactText);
-        selectImage = view.findViewById(R.id.selectImageId);
-        listImage = view.findViewById(R.id.listImageId);
 
-        historyButton = view.findViewById(R.id.historyButtonID);
 //set field autimetically
         if (state == 1) {
             LocalSell_property.Product_description = "";
@@ -196,6 +185,7 @@ public class Shop_local_sell_fragment extends Fragment implements AdapterView.On
             LocalSell_property.Product_buePrice = "";
             LocalSell_property.Product_price = "";
             LocalSell_property.Customer_phone = "";
+            LocalSell_property.customerName = "";
             LocalSell_property.Product_image = new ArrayList<>();
             imageList = new ArrayList<>();
 
@@ -268,19 +258,6 @@ public class Shop_local_sell_fragment extends Fragment implements AdapterView.On
         });
         //productNameError = view.findViewById(R.id.productNameErrorID);
         //productDetailsError = view.findViewById(R.id.productDetailsErrorID);
-        //productPriceError = view.findViewById(R.id.productPriceErrorID);
-        paidPriceError = view.findViewById(R.id.paidPriceErrorID);
-        phoneError = view.findViewById(R.id.phoneErrorID);
-
-        choseImageButton = view.findViewById(R.id.choseImageButtonId);
-        bar_code_search = view.findViewById(R.id.barcodesearchId);
-        sellButton = view.findViewById(R.id.sellButtonID);
-        select_product = view.findViewById(R.id.selectProductsButtonID);
-        select_phone = view.findViewById(R.id.selectPhoneButtonID);
-        productImage = view.findViewById(R.id.productImage);
-
-        addProductsButton = view.findViewById(R.id.addProductsButtonID);
-        fragmentManager = getFragmentManager();
 
         if (state == 1) {
             listImage.setVisibility(View.GONE);
@@ -295,7 +272,7 @@ public class Shop_local_sell_fragment extends Fragment implements AdapterView.On
         } else if (state == 3) {
             if (check == 2) {
                 imageList = new ArrayList<>();
-               // Toast.makeText(getActivity(), String.valueOf(LocalSell_property.Product_image.size()), Toast.LENGTH_SHORT).show();
+                // Toast.makeText(getActivity(), String.valueOf(LocalSell_property.Product_image.size()), Toast.LENGTH_SHORT).show();
                 for (int i = 0; i < LocalSell_property.Product_image.size(); i++) {
                     imageList.add(LocalSell_property.Product_image.get(i));
                 }
@@ -470,10 +447,6 @@ public class Shop_local_sell_fragment extends Fragment implements AdapterView.On
             }
         });
 
-        loader = new Dialog(getActivity());
-        loader.setContentView(R.layout.loader);
-        loader.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        loader.setCancelable(false);
 
         //productSpinner = view.findViewById(R.id.productSpinnerID);
         //productSpinner.setOnItemSelectedListener(this);
@@ -500,11 +473,63 @@ public class Shop_local_sell_fragment extends Fragment implements AdapterView.On
         return view;
     }
 
+    private void initView(View view) {
+        duePriceText = view.findViewById(R.id.duePriceText);
+        get_local_sell = new ViewModelProvider(this).get(Get_local_sell.class);
+        //productNameText = view.findViewById(R.id.productNameTextID);
+        imageRecyclerView = view.findViewById(R.id.imageRecyclerViewID);
+        imageRecyclerView.setHasFixedSize(true);
+        imageRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+
+        productDetailsText = view.findViewById(R.id.productDetailsTextID);
+        productPriceText = view.findViewById(R.id.productPriceTextID);
+        paidPriceText = view.findViewById(R.id.paidPriceTextID);
+        buyPriceText = view.findViewById(R.id.buyPriceTextID);
+        profitText = view.findViewById(R.id.profitTextID);
+        phoneText = view.findViewById(R.id.contactText);
+        nameText = view.findViewById(R.id.nameText);
+        selectImage = view.findViewById(R.id.selectImageId);
+        listImage = view.findViewById(R.id.listImageId);
+
+        historyButton = view.findViewById(R.id.historyButtonID);
+
+        loader = new Dialog(getActivity());
+        loader.setContentView(R.layout.loader);
+        loader.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        loader.setCancelable(false);
+
+        //productPriceError = view.findViewById(R.id.productPriceErrorID);
+        paidPriceError = view.findViewById(R.id.paidPriceErrorID);
+        phoneError = view.findViewById(R.id.phoneErrorID);
+
+        choseImageButton = view.findViewById(R.id.choseImageButtonId);
+        bar_code_search = view.findViewById(R.id.barcodesearchId);
+        sellButton = view.findViewById(R.id.sellButtonID);
+        select_product = view.findViewById(R.id.selectProductsButtonID);
+        select_phone = view.findViewById(R.id.selectPhoneButtonID);
+        productImage = view.findViewById(R.id.productImage);
+
+        addProductsButton = view.findViewById(R.id.addProductsButtonID);
+        fragmentManager = getFragmentManager();
+
+    }
+
+    @SuppressLint("SetTextI18n")
     @Override
     public void onResume() {
         super.onResume();
 
         phoneText.setText(LocalSell_property.Customer_phone);
+        nameText.setText(LocalSell_property.customerName);
+
+        try {
+
+            duePrice = Double.parseDouble(LocalSell_property.Product_price) - Double.parseDouble(paidPriceText.getText().toString().trim());
+
+        } catch (Exception ignored) {
+
+        }
+        duePriceText.setText(getString(R.string.due) + ": " + String.valueOf(duePrice));
     }
 
     private void convert_pdf() {
@@ -622,13 +647,14 @@ public class Shop_local_sell_fragment extends Fragment implements AdapterView.On
     }
 
     private void sell(String productDetails, String productPrice, String paidPrice, String phone) {
+
         product_sell = new ViewModelProvider(getActivity()).get(Product_sell.class);
         product_sell_payment = new ViewModelProvider(getActivity()).get(Product_sell_payment.class);
         add_local_sell = new ViewModelProvider(getActivity()).get(Add_local_sell.class);
-        product_sell.sell(shopID, customer_id, customer_name, phone, productPrice, buyPrice, "0", "local", "cc").observe(getViewLifecycleOwner(), new Observer<add_product_sell_response>() {
+        product_sell.sell(shopID, customer_id, customer_name, phone, productPrice, buyPrice,String.valueOf(duePrice), "0", "local", "cc").observe(getViewLifecycleOwner(), new Observer<add_product_sell_response>() {
             @Override
             public void onChanged(add_product_sell_response add_product_sell_response) {
-                if (!(add_product_sell_response.getSell_id().equals("failed") || add_product_sell_response.equals(null))) {
+                if (!add_product_sell_response.getSell_id().equals("failed")) {
                     sell_id = add_product_sell_response.getSell_id();
                     product_sell_payment.get_cash(sell_id, "manual", paidPrice, "vbvb").observe(getViewLifecycleOwner(), new Observer<add_sell_payment_cash_response>() {
                         @Override

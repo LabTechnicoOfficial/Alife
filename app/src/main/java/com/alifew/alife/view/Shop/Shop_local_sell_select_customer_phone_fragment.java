@@ -115,6 +115,7 @@ public class Shop_local_sell_select_customer_phone_fragment extends Fragment imp
     @Override
     public void itemClick(int position) {
         LocalSell_property.Customer_phone = customerList.get(position).getPhone();
+        LocalSell_property.customerName = customerList.get(position).getCustomerName();
         // getActivity().getSupportFragmentManager().popBackStack();
 
         getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(

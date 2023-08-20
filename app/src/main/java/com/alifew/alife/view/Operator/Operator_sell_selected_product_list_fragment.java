@@ -1180,7 +1180,9 @@ public class Operator_sell_selected_product_list_fragment extends Fragment imple
                 total_price += Double.parseDouble(productsList.get(i).getPrice());
             }
             total_price = Double.parseDouble(finalPrice.getText().toString().trim());
-            product_sell.sell(shop_id, customer_id, customer_name, customer_phone, String.valueOf(total_price), String.valueOf(total_buy_price), agent_id, "systemetic", showDate.getText().toString().trim()).observe(getViewLifecycleOwner(), new Observer<add_product_sell_response>() {
+
+            Double duePrice = total_price- total_buy_price;
+            product_sell.sell(shop_id, customer_id, customer_name, customer_phone, String.valueOf(total_price), String.valueOf(total_buy_price),String.valueOf(duePrice), agent_id, "systemetic", showDate.getText().toString().trim()).observe(getViewLifecycleOwner(), new Observer<add_product_sell_response>() {
                 @Override
                 public void onChanged(add_product_sell_response add_product_sell_response) {
                     int x = 0;
