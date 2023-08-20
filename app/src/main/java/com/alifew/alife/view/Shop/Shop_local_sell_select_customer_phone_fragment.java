@@ -8,9 +8,12 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 
 import com.alifew.alife.DB.AppDatabase;
@@ -34,11 +37,13 @@ public class Shop_local_sell_select_customer_phone_fragment extends Fragment imp
     private List<customer_phone_response> phoneList;
     RecyclerView recyclerView;
     private Shop_local_sell_select_customer_adapter adapter;
- //   ProgressBar progressBar;
 
     SessionManagement sessionManagement;
     CustomerDao customerDao;
     List<Customer> customerList = new ArrayList<>();
+
+    EditText searchEditText;
+    String searchKey = "";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -53,12 +58,22 @@ public class Shop_local_sell_select_customer_phone_fragment extends Fragment imp
 
         initView(view);
 
-       // getPhone();
+        getPhone(searchKey);
 
-        requireActivity().runOnUiThread(new Runnable() {
+        searchEditText.addTextChangedListener(new TextWatcher() {
             @Override
-            public void run() {
-                getPhone();
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                getPhone(s.toString().trim());
             }
         });
 
@@ -75,47 +90,32 @@ public class Shop_local_sell_select_customer_phone_fragment extends Fragment imp
         recyclerView = view.findViewById(R.id.itemView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-      //  progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+        //  progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         AppDatabase db = AppDatabase.getDatabase(getActivity());
         customerDao = db.customerDao();
+
+        searchEditText = view.findViewById(R.id.searchEditText);
     }
 
-    private void getPhone() {
+    private void getPhone(String searchKey) {
 
-     //   progressBar.setVisibility(View.GONE);
-/*        if (Page == 1) {
-            phoneList = new ArrayList<>();
-            adapter = new Shop_local_sell_select_customer_adapter(phoneList);
-            adapter.setOnClickListener(Shop_local_sell_select_customer_phone_fragment.this::itemClick);
-
-            recyclerView.setAdapter(adapter);
-
-        }
-        get_local_sell.getCustomer(shop_id, Page, Limit).observe(getViewLifecycleOwner(), new Observer<List<customer_phone_response>>() {
+        requireActivity().runOnUiThread(new Runnable() {
             @Override
-            public void onChanged(List<customer_phone_response> customer_phone_responses) {
-                if (customer_phone_responses.size() < limit) {
-                    end = 1;
-                }
-                phoneList.addAll(customer_phone_responses);
-                adapter = new Shop_local_sell_select_customer_adapter(phoneList);
+            public void run() {
+                customerList = customerDao.getAllCustomer(searchKey);
+                adapter = new Shop_local_sell_select_customer_adapter(customerList);
                 adapter.setOnClickListener(Shop_local_sell_select_customer_phone_fragment.this::itemClick);
                 recyclerView.setAdapter(adapter);
             }
-        });*/
+        });
 
-        customerList = customerDao.getAllCustomer();
-        adapter = new Shop_local_sell_select_customer_adapter(customerList);
-        adapter.setOnClickListener(Shop_local_sell_select_customer_phone_fragment.this::itemClick);
-        recyclerView.setAdapter(adapter);
 
-      //  Toast.makeText(getActivity(), String.valueOf(customerList.size()), Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void itemClick(int position) {
         LocalSell_property.Customer_phone = customerList.get(position).getPhone();
-       // getActivity().getSupportFragmentManager().popBackStack();
+        // getActivity().getSupportFragmentManager().popBackStack();
 
         getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(
                 R.anim.slide_in,  // enter

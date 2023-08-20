@@ -295,7 +295,7 @@ public class Shop_local_sell_fragment extends Fragment implements AdapterView.On
         } else if (state == 3) {
             if (check == 2) {
                 imageList = new ArrayList<>();
-                Toast.makeText(getActivity(), String.valueOf(LocalSell_property.Product_image.size()), Toast.LENGTH_SHORT).show();
+               // Toast.makeText(getActivity(), String.valueOf(LocalSell_property.Product_image.size()), Toast.LENGTH_SHORT).show();
                 for (int i = 0; i < LocalSell_property.Product_image.size(); i++) {
                     imageList.add(LocalSell_property.Product_image.get(i));
                 }

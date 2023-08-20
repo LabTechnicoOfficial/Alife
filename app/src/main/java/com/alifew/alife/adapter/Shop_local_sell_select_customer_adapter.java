@@ -1,5 +1,6 @@
 package com.alifew.alife.adapter;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,10 +31,11 @@ public class Shop_local_sell_select_customer_adapter extends RecyclerView.Adapte
         return new AppViewholder(LayoutInflater.from(parent.getContext()).inflate(R.layout.shop_local_sell_select_customer_card, parent, false));
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull Shop_local_sell_select_customer_adapter.AppViewholder holder, int position) {
         Customer response = customerList.get(position);
-        holder.customer_phone.setText(response.getPhone());
+        holder.customer_phone.setText(holder.itemView.getContext().getResources().getString(R.string.phone)+": "+response.getPhone());
         holder.customer_name.setText(response.getCustomerName());
         ImageHelper.imageLoader(holder.itemView.getContext(), holder.profileImage, response.getImage());
     }
