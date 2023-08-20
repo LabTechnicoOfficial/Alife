@@ -16,7 +16,7 @@
     <string name="submit">বিক্রয়</string>
     <string name="add_image">ছবি যোগ করুন</string>
     <string name="date">তারিখ</string>
-    <string name="account">লেনদেন</string>
+    <string name="transaction">লেনদেন</string>
     <string name="customers">গ্রাহক</string>
     <string name="products">পণ্য</string>
     <string name="sell_products">পণ্য বিক্রয়</string>
@@ -79,4 +79,7 @@
     <string name="notification">নোটিফিকেশন</string>
     <string name="qr_scan">স্ক্যান</string>
     <string name="file_save">ফাইল লোকেশন</string>
+
+    <string name="home">হোম</string>
+    <string name="hero_coupon">হিরো কুপন</string>
 </resources>
