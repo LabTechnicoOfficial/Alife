@@ -41,6 +41,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.alifew.alife.Utils.ImageHelper;
 import com.bumptech.glide.Glide;
 import com.alifew.alife.R;
 import com.alifew.alife.model.shop_profile_response;
@@ -137,7 +138,8 @@ public class Shop_profile_fragments extends Fragment {
                 shopImageEdit = (ImageView) alert.findViewById(R.id.shopImageEditID);
                 save_changesButton = (TextView) alert.findViewById(R.id.saveButton);
 
-                Picasso.get().load(image).into(shopImageEdit);
+                //Picasso.get().load(image).into(shopImageEdit);
+                ImageHelper.imageLoader(getActivity(), shopImageEdit,image);
                 shopNameEdit.setText(shop_name.getText().toString());
                 ownerNameEdit.setText(shop_owner.getText().toString());
                 locationEdit.setText(shop_location.getText().toString());

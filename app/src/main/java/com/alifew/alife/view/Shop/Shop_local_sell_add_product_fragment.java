@@ -38,6 +38,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alifew.alife.R;
+import com.alifew.alife.Utils.ImageHelper;
 import com.alifew.alife.adapter.Local_sell_product_adapter;
 import com.alifew.alife.model.local_sell.add_local_sell_product_response;
 import com.alifew.alife.model.local_sell.delete_local_sell_product_response;
@@ -418,9 +419,8 @@ public class Shop_local_sell_add_product_fragment extends Fragment implements Lo
 
         LinearLayout choseImageButton = dialog.findViewById(R.id.choseImageButtonId);
         ImageView productImage = dialog.findViewById(R.id.productImage);
-        if (!TextUtils.isEmpty(productList.get(position).getImage()))
-            Picasso.get().load(productList.get(position).getImage()).into(productImage);
 
+        ImageHelper.imageLoader(getActivity(), productImage, productList.get(position).getImage());
 
         editProductButton = dialog.findViewById(R.id.saveProductButtonID);
         productPriceText.addTextChangedListener(new TextWatcher() {
