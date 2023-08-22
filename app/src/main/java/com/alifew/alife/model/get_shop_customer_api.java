@@ -11,5 +11,5 @@ public interface get_shop_customer_api {
     Call<List<Get_shop_customer_response>> getcustomer(@Query("id") String id, @Query("page") int page, @Query("limit") int limit);
 
     @GET("get_all_customer.php")
-    Call<List<Get_shop_customer_response>> getAllCustomer();
+    Call<List<Get_shop_customer_response>> getAllCustomer(@Query("shop_id") String shopID);
 }

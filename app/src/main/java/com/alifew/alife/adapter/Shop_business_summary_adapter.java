@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alifew.alife.R;
+import com.alifew.alife.Utils.ImageHelper;
 import com.alifew.alife.model.get_shop_business_summary_response;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
@@ -35,7 +36,7 @@ public class Shop_business_summary_adapter extends RecyclerView.Adapter<Shop_bus
     public void onBindViewHolder(@NonNull Shop_business_summary_adapter.AppViewholder holder, int position) {
         get_shop_business_summary_response summaryResponse = summaryList.get(position);
 
-        Picasso.get().load(summaryResponse.getImage()).into(holder.imageView);
+        ImageHelper.imageLoader(holder.itemView.getContext(),  holder.imageView, summaryResponse.getImage());
         holder.descriptionText.setText(summaryResponse.getDescription());
         holder.creditInText.setText(summaryResponse.getCredit_in());
         holder.creditOutText.setText(summaryResponse.getCredit_out());

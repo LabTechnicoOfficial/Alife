@@ -10,12 +10,13 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alifew.alife.R;
+import com.alifew.alife.Utils.ImageHelper;
 import com.alifew.alife.model.Category_response;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class Shop_admin_access_category_adapter extends RecyclerView.Adapter<Shop_admin_access_category_adapter.AppViewholder>{
+public class Shop_admin_access_category_adapter extends RecyclerView.Adapter<Shop_admin_access_category_adapter.AppViewholder> {
     private LayoutInflater layoutInflater;
     List<Category_response> categoryList;
     OnItemRemoveListener mListener;
@@ -34,8 +35,9 @@ public class Shop_admin_access_category_adapter extends RecyclerView.Adapter<Sho
 
     @Override
     public void onBindViewHolder(@NonNull AppViewholder holder, int position) {
-        Category_response category=categoryList.get(position);
-        Picasso.get().load(category.getCatagory01y_logo()).into(holder.categoryImage);
+        Category_response category = categoryList.get(position);
+
+        ImageHelper.imageLoader(holder.itemView.getContext(), holder.categoryImage, category.getCatagory01y_logo());
         holder.categoryName.setText(category.getCatagory01y_name());
         holder.categoryUnit.setText(category.getCatagory01y_unit());
 
@@ -49,18 +51,21 @@ public class Shop_admin_access_category_adapter extends RecyclerView.Adapter<Sho
     public interface OnItemRemoveListener {
         void OnItemRemove(int position);
     }
+
     public void setOnClickListener(OnItemRemoveListener listener1) {
         mListener = listener1;
 
     }
+
     public class AppViewholder extends RecyclerView.ViewHolder {
         de.hdodenhof.circleimageview.CircleImageView categoryImage;
         TextView categoryName, categoryUnit;
         ImageView deleteButton;
+
         public AppViewholder(@NonNull View itemView) {
             super(itemView);
             categoryImage = (de.hdodenhof.circleimageview.CircleImageView) itemView.findViewById(R.id.categoryImageID);
-            categoryName =(TextView) itemView.findViewById(R.id.categoryNameID);
+            categoryName = (TextView) itemView.findViewById(R.id.categoryNameID);
             categoryUnit = (TextView) itemView.findViewById(R.id.categoryUnitID);
             deleteButton = (ImageView) itemView.findViewById(R.id.deleteID);
             deleteButton.setOnClickListener(new View.OnClickListener() {

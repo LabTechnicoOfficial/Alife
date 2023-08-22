@@ -107,8 +107,8 @@ public class get_shop_customer_repositories {
     }
 
     public @NonNull
-    MutableLiveData<List<Get_shop_customer_response>> getAllCustomerList() {
-        Call<List<Get_shop_customer_response>> call = get_customer.getAllCustomer();
+    MutableLiveData<List<Get_shop_customer_response>> getAllCustomerList(String shopID) {
+        Call<List<Get_shop_customer_response>> call = get_customer.getAllCustomer(shopID);
         call.enqueue(new Callback<List<Get_shop_customer_response>>() {
             @Override
             public void onResponse(Call<List<Get_shop_customer_response>> call, Response<List<Get_shop_customer_response>> response) {

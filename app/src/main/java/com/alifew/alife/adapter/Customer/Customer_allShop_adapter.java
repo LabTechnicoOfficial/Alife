@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alifew.alife.R;
+import com.alifew.alife.Utils.ImageHelper;
 import com.alifew.alife.model.fetch_shop_response;
 import com.squareup.picasso.Picasso;
 
@@ -43,7 +44,8 @@ public class Customer_allShop_adapter extends RecyclerView.Adapter<Customer_allS
     @Override
     public void onBindViewHolder(@NonNull AppViewholder holder, int position) {
         fetch_shop_response shop = shopList.get(position);
-        Picasso.get().load(shop.getStore01e_image()).into(holder.shopImage);
+
+        ImageHelper.imageLoader(holder.itemView.getContext(),  holder.shopImage, shop.getStore01e_image());
         holder.shopName.setText(shop.getStore01e_name());
 
     }

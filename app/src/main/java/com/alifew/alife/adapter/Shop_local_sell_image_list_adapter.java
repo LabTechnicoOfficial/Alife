@@ -32,7 +32,6 @@ public class Shop_local_sell_image_list_adapter extends RecyclerView.Adapter<Sho
     @Override
     public void onBindViewHolder(@NonNull AppViewHolder holder, int position) {
         String image = imageList.get(position);
-       // Picasso.get().load(image).into(holder.cardMultipleImageview);
 
         ImageHelper.imageLoader(holder.itemView.getContext(), holder.cardMultipleImageview, image);
 

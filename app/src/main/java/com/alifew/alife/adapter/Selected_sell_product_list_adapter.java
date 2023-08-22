@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.alifew.alife.Custom_Type.ProductSell;
 import com.alifew.alife.R;
+import com.alifew.alife.Utils.ImageHelper;
 import com.alifew.alife.viewmodel.Get_product;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
@@ -48,13 +49,8 @@ public class Selected_sell_product_list_adapter extends RecyclerView.Adapter<Sel
         ProductSell productSell = productSellList.get(position);
         String productId = productSell.getProduct_id();
         String amount=productSell.getAmount();
-        Picasso.get().load(productSell.getProduct_image()).into(holder.productImage);
-        /*if (!productSell.getOffer_id().equals("0")) {
-            holder.increament.setVisibility(View.GONE);
-            holder.decreament.setVisibility(View.GONE);
-            amount=amount+"(offer)";
 
-        }*/
+        ImageHelper.imageLoader(holder.itemView.getContext(),  holder.productImage, productSell.getProduct_image());
         holder.productName.setText(productSell.getProduct_name());
         holder.productAmount.setText(amount);
         holder.productType.setText(productSell.getType_name());

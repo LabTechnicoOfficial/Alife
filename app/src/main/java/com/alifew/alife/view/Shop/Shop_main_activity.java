@@ -399,14 +399,14 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
     }
 
     private void getAllCustomer() {
-        shopCustomerViewModel.getAllCustomer().observe(this, new Observer<List<Get_shop_customer_response>>() {
+        Log.d("dataxx", "getAllCustomer: "+shop_id);
+        shopCustomerViewModel.getAllCustomer(shop_id).observe(this, new Observer<List<Get_shop_customer_response>>() {
             @Override
             public void onChanged(List<Get_shop_customer_response> getShopCustomerResponses) {
                 //Toast.makeText(Shop_main_activity.this, String.valueOf(getShopCustomerResponses.size()), Toast.LENGTH_SHORT).show();
                 for (int i = 0; i < getShopCustomerResponses.size(); i++) {
                     Get_shop_customer_response response = getShopCustomerResponses.get(i);
-//                    InsertCustomerThread insertCustomerThread = new InsertCustomerThread(response, getApplicationContext());
-//                    insertCustomerThread.start();
+
                     customerDao.insertCustomers(new Customer(response.getCustomer01r_id(), response.getCustomer01r_name(), response.getCustomer01r_address(), response.getCustomer01r_phone(), response.getCustomer01r_image()));
                 }
             }

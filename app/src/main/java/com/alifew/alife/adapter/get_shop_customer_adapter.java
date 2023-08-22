@@ -48,7 +48,6 @@ public class get_shop_customer_adapter extends RecyclerView.Adapter<get_shop_cus
     public void onBindViewHolder(@NonNull get_shop_customer_adapter.AppViewholder holder, int position) {
         Get_shop_customer_response customer = customerList.get(position);
 
-       // Picasso.get().load(customer.getCustomer01r_image()).into(holder.customerImage);
         ImageHelper.imageLoader(holder.itemView.getContext(), holder.customerImage, customer.getCustomer01r_image());
         holder.customerName.setText(customer.getCustomer01r_name());
         holder.customerLocation.setText(customer.getCustomer01r_address());

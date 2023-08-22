@@ -51,6 +51,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alifew.alife.R;
+import com.alifew.alife.Utils.ImageHelper;
 import com.alifew.alife.adapter.Normal_sell_details_image_adapter;
 import com.alifew.alife.adapter.Normal_sell_product_image_show_adapter;
 import com.alifew.alife.adapter.Systemetic_sell_details_adapter;
@@ -348,7 +349,7 @@ public class Shop_customer_details_fragments extends Fragment implements shop_cu
         multipleImageView.setHasFixedSize(true);
         multipleImageView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         if (!customer_id.equals("0")) {
-            Picasso.get().load(customer_image).into(customerImage);
+            ImageHelper.imageLoader(getActivity(), customerImage, customer_image);
         }
         customerName.setText(customer_name);
         customerContact.setText(customer_contact);
@@ -1077,7 +1078,8 @@ public class Shop_customer_details_fragments extends Fragment implements shop_cu
 
         ImageView closeButton = (ImageView) imageDialog.findViewById(R.id.closeID);
         ImageView deleteImage = (ImageView) imageDialog.findViewById(R.id.individualDeleteID);
-        Picasso.get().load(image).into(individualImage);
+
+        ImageHelper.imageLoader(getActivity(), individualImage, image);
         hideLayout.setVisibility(View.INVISIBLE);
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alifew.alife.R;
+import com.alifew.alife.Utils.ImageHelper;
 import com.alifew.alife.model.customer_due_shop_list_response;
 import com.squareup.picasso.Picasso;
 
@@ -43,7 +44,8 @@ public class Customer_due_shop_adapter extends RecyclerView.Adapter<Customer_due
     @Override
     public void onBindViewHolder(@NonNull Customer_due_shop_adapter.AppViewholder holder, int position) {
         customer_due_shop_list_response shop = due_shop_list.get(position);
-        Picasso.get().load(shop.getShop_image()).into(holder.shopImage);
+
+        ImageHelper.imageLoader(holder.itemView.getContext(),  holder.shopImage, shop.getShop_image());
         holder.shopNameText.setText(shop.getShop_name());
         holder.contactText.setText(shop.getShop_phone());
         Double total_due = Double.parseDouble(shop.getTotal_due());

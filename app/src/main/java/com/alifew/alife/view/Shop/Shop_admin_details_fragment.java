@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alifew.alife.R;
+import com.alifew.alife.Utils.ImageHelper;
 import com.alifew.alife.adapter.Shop_admin_access_category_adapter;
 import com.alifew.alife.model.Category_response;
 import com.alifew.alife.model.get_shop_admin_information_response;
@@ -74,7 +75,8 @@ public class Shop_admin_details_fragment extends Fragment implements Shop_admin_
                 agent_permission = get_shop_admin_information_response.getAgent_access();
                 adminName.setText(agent_name);
                 adminPhone.setText(agent_phone);
-                Picasso.get().load(agent_image).into(adminImage);
+
+                ImageHelper.imageLoader(getActivity(), adminImage, agent_image);
                 try {
                     if (agent_permission.equals("1")) {
                         adminPermission.setText("Assistant");
@@ -123,9 +125,8 @@ public class Shop_admin_details_fragment extends Fragment implements Shop_admin_
         fragmentManager = getFragmentManager();
         adminName.setText(agent_name);
         adminPhone.setText(agent_phone);
-        Picasso.get().load(agent_image).into(adminImage);
 
-
+        ImageHelper.imageLoader(getActivity(), adminImage, agent_image);
         addMoreButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -148,7 +149,8 @@ public class Shop_admin_details_fragment extends Fragment implements Shop_admin_
                 showImage.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
                 image = (com.mikhaellopez.circularimageview.CircularImageView) showImage.findViewById(R.id.adminAlertImageID);
-                Picasso.get().load(agent_image).into(image);
+
+                ImageHelper.imageLoader(getActivity(), image, agent_image);
             }
         });
 

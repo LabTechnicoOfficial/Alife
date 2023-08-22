@@ -40,6 +40,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.alifew.alife.R;
+import com.alifew.alife.Utils.ImageHelper;
 import com.alifew.alife.adapter.Normal_sell_product_image_show_adapter;
 import com.alifew.alife.adapter.Shop_business_summary_adapter;
 import com.alifew.alife.adapter.Shop_business_summary_image_adapter;
@@ -628,7 +629,8 @@ public class Shop_business_summary_fragment extends Fragment implements Normal_s
 
         ImageView closeButton = (ImageView) imageDialog.findViewById(R.id.closeID);
         ImageView deleteImage = (ImageView) imageDialog.findViewById(R.id.individualDeleteID);
-        Picasso.get().load(image).into(individualImage);
+
+        ImageHelper.imageLoader(getActivity(), individualImage, image);
         hideLayout.setVisibility(View.INVISIBLE);
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override

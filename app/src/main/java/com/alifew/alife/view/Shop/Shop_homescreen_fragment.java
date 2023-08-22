@@ -40,6 +40,7 @@ import android.widget.Toast;
 
 import com.alifew.alife.Custom_Type.ProductSell;
 import com.alifew.alife.R;
+import com.alifew.alife.Utils.ImageHelper;
 import com.alifew.alife.adapter.Instruction_adapter;
 import com.alifew.alife.adapter.Shop_barcode_type_adapter;
 import com.alifew.alife.model.Fetch_product_detail_by_bar_code_response;
@@ -503,7 +504,8 @@ public class Shop_homescreen_fragment extends Fragment implements Instruction_ad
             }
         });
 
-        Picasso.get().load(response.productImage).into(productImage);
+
+        ImageHelper.imageLoader(getActivity(), productImage, response.productImage);
 
         TextView titleText = productDetailsAlert.findViewById(R.id.titleText);
         TextView categoryTitleText = productDetailsAlert.findViewById(R.id.categoryTitleText);

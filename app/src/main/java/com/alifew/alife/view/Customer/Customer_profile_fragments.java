@@ -35,6 +35,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.alifew.alife.R;
+import com.alifew.alife.Utils.ImageHelper;
 import com.alifew.alife.model.customer_profile_response;
 import com.alifew.alife.model.update_customer_response;
 import com.alifew.alife.viewmodel.Customer_profile;
@@ -81,7 +82,7 @@ public class Customer_profile_fragments extends Fragment {
             @Override
             public void onChanged(customer_profile_response customer_profile_response) {
                 customerImage = customer_profile_response.customer01r_image;
-                Picasso.get().load(customer_profile_response.getCustomer01r_image()).into(image);
+                ImageHelper.imageLoader(getActivity(), image, customer_profile_response.getCustomer01r_image());
                 name.setText(customer_profile_response.getCustomer01r_name());
                 phone.setText(customer_profile_response.getCustomer01r_phone());
                 address.setText(customer_profile_response.getCustomer01r_address());
@@ -107,7 +108,8 @@ public class Customer_profile_fragments extends Fragment {
 
                 nameText.setText(name.getText().toString().trim());
                 locationText.setText(address.getText().toString().trim());
-                Picasso.get().load(customerImage).into(imageEdit);
+
+                ImageHelper.imageLoader(getActivity(), imageEdit, customerImage);
 
                 closeButton.setOnClickListener(new View.OnClickListener() {
                     @Override

@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.alifew.alife.Custom_Type.productSell_temp;
 import com.alifew.alife.R;
+import com.alifew.alife.Utils.ImageHelper;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -37,8 +38,8 @@ public class selected_product_list_adapter extends RecyclerView.Adapter<selected
         holder.amountText.setText(product.getAmount());
         holder.priceText.setText(product.getPrice());
         holder.typeText.setText(product.getType_name());
-        Picasso.get().load(product.getProduct_image()).into(holder.imageView);
 
+        ImageHelper.imageLoader(holder.itemView.getContext(), holder.imageView, product.getProduct_image());
     }
 
     @Override

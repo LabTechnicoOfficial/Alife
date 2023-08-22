@@ -43,7 +43,7 @@ public class Sell_product_adapter extends RecyclerView.Adapter<Sell_product_adap
     @Override
     public void onBindViewHolder(@NonNull AppViewholder holder, int position) {
         Get_product_response product = productList.get(position);
-       // Picasso.get().load(product.getProduct_image()).into(holder.productImage);
+
         ImageHelper.imageLoader(holder.itemView.getContext(), holder.productImage, product.getProduct_image());
         holder.productName.setText(product.getProduct_name());
         holder.stockAmount.setText(product.getStock_amount());

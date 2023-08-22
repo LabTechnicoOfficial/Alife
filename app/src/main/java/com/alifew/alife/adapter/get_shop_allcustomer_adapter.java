@@ -31,8 +31,8 @@ public class get_shop_allcustomer_adapter extends RecyclerView.Adapter<get_shop_
 
     public get_shop_allcustomer_adapter(List<Get_shop_customer_response> customerList) {
         this.customerList = customerList;
-        this.customerListAll=new ArrayList<>();
-        this.customerListAll=customerList;
+        this.customerListAll = new ArrayList<>();
+        this.customerListAll = customerList;
     }
 
     @NonNull
@@ -45,9 +45,8 @@ public class get_shop_allcustomer_adapter extends RecyclerView.Adapter<get_shop_
 
     @Override
     public void onBindViewHolder(@NonNull get_shop_allcustomer_adapter.AppViewholder holder, int position) {
-        Get_shop_customer_response customer=customerList.get(position);
+        Get_shop_customer_response customer = customerList.get(position);
 
-   //     Picasso.get().load(customer.getCustomer01r_image()).into(holder.customerImage);
         ImageHelper.imageLoader(holder.itemView.getContext(), holder.customerImage, customer.getCustomer01r_image());
         holder.customerName.setText(customer.getCustomer01r_name());
         holder.customerLocation.setText(customer.getCustomer01r_address());
@@ -63,6 +62,7 @@ public class get_shop_allcustomer_adapter extends RecyclerView.Adapter<get_shop_
     public Filter getFilter() {
         return filter;
     }
+
     Filter filter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
@@ -84,7 +84,7 @@ public class get_shop_allcustomer_adapter extends RecyclerView.Adapter<get_shop_
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             customerList.clear();
-           customerList.addAll((Collection<? extends Get_shop_customer_response>) results.values);
+            customerList.addAll((Collection<? extends Get_shop_customer_response>) results.values);
             notifyDataSetChanged();
 
         }
@@ -93,6 +93,7 @@ public class get_shop_allcustomer_adapter extends RecyclerView.Adapter<get_shop_
     public interface OnAddItemListener {
         void OnAddItem(int position);
     }
+
     public void setOnClickListener(OnAddItemListener listener1) {
         mListener = listener1;
 
@@ -114,7 +115,7 @@ public class get_shop_allcustomer_adapter extends RecyclerView.Adapter<get_shop_
                 public void onClick(View v) {
                     if (mListener != null) {
                         int position = getAdapterPosition();
-                     if (position != RecyclerView.NO_POSITION) {
+                        if (position != RecyclerView.NO_POSITION) {
                             mListener.OnAddItem(position);
                         }
                     }

@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import com.alifew.alife.Custom_Type.ProductSell;
 import com.alifew.alife.R;
+import com.alifew.alife.Utils.ImageHelper;
 import com.alifew.alife.adapter.Selected_sell_product_list_adapter;
 import com.alifew.alife.model.Get_product_response;
 import com.alifew.alife.model.get_product_type_response;
@@ -145,7 +146,7 @@ public class Shop_sell_checkout_fragment extends Fragment implements Selected_se
 
     public void set_customer() {
         if (!customer_image.equals("blank")) {
-            Picasso.get().load(customer_image).into(customerImage);
+            ImageHelper.imageLoader(getActivity(), customerImage, customer_image);
         } else {
             customerImage.setVisibility(View.GONE);
         }

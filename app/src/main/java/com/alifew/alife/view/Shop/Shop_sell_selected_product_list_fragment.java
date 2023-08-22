@@ -52,6 +52,7 @@ import com.alifew.alife.Custom_Type.ProductSell;
 import com.alifew.alife.Custom_Type.Product_sell_offer;
 import com.alifew.alife.Custom_Type.productSell_temp;
 import com.alifew.alife.R;
+import com.alifew.alife.Utils.ImageHelper;
 import com.alifew.alife.adapter.Selected_sell_product_list_adapter;
 import com.alifew.alife.adapter.Sell_product_adapter;
 import com.alifew.alife.adapter.Sell_success_adapter;
@@ -1417,7 +1418,8 @@ public class Shop_sell_selected_product_list_fragment extends Fragment implement
         customerDetailsLayout.setVisibility(View.VISIBLE);
         if (!customer_image.equals("blank")) {
             customerImage.setVisibility(View.VISIBLE);
-            Picasso.get().load(customer_image).into(customerImage);
+
+            ImageHelper.imageLoader(getActivity(), customerImage, customer_image);
         } else {
             customerImage.setVisibility(View.GONE);
         }

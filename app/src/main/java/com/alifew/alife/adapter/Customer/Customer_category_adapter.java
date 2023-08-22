@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alifew.alife.R;
+import com.alifew.alife.Utils.ImageHelper;
 import com.alifew.alife.model.Category_response;
 import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
@@ -35,13 +36,8 @@ public class Customer_category_adapter extends RecyclerView.Adapter<Customer_cat
     @Override
     public void onBindViewHolder(@NonNull Customer_category_adapter.AppViewholder holder, int position) {
         Category_response categoryResponse = categoryList.get(position);
-        //Picasso.get().load(categoryResponse.getCatagory01y_logo()).into(holder.categoryImage);
 
-        Glide.with(holder.itemView.getContext())
-                .load(categoryResponse.getCatagory01y_logo())
-                .centerCrop()
-                .placeholder(R.drawable.loader)
-                .into(holder.categoryImage);
+        ImageHelper.imageLoader(holder.itemView.getContext(), holder.categoryImage, categoryResponse.getCatagory01y_logo());
 
         holder.categoryName.setText(categoryResponse.getCatagory01y_name());
         holder.unitText.setText(categoryResponse.getCatagory01y_unit());

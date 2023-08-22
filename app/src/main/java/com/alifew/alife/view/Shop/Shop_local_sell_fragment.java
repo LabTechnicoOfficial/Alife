@@ -50,6 +50,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alifew.alife.R;
+import com.alifew.alife.Utils.ImageHelper;
 import com.alifew.alife.adapter.Shop_local_sell_image_list_adapter;
 import com.alifew.alife.model.add_payment_transaction_response;
 import com.alifew.alife.model.add_product_sell_response;
@@ -847,12 +848,11 @@ public class Shop_local_sell_fragment extends Fragment implements AdapterView.On
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         String item = String.valueOf(parent.getItemAtPosition(position));
 
-        //Toast.makeText(getActivity(), item, Toast.LENGTH_SHORT).show();
         ((TextView) view).setVisibility(View.GONE);
         productDetailsText.setText(item);
         productPriceText.setText(productList.get(position).getPrice());
         if (!productList.get(position).getImage().equals("")) {
-            Picasso.get().load(productList.get(position).getImage()).into(productImage);
+            ImageHelper.imageLoader(getActivity(), productImage, productList.get(position).getImage());
             check = 2;
             image = productList.get(position).getImage();
         }

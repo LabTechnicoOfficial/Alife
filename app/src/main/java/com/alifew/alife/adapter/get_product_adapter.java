@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alifew.alife.R;
+import com.alifew.alife.Utils.ImageHelper;
 import com.alifew.alife.model.Get_product_response;
 import com.alifew.alife.viewmodel.Update_product_status;
 import com.bumptech.glide.Glide;
@@ -115,15 +116,9 @@ public class get_product_adapter extends RecyclerView.Adapter<get_product_adapte
         } else {
             holder.product_name.setText(productList.get(position).getProduct_name());
         }
-//        if (!(holder.product_image.equals("xyz"))) {
-//            Picasso.get().load(product.getProduct_image()).into(holder.product_image);
-//        }
 
-        Glide.with(holder.itemView.getContext())
-                .load(product.getProduct_image())
-                .centerCrop()
-                .placeholder(R.drawable.loader)
-                .into(holder.product_image);
+        ImageHelper.imageLoader(holder.itemView.getContext(),  holder.product_image, product.getProduct_image());
+
         holder.product_price.setText(new DecimalFormat("##.##").format(price));
 
         if (offer == 0) {

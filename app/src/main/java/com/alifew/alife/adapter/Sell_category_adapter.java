@@ -42,7 +42,7 @@ public class Sell_category_adapter extends RecyclerView.Adapter<Sell_category_ad
     @Override
     public void onBindViewHolder(@NonNull Sell_category_adapter.AppViewholder holder, int position) {
         Category_response category = categoryList.get(position);
-        //  Picasso.get().load(category.getCatagory01y_logo()).into(holder.categoryImage);
+
         ImageHelper.imageLoader(holder.itemView.getContext(), holder.categoryImage, category.getCatagory01y_logo());
         holder.categoryName.setText(category.getCatagory01y_name());
 

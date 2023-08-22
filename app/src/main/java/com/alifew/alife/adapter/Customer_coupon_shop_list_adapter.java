@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alifew.alife.R;
+import com.alifew.alife.Utils.ImageHelper;
 import com.alifew.alife.model.cupon.cuponShop_response;
 import com.squareup.picasso.Picasso;
 
@@ -37,7 +38,8 @@ public class Customer_coupon_shop_list_adapter extends RecyclerView.Adapter<Cust
     public void onBindViewHolder(@NonNull AppViewholder holder, int position) {
 
         cuponShop_response response = shopList.get(position);
-        Picasso.get().load(response.getShop_image()).into(holder.shopImage);
+
+        ImageHelper.imageLoader(holder.itemView.getContext(),  holder.shopImage, response.getShop_image());
         holder.shopNameText.setText(response.getShop_name());
         holder.phoneText.setText(response.getShop_phone());
     }

@@ -138,7 +138,6 @@ public class Shop_profile_fragments extends Fragment {
                 shopImageEdit = (ImageView) alert.findViewById(R.id.shopImageEditID);
                 save_changesButton = (TextView) alert.findViewById(R.id.saveButton);
 
-                //Picasso.get().load(image).into(shopImageEdit);
                 ImageHelper.imageLoader(getActivity(), shopImageEdit,image);
                 shopNameEdit.setText(shop_name.getText().toString());
                 ownerNameEdit.setText(shop_owner.getText().toString());

@@ -34,6 +34,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alifew.alife.R;
+import com.alifew.alife.Utils.ImageHelper;
 import com.alifew.alife.adapter.Normal_sell_details_image_adapter;
 import com.alifew.alife.adapter.Shop_daily_due_list_adapter;
 import com.alifew.alife.adapter.Shop_daily_paid_list_adapter;
@@ -791,7 +792,8 @@ public class Tali_khata_fragment extends Fragment implements Shop_tally_khata_ad
 
         ImageView closeButton = (ImageView) imageDialog.findViewById(R.id.closeID);
         ImageView deleteImage = (ImageView) imageDialog.findViewById(R.id.individualDeleteID);
-        Picasso.get().load(image).into(individualImage);
+
+        ImageHelper.imageLoader(getActivity(), individualImage, image);
         hideLayout.setVisibility(View.INVISIBLE);
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override

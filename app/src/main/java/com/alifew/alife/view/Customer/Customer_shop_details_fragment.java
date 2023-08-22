@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alifew.alife.R;
+import com.alifew.alife.Utils.ImageHelper;
 import com.alifew.alife.adapter.Normal_sell_details_image_adapter;
 import com.alifew.alife.adapter.Slider.CustomerSliderViewAdapter;
 import com.alifew.alife.adapter.Systemetic_sell_details_adapter;
@@ -406,7 +407,8 @@ public class Customer_shop_details_fragment extends Fragment implements shop_cus
 
         ImageView closeButton = (ImageView) imageDialog.findViewById(R.id.closeID);
         ImageView deleteImage = (ImageView) imageDialog.findViewById(R.id.individualDeleteID);
-        Picasso.get().load(image).into(individualImage);
+
+        ImageHelper.imageLoader(getActivity(), individualImage, image);
         hideLayout.setVisibility(View.INVISIBLE);
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override

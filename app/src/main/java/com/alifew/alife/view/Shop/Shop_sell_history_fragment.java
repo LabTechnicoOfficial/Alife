@@ -34,6 +34,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alifew.alife.R;
+import com.alifew.alife.Utils.ImageHelper;
 import com.alifew.alife.adapter.Shop_sell_history_main_adapter;
 import com.alifew.alife.model.shop_sell_history_list_response;
 import com.alifew.alife.model.shop_sell_history_summary_response;
@@ -627,9 +628,8 @@ public class Shop_sell_history_fragment extends Fragment implements AdapterView.
         });
 
         history_detailsAlert.show();
-        if (!history.getProduct_image().isEmpty()) {
-            Picasso.get().load(history.getProduct_image()).into(productImage);
-        }
+
+        ImageHelper.imageLoader(getActivity(), productImage, history.getProduct_image());
         productId.setText(history.getProduct_id());
         productName.setText(history.getProduct_name());
         productAmount.setText(history.getProduct_amount());

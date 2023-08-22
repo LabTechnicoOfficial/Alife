@@ -18,8 +18,8 @@ public class ShopCustomerViewModel extends ViewModel {
 
     shop_due_customer_repositories due_customer_repositories;
 
-    public LiveData<List<Get_shop_customer_response>> getAllCustomer() {
-        return get_shop_customer_repositories.getInstance().getAllCustomerList();
+    public LiveData<List<Get_shop_customer_response>> getAllCustomer(String shopID) {
+        return get_shop_customer_repositories.getInstance().getAllCustomerList(shopID);
     }
 
     public LiveData<List<Get_shop_customer_response>> getData(String shop_id, int page, int limit) {
