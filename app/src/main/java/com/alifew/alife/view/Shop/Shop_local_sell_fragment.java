@@ -649,10 +649,11 @@ public class Shop_local_sell_fragment extends Fragment implements AdapterView.On
 
     private void sell(String productDetails, String productPrice, String paidPrice, String phone) {
 
+        String points = "";
         product_sell = new ViewModelProvider(getActivity()).get(Product_sell.class);
         product_sell_payment = new ViewModelProvider(getActivity()).get(Product_sell_payment.class);
         add_local_sell = new ViewModelProvider(getActivity()).get(Add_local_sell.class);
-        product_sell.sell(shopID, customer_id, customer_name, phone, productPrice, buyPrice,String.valueOf(duePrice), "0", "local", "cc").observe(getViewLifecycleOwner(), new Observer<add_product_sell_response>() {
+        product_sell.sell(shopID, customer_id, customer_name, phone, productPrice, buyPrice,String.valueOf(duePrice),"", "0", "local", "cc").observe(getViewLifecycleOwner(), new Observer<add_product_sell_response>() {
             @Override
             public void onChanged(add_product_sell_response add_product_sell_response) {
                 if (!add_product_sell_response.getSell_id().equals("failed")) {

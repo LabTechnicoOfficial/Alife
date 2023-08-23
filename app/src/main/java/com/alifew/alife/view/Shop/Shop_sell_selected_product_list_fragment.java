@@ -1530,7 +1530,7 @@ public class Shop_sell_selected_product_list_fragment extends Fragment implement
 
             Double duePrice = total_price - total_buy_price;
 
-            product_sell.sell(shop_id, customer_id, customer_name, customer_phone, String.valueOf(total_price), String.valueOf(total_buy_price), String.valueOf(duePrice), "0", "systemetic", showDate.getText().toString().trim()).observe(getViewLifecycleOwner(), new Observer<add_product_sell_response>() {
+            product_sell.sell(shop_id, customer_id, customer_name, customer_phone, String.valueOf(total_price), String.valueOf(total_buy_price), String.valueOf(duePrice), "0","systemetic","", showDate.getText().toString().trim()).observe(getViewLifecycleOwner(), new Observer<add_product_sell_response>() {
                 @Override
                 public void onChanged(add_product_sell_response add_product_sell_response) {
 
