@@ -81,10 +81,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ActivityCompat.requestPermissions(LoginActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.INTERNET, Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.READ_PHONE_STATE}, 1);
-        //  AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-
-
+        ActivityCompat.requestPermissions(LoginActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.POST_NOTIFICATIONS, Manifest.permission.READ_MEDIA_IMAGES}, 1);
+      
         setContentView(R.layout.activity_login);
 
         sessionManagement = new SessionManagement(LoginActivity.this);
@@ -112,12 +110,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         signInButton.setOnClickListener(this);
         forgotPasswordClick.setOnClickListener(this);
 
-        OneSignal.initWithContext(this);
-        OneSignal.setAppId(Constants.ONESIGNAL_APP_ID);
-        OneSignal.setLocationShared(false);
-        deviceToken = OneSignal.getDeviceState().getUserId();
-        OneSignal.promptForPushNotifications();
+//        OneSignal.initWithContext(this);
+//        OneSignal.setAppId(Constants.ONESIGNAL_APP_ID);
+//        OneSignal.setLocationShared(false);
+//        deviceToken = OneSignal.getDeviceState().getUserId();
+//        OneSignal.promptForPushNotifications();
+        
+        generateToken();
 
+    }
+
+    private void generateToken() {
     }
 
 
