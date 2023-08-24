@@ -30,14 +30,14 @@
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
 
     <queries>
-<!--        <intent>-->
-<!--            <action android:name="android.intent.action.SENDTO" />-->
+        <intent>
+            <action android:name="android.intent.action.SENDTO" />
 
-<!--            <data android:scheme="mailto" />-->
-<!--        </intent>-->
-<!--        <intent>-->
-<!--            <action android:name="android.media.action.ACTION_IMAGE_CAPTURE" />-->
-<!--        </intent>-->
+            <data android:scheme="mailto" />
+        </intent>
+        <intent>
+            <action android:name="android.media.action.ACTION_IMAGE_CAPTURE" />
+        </intent>
         <intent>
             <action android:name="android.intent.action.VIEW" />
 
