@@ -13,6 +13,7 @@ import androidx.core.app.NotificationCompat;
 
 import com.alifew.alife.R;
 import com.alifew.alife.view.LoginActivity;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
