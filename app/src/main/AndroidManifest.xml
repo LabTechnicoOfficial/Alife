@@ -105,12 +105,22 @@
 
         <service
             android:name=".Firebase.FirebaseService"
-            android:exported="true"
-            android:stopWithTask="false">
+            android:directBootAware="true"
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/bell_icon" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/purple_700" />
+        <meta-data
+            android:name="com.google.firebase.default_notification_channel"
+            android:value="@string/default_notification_channel_id" />
         <service
             android:name="com.google.firebase.components.ComponentDiscoveryService"
             android:directBootAware="true"
