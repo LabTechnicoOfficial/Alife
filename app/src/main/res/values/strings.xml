@@ -29,4 +29,6 @@
     <string name="reward_ads_id">ca-app-pub-3940256099942544/5224354917</string>-->
     <string name="restart">restart</string>
     <string name="default_notification_channel_id">Default</string>
+
+
 </resources>

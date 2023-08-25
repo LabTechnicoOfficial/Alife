@@ -82,4 +82,8 @@
 
     <string name="home">হোম</string>
     <string name="hero_coupon">হিরো কুপন</string>
+    <string name="rules_for_points">সেল পয়েন্টের শর্তাবলী</string>
+    <string name="point_text1">টাকা সেলের জন্য কাস্টমার</string>
+    <string name="point_text2">পয়েন্ট পাবেন</string>
+
 </resources>

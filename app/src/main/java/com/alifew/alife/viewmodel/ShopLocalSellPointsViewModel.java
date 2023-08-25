@@ -9,7 +9,7 @@ import com.alifew.alife.model.points.Shop_local_sell_points_repository;
 import java.util.List;
 
 public class ShopLocalSellPointsViewModel extends ViewModel {
-    LiveData<List<Shop_local_sell_point_response>> getShopLocalSellPoints(String shopID) {
+   public LiveData<List<Shop_local_sell_point_response>> getShopLocalSellPoints(String shopID) {
         return Shop_local_sell_points_repository.getInstance().getLocalSellPointsApi(shopID);
     }
 }

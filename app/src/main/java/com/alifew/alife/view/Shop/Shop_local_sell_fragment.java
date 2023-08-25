@@ -17,6 +17,7 @@ import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.pdf.PdfDocument;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import android.provider.MediaStore;
@@ -61,6 +62,7 @@ import com.alifew.alife.model.local_sell.LocalSell_property;
 import com.alifew.alife.model.local_sell.add_local_sell_details_response;
 import com.alifew.alife.model.local_sell.add_local_sell_image_response;
 import com.alifew.alife.model.local_sell.get_local_sell_product_response;
+import com.alifew.alife.model.points.Shop_local_sell_point_response;
 import com.alifew.alife.model.push_notification_response;
 import com.alifew.alife.model.shop_due_customer_response;
 import com.alifew.alife.model.shop_profile_response;
@@ -72,6 +74,7 @@ import com.alifew.alife.viewmodel.Product_sell;
 import com.alifew.alife.viewmodel.Product_sell_payment;
 import com.alifew.alife.viewmodel.Push_notification;
 import com.alifew.alife.viewmodel.ShopCustomerViewModel;
+import com.alifew.alife.viewmodel.ShopLocalSellPointsViewModel;
 import com.alifew.alife.viewmodel.Shop_profile;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -85,7 +88,10 @@ import java.io.InputStream;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -97,7 +103,7 @@ public class Shop_local_sell_fragment extends Fragment implements AdapterView.On
     TextInputEditText productNameText, productPriceText, paidPriceText, buyPriceText;
     TextInputLayout productNameError, productDetailsError, paidPriceError, phoneError;
     EditText productDetailsText;
-    TextView choseImageButton, select_product, select_phone, profitText, duePriceText,phoneText, nameText;
+    TextView choseImageButton, select_product, select_phone, profitText, duePriceText, phoneText, nameText;
     LinearLayout bar_code_search;
     AppCompatButton sellButton;
 
@@ -135,6 +141,12 @@ public class Shop_local_sell_fragment extends Fragment implements AdapterView.On
     LinearLayout selectImage, listImage;
     Shop_local_sell_image_list_adapter adapter;
     Double duePrice = 0.0;
+
+    ShopLocalSellPointsViewModel shopLocalSellPointsViewModel;
+    ImageView closeButton;
+    TextView pointsCriteriaText;
+    List<Shop_local_sell_point_response> shopSellPointRulesList = new ArrayList<>();
+    Double sellPoint = 0.0;
 
     public Shop_local_sell_fragment(String shopID, int state) {
         this.shopID = shopID;
@@ -471,10 +483,42 @@ public class Shop_local_sell_fragment extends Fragment implements AdapterView.On
             }
         });
 
+
+        loadLocalSellPoints();
+
         return view;
     }
 
+    private void loadLocalSellPoints() {
+        shopLocalSellPointsViewModel.getShopLocalSellPoints(shopID).observe(getViewLifecycleOwner(), new Observer<List<Shop_local_sell_point_response>>() {
+            @Override
+            public void onChanged(List<Shop_local_sell_point_response> shopLocalSellPointResponses) {
+
+                shopSellPointRulesList = shopLocalSellPointResponses;
+
+                Collections.sort(shopSellPointRulesList, new Comparator<Shop_local_sell_point_response>() {
+                    @Override
+                    public int compare(Shop_local_sell_point_response t1, Shop_local_sell_point_response t2) {
+                        return t1.amount.compareToIgnoreCase(t2.amount);
+                    }
+                });
+//
+                Log.d("dataxx", String.valueOf(shopLocalSellPointResponses.size()));
+                for (int i = 0; i < shopSellPointRulesList.size(); i++) {
+                    String pos = String.valueOf(i + 1);
+                    pointsCriteriaText.append(
+                            "\n" + pos + ". " + shopSellPointRulesList.get(i).amount
+                                    + " " + getActivity().getResources().getString(R.string.point_text1)
+                                    + " " + shopSellPointRulesList.get(i).points
+                                    + " " + getActivity().getResources().getString(R.string.point_text2)
+                    );
+                }
+            }
+        });
+    }
+
     private void initView(View view) {
+        pointsCriteriaText = view.findViewById(R.id.pointsCriteriaText);
         duePriceText = view.findViewById(R.id.duePriceText);
         get_local_sell = new ViewModelProvider(this).get(Get_local_sell.class);
         //productNameText = view.findViewById(R.id.productNameTextID);
@@ -513,6 +557,8 @@ public class Shop_local_sell_fragment extends Fragment implements AdapterView.On
         addProductsButton = view.findViewById(R.id.addProductsButtonID);
         fragmentManager = getFragmentManager();
 
+        shopLocalSellPointsViewModel = new ViewModelProvider(getActivity()).get(ShopLocalSellPointsViewModel.class);
+        closeButton = view.findViewById(R.id.closeButton);
     }
 
     @SuppressLint("SetTextI18n")
@@ -531,6 +577,16 @@ public class Shop_local_sell_fragment extends Fragment implements AdapterView.On
 
         }
         duePriceText.setText(getString(R.string.due) + ": " + String.valueOf(duePrice));
+
+
+        if (!LocalSell_property.Product_price.isEmpty()){
+            calculatePoints(LocalSell_property.Product_price);
+        }
+    }
+
+    private void calculatePoints(String productPrice) {
+
+        Toast.makeText(getActivity(), "h", Toast.LENGTH_SHORT).show();
     }
 
     private void convert_pdf() {
@@ -648,12 +704,10 @@ public class Shop_local_sell_fragment extends Fragment implements AdapterView.On
     }
 
     private void sell(String productDetails, String productPrice, String paidPrice, String phone) {
-
-        String points = "";
         product_sell = new ViewModelProvider(getActivity()).get(Product_sell.class);
         product_sell_payment = new ViewModelProvider(getActivity()).get(Product_sell_payment.class);
         add_local_sell = new ViewModelProvider(getActivity()).get(Add_local_sell.class);
-        product_sell.sell(shopID, customer_id, customer_name, phone, productPrice, buyPrice,String.valueOf(duePrice),"", "0", "local", "cc").observe(getViewLifecycleOwner(), new Observer<add_product_sell_response>() {
+        product_sell.sell(shopID, customer_id, customer_name, phone, productPrice, buyPrice, String.valueOf(duePrice), String.valueOf(sellPoint), "0", "local", "cc").observe(getViewLifecycleOwner(), new Observer<add_product_sell_response>() {
             @Override
             public void onChanged(add_product_sell_response add_product_sell_response) {
                 if (!add_product_sell_response.getSell_id().equals("failed")) {

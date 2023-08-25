@@ -25,4 +25,6 @@ public class Shop_local_sell_point_response {
     @SerializedName("update_at")
     @Expose
     public String updateAt;
+
+
 }
