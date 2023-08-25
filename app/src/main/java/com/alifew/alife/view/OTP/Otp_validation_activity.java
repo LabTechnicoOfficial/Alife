@@ -42,14 +42,9 @@ import com.alifew.alife.viewmodel.Token_update;
 import com.alifew.alife.viewmodel.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
 import com.onesignal.OneSignal;
 
 public class Otp_validation_activity extends AppCompatActivity implements TextWatcher {
-
-    FirebaseAuth mAuth;
 
     EditText editText1, editText2, editText3, editText4, editText5;
     String otpcode;
@@ -182,19 +177,7 @@ public class Otp_validation_activity extends AppCompatActivity implements TextWa
 
     }
 
-    public void requestsmspermission() {
-        //ActivityCompat.requestPermissions(, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.INTERNET,Manifest.permission.ACCESS_NETWORK_STATE,Manifest.permission.CALL_PHONE,Manifest.permission.ACCESS_WIFI_STATE},1);
 
-        /*String smspermission = Manifest.permission.RECEIVE_SMS;
-        int grant = ContextCompat.checkSelfPermission(this,smspermission);
-        //check if read SMS permission is granted or not
-        if(grant!= PackageManager.PERMISSION_GRANTED)
-        {
-            String[] permission_list = new String[1];
-            permission_list[0]=smspermission;
-            ActivityCompat.requestPermissions(this,permission_list,1);
-        }*/
-    }
 
     private void back_function() {
         if (task_type.equals("registration")) {

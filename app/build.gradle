@@ -2,7 +2,6 @@ plugins {
     id 'com.android.application'
 
     id 'com.google.gms.google-services'
-    id 'com.google.firebase.crashlytics'
 
 }
 android {
@@ -93,14 +92,6 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
     implementation 'com.github.captain-miao:optroundcardview:1.0.0'
 
-    //firebase
-    implementation platform('com.google.firebase:firebase-bom:26.8.0')
-    implementation 'com.google.firebase:firebase-analytics'
-    implementation 'com.google.firebase:firebase-crashlytics'
-    implementation 'com.google.firebase:firebase-messaging:21.0.1'
-    implementation 'com.google.firebase:firebase-auth:20.0.3'
-    implementation 'com.google.firebase:firebase-database:19.7.0'
-
     //justify textview
     implementation 'me.biubiubiu.justifytext:library:1.1'
     implementation "androidx.work:work-runtime:2.7.1"
@@ -147,6 +138,9 @@ dependencies {
 
     implementation 'com.intuit.sdp:sdp-android:1.1.0'
 
-
+    //firebase
+    implementation(platform("com.google.firebase:firebase-bom:32.2.3"))
+    implementation 'com.google.firebase:firebase-messaging:23.2.1'
+    implementation("com.google.firebase:firebase-analytics")
 
 }

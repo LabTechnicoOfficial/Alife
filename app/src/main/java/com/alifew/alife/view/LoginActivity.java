@@ -45,8 +45,11 @@ import com.alifew.alife.viewmodel.Shop_admin_login;
 import com.alifew.alife.viewmodel.Shop_login;
 import com.alifew.alife.viewmodel.Token_update;
 import com.alifew.alife.viewmodel.User;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.onesignal.OSDeviceState;
 import com.onesignal.OneSignal;
 
@@ -82,7 +85,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ActivityCompat.requestPermissions(LoginActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.POST_NOTIFICATIONS, Manifest.permission.READ_MEDIA_IMAGES}, 1);
-      
+
         setContentView(R.layout.activity_login);
 
         sessionManagement = new SessionManagement(LoginActivity.this);
@@ -110,17 +113,26 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         signInButton.setOnClickListener(this);
         forgotPasswordClick.setOnClickListener(this);
 
-//        OneSignal.initWithContext(this);
-//        OneSignal.setAppId(Constants.ONESIGNAL_APP_ID);
-//        OneSignal.setLocationShared(false);
-//        deviceToken = OneSignal.getDeviceState().getUserId();
-//        OneSignal.promptForPushNotifications();
-        
+
         generateToken();
 
     }
 
     private void generateToken() {
+        FirebaseApp.initializeApp(this);
+
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(task -> {
+                    if (!task.isSuccessful()) {
+                        Log.w("FCM_TOKEN", "Fetching FCM registration token failed", task.getException());
+                        return;
+                    }
+
+                    String token = task.getResult();
+                    deviceToken = token;
+//                    Log.d("FCM_TOKEN", token);
+//                    Toast.makeText(this, token, Toast.LENGTH_SHORT).show();
+                });
     }
 
 

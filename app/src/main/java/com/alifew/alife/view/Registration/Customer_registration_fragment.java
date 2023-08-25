@@ -41,8 +41,6 @@ import com.alifew.alife.viewmodel.OTP;
 import com.alifew.alife.viewmodel.SessionManagment_registration;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -53,8 +51,7 @@ import java.util.TimerTask;
 
 public class Customer_registration_fragment extends Fragment {
     String token = "x";
-    FirebaseAuth mAuth;
-    DatabaseReference databaseReference, registerUsers;
+  
     Customer_registration customer_registration;
     private static final int REQUEST_CAMERA = 1;
     private static final int SELECT_FILE = 1;
