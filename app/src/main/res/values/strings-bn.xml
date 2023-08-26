@@ -85,5 +85,6 @@
     <string name="rules_for_points">সেল পয়েন্টের শর্তাবলী</string>
     <string name="point_text1">টাকা সেলের জন্য কাস্টমার</string>
     <string name="point_text2">পয়েন্ট পাবেন</string>
-
+    <string name="choose_product">পন্য সিলেক্ট করুন</string>
+    <string name="no_product_found_for_local_sell">লোকাল সেলের জন্য কোন পন্য পাওয়া যায়নি</string>
 </resources>

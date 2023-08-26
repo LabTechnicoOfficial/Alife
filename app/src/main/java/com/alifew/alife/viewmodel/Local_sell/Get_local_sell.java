@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.alifew.alife.model.local_sell.customer_phone_response;
 import com.alifew.alife.model.local_sell.get_local_sell_details_response;
-import com.alifew.alife.model.local_sell.get_local_sell_product_response;
+import com.alifew.alife.model.local_sell.Get_local_sell_product_response;
 import com.alifew.alife.model.local_sell.get_local_sell_repositories;
 import com.alifew.alife.model.local_sell.get_product_by_bar_code_response;
 import com.alifew.alife.model.local_sell.local_sell_history_response;
@@ -14,11 +14,11 @@ import com.alifew.alife.model.local_sell.local_sell_summary_response;
 import java.util.List;
 
 public class Get_local_sell extends ViewModel {
-    public LiveData<List<get_local_sell_product_response>> getData_product(String shop_id) {
+    public LiveData<List<Get_local_sell_product_response>> getData_product(String shop_id) {
         return get_local_sell_repositories.getInstance().getData_product(shop_id);
     }
 
-    public LiveData<List<get_local_sell_product_response>> getData_product_bySearch(String shop_id, String search) {
+    public LiveData<List<Get_local_sell_product_response>> getData_product_bySearch(String shop_id, String search) {
         return get_local_sell_repositories.getInstance().getData_product_bySearch(shop_id, search);
     }
 

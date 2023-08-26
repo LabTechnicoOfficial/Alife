@@ -437,7 +437,7 @@ public class Shop_customer_list_fragments extends Fragment implements get_shop_c
         allCustomerLayout = view.findViewById(R.id.allCustomerLayoutID);
         defaultLayout = view.findViewById(R.id.defaultLayoutID);
         requestLayout = view.findViewById(R.id.requestLayoutID);
-        requestValueLayout = (LinearLayout) view.findViewById(R.id.requestValueLayoutID);
+      //  requestValueLayout = (LinearLayout) view.findViewById(R.id.requestValueLayoutID);
         showDetailsButton = (LinearLayout) view.findViewById(R.id.showDetailsID);
         detailsLayout = (HorizontalScrollView) view.findViewById(R.id.detailsLayoutID);
 
@@ -445,7 +445,7 @@ public class Shop_customer_list_fragments extends Fragment implements get_shop_c
         search = (EditText) view.findViewById(R.id.searchEditText);
         all_search = (EditText) view.findViewById(R.id.allCustomerSearchID);
 
-        requestValue = (TextView) view.findViewById(R.id.requestValueID);
+     //   requestValue = (TextView) view.findViewById(R.id.requestValueID);
         title = (TextView) view.findViewById(R.id.one);
         totalDueText = (TextView) view.findViewById(R.id.totalDueID);
 
@@ -554,7 +554,6 @@ public class Shop_customer_list_fragments extends Fragment implements get_shop_c
 
     public void refreshFragment() {
         getActivity().getSupportFragmentManager().beginTransaction().detach(this).commitAllowingStateLoss();
-        getActivity().getSupportFragmentManager().beginTransaction().attach(this).commitAllowingStateLoss();
         //adapter.notifyDataSetChanged();
     }
 
@@ -766,7 +765,7 @@ public class Shop_customer_list_fragments extends Fragment implements get_shop_c
             @Override
             public void onChanged(add_remove_shop_customer_response add_remove_shop_customer_response) {
                 if (add_remove_shop_customer_response.getMessage().equals("Customer added successfully")) {
-                    //Toast.makeText(getActivity(),add_remove_shop_customer_response.getMessage(),Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(),add_remove_shop_customer_response.getMessage(),Toast.LENGTH_SHORT).show();
 
                     // main();
                     allCustomerLayout.setVisibility(View.GONE);
@@ -774,7 +773,7 @@ public class Shop_customer_list_fragments extends Fragment implements get_shop_c
                     yourCustomerLayout.setVisibility(View.VISIBLE);
                     toggleGroup.check(R.id.yourCustomerID);
 
-                    refreshFragment();
+                    filter_all();
                 }
             }
         });

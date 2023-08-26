@@ -42,12 +42,11 @@ import com.alifew.alife.Utils.ImageHelper;
 import com.alifew.alife.adapter.Local_sell_product_adapter;
 import com.alifew.alife.model.local_sell.add_local_sell_product_response;
 import com.alifew.alife.model.local_sell.delete_local_sell_product_response;
-import com.alifew.alife.model.local_sell.get_local_sell_product_response;
+import com.alifew.alife.model.local_sell.Get_local_sell_product_response;
 import com.alifew.alife.viewmodel.Local_sell.Add_local_sell;
 import com.alifew.alife.viewmodel.Local_sell.Get_local_sell;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -78,7 +77,7 @@ public class Shop_local_sell_add_product_fragment extends Fragment implements Lo
 
     AppCompatButton addButton;
     Get_local_sell get_local_sell;
-    private List<get_local_sell_product_response> productList;
+    private List<Get_local_sell_product_response> productList;
     private Local_sell_product_adapter adapter;
     private Double profit;
 
@@ -117,9 +116,9 @@ public class Shop_local_sell_add_product_fragment extends Fragment implements Lo
     private void products_func() {
 
         //Toast.makeText(getActivity(), "hi", Toast.LENGTH_SHORT).show();
-        get_local_sell.getData_product(shopID).observe(getViewLifecycleOwner(), new Observer<List<get_local_sell_product_response>>() {
+        get_local_sell.getData_product(shopID).observe(getViewLifecycleOwner(), new Observer<List<Get_local_sell_product_response>>() {
             @Override
-            public void onChanged(List<get_local_sell_product_response> get_local_sell_product_responses) {
+            public void onChanged(List<Get_local_sell_product_response> get_local_sell_product_responses) {
                 productList = new ArrayList<>();
                 productList = get_local_sell_product_responses;
                 adapter = new Local_sell_product_adapter(productList);

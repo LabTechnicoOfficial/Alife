@@ -99,7 +99,7 @@ public class Shop_local_sell_history_fragment extends Fragment implements Adapte
         dateCurrent = new SimpleDateFormat(myFormat, Locale.getDefault()).format(new Date());
 
         searchDate.setText(dateCurrent);
-       adapter = new Shop_local_sell_history_adapter(local_sell_list);
+        adapter = new Shop_local_sell_history_adapter(local_sell_list);
 
         searchDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -442,11 +442,10 @@ public class Shop_local_sell_history_fragment extends Fragment implements Adapte
                 for (int i = 0; i < local_sell_history_responses.size(); i++) {
                     local_sell_list.add(local_sell_history_responses.get(i));
                 }
-                if(local_sell_history_responses.size()<limit)
-                {
-                    end1=1;
+                if (local_sell_history_responses.size() < limit) {
+                    end1 = 1;
                 }
-                adapter=new Shop_local_sell_history_adapter(local_sell_list);
+                adapter = new Shop_local_sell_history_adapter(local_sell_list);
                 sellHistoryListView.setAdapter(adapter);
             }
         });
@@ -529,17 +528,16 @@ public class Shop_local_sell_history_fragment extends Fragment implements Adapte
             }
         });*/
 
-        get_local_sell.allHistory(shopID,page,limit).observe(getViewLifecycleOwner(), new Observer<List<local_sell_history_response>>() {
+        get_local_sell.allHistory(shopID, page, limit).observe(getViewLifecycleOwner(), new Observer<List<local_sell_history_response>>() {
             @Override
             public void onChanged(List<local_sell_history_response> local_sell_history_responses) {
                 for (int i = 0; i < local_sell_history_responses.size(); i++) {
                     local_sell_list.add(local_sell_history_responses.get(i));
                 }
-                if(local_sell_history_responses.size()<limit)
-                {
-                    end1=1;
+                if (local_sell_history_responses.size() < limit) {
+                    end1 = 1;
                 }
-                adapter=new Shop_local_sell_history_adapter(local_sell_list);
+                adapter = new Shop_local_sell_history_adapter(local_sell_list);
                 sellHistoryListView.setAdapter(adapter);
             }
         });
@@ -579,11 +577,10 @@ public class Shop_local_sell_history_fragment extends Fragment implements Adapte
                 for (int i = 0; i < local_sell_history_responses.size(); i++) {
                     local_sell_list.add(local_sell_history_responses.get(i));
                 }
-                if(local_sell_history_responses.size()<limit)
-                {
-                    end1=1;
+                if (local_sell_history_responses.size() < limit) {
+                    end1 = 1;
                 }
-                adapter=new Shop_local_sell_history_adapter(local_sell_list);
+                adapter = new Shop_local_sell_history_adapter(local_sell_list);
                 sellHistoryListView.setAdapter(adapter);
             }
         });
@@ -737,15 +734,15 @@ public class Shop_local_sell_history_fragment extends Fragment implements Adapte
         TextView descriptionText = (TextView) alertCustom.findViewById(R.id.descriptionTextID);
         RecyclerView multipleImages = (RecyclerView) alertCustom.findViewById(R.id.multipleImageViewID);
         ImageView closeButton = (ImageView) alertCustom.findViewById(R.id.closeID);
-    local_sell_details_image_adapter local_sell_adapter;
+        local_sell_details_image_adapter local_sell_adapter;
         multipleImages.setHasFixedSize(true);
         multipleImages.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-descriptionText.setText(local_sell_list.get(position).getProduct_description());
+        descriptionText.setText(local_sell_list.get(position).getProduct_description());
 
         local_sell_adapter = new local_sell_details_image_adapter(local_sell_list.get(position).getImage());
         //local_sell_adapter.setOnClickListener(Shop_customer_details_fragments.this::ImageClick);
         multipleImages.setAdapter(local_sell_adapter);
-        get_local_sell=new ViewModelProvider(getActivity()).get(Get_local_sell.class);
+        get_local_sell = new ViewModelProvider(getActivity()).get(Get_local_sell.class);
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -754,4 +751,4 @@ descriptionText.setText(local_sell_list.get(position).getProduct_description());
         });
     }
 
-    }
+}

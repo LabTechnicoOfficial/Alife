@@ -11,16 +11,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.alifew.alife.R;
 import com.alifew.alife.Utils.ImageHelper;
-import com.alifew.alife.model.local_sell.get_local_sell_product_response;
-import com.squareup.picasso.Picasso;
+import com.alifew.alife.model.local_sell.Get_local_sell_product_response;
 
 import java.util.List;
 
 public class Shop_local_sell_select_product_adapter extends RecyclerView.Adapter<Shop_local_sell_select_product_adapter.AppViewholder> {
-    private List<get_local_sell_product_response> productList;
+    private List<Get_local_sell_product_response> productList;
     private LayoutInflater layoutInflater;
 private OnItemClickListener listener;
-    public Shop_local_sell_select_product_adapter(List<get_local_sell_product_response> productList) {
+    public Shop_local_sell_select_product_adapter(List<Get_local_sell_product_response> productList) {
         this.productList = productList;
     }
 
@@ -35,7 +34,7 @@ private OnItemClickListener listener;
 
     @Override
     public void onBindViewHolder(@NonNull AppViewholder holder, int position) {
-        get_local_sell_product_response response = productList.get(position);
+        Get_local_sell_product_response response = productList.get(position);
         holder.product_name.setText(response.getProduct_details());
         holder.product_price.setText(response.getPrice());
 

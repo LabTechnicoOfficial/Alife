@@ -46,7 +46,7 @@ public class Shop_local_sell_select_customer_adapter extends RecyclerView.Adapte
     }
 
     public interface OnItemClickListener {
-        void itemClick(int position);
+        void customerItemClick(int position);
 
     }
 
@@ -70,7 +70,7 @@ public class Shop_local_sell_select_customer_adapter extends RecyclerView.Adapte
                     if (listener != null) {
                         int position = getAdapterPosition();
                         if (position != RecyclerView.NO_POSITION) {
-                            listener.itemClick(position);
+                            listener.customerItemClick(position);
                         }
                     }
                 }

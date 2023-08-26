@@ -48,7 +48,7 @@ public class get_shop_allcustomer_adapter extends RecyclerView.Adapter<get_shop_
         Get_shop_customer_response customer = customerList.get(position);
 
         ImageHelper.imageLoader(holder.itemView.getContext(), holder.customerImage, customer.getCustomer01r_image());
-        holder.customerName.setText(customer.getCustomer01r_name());
+        holder.customerName.setText(customer.getCustomer01r_name()+" "+customer.getCustomer01r_id());
         holder.customerLocation.setText(customer.getCustomer01r_address());
 
     }

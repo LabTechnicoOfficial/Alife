@@ -135,24 +135,26 @@
 
         </LinearLayout>
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:weightSum="2">
+            android:layout_marginBottom="5dp">
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/productDetailsLayout"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
                 android:layout_weight="1"
                 android:hint="@string/product_details"
                 app:boxStrokeColor="@color/black"
                 app:endIconMode="clear_text"
-                app:hintTextColor="@color/black">
+                app:hintTextColor="@color/black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/selectProductsButtonID"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/productDetailsTextID"
@@ -163,29 +165,24 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/selectProductsButtonID"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="right">
-
-                <TextView
-                    android:id="@+id/selectProductsButtonID"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/shape"
-                    android:backgroundTint="@color/default_color"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:padding="5dp"
-                    android:text="Select products"
-                    android:textColor="@color/white"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
+                android:background="@drawable/shape"
+                android:backgroundTint="@color/default_color"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="5dp"
+                android:text="Select products"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
 
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -259,13 +256,14 @@
                 android:layout_weight="1"
                 android:hint="@string/buy_price"
                 app:boxStrokeColor="@color/black"
-                app:endIconMode="clear_text"
                 app:hintTextColor="@color/black">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/buyPriceTextID"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:focusable="false"
                     android:inputType="numberDecimal"
                     android:textColor="@color/black"
                     android:textCursorDrawable="@drawable/cursor_color" />
@@ -309,6 +307,16 @@
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/pointsText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:textColor="@color/red"
+            android:textSize="@dimen/_12sdp"
+            android:textStyle="bold" />
 
         <LinearLayout
             android:id="@+id/selectImageId"

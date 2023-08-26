@@ -129,7 +129,7 @@ public class Shop_homescreen_fragment extends Fragment implements Instruction_ad
                         R.anim.fade_out,  // exit
                         R.anim.fade_in,   // popEnter
                         R.anim.slide_out  // popExit
-                ).replace(R.id.frame_container, new Shop_local_sell_fragment(shop_id, 1)).addToBackStack(null).commit();
+                ).replace(R.id.frame_container, new Shop_local_sell_fragment()).addToBackStack(null).commit();
             }
         });
 

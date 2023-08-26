@@ -2,7 +2,6 @@ package com.alifew.alife.view.Shop;
 
 import android.os.Bundle;
 
-import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -14,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 
 import com.alifew.alife.DB.AppDatabase;
 import com.alifew.alife.DB.dao.CustomerDao;
@@ -28,7 +26,6 @@ import com.alifew.alife.viewmodel.Local_sell.Get_local_sell;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 
 public class Shop_local_sell_select_customer_phone_fragment extends Fragment implements Shop_local_sell_select_customer_adapter.OnItemClickListener {
@@ -104,7 +101,7 @@ public class Shop_local_sell_select_customer_phone_fragment extends Fragment imp
             public void run() {
                 customerList = customerDao.getAllCustomer(searchKey);
                 adapter = new Shop_local_sell_select_customer_adapter(customerList);
-                adapter.setOnClickListener(Shop_local_sell_select_customer_phone_fragment.this::itemClick);
+                adapter.setOnClickListener(Shop_local_sell_select_customer_phone_fragment.this::customerItemClick);
                 recyclerView.setAdapter(adapter);
             }
         });
@@ -113,7 +110,7 @@ public class Shop_local_sell_select_customer_phone_fragment extends Fragment imp
     }
 
     @Override
-    public void itemClick(int position) {
+    public void customerItemClick(int position) {
         LocalSell_property.Customer_phone = customerList.get(position).getPhone();
         LocalSell_property.customerName = customerList.get(position).getCustomerName();
         // getActivity().getSupportFragmentManager().popBackStack();
@@ -123,7 +120,7 @@ public class Shop_local_sell_select_customer_phone_fragment extends Fragment imp
                 R.anim.fade_out,  // exit
                 R.anim.fade_in,   // popEnter
                 R.anim.slide_out  // popExit
-        ).replace(R.id.frame_container, new Shop_local_sell_fragment(shop_id, 3)).commit();
+        ).replace(R.id.frame_container, new Shop_local_sell_fragment()).commit();
 
 
     }

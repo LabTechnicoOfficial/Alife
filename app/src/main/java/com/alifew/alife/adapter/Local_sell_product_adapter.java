@@ -1,6 +1,5 @@
 package com.alifew.alife.adapter;
 
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,18 +11,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.alifew.alife.R;
 import com.alifew.alife.Utils.ImageHelper;
-import com.alifew.alife.model.local_sell.get_local_sell_product_response;
-import com.squareup.picasso.Picasso;
+import com.alifew.alife.model.local_sell.Get_local_sell_product_response;
 
 import java.util.List;
 
 public class Local_sell_product_adapter extends RecyclerView.Adapter<Local_sell_product_adapter.AppViewHolder> {
 
-    private List<get_local_sell_product_response> productList;
+    private List<Get_local_sell_product_response> productList;
     private onItemDeleteListener deleteListener;
     private onItemEditListener editListener;
 
-    public Local_sell_product_adapter(List<get_local_sell_product_response> productList) {
+    public Local_sell_product_adapter(List<Get_local_sell_product_response> productList) {
         this.productList = productList;
     }
 
@@ -37,7 +35,7 @@ public class Local_sell_product_adapter extends RecyclerView.Adapter<Local_sell_
 
     @Override
     public void onBindViewHolder(@NonNull AppViewHolder holder, int position) {
-        get_local_sell_product_response response = productList.get(position);
+        Get_local_sell_product_response response = productList.get(position);
 
         holder.productNameText.setText(response.getProduct_details());
         holder.priceText.setText(response.getPrice());

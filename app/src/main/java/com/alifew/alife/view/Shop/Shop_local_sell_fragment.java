@@ -17,7 +17,6 @@ import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.pdf.PdfDocument;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 
 import android.provider.MediaStore;
@@ -34,7 +33,6 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -47,12 +45,18 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.alifew.alife.DB.AppDatabase;
+import com.alifew.alife.DB.dao.CustomerDao;
+import com.alifew.alife.DB.entity.Customer;
 import com.alifew.alife.R;
 import com.alifew.alife.Utils.ImageHelper;
 import com.alifew.alife.adapter.Shop_local_sell_image_list_adapter;
+import com.alifew.alife.adapter.Shop_local_sell_select_customer_adapter;
+import com.alifew.alife.adapter.Shop_local_sell_select_product_adapter;
 import com.alifew.alife.model.add_payment_transaction_response;
 import com.alifew.alife.model.add_product_sell_response;
 import com.alifew.alife.model.add_sell_payment_cash_response;
@@ -61,11 +65,12 @@ import com.alifew.alife.model.customer_exist_check_response;
 import com.alifew.alife.model.local_sell.LocalSell_property;
 import com.alifew.alife.model.local_sell.add_local_sell_details_response;
 import com.alifew.alife.model.local_sell.add_local_sell_image_response;
-import com.alifew.alife.model.local_sell.get_local_sell_product_response;
+import com.alifew.alife.model.local_sell.Get_local_sell_product_response;
 import com.alifew.alife.model.points.Shop_local_sell_point_response;
 import com.alifew.alife.model.push_notification_response;
 import com.alifew.alife.model.shop_due_customer_response;
 import com.alifew.alife.model.shop_profile_response;
+import com.alifew.alife.session.SessionManagement;
 import com.alifew.alife.viewmodel.Customer_exist_check;
 import com.alifew.alife.viewmodel.Customer_registration;
 import com.alifew.alife.viewmodel.Local_sell.Add_local_sell;
@@ -78,7 +83,6 @@ import com.alifew.alife.viewmodel.ShopLocalSellPointsViewModel;
 import com.alifew.alife.viewmodel.Shop_profile;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -91,15 +95,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-public class Shop_local_sell_fragment extends Fragment implements AdapterView.OnItemSelectedListener {
+public class Shop_local_sell_fragment extends Fragment implements AdapterView.OnItemSelectedListener, Shop_local_sell_select_customer_adapter.OnItemClickListener, Shop_local_sell_select_product_adapter.OnItemClickListener {
 
     String shopID;
 
-    String productName, productDetails, productPrice, paidPrice, phone, buyPrice;
     TextInputEditText productNameText, productPriceText, paidPriceText, buyPriceText;
     TextInputLayout productNameError, productDetailsError, paidPriceError, phoneError;
     EditText productDetailsText;
@@ -131,7 +133,7 @@ public class Shop_local_sell_fragment extends Fragment implements AdapterView.On
     //String[] products = {"Mouse", "Pad"};
     Get_local_sell get_local_sell;
     FragmentManager fragmentManager;
-    private List<get_local_sell_product_response> productList;
+    private List<Get_local_sell_product_response> productList;
     Shop_profile shop_profile;
     Bitmap bitmapPDF;
     LinearLayout historyButton;
@@ -140,19 +142,23 @@ public class Shop_local_sell_fragment extends Fragment implements AdapterView.On
     private int loopItem;
     LinearLayout selectImage, listImage;
     Shop_local_sell_image_list_adapter adapter;
-    Double duePrice = 0.0;
 
     ShopLocalSellPointsViewModel shopLocalSellPointsViewModel;
     ImageView closeButton;
-    TextView pointsCriteriaText;
+    TextView pointsCriteriaText, pointsText;
     List<Shop_local_sell_point_response> shopSellPointRulesList = new ArrayList<>();
-    Double sellPoint = 0.0;
 
-    public Shop_local_sell_fragment(String shopID, int state) {
-        this.shopID = shopID;
-        this.state = state;
+    Shop_local_sell_select_product_adapter shopLocalSellSelectProductAdapter;
+    Dialog productDialog, contactDialog;
 
-    }
+    Double buyPrice = 0.0, productPrice = 0.0, paidPrice = 0.0;
+    String productName, phone;
+    SessionManagement sessionManagement;
+    CustomerDao customerDao;
+    List<Customer> customerList = new ArrayList<>();
+    RecyclerView contactView;
+    Shop_local_sell_select_customer_adapter shop_local_sell_select_customer_adapter;
+    String sellPoint = "";
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -190,112 +196,27 @@ public class Shop_local_sell_fragment extends Fragment implements AdapterView.On
 
         initView(view);
 
-
-//set field autimetically
-        if (state == 1) {
-            LocalSell_property.Product_description = "";
-            LocalSell_property.SellProfit = "";
-            LocalSell_property.Product_buePrice = "";
-            LocalSell_property.Product_price = "";
-            LocalSell_property.Customer_phone = "";
-            LocalSell_property.customerName = "";
-            LocalSell_property.Product_image = new ArrayList<>();
-            imageList = new ArrayList<>();
-
-        } else if (state == 2) {
-            check = 2;
-            imageList = new ArrayList<>();
-            // Toast.makeText(getActivity(), String.valueOf(LocalSell_property.Product_image.size()), Toast.LENGTH_SHORT).show();
-            imageList.addAll(LocalSell_property.Product_image);
-        }
-        productDetailsText.setText(LocalSell_property.Product_description);
-        productPriceText.setText(LocalSell_property.Product_price);
-        paidPriceText.setText(LocalSell_property.Product_price);
-        buyPriceText.setText(LocalSell_property.Product_buePrice);
-        profitText.setText(LocalSell_property.SellProfit);
-
-
-        productPriceText.addTextChangedListener(new TextWatcher() {
+        productDetailsText.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
             }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (!TextUtils.isEmpty(productPriceText.getText().toString().trim()) && !TextUtils.isEmpty(buyPriceText.getText().toString().trim())) {
-                    if (Double.parseDouble(buyPriceText.getText().toString().trim()) == 0.0) {
-                        profitText.setText("0");
-                    } else {
-                        Double profit = Double.parseDouble(productPriceText.getText().toString().trim()) - Double.parseDouble(buyPriceText.getText().toString().trim());
-                        profitText.setText(String.valueOf(new DecimalFormat("##.##").format(profit)));
-                    }
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
+            }
 
-                } else {
-                    profitText.setText("");
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (editable.toString().isEmpty()) {
+                    buyPriceText.setText("");
+                    paidPriceText.setText("");
+                    productPriceText.setText("");
                 }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
             }
         });
-        buyPriceText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (!TextUtils.isEmpty(productPriceText.getText().toString().trim()) && !TextUtils.isEmpty(buyPriceText.getText().toString().trim())) {
-                    if (Double.parseDouble(buyPriceText.getText().toString().trim()) == 0.0) {
-                        profitText.setText("0");
-                    } else {
-                        Double profit = Double.parseDouble(productPriceText.getText().toString().trim()) - Double.parseDouble(buyPriceText.getText().toString().trim());
-                        profitText.setText(String.valueOf(new DecimalFormat("##.##").format(profit)));
-                    }
-
-
-                } else {
-                    profitText.setText("");
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-        //productNameError = view.findViewById(R.id.productNameErrorID);
-        //productDetailsError = view.findViewById(R.id.productDetailsErrorID);
-
-        if (state == 1) {
-            listImage.setVisibility(View.GONE);
-            selectImage.setVisibility(View.VISIBLE);
-        } else if (state == 2) {
-            selectImage.setVisibility(View.GONE);
-            listImage.setVisibility(View.VISIBLE);
-            adapter = new Shop_local_sell_image_list_adapter(imageList);
-            imageRecyclerView.setAdapter(adapter);
-
-
-        } else if (state == 3) {
-            if (check == 2) {
-                imageList = new ArrayList<>();
-                // Toast.makeText(getActivity(), String.valueOf(LocalSell_property.Product_image.size()), Toast.LENGTH_SHORT).show();
-                for (int i = 0; i < LocalSell_property.Product_image.size(); i++) {
-                    imageList.add(LocalSell_property.Product_image.get(i));
-                }
-                selectImage.setVisibility(View.GONE);
-                listImage.setVisibility(View.VISIBLE);
-                adapter = new Shop_local_sell_image_list_adapter(imageList);
-                imageRecyclerView.setAdapter(adapter);
-
-            }
-        }
         historyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -322,25 +243,20 @@ public class Shop_local_sell_fragment extends Fragment implements AdapterView.On
         select_product.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(
-                        R.anim.slide_in,  // enter
-                        R.anim.fade_out,  // exit
-                        R.anim.fade_in,   // popEnter
-                        R.anim.slide_out  // popExit
-                ).replace(R.id.frame_container, new Shop_local_sell_select_product_fragment(shopID)).addToBackStack(null).commit();
-
+                loadLocalSellProducts();
             }
         });
         select_phone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(
-                        R.anim.slide_in,  // enter
-                        R.anim.fade_out,  // exit
-                        R.anim.fade_in,   // popEnter
-                        R.anim.slide_out  // popExit
-                ).replace(R.id.frame_container, new Shop_local_sell_select_customer_phone_fragment()).addToBackStack(null).commit();
+//                getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(
+//                        R.anim.slide_in,  // enter
+//                        R.anim.fade_out,  // exit
+//                        R.anim.fade_in,   // popEnter
+//                        R.anim.slide_out  // popExit
+//                ).replace(R.id.frame_container, new Shop_local_sell_select_customer_phone_fragment()).addToBackStack(null).commit();
 
+                loadContacts();
 
             }
         });
@@ -369,124 +285,159 @@ public class Shop_local_sell_fragment extends Fragment implements AdapterView.On
             @Override
             public void onClick(View v) {
                 //productName = productNameText.getText().toString().trim();
-                productDetails = productDetailsText.getText().toString().trim();
-                productPrice = productPriceText.getText().toString().trim();
-                paidPrice = paidPriceText.getText().toString().trim();
+
                 phone = phoneText.getText().toString().trim();
-                buyPrice = buyPriceText.getText().toString().trim();
 
 
-                if (TextUtils.isEmpty(phone)) {
+                if (TextUtils.isEmpty(phone) || TextUtils.isEmpty(productPriceText.getText().toString().trim()) || TextUtils.isEmpty(paidPriceText.getText().toString().trim())) {
                     Toast.makeText(getActivity(), "Empty field", Toast.LENGTH_SHORT).show();
                 } else {
 
-
-                    //Toast.makeText(getActivity(), productDetails, Toast.LENGTH_SHORT).show();
-                    if (!(TextUtils.isEmpty(productPrice) && TextUtils.isEmpty(paidPrice))) {
-                        loader.show();
-                        if (TextUtils.isEmpty(productPrice)) {
-
-                            productPrice = "0";
-                        } else if (TextUtils.isEmpty(paidPrice)) {
-
-                            paidPrice = "0";
-                        }
-                        if (productPrice.equals(".")) {
-                            productPrice = "0";
-                        }
-                        if (paidPrice.equals(".")) {
-                            paidPrice = "0";
-                        }
-                        if (TextUtils.isEmpty(productDetails)) {
-                            productDetails = "";
-                        }
-                        if (TextUtils.isEmpty(buyPrice)) {
-                            buyPrice = "0";
-                        }
-                        customer_exist_check = new ViewModelProvider(getActivity()).get(Customer_exist_check.class);
-                        shop_customer = new ViewModelProvider(getActivity()).get(ShopCustomerViewModel.class);
-                        push_notification = new ViewModelProvider(getActivity()).get(Push_notification.class);
-                        customer_exist_check.getData(phone).observe(getViewLifecycleOwner(), new Observer<customer_exist_check_response>() {
-                            @Override
-                            public void onChanged(customer_exist_check_response customer_exist_check_response) {
-                                if (!customer_exist_check_response.getId().equals("0")) {
-                                    customer_id = customer_exist_check_response.getId();
-                                    customer_name = customer_exist_check_response.getName();
-                                } else {
-                                    customer_id = "0";
-                                    customer_name = "";
-                                }
-                                shop_customer.get_due_customer(shopID).observe(getViewLifecycleOwner(), new Observer<List<shop_due_customer_response>>() {
-                                    @Override
-                                    public void onChanged(List<shop_due_customer_response> shop_due_customer_responses) {
-                                        for (int i = 0; i < shop_due_customer_responses.size(); i++) {
-                                            if (phone.equals(shop_due_customer_responses.get(i).getCustomer_phone())) {
-                                                duecustomerCheck = 1;
-                                                break;
-                                            }
-                                        }
-                                        if (duecustomerCheck == 0) {
-                                            customer_registration = new ViewModelProvider(getActivity()).get(Customer_registration.class);
-                                            customer_registration.get_add_due_customer_response(shopID, customer_id, phone).observe(getViewLifecycleOwner(), new Observer<add_shop_due_customer_response>() {
-                                                @Override
-                                                public void onChanged(add_shop_due_customer_response add_shop_due_customer_response) {
-                                                    if (add_shop_due_customer_response.getMessage().equals("Customer added successfully")) {
-                                                        //Toast.makeText(getActivity(), add_shop_due_customer_response.getMessage(), Toast.LENGTH_SHORT).show();
-
-                                                        sell(productDetails, productPrice, paidPrice, phone);
-
-                                                    } else {
-                                                        Toast.makeText(getActivity(), "Something Wrong", Toast.LENGTH_SHORT).show();
-                                                    }
-                                                }
-                                            });
-                                        } else if (duecustomerCheck == 1) {
-                                            sell(productDetails, productPrice, paidPrice, phone);
+                    customer_exist_check = new ViewModelProvider(getActivity()).get(Customer_exist_check.class);
+                    shop_customer = new ViewModelProvider(getActivity()).get(ShopCustomerViewModel.class);
+                    push_notification = new ViewModelProvider(getActivity()).get(Push_notification.class);
+                    customer_exist_check.getData(phone).observe(getViewLifecycleOwner(), new Observer<customer_exist_check_response>() {
+                        @Override
+                        public void onChanged(customer_exist_check_response customer_exist_check_response) {
+                            if (!customer_exist_check_response.getId().equals("0")) {
+                                customer_id = customer_exist_check_response.getId();
+                                customer_name = customer_exist_check_response.getName();
+                            } else {
+                                customer_id = "0";
+                                customer_name = "";
+                            }
+                            shop_customer.get_due_customer(shopID).observe(getViewLifecycleOwner(), new Observer<List<shop_due_customer_response>>() {
+                                @Override
+                                public void onChanged(List<shop_due_customer_response> shop_due_customer_responses) {
+                                    for (int i = 0; i < shop_due_customer_responses.size(); i++) {
+                                        if (phone.equals(shop_due_customer_responses.get(i).getCustomer_phone())) {
+                                            duecustomerCheck = 1;
+                                            break;
                                         }
                                     }
-                                });
+                                    if (duecustomerCheck == 0) {
+                                        customer_registration = new ViewModelProvider(getActivity()).get(Customer_registration.class);
+                                        customer_registration.get_add_due_customer_response(shopID, customer_id, phone).observe(getViewLifecycleOwner(), new Observer<add_shop_due_customer_response>() {
+                                            @Override
+                                            public void onChanged(add_shop_due_customer_response add_shop_due_customer_response) {
+                                                if (add_shop_due_customer_response.getMessage().equals("Customer added successfully")) {
+                                                    //Toast.makeText(getActivity(), add_shop_due_customer_response.getMessage(), Toast.LENGTH_SHORT).show();
 
-                            }
-                        });
-                    } else {
-                        Toast.makeText(getActivity(), "Fill correctly", Toast.LENGTH_SHORT).show();
-                        //productPriceError.setError(" ");
-                        paidPriceError.setError(" ");
+                                                    sell(productDetailsText.getText().toString().trim(), productPriceText.getText().toString().trim(), paidPriceText.getText().toString().trim(), phone);
 
-                    }
+                                                } else {
+                                                    Toast.makeText(getActivity(), "Something Wrong", Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+                                        });
+                                    } else if (duecustomerCheck == 1) {
+                                        sell(productDetailsText.getText().toString().trim(), productPriceText.getText().toString().trim(), paidPriceText.getText().toString().trim(), phone);
+                                    }
+                                }
+                            });
+
+                        }
+                    });
 
                     //code
                 }
             }
         });
 
-
-        //productSpinner = view.findViewById(R.id.productSpinnerID);
-        //productSpinner.setOnItemSelectedListener(this);
-
-        get_local_sell.getData_product(shopID).observe(getViewLifecycleOwner(), new Observer<List<get_local_sell_product_response>>() {
-            @Override
-            public void onChanged(List<get_local_sell_product_response> get_local_sell_product_responses) {
-                productList = new ArrayList<>();
-                productList = get_local_sell_product_responses;
-
-                String[] products = new String[productList.size()];
-
-                for (int i = 0; i < productList.size(); i++) {
-                    products[i] = productList.get(i).getProduct_details();
-                }
-
-                ArrayAdapter spinnerAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_item, products);
-                spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                //Setting the ArrayAdapter data on the Spinner
-                //productSpinner.setAdapter(spinnerAdapter);
-            }
-        });
-
-
         loadLocalSellPoints();
 
         return view;
+    }
+
+    private void loadContacts() {
+
+        contactDialog.show();
+
+        Window window = contactDialog.getWindow();
+        WindowManager.LayoutParams wlp = window.getAttributes();
+        wlp.gravity = Gravity.CENTER;
+        wlp.width = android.view.WindowManager.LayoutParams.MATCH_PARENT;
+        wlp.height = android.view.WindowManager.LayoutParams.WRAP_CONTENT;
+        window.setAttributes(wlp);
+
+        ImageView closeButton = contactDialog.findViewById(R.id.closeButton);
+        closeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                contactDialog.dismiss();
+            }
+        });
+        EditText searchEditText = contactDialog.findViewById(R.id.searchEditText);
+        searchEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                getPhoneList(editable.toString().trim());
+            }
+        });
+
+        getPhoneList("");
+
+    }
+
+    private void getPhoneList(String searchKey) {
+        requireActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                customerList = customerDao.getAllCustomer(searchKey);
+                shop_local_sell_select_customer_adapter = new Shop_local_sell_select_customer_adapter(customerList);
+                shop_local_sell_select_customer_adapter.setOnClickListener(Shop_local_sell_fragment.this::customerItemClick);
+                contactView.setAdapter(shop_local_sell_select_customer_adapter);
+            }
+        });
+    }
+
+    private void loadLocalSellProducts() {
+        get_local_sell.getData_product(shopID).observe(getViewLifecycleOwner(), new Observer<List<Get_local_sell_product_response>>() {
+            @Override
+            public void onChanged(List<Get_local_sell_product_response> get_local_sell_product_responses) {
+                productList = new ArrayList<>();
+                productList = get_local_sell_product_responses;
+
+                if (!productList.isEmpty()) {
+
+                    productDialog.show();
+                    Window window = productDialog.getWindow();
+                    WindowManager.LayoutParams wlp = window.getAttributes();
+                    wlp.gravity = Gravity.CENTER;
+                    wlp.width = android.view.WindowManager.LayoutParams.MATCH_PARENT;
+                    wlp.height = android.view.WindowManager.LayoutParams.WRAP_CONTENT;
+                    window.setAttributes(wlp);
+
+                    ImageView closeButton = productDialog.findViewById(R.id.closeButton);
+                    closeButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            productDialog.dismiss();
+                        }
+                    });
+
+                    RecyclerView productView = productDialog.findViewById(R.id.productView);
+                    productView.setHasFixedSize(true);
+                    productView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+                    shopLocalSellSelectProductAdapter = new Shop_local_sell_select_product_adapter(productList);
+                    shopLocalSellSelectProductAdapter.setOnClickListener(Shop_local_sell_fragment.this::itemClick);
+                    productView.setAdapter(shopLocalSellSelectProductAdapter);
+
+                } else {
+                    Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.no_product_found_for_local_sell), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     private void loadLocalSellPoints() {
@@ -517,7 +468,12 @@ public class Shop_local_sell_fragment extends Fragment implements AdapterView.On
         });
     }
 
+    @SuppressLint("SetTextI18n")
     private void initView(View view) {
+        AppDatabase db = AppDatabase.getDatabase(getActivity());
+        customerDao = db.customerDao();
+        sessionManagement = new SessionManagement(getActivity());
+        shopID = String.valueOf(sessionManagement.getSession());
         pointsCriteriaText = view.findViewById(R.id.pointsCriteriaText);
         duePriceText = view.findViewById(R.id.duePriceText);
         get_local_sell = new ViewModelProvider(this).get(Get_local_sell.class);
@@ -559,6 +515,25 @@ public class Shop_local_sell_fragment extends Fragment implements AdapterView.On
 
         shopLocalSellPointsViewModel = new ViewModelProvider(getActivity()).get(ShopLocalSellPointsViewModel.class);
         closeButton = view.findViewById(R.id.closeButton);
+        imageList = new ArrayList<>();
+
+        productDialog = new Dialog(getActivity());
+        productDialog.setContentView(R.layout.local_sell_product_alert);
+        productDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        productDialog.setCancelable(false);
+
+
+        contactDialog = new Dialog(getActivity());
+        contactDialog.setContentView(R.layout.local_sell_phone_alert);
+        contactDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        contactDialog.setCancelable(false);
+
+        contactView = contactDialog.findViewById(R.id.contactView);
+        contactView.setHasFixedSize(true);
+        contactView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        pointsText = view.findViewById(R.id.pointsText);
+
+        duePriceText.setText(getString(R.string.due) + ": " + String.valueOf(0.0));
     }
 
     @SuppressLint("SetTextI18n")
@@ -566,27 +541,7 @@ public class Shop_local_sell_fragment extends Fragment implements AdapterView.On
     public void onResume() {
         super.onResume();
 
-        phoneText.setText(LocalSell_property.Customer_phone);
-        nameText.setText(LocalSell_property.customerName);
 
-        try {
-
-            duePrice = Double.parseDouble(LocalSell_property.Product_price) - Double.parseDouble(paidPriceText.getText().toString().trim());
-
-        } catch (Exception ignored) {
-
-        }
-        duePriceText.setText(getString(R.string.due) + ": " + String.valueOf(duePrice));
-
-
-        if (!LocalSell_property.Product_price.isEmpty()){
-            calculatePoints(LocalSell_property.Product_price);
-        }
-    }
-
-    private void calculatePoints(String productPrice) {
-
-        Toast.makeText(getActivity(), "h", Toast.LENGTH_SHORT).show();
     }
 
     private void convert_pdf() {
@@ -707,7 +662,10 @@ public class Shop_local_sell_fragment extends Fragment implements AdapterView.On
         product_sell = new ViewModelProvider(getActivity()).get(Product_sell.class);
         product_sell_payment = new ViewModelProvider(getActivity()).get(Product_sell_payment.class);
         add_local_sell = new ViewModelProvider(getActivity()).get(Add_local_sell.class);
-        product_sell.sell(shopID, customer_id, customer_name, phone, productPrice, buyPrice, String.valueOf(duePrice), String.valueOf(sellPoint), "0", "local", "cc").observe(getViewLifecycleOwner(), new Observer<add_product_sell_response>() {
+        product_sell.sell(shopID, customer_id, customer_name, phone, productPrice,
+                buyPriceText.getText().toString().trim(),
+                duePriceText.getText().toString().trim(),
+                sellPoint, "0", "local", "cc").observe(getViewLifecycleOwner(), new Observer<add_product_sell_response>() {
             @Override
             public void onChanged(add_product_sell_response add_product_sell_response) {
                 if (!add_product_sell_response.getSell_id().equals("failed")) {
@@ -738,15 +696,7 @@ public class Shop_local_sell_fragment extends Fragment implements AdapterView.On
                                                                                     public void onChanged(com.alifew.alife.model.push_notification_response push_notification_response) {
                                                                                         loader.dismiss();
                                                                                         Toast.makeText(getActivity(), "Sell Successfully", Toast.LENGTH_SHORT).show();
-
-                                                                                        convert_pdf();
-                                                                                        phoneText.setText("");
-                                                                                        paidPriceText.setText("");
-                                                                                        productDetailsText.setText("");
-                                                                                        productPriceText.setText("");
-                                                                                        buyPriceText.setText("");
-
-
+                                                                                        clearAllData();
                                                                                     }
                                                                                 });
                                                                             }
@@ -771,16 +721,7 @@ public class Shop_local_sell_fragment extends Fragment implements AdapterView.On
                                                                                                     loader.dismiss();
                                                                                                     Toast.makeText(getActivity(), "Sell Successfully", Toast.LENGTH_SHORT).show();
 
-                                                                                                    convert_pdf();
-                                                                                                    phoneText.setText("");
-                                                                                                    paidPriceText.setText("");
-                                                                                                    productDetailsText.setText("");
-                                                                                                    productPriceText.setText("");
-                                                                                                    buyPriceText.setText("");
-                                                                                                    imageList.clear();
-                                                                                                    adapter.notifyDataSetChanged();
-
-
+                                                                                                    clearAllData();
                                                                                                 }
                                                                                             });
                                                                                         }
@@ -801,13 +742,7 @@ public class Shop_local_sell_fragment extends Fragment implements AdapterView.On
                                                                                     loader.dismiss();
                                                                                     Toast.makeText(getActivity(), "Sell Successfully", Toast.LENGTH_SHORT).show();
 
-                                                                                    convert_pdf();
-                                                                                    phoneText.setText("");
-                                                                                    paidPriceText.setText("");
-                                                                                    productDetailsText.setText("");
-                                                                                    productPriceText.setText("");
-                                                                                    buyPriceText.setText("");
-
+                                                                                    clearAllData();
 
                                                                                 }
                                                                             });
@@ -827,13 +762,7 @@ public class Shop_local_sell_fragment extends Fragment implements AdapterView.On
                                                                             loader.dismiss();
                                                                             Toast.makeText(getActivity(), "Sell Successfully", Toast.LENGTH_SHORT).show();
 
-                                                                            convert_pdf();
-                                                                            phoneText.setText("");
-                                                                            paidPriceText.setText("");
-                                                                            productDetailsText.setText("");
-                                                                            productPriceText.setText("");
-                                                                            buyPriceText.setText("");
-
+                                                                            clearAllData();
 
                                                                         }
                                                                     });
@@ -865,6 +794,24 @@ public class Shop_local_sell_fragment extends Fragment implements AdapterView.On
             }
         });
 
+    }
+
+    private void clearAllData() {
+
+        convert_pdf();
+        phoneText.setText("");
+        paidPriceText.setText("");
+        productDetailsText.setText("");
+        productPriceText.setText("");
+        buyPriceText.setText("");
+        nameText.setText("");
+        imageList.clear();
+        adapter.notifyDataSetChanged();
+        setImageAdapter(imageList);
+        sellPoint = "";
+        setPointText(sellPoint, productPriceText.getText().toString().trim());
+
+        profitText.setText("");
     }
 
     private String imgToString(Bitmap bitmap) {
@@ -917,5 +864,86 @@ public class Shop_local_sell_fragment extends Fragment implements AdapterView.On
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+
+    @Override
+    public void itemClick(int position) {
+        productDialog.dismiss();
+        Get_local_sell_product_response product = productList.get(position);
+        //Toast.makeText(getActivity(), product.getProduct_details(), Toast.LENGTH_SHORT).show();
+
+        imageList.add(product.getImage());
+        selectImage.setVisibility(View.GONE);
+        listImage.setVisibility(View.VISIBLE);
+
+        setUIValue(product.getProduct_details(), product.getPrice(), product.getBuy_price());
+        setImageAdapter(imageList);
+
+
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void setUIValue(String productDetails, String product_price, String buy_price) {
+        productDetailsText.append(productDetails + ", ");
+        productPrice += Double.parseDouble(product_price);
+        productPriceText.setText(String.valueOf(productPrice));
+        paidPriceText.setText(String.valueOf(productPrice));
+
+        buyPrice += Double.parseDouble(buy_price);
+        buyPriceText.setText(String.valueOf(buyPrice));
+
+        Double profit = Double.parseDouble(productPriceText.getText().toString().trim()) - Double.parseDouble(buyPriceText.getText().toString().trim());
+        profitText.setText(String.valueOf(profit));
+
+        Double duePrice = Double.parseDouble(productPriceText.getText().toString().trim()) - Double.parseDouble(paidPriceText.getText().toString().trim());
+
+        duePriceText.setText(getString(R.string.due) + ": " + String.valueOf(duePrice));
+
+        pointsCalculation(productPrice);
+    }
+
+    private void pointsCalculation(Double productPrice) {
+
+
+        if (productPrice >= Double.parseDouble(shopSellPointRulesList.get(shopSellPointRulesList.size() - 1).amount)) {
+            sellPoint = shopSellPointRulesList.get(shopSellPointRulesList.size() - 1).points;
+        } else {
+            for (int i = 0; i < shopSellPointRulesList.size() - 1; i++) {
+                if (productPrice >= Double.parseDouble(shopSellPointRulesList.get(i).amount)
+                        && productPrice < Double.parseDouble(shopSellPointRulesList.get(i + 1).amount)) {
+                    sellPoint = shopSellPointRulesList.get(i).points;
+                }
+            }
+        }
+
+        //Toast.makeText(getActivity(), sellPoint, Toast.LENGTH_SHORT).show();
+        setPointText(sellPoint, String.valueOf(productPrice));
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void setPointText(String sellPoint, String productPrice) {
+        if (!productPrice.isEmpty()) {
+            pointsText.setVisibility(View.VISIBLE);
+            pointsText.setText("** "+productPrice + " " + getActivity().getResources().getString(R.string.point_text1) + " " + sellPoint +" "+ getActivity().getResources().getString(R.string.point_text2));
+
+        } else {
+            pointsText.setVisibility(View.GONE);
+        }
+    }
+
+    private void setImageAdapter(List<String> imageList) {
+        adapter = new Shop_local_sell_image_list_adapter(imageList);
+        imageRecyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void customerItemClick(int position) {
+
+        Customer customer = customerList.get(position);
+
+        phoneText.setText(customer.getPhone());
+        nameText.setText(customer.getCustomerName());
+
+        contactDialog.dismiss();
     }
 }

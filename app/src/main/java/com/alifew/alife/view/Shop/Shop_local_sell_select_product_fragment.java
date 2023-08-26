@@ -20,7 +20,7 @@ import android.widget.EditText;
 import com.alifew.alife.R;
 import com.alifew.alife.adapter.Shop_local_sell_select_product_adapter;
 import com.alifew.alife.model.local_sell.LocalSell_property;
-import com.alifew.alife.model.local_sell.get_local_sell_product_response;
+import com.alifew.alife.model.local_sell.Get_local_sell_product_response;
 import com.alifew.alife.viewmodel.Local_sell.Get_local_sell;
 
 import java.util.ArrayList;
@@ -30,7 +30,7 @@ public class Shop_local_sell_select_product_fragment extends Fragment implements
 
     private String shop_id;
     Get_local_sell get_local_sell;
-    private List<get_local_sell_product_response> productList;
+    private List<Get_local_sell_product_response> productList;
     RecyclerView productsView;
     private Shop_local_sell_select_product_adapter adapter;
     private GridLayoutManager layoutmanager;
@@ -86,9 +86,9 @@ public class Shop_local_sell_select_product_fragment extends Fragment implements
     private void products_func() {
 
         //Toast.makeText(getActivity(), "hi", Toast.LENGTH_SHORT).show();
-        get_local_sell.getData_product(shop_id).observe(getViewLifecycleOwner(), new Observer<List<get_local_sell_product_response>>() {
+        get_local_sell.getData_product(shop_id).observe(getViewLifecycleOwner(), new Observer<List<Get_local_sell_product_response>>() {
             @Override
-            public void onChanged(List<get_local_sell_product_response> get_local_sell_product_responses) {
+            public void onChanged(List<Get_local_sell_product_response> get_local_sell_product_responses) {
                 productList = new ArrayList<>();
                 productList = get_local_sell_product_responses;
                 adapter = new Shop_local_sell_select_product_adapter(productList);
@@ -99,9 +99,9 @@ public class Shop_local_sell_select_product_fragment extends Fragment implements
     }
 
     private void search_product_function(String searchText) {
-        get_local_sell.getData_product_bySearch(shop_id, searchText).observe(getViewLifecycleOwner(), new Observer<List<get_local_sell_product_response>>() {
+        get_local_sell.getData_product_bySearch(shop_id, searchText).observe(getViewLifecycleOwner(), new Observer<List<Get_local_sell_product_response>>() {
             @Override
-            public void onChanged(List<get_local_sell_product_response> get_local_sell_product_responses) {
+            public void onChanged(List<Get_local_sell_product_response> get_local_sell_product_responses) {
                 productList = new ArrayList<>();
                 productList = get_local_sell_product_responses;
                 adapter = new Shop_local_sell_select_product_adapter(productList);
@@ -113,7 +113,7 @@ public class Shop_local_sell_select_product_fragment extends Fragment implements
 
     @Override
     public void itemClick(int position) {
-        get_local_sell_product_response product = productList.get(position);
+        Get_local_sell_product_response product = productList.get(position);
         String sell_price = LocalSell_property.Product_price;
         String buy_price = LocalSell_property.Product_buePrice;
         String profit = LocalSell_property.SellProfit;
@@ -146,7 +146,7 @@ public class Shop_local_sell_select_product_fragment extends Fragment implements
                 R.anim.fade_out,  // exit
                 R.anim.fade_in,   // popEnter
                 R.anim.slide_out  // popExit
-        ).replace(R.id.frame_container, new Shop_local_sell_fragment(shop_id, 2)).commit();
+        ).replace(R.id.frame_container, new Shop_local_sell_fragment()).commit();
 
 
     }

@@ -2,7 +2,7 @@ package com.alifew.alife.model.local_sell;
 
 import com.google.gson.annotations.SerializedName;
 
-public class get_local_sell_product_response {
+public class Get_local_sell_product_response {
     @SerializedName("id")
     String id;
     @SerializedName("product_details")

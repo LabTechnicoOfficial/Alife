@@ -32,10 +32,10 @@ public interface local_sell_api {
     Call<delete_local_sell_product_response> delete_local_sell_product(@Field("id") String product_id );
 
     @GET("locall_sell/get_local_sell_product.php")
-    Call<List<get_local_sell_product_response>> getlocal_sell_product(@Query("id") String shop_id);
+    Call<List<Get_local_sell_product_response>> getlocal_sell_product(@Query("id") String shop_id);
 
     @GET("locall_sell/get_local_sell_product_bySearch.php")
-    Call<List<get_local_sell_product_response>> getlocal_sell_product_bySearch(@Query("id") String shop_id,@Query("search") String search);
+    Call<List<Get_local_sell_product_response>> getlocal_sell_product_bySearch(@Query("id") String shop_id, @Query("search") String search);
 
     @GET("locall_sell/get_local_sell_details.php")
     Call<get_local_sell_details_response> get_local_sell_details(@Query("sell_id") String sell_id);
