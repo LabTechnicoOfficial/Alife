@@ -20,10 +20,11 @@ public class Fetch_category_repositories {
     Category_fetch_by_search_api category_search;
     MutableLiveData<List<Category_response>> data;
     private static Fetch_category_repositories fetch_category_repositories;
-    protected void onSaveInstanceState(@NonNull Bundle outState)
-    {
+
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
 
     }
+
     public Fetch_category_repositories() {
        /* this.id = id;
         this.page=page;
@@ -42,7 +43,7 @@ public class Fetch_category_repositories {
 
 
     public @NonNull
-    MutableLiveData<List<Category_response>> getdata(@NonNull String id,@NonNull int page,@NonNull int limit) {
+    MutableLiveData<List<Category_response>> getdata(@NonNull String id, @NonNull int page, @NonNull int limit) {
         if (data == null) {
             data = new MutableLiveData<>();
         }
@@ -69,7 +70,7 @@ public class Fetch_category_repositories {
         return data;
     }
 
-    public @NonNull MutableLiveData<List<Category_response>> getCategory(@NonNull String id,@NonNull String search) {
+    public @NonNull MutableLiveData<List<Category_response>> getCategory(@NonNull String id, @NonNull String search) {
         Call<List<Category_response>> call = category_search.getdata(id, search);
         call.enqueue(new Callback<List<Category_response>>() {
             @Override
