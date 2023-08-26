@@ -95,6 +95,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 
@@ -134,10 +135,12 @@ public class Shop_local_sell_fragment extends Fragment implements AdapterView.On
     Get_local_sell get_local_sell;
     FragmentManager fragmentManager;
     private List<Get_local_sell_product_response> productList;
+    private List<Get_local_sell_product_response> searchProductList = new ArrayList<>();
+    private boolean productSearched = false;
     Shop_profile shop_profile;
     Bitmap bitmapPDF;
     LinearLayout historyButton;
-    RecyclerView imageRecyclerView;
+    RecyclerView imageRecyclerView, productView, contactView;
     private List<String> imageList;
     private int loopItem;
     LinearLayout selectImage, listImage;
@@ -156,7 +159,7 @@ public class Shop_local_sell_fragment extends Fragment implements AdapterView.On
     SessionManagement sessionManagement;
     CustomerDao customerDao;
     List<Customer> customerList = new ArrayList<>();
-    RecyclerView contactView;
+
     Shop_local_sell_select_customer_adapter shop_local_sell_select_customer_adapter;
 
     @Override
@@ -433,18 +436,55 @@ public class Shop_local_sell_fragment extends Fragment implements AdapterView.On
                         }
                     });
 
-                    RecyclerView productView = productDialog.findViewById(R.id.productView);
-                    productView.setHasFixedSize(true);
-                    productView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-                    shopLocalSellSelectProductAdapter = new Shop_local_sell_select_product_adapter(productList);
-                    shopLocalSellSelectProductAdapter.setOnClickListener(Shop_local_sell_fragment.this::itemClick);
-                    productView.setAdapter(shopLocalSellSelectProductAdapter);
+
+                    setProductAdapter(productList);
+
+                    EditText searchEditText = productDialog.findViewById(R.id.searchEditText);
+                    searchEditText.addTextChangedListener(new TextWatcher() {
+                        @Override
+                        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                        }
+
+                        @Override
+                        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                        }
+
+                        @Override
+                        public void afterTextChanged(Editable editable) {
+                            if (editable.toString().trim().isEmpty()) {
+                                setProductAdapter(productList);
+                                productSearched = false;
+                            } else {
+                                productSearched = true;
+                                searchProductList.clear();
+                                HashSet<Get_local_sell_product_response> searchSet = new HashSet<>();
+                                for (int i = 0; i < productList.size(); i++) {
+                                    if (productList.get(i).getProduct_details().toLowerCase(Locale.ROOT).contains(editable.toString().trim().toLowerCase())) {
+                                        searchSet.add(productList.get(i));
+                                    }
+                                }
+
+                                searchProductList.addAll(searchSet);
+                                setProductAdapter(searchProductList);
+
+                            }
+                        }
+                    });
+
 
                 } else {
                     Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.no_product_found_for_local_sell), Toast.LENGTH_SHORT).show();
                 }
             }
         });
+    }
+
+    private void setProductAdapter(List<Get_local_sell_product_response> productList) {
+        shopLocalSellSelectProductAdapter = new Shop_local_sell_select_product_adapter(productList);
+        shopLocalSellSelectProductAdapter.setOnClickListener(Shop_local_sell_fragment.this::itemClick);
+        productView.setAdapter(shopLocalSellSelectProductAdapter);
     }
 
     private void loadLocalSellPoints() {
@@ -541,6 +581,10 @@ public class Shop_local_sell_fragment extends Fragment implements AdapterView.On
         pointsText = view.findViewById(R.id.pointsText);
 
         duePriceText.setText(getString(R.string.due) + ": " + String.valueOf(0.0));
+
+        productView = productDialog.findViewById(R.id.productView);
+        productView.setHasFixedSize(true);
+        productView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
     }
 
     @SuppressLint("SetTextI18n")
@@ -877,13 +921,20 @@ public class Shop_local_sell_fragment extends Fragment implements AdapterView.On
     @Override
     public void itemClick(int position) {
         productDialog.dismiss();
-        Get_local_sell_product_response product = productList.get(position);
-        //Toast.makeText(getActivity(), product.getProduct_details(), Toast.LENGTH_SHORT).show();
 
+
+        Get_local_sell_product_response product;
+        if (productSearched) {
+            product = searchProductList.get(position);
+
+        } else {
+            product = productList.get(position);
+
+
+        }
         imageList.add(product.getImage());
         selectImage.setVisibility(View.GONE);
         listImage.setVisibility(View.VISIBLE);
-
         setUIValue(product.getProduct_details(), product.getPrice(), product.getBuy_price());
         setImageAdapter(imageList);
 
