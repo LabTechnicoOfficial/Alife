@@ -51,7 +51,7 @@
         android:theme="@style/Theme.Alife"
         android:usesCleartextTraffic="true"
         tools:ignore="HardcodedDebugMode"
-        tools:node="replace"
+        tools:node="merge"
         tools:targetApi="m">
         <activity
             android:name=".PrintActivity"
