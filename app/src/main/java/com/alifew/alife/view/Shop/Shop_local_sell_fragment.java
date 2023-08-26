@@ -151,14 +151,13 @@ public class Shop_local_sell_fragment extends Fragment implements AdapterView.On
     Shop_local_sell_select_product_adapter shopLocalSellSelectProductAdapter;
     Dialog productDialog, contactDialog;
 
-    Double buyPrice = 0.0, productPrice = 0.0, paidPrice = 0.0;
+    Double buyPrice = 0.0, productPrice = 0.0, paidPrice = 0.0, sellPoint = 0.0, duePrice = 0.0;
     String productName, phone;
     SessionManagement sessionManagement;
     CustomerDao customerDao;
     List<Customer> customerList = new ArrayList<>();
     RecyclerView contactView;
     Shop_local_sell_select_customer_adapter shop_local_sell_select_customer_adapter;
-    String sellPoint = "";
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -213,6 +212,14 @@ public class Shop_local_sell_fragment extends Fragment implements AdapterView.On
                     buyPriceText.setText("");
                     paidPriceText.setText("");
                     productPriceText.setText("");
+                    sellPoint = 0.0;
+                    duePrice = 0.0;
+                    setPointText(sellPoint, productPriceText.getText().toString().trim());
+                    imageList.clear();
+                    setImageAdapter(imageList);
+
+                    profitText.setText("");
+
                 }
             }
         });
@@ -664,8 +671,8 @@ public class Shop_local_sell_fragment extends Fragment implements AdapterView.On
         add_local_sell = new ViewModelProvider(getActivity()).get(Add_local_sell.class);
         product_sell.sell(shopID, customer_id, customer_name, phone, productPrice,
                 buyPriceText.getText().toString().trim(),
-                duePriceText.getText().toString().trim(),
-                sellPoint, "0", "local", "cc").observe(getViewLifecycleOwner(), new Observer<add_product_sell_response>() {
+                String.valueOf(duePrice),
+                String.valueOf(sellPoint), "0", "local", "cc").observe(getViewLifecycleOwner(), new Observer<add_product_sell_response>() {
             @Override
             public void onChanged(add_product_sell_response add_product_sell_response) {
                 if (!add_product_sell_response.getSell_id().equals("failed")) {
@@ -808,7 +815,8 @@ public class Shop_local_sell_fragment extends Fragment implements AdapterView.On
         imageList.clear();
         adapter.notifyDataSetChanged();
         setImageAdapter(imageList);
-        sellPoint = "";
+        sellPoint = 0.0;
+        duePrice = 0.0;
         setPointText(sellPoint, productPriceText.getText().toString().trim());
 
         profitText.setText("");
@@ -895,9 +903,10 @@ public class Shop_local_sell_fragment extends Fragment implements AdapterView.On
         Double profit = Double.parseDouble(productPriceText.getText().toString().trim()) - Double.parseDouble(buyPriceText.getText().toString().trim());
         profitText.setText(String.valueOf(profit));
 
-        Double duePrice = Double.parseDouble(productPriceText.getText().toString().trim()) - Double.parseDouble(paidPriceText.getText().toString().trim());
+        duePrice = Double.parseDouble(productPriceText.getText().toString().trim()) - Double.parseDouble(paidPriceText.getText().toString().trim());
 
         duePriceText.setText(getString(R.string.due) + ": " + String.valueOf(duePrice));
+        check = 2;
 
         pointsCalculation(productPrice);
     }
@@ -906,12 +915,12 @@ public class Shop_local_sell_fragment extends Fragment implements AdapterView.On
 
 
         if (productPrice >= Double.parseDouble(shopSellPointRulesList.get(shopSellPointRulesList.size() - 1).amount)) {
-            sellPoint = shopSellPointRulesList.get(shopSellPointRulesList.size() - 1).points;
+            sellPoint = Double.parseDouble(shopSellPointRulesList.get(shopSellPointRulesList.size() - 1).points);
         } else {
             for (int i = 0; i < shopSellPointRulesList.size() - 1; i++) {
                 if (productPrice >= Double.parseDouble(shopSellPointRulesList.get(i).amount)
                         && productPrice < Double.parseDouble(shopSellPointRulesList.get(i + 1).amount)) {
-                    sellPoint = shopSellPointRulesList.get(i).points;
+                    sellPoint = Double.parseDouble(shopSellPointRulesList.get(i).points);
                 }
             }
         }
@@ -921,10 +930,10 @@ public class Shop_local_sell_fragment extends Fragment implements AdapterView.On
     }
 
     @SuppressLint("SetTextI18n")
-    private void setPointText(String sellPoint, String productPrice) {
+    private void setPointText(Double sellPoint, String productPrice) {
         if (!productPrice.isEmpty()) {
             pointsText.setVisibility(View.VISIBLE);
-            pointsText.setText("** "+productPrice + " " + getActivity().getResources().getString(R.string.point_text1) + " " + sellPoint +" "+ getActivity().getResources().getString(R.string.point_text2));
+            pointsText.setText("** " + productPrice + " " + getActivity().getResources().getString(R.string.point_text1) + " " + String.valueOf(sellPoint) + " " + getActivity().getResources().getString(R.string.point_text2));
 
         } else {
             pointsText.setVisibility(View.GONE);

@@ -35,11 +35,16 @@ public class Shop_local_sell_history_adapter extends RecyclerView.Adapter<Shop_l
         local_sell_history_response response = local_sell_list.get(position);
         holder.dateText.setText(response.getDate());
         holder.customerContactText.setText(response.getCustomer_phone());
-        if (!response.getCustomer_name().isEmpty())
+        if (response.getCustomer_name().isEmpty()) {
             holder.nameText.setText(response.getCustomer_phone());
+        } else {
+            holder.nameText.setText(response.getCustomer_name());
+        }
+
         holder.sellPriceText.setText(response.getSell_price());
         holder.buyPriceText.setText(response.getBuy_price());
         holder.profitText.setText(response.getProfit());
+        holder.pointsText.setText(response.getPoints().isEmpty() ? "0.0" : response.getPoints());
     }
 
     @Override
@@ -48,7 +53,7 @@ public class Shop_local_sell_history_adapter extends RecyclerView.Adapter<Shop_l
     }
 
     public class AppViewHolder extends RecyclerView.ViewHolder {
-        TextView dateText, customerContactText, nameText, sellPriceText, buyPriceText, profitText;
+        TextView dateText, customerContactText, nameText, sellPriceText, buyPriceText, profitText, pointsText;
 
         public AppViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -59,6 +64,7 @@ public class Shop_local_sell_history_adapter extends RecyclerView.Adapter<Shop_l
             sellPriceText = itemView.findViewById(R.id.sellPriceTextID);
             buyPriceText = itemView.findViewById(R.id.buyPriceTextID);
             profitText = itemView.findViewById(R.id.profitTextID);
+            pointsText = itemView.findViewById(R.id.pointsText);
         }
     }
 }

@@ -54,6 +54,15 @@
             android:textColor="@color/black"
             android:textSize="12sp" />
 
+
+        <TextView
+            android:id="@+id/pointsText"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+
         <TextView
             android:id="@+id/profitTextID"
             android:layout_width="100dp"
