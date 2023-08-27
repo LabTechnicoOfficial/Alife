@@ -33,7 +33,7 @@
             android:layout_marginStart="10dp"
             android:text="customer"
             android:textColor="@color/black"
-            android:textSize="@dimen/_14sdp"
+            android:textSize="@dimen/_12sdp"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@id/customerPhone"
             app:layout_constraintLeft_toRightOf="@id/profileImage"
@@ -46,7 +46,7 @@
             android:layout_marginStart="10dp"
             android:text="phone"
             android:textColor="@color/black"
-            android:textSize="@dimen/_11sdp"
+            android:textSize="@dimen/_10sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/profileImage"
             app:layout_constraintTop_toBottomOf="@id/customerName" />

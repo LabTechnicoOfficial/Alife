@@ -33,6 +33,8 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -40,6 +42,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -57,12 +60,12 @@ import com.alifew.alife.Utils.ImageHelper;
 import com.alifew.alife.adapter.Shop_local_sell_image_list_adapter;
 import com.alifew.alife.adapter.Shop_local_sell_select_customer_adapter;
 import com.alifew.alife.adapter.Shop_local_sell_select_product_adapter;
+import com.alifew.alife.adapter.localsell.CustomerAdapter;
 import com.alifew.alife.model.add_payment_transaction_response;
 import com.alifew.alife.model.add_product_sell_response;
 import com.alifew.alife.model.add_sell_payment_cash_response;
 import com.alifew.alife.model.add_shop_due_customer_response;
 import com.alifew.alife.model.customer_exist_check_response;
-import com.alifew.alife.model.local_sell.LocalSell_property;
 import com.alifew.alife.model.local_sell.add_local_sell_details_response;
 import com.alifew.alife.model.local_sell.add_local_sell_image_response;
 import com.alifew.alife.model.local_sell.Get_local_sell_product_response;
@@ -89,7 +92,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -106,11 +108,12 @@ public class Shop_local_sell_fragment extends Fragment implements AdapterView.On
     TextInputEditText productNameText, productPriceText, paidPriceText, buyPriceText;
     TextInputLayout productNameError, productDetailsError, paidPriceError, phoneError;
     EditText productDetailsText;
-    TextView choseImageButton, select_product, select_phone, profitText, duePriceText, phoneText, nameText;
+    TextView choseImageButton, select_product, select_phone, profitText, duePriceText, phoneText;
+    public TextView nameText;
     LinearLayout bar_code_search;
     AppCompatButton sellButton;
 
-    ImageView productImage;
+    ImageView productImage, closeButton;
     private Uri filepath;
     private Bitmap bitmap;
     Dialog loader;
@@ -147,7 +150,7 @@ public class Shop_local_sell_fragment extends Fragment implements AdapterView.On
     Shop_local_sell_image_list_adapter adapter;
 
     ShopLocalSellPointsViewModel shopLocalSellPointsViewModel;
-    ImageView closeButton;
+
     TextView pointsCriteriaText, pointsText;
     List<Shop_local_sell_point_response> shopSellPointRulesList = new ArrayList<>();
 
@@ -161,6 +164,9 @@ public class Shop_local_sell_fragment extends Fragment implements AdapterView.On
     List<Customer> customerList = new ArrayList<>();
 
     Shop_local_sell_select_customer_adapter shop_local_sell_select_customer_adapter;
+
+    AutoCompleteTextView customerSearchEditText;
+    ConstraintLayout rulesLayout;
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -197,6 +203,13 @@ public class Shop_local_sell_fragment extends Fragment implements AdapterView.On
         View view = inflater.inflate(R.layout.shop_local_sell_fragment, container, false);
 
         initView(view);
+
+        closeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                rulesLayout.setVisibility(View.GONE);
+            }
+        });
 
         productDetailsText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -296,7 +309,7 @@ public class Shop_local_sell_fragment extends Fragment implements AdapterView.On
             public void onClick(View v) {
                 //productName = productNameText.getText().toString().trim();
 
-                phone = phoneText.getText().toString().trim();
+                phone = customerSearchEditText.getText().toString().trim();
 
 
                 if (TextUtils.isEmpty(phone) || TextUtils.isEmpty(productPriceText.getText().toString().trim()) || TextUtils.isEmpty(paidPriceText.getText().toString().trim())) {
@@ -356,6 +369,8 @@ public class Shop_local_sell_fragment extends Fragment implements AdapterView.On
 
         loadLocalSellPoints();
 
+        loadCustomerList();
+
         return view;
     }
 
@@ -396,6 +411,49 @@ public class Shop_local_sell_fragment extends Fragment implements AdapterView.On
         });
 
         getPhoneList("");
+
+
+    }
+
+    private void loadCustomerList() {
+
+
+//        customerList = customerDao.getAllCustomer("");
+//
+//        CustomerAdapter customerAdapter = new CustomerAdapter(getActivity(), customerList);
+//        customerSearchEditText.setAdapter(customerAdapter);
+        customerSearchEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (!editable.toString().isEmpty()) {
+                    customerList = customerDao.getAllCustomer(editable.toString().trim());
+                    //Toast.makeText(getActivity(), String.valueOf(customerList.size()), Toast.LENGTH_SHORT).show();
+                    CustomerAdapter customerAdapter = new CustomerAdapter(getActivity(), customerList, Shop_local_sell_fragment.this);
+                    customerSearchEditText.setAdapter(customerAdapter);
+                }
+            }
+        });
+
+//        customerSearchEditText.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+//                Customer customer = (Customer) adapterView.getItemAtPosition(position);
+////                nameText.setText(customer.getCustomerName());
+////                Customer customer = (Customer) adapterView.getItemAtPosition(position);
+//                Toast.makeText(getActivity(), customer.getCustomerName(), Toast.LENGTH_SHORT).show();
+//            }
+//        });
+
 
     }
 
@@ -585,6 +643,10 @@ public class Shop_local_sell_fragment extends Fragment implements AdapterView.On
         productView = productDialog.findViewById(R.id.productView);
         productView.setHasFixedSize(true);
         productView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+
+        customerSearchEditText = view.findViewById(R.id.customerSearchEditText);
+        closeButton = view.findViewById(R.id.closeButton);
+        rulesLayout = view.findViewById(R.id.rulesLayout);
     }
 
     @SuppressLint("SetTextI18n")
@@ -713,7 +775,7 @@ public class Shop_local_sell_fragment extends Fragment implements AdapterView.On
         product_sell = new ViewModelProvider(getActivity()).get(Product_sell.class);
         product_sell_payment = new ViewModelProvider(getActivity()).get(Product_sell_payment.class);
         add_local_sell = new ViewModelProvider(getActivity()).get(Add_local_sell.class);
-        product_sell.sell(shopID, customer_id, customer_name, phone, productPrice,
+        product_sell.sell(shopID, customer_id, customer_name, customerSearchEditText.getText().toString().trim(), productPrice,
                 buyPriceText.getText().toString().trim(),
                 String.valueOf(duePrice),
                 String.valueOf(sellPoint), "0", "local", "cc").observe(getViewLifecycleOwner(), new Observer<add_product_sell_response>() {

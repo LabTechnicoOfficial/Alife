@@ -52,7 +52,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="সময় বাকি"
-                android:textColor="@color/grey" />
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -64,7 +65,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="3dp"
-                    android:textColor="@color/grey" />
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_12sdp" />
 
             </LinearLayout>
         </LinearLayout>
@@ -79,7 +81,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/creation_date"
-                android:textColor="@color/grey" />
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -90,7 +93,8 @@
                     android:id="@+id/createdTimeTextID"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/grey" />
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_12sdp" />
 
             </LinearLayout>
 
@@ -106,7 +110,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/end_date"
-                android:textColor="@color/grey" />
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -117,7 +122,8 @@
                     android:id="@+id/endTimeTextID"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/grey" />
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_12sdp" />
 
             </LinearLayout>
 

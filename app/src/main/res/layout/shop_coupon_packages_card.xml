@@ -58,7 +58,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="সর্বনিম্ন বিক্রয় মুল্য"
-                    android:textColor="@color/grey" />
+                    android:textSize="@dimen/_12sdp"
+                    android:textColor="@color/black" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -69,7 +70,8 @@
                         android:id="@+id/sellAmountTextID"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/grey" />
+                        android:textSize="@dimen/_12sdp"
+                    android:textColor="@color/black" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -83,7 +85,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="প্যাকেজের বর্তমান গ্রাহক সংখ্যা"
-                    android:textColor="@color/grey" />
+                    android:textSize="@dimen/_12sdp"
+                    android:textColor="@color/black" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -94,7 +97,8 @@
                         android:id="@+id/packageOwnerAmountTextID"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/grey" />
+                        android:textSize="@dimen/_12sdp"
+                    android:textColor="@color/black" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -108,7 +112,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="গিফট পাবে যত গ্রাহক"
-                    android:textColor="@color/grey" />
+                    android:textSize="@dimen/_12sdp"
+                    android:textColor="@color/black" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -119,7 +124,8 @@
                         android:id="@+id/winnerTextID"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/grey" />
+                        android:textSize="@dimen/_12sdp"
+                    android:textColor="@color/black" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -133,7 +139,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/gift"
-                    android:textColor="@color/grey" />
+                    android:textSize="@dimen/_12sdp"
+                    android:textColor="@color/black" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -144,7 +151,8 @@
                         android:id="@+id/giftTextID"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/grey" />
+                        android:textSize="@dimen/_12sdp"
+                    android:textColor="@color/black" />
                 </LinearLayout>
 
             </LinearLayout>
