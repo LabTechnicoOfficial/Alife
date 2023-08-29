@@ -32,6 +32,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -54,13 +55,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.alifew.alife.DB.AppDatabase;
 import com.alifew.alife.DB.dao.CustomerDao;
+import com.alifew.alife.DB.dao.LocalSellProductsDao;
 import com.alifew.alife.DB.entity.Customer;
+import com.alifew.alife.DB.entity.LocalSellProducts;
 import com.alifew.alife.R;
+import com.alifew.alife.Utils.Helpers;
 import com.alifew.alife.Utils.ImageHelper;
 import com.alifew.alife.adapter.Shop_local_sell_image_list_adapter;
 import com.alifew.alife.adapter.Shop_local_sell_select_customer_adapter;
 import com.alifew.alife.adapter.Shop_local_sell_select_product_adapter;
 import com.alifew.alife.adapter.localsell.CustomerAdapter;
+import com.alifew.alife.adapter.localsell.ProductAdapter;
+import com.alifew.alife.model.Get_shop_customer_response;
 import com.alifew.alife.model.add_payment_transaction_response;
 import com.alifew.alife.model.add_product_sell_response;
 import com.alifew.alife.model.add_sell_payment_cash_response;
@@ -101,12 +107,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 
-public class Shop_local_sell_fragment extends Fragment implements AdapterView.OnItemSelectedListener, Shop_local_sell_select_customer_adapter.OnItemClickListener, Shop_local_sell_select_product_adapter.OnItemClickListener {
+public class Shop_local_sell_fragment extends Fragment {
 
     String shopID;
 
-    TextInputEditText productNameText, productPriceText, paidPriceText, buyPriceText;
-    TextInputLayout productNameError, productDetailsError, paidPriceError, phoneError;
+    public TextInputEditText productPriceText, paidPriceText, buyPriceText;
+    TextInputLayout paidPriceError, phoneError;
     EditText productDetailsText;
     TextView choseImageButton, select_product, select_phone, profitText, duePriceText, phoneText;
     public TextView nameText;
@@ -133,18 +139,17 @@ public class Shop_local_sell_fragment extends Fragment implements AdapterView.On
     final int IMAGE_REQUEST_CODE = 999;
     String sell_id, image;
     LinearLayout addProductsButton;
-    // Spinner productSpinner;
-    //String[] products = {"Mouse", "Pad"};
+
     Get_local_sell get_local_sell;
     FragmentManager fragmentManager;
-    private List<Get_local_sell_product_response> productList;
+
     private List<Get_local_sell_product_response> searchProductList = new ArrayList<>();
-    private boolean productSearched = false;
+
     Shop_profile shop_profile;
     Bitmap bitmapPDF;
     LinearLayout historyButton;
     RecyclerView imageRecyclerView, productView, contactView;
-    private List<String> imageList;
+    public List<String> imageList;
     private int loopItem;
     LinearLayout selectImage, listImage;
     Shop_local_sell_image_list_adapter adapter;
@@ -157,16 +162,19 @@ public class Shop_local_sell_fragment extends Fragment implements AdapterView.On
     Shop_local_sell_select_product_adapter shopLocalSellSelectProductAdapter;
     Dialog productDialog, contactDialog;
 
-    Double buyPrice = 0.0, productPrice = 0.0, paidPrice = 0.0, sellPoint = 0.0, duePrice = 0.0;
+    public Double buyPrice = 0.0, productPrice = 0.0, paidPrice = 0.0, sellPoint = 0.0, duePrice = 0.0;
     String productName, phone;
     SessionManagement sessionManagement;
     CustomerDao customerDao;
     List<Customer> customerList = new ArrayList<>();
-
+    private List<LocalSellProducts> productList = new ArrayList<>();
     Shop_local_sell_select_customer_adapter shop_local_sell_select_customer_adapter;
 
-    AutoCompleteTextView customerSearchEditText;
+    AutoCompleteTextView customerSearchEditText, productsAutoCompleteText;
     ConstraintLayout rulesLayout;
+    ShopCustomerViewModel shopCustomerViewModel;
+    LocalSellProductsDao localSellProductsDao;
+    AppCompatButton calculateButton;
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -266,18 +274,18 @@ public class Shop_local_sell_fragment extends Fragment implements AdapterView.On
         select_product.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadLocalSellProducts();
+                downLoadLocalSellProducts();
             }
         });
         select_phone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(
-//                        R.anim.slide_in,  // enter
-//                        R.anim.fade_out,  // exit
-//                        R.anim.fade_in,   // popEnter
-//                        R.anim.slide_out  // popExit
-//                ).replace(R.id.frame_container, new Shop_local_sell_select_customer_phone_fragment()).addToBackStack(null).commit();
+/*                getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(
+                        R.anim.slide_in,  // enter
+                        R.anim.fade_out,  // exit
+                        R.anim.fade_in,   // popEnter
+                        R.anim.slide_out  // popExit
+                ).replace(R.id.frame_container, new Shop_local_sell_select_customer_phone_fragment()).addToBackStack(null).commit();*/
 
                 loadContacts();
 
@@ -371,58 +379,26 @@ public class Shop_local_sell_fragment extends Fragment implements AdapterView.On
 
         loadCustomerList();
 
-        return view;
-    }
-
-    private void loadContacts() {
-
-        contactDialog.show();
-
-        Window window = contactDialog.getWindow();
-        WindowManager.LayoutParams wlp = window.getAttributes();
-        wlp.gravity = Gravity.CENTER;
-        wlp.width = android.view.WindowManager.LayoutParams.MATCH_PARENT;
-        wlp.height = android.view.WindowManager.LayoutParams.WRAP_CONTENT;
-        window.setAttributes(wlp);
-
-        ImageView closeButton = contactDialog.findViewById(R.id.closeButton);
-        closeButton.setOnClickListener(new View.OnClickListener() {
+        requireActivity().runOnUiThread(new Runnable() {
             @Override
-            public void onClick(View view) {
-                contactDialog.dismiss();
-            }
-        });
-        EditText searchEditText = contactDialog.findViewById(R.id.searchEditText);
-        searchEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                getPhoneList(editable.toString().trim());
+            public void run() {
+                getAllCustomer();
             }
         });
 
-        getPhoneList("");
+        requireActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                localSellProductsDao.deleteAllProducts();
+                localSellProductsDao.resetPrimaryKeySequence("tblLocalSellProducts");
+                downLoadLocalSellProducts();
 
+            }
+        });
 
-    }
+        loadLocalSellProducts();
 
-    private void loadCustomerList() {
-
-
-//        customerList = customerDao.getAllCustomer("");
-//
-//        CustomerAdapter customerAdapter = new CustomerAdapter(getActivity(), customerList);
-//        customerSearchEditText.setAdapter(customerAdapter);
-        customerSearchEditText.addTextChangedListener(new TextWatcher() {
+        productPriceText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -436,147 +412,49 @@ public class Shop_local_sell_fragment extends Fragment implements AdapterView.On
             @Override
             public void afterTextChanged(Editable editable) {
                 if (!editable.toString().isEmpty()) {
-                    customerList = customerDao.getAllCustomer(editable.toString().trim());
-                    //Toast.makeText(getActivity(), String.valueOf(customerList.size()), Toast.LENGTH_SHORT).show();
-                    CustomerAdapter customerAdapter = new CustomerAdapter(getActivity(), customerList, Shop_local_sell_fragment.this);
-                    customerSearchEditText.setAdapter(customerAdapter);
+                   // setUIValue(productsAutoCompleteText.getText().toString().trim(), String.valueOf(buyPrice), buyPriceText.getText().toString());
                 }
             }
         });
 
-//        customerSearchEditText.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-//                Customer customer = (Customer) adapterView.getItemAtPosition(position);
-////                nameText.setText(customer.getCustomerName());
-////                Customer customer = (Customer) adapterView.getItemAtPosition(position);
-//                Toast.makeText(getActivity(), customer.getCustomerName(), Toast.LENGTH_SHORT).show();
-//            }
-//        });
 
-
-    }
-
-    private void getPhoneList(String searchKey) {
-        requireActivity().runOnUiThread(new Runnable() {
+        buyPriceText.addTextChangedListener(new TextWatcher() {
             @Override
-            public void run() {
-                customerList = customerDao.getAllCustomer(searchKey);
-                shop_local_sell_select_customer_adapter = new Shop_local_sell_select_customer_adapter(customerList);
-                shop_local_sell_select_customer_adapter.setOnClickListener(Shop_local_sell_fragment.this::customerItemClick);
-                contactView.setAdapter(shop_local_sell_select_customer_adapter);
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
             }
-        });
-    }
 
-    private void loadLocalSellProducts() {
-        get_local_sell.getData_product(shopID).observe(getViewLifecycleOwner(), new Observer<List<Get_local_sell_product_response>>() {
             @Override
-            public void onChanged(List<Get_local_sell_product_response> get_local_sell_product_responses) {
-                productList = new ArrayList<>();
-                productList = get_local_sell_product_responses;
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-                if (!productList.isEmpty()) {
+            }
 
-                    productDialog.show();
-                    Window window = productDialog.getWindow();
-                    WindowManager.LayoutParams wlp = window.getAttributes();
-                    wlp.gravity = Gravity.CENTER;
-                    wlp.width = android.view.WindowManager.LayoutParams.MATCH_PARENT;
-                    wlp.height = android.view.WindowManager.LayoutParams.WRAP_CONTENT;
-                    window.setAttributes(wlp);
-
-                    ImageView closeButton = productDialog.findViewById(R.id.closeButton);
-                    closeButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            productDialog.dismiss();
-                        }
-                    });
-
-
-                    setProductAdapter(productList);
-
-                    EditText searchEditText = productDialog.findViewById(R.id.searchEditText);
-                    searchEditText.addTextChangedListener(new TextWatcher() {
-                        @Override
-                        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                        }
-
-                        @Override
-                        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                        }
-
-                        @Override
-                        public void afterTextChanged(Editable editable) {
-                            if (editable.toString().trim().isEmpty()) {
-                                setProductAdapter(productList);
-                                productSearched = false;
-                            } else {
-                                productSearched = true;
-                                searchProductList.clear();
-                                HashSet<Get_local_sell_product_response> searchSet = new HashSet<>();
-                                for (int i = 0; i < productList.size(); i++) {
-                                    if (productList.get(i).getProduct_details().toLowerCase(Locale.ROOT).contains(editable.toString().trim().toLowerCase())) {
-                                        searchSet.add(productList.get(i));
-                                    }
-                                }
-
-                                searchProductList.addAll(searchSet);
-                                setProductAdapter(searchProductList);
-
-                            }
-                        }
-                    });
-
-
-                } else {
-                    Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.no_product_found_for_local_sell), Toast.LENGTH_SHORT).show();
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (!editable.toString().isEmpty()) {
+                    //setUIValue(productsAutoCompleteText.getText().toString().trim(), productPriceText.getText().toString().trim(), buyPriceText.getText().toString());
                 }
             }
         });
-    }
 
-    private void setProductAdapter(List<Get_local_sell_product_response> productList) {
-        shopLocalSellSelectProductAdapter = new Shop_local_sell_select_product_adapter(productList);
-        shopLocalSellSelectProductAdapter.setOnClickListener(Shop_local_sell_fragment.this::itemClick);
-        productView.setAdapter(shopLocalSellSelectProductAdapter);
-    }
-
-    private void loadLocalSellPoints() {
-        shopLocalSellPointsViewModel.getShopLocalSellPoints(shopID).observe(getViewLifecycleOwner(), new Observer<List<Shop_local_sell_point_response>>() {
+        calculateButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onChanged(List<Shop_local_sell_point_response> shopLocalSellPointResponses) {
-
-                shopSellPointRulesList = shopLocalSellPointResponses;
-
-                Collections.sort(shopSellPointRulesList, new Comparator<Shop_local_sell_point_response>() {
-                    @Override
-                    public int compare(Shop_local_sell_point_response t1, Shop_local_sell_point_response t2) {
-                        return t1.amount.compareToIgnoreCase(t2.amount);
-                    }
-                });
-//
-                Log.d("dataxx", String.valueOf(shopLocalSellPointResponses.size()));
-                for (int i = 0; i < shopSellPointRulesList.size(); i++) {
-                    String pos = String.valueOf(i + 1);
-                    pointsCriteriaText.append(
-                            "\n" + pos + ". " + shopSellPointRulesList.get(i).amount
-                                    + " " + getActivity().getResources().getString(R.string.point_text1)
-                                    + " " + shopSellPointRulesList.get(i).points
-                                    + " " + getActivity().getResources().getString(R.string.point_text2)
-                    );
-                }
+            public void onClick(View view) {
+                setUIValue(productsAutoCompleteText.getText().toString().trim(), productPriceText.getText().toString().trim(), buyPriceText.getText().toString());
             }
         });
+
+        return view;
     }
 
     @SuppressLint("SetTextI18n")
     private void initView(View view) {
+        calculateButton = view.findViewById(R.id.calculateButton);
         AppDatabase db = AppDatabase.getDatabase(getActivity());
         customerDao = db.customerDao();
+        localSellProductsDao = db.localSellProductsDao();
+        shopCustomerViewModel = new ViewModelProvider(this).get(ShopCustomerViewModel.class);
+
         sessionManagement = new SessionManagement(getActivity());
         shopID = String.valueOf(sessionManagement.getSession());
         pointsCriteriaText = view.findViewById(R.id.pointsCriteriaText);
@@ -645,9 +523,267 @@ public class Shop_local_sell_fragment extends Fragment implements AdapterView.On
         productView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
 
         customerSearchEditText = view.findViewById(R.id.customerSearchEditText);
+        productsAutoCompleteText = view.findViewById(R.id.productsAutoCompleteText);
         closeButton = view.findViewById(R.id.closeButton);
         rulesLayout = view.findViewById(R.id.rulesLayout);
+
+
     }
+
+
+    private void loadLocalSellProducts() {
+        productsAutoCompleteText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (!editable.toString().trim().isEmpty()) {
+                    productList = localSellProductsDao.getLocalSellProducts(editable.toString().trim());
+                    ProductAdapter productAdapter = new ProductAdapter(getActivity(), productList, Shop_local_sell_fragment.this);
+                    productsAutoCompleteText.setAdapter(productAdapter);
+                }
+            }
+        });
+
+        productsAutoCompleteText.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                Helpers.hideSoftKeyboard(getActivity());
+
+
+                productPriceText.setText(String.valueOf(productPrice));
+                buyPriceText.setText(String.valueOf(buyPrice));
+
+                setUIValue(
+                        productsAutoCompleteText.getText().toString().trim(),
+                        productPriceText.getText().toString().trim(),
+                        buyPriceText.getText().toString().trim()
+                );
+
+//                imageList.add(product.getImage());
+                selectImage.setVisibility(View.GONE);
+                listImage.setVisibility(View.VISIBLE);
+                //    setUIValue(product.getProduct_details(), product.getPrice(), product.getBuy_price());
+                setImageAdapter(imageList);
+            }
+        });
+    }
+
+    private void getAllCustomer() {
+        shopCustomerViewModel.getAllCustomer(shopID).observe(this, new Observer<List<Get_shop_customer_response>>() {
+            @Override
+            public void onChanged(List<Get_shop_customer_response> getShopCustomerResponses) {
+                //Toast.makeText(Shop_main_activity.this, String.valueOf(getShopCustomerResponses.size()), Toast.LENGTH_SHORT).show();
+                for (int i = 0; i < getShopCustomerResponses.size(); i++) {
+                    Get_shop_customer_response response = getShopCustomerResponses.get(i);
+
+                    customerDao.insertCustomers(new Customer(response.getCustomer01r_id(), response.getCustomer01r_name(), response.getCustomer01r_address(), response.getCustomer01r_phone(), response.getCustomer01r_image()));
+                }
+            }
+        });
+    }
+
+    private void loadContacts() {
+
+        contactDialog.show();
+
+        Window window = contactDialog.getWindow();
+        WindowManager.LayoutParams wlp = window.getAttributes();
+        wlp.gravity = Gravity.CENTER;
+        wlp.width = android.view.WindowManager.LayoutParams.MATCH_PARENT;
+        wlp.height = android.view.WindowManager.LayoutParams.WRAP_CONTENT;
+        window.setAttributes(wlp);
+
+        ImageView closeButton = contactDialog.findViewById(R.id.closeButton);
+        closeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                contactDialog.dismiss();
+            }
+        });
+        EditText searchEditText = contactDialog.findViewById(R.id.searchEditText);
+        searchEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                getPhoneList(editable.toString().trim());
+            }
+        });
+
+        getPhoneList("");
+
+
+    }
+
+    private void loadCustomerList() {
+        customerSearchEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (!editable.toString().isEmpty()) {
+                    customerList = customerDao.getAllCustomer(editable.toString().trim());
+                    CustomerAdapter customerAdapter = new CustomerAdapter(getActivity(), customerList, Shop_local_sell_fragment.this);
+                    customerSearchEditText.setAdapter(customerAdapter);
+                }
+            }
+        });
+
+        customerSearchEditText.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                Helpers.hideSoftKeyboard(getActivity());
+            }
+        });
+
+
+    }
+
+    private void getPhoneList(String searchKey) {
+        requireActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                customerList = customerDao.getAllCustomer(searchKey);
+                shop_local_sell_select_customer_adapter = new Shop_local_sell_select_customer_adapter(customerList);
+                //shop_local_sell_select_customer_adapter.setOnClickListener(Shop_local_sell_fragment.this::customerItemClick);
+                contactView.setAdapter(shop_local_sell_select_customer_adapter);
+            }
+        });
+    }
+
+    private void downLoadLocalSellProducts() {
+        get_local_sell.getData_product(shopID).observe(getViewLifecycleOwner(), new Observer<List<Get_local_sell_product_response>>() {
+            @Override
+            public void onChanged(List<Get_local_sell_product_response> get_local_sell_product_responses) {
+
+                //productList = get_local_sell_product_responses;
+                for (int i = 0; i < get_local_sell_product_responses.size(); i++) {
+                    Get_local_sell_product_response response = get_local_sell_product_responses.get(i);
+                    localSellProductsDao.insertProducts(new LocalSellProducts(response.getId(), response.getProduct_details(), response.getPrice(), response.getBuy_price(), response.getImage()));
+                }
+
+               /* if (!productList.isEmpty()) {
+
+                    productDialog.show();
+                    Window window = productDialog.getWindow();
+                    WindowManager.LayoutParams wlp = window.getAttributes();
+                    wlp.gravity = Gravity.CENTER;
+                    wlp.width = android.view.WindowManager.LayoutParams.MATCH_PARENT;
+                    wlp.height = android.view.WindowManager.LayoutParams.WRAP_CONTENT;
+                    window.setAttributes(wlp);
+
+                    ImageView closeButton = productDialog.findViewById(R.id.closeButton);
+                    closeButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            productDialog.dismiss();
+                        }
+                    });
+
+
+                    setProductAdapter(productList);
+
+                    EditText searchEditText = productDialog.findViewById(R.id.searchEditText);
+                    searchEditText.addTextChangedListener(new TextWatcher() {
+                        @Override
+                        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                        }
+
+                        @Override
+                        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                        }
+
+                        @Override
+                        public void afterTextChanged(Editable editable) {
+                            if (editable.toString().trim().isEmpty()) {
+                                setProductAdapter(productList);
+                                productSearched = false;
+                            } else {
+                                productSearched = true;
+                                searchProductList.clear();
+                                HashSet<Get_local_sell_product_response> searchSet = new HashSet<>();
+                                for (int i = 0; i < productList.size(); i++) {
+                                    if (productList.get(i).getProduct_details().toLowerCase(Locale.ROOT).contains(editable.toString().trim().toLowerCase())) {
+                                        searchSet.add(productList.get(i));
+                                    }
+                                }
+
+                                searchProductList.addAll(searchSet);
+                                setProductAdapter(searchProductList);
+
+                            }
+                        }
+                    });
+
+
+                } else {
+                    Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.no_product_found_for_local_sell), Toast.LENGTH_SHORT).show();
+                }*/
+            }
+        });
+    }
+
+    private void setProductAdapter(List<Get_local_sell_product_response> productList) {
+        shopLocalSellSelectProductAdapter = new Shop_local_sell_select_product_adapter(productList);
+        //shopLocalSellSelectProductAdapter.setOnClickListener(Shop_local_sell_fragment.this::itemClick);
+        productView.setAdapter(shopLocalSellSelectProductAdapter);
+    }
+
+    private void loadLocalSellPoints() {
+        shopLocalSellPointsViewModel.getShopLocalSellPoints(shopID).observe(getViewLifecycleOwner(), new Observer<List<Shop_local_sell_point_response>>() {
+            @Override
+            public void onChanged(List<Shop_local_sell_point_response> shopLocalSellPointResponses) {
+
+                shopSellPointRulesList = shopLocalSellPointResponses;
+
+                Collections.sort(shopSellPointRulesList, new Comparator<Shop_local_sell_point_response>() {
+                    @Override
+                    public int compare(Shop_local_sell_point_response t1, Shop_local_sell_point_response t2) {
+                        return t1.amount.compareToIgnoreCase(t2.amount);
+                    }
+                });
+//
+                Log.d("dataxx", String.valueOf(shopLocalSellPointResponses.size()));
+                for (int i = 0; i < shopSellPointRulesList.size(); i++) {
+                    String pos = String.valueOf(i + 1);
+                    pointsCriteriaText.append(
+                            "\n" + pos + ". " + shopSellPointRulesList.get(i).amount
+                                    + " " + getActivity().getResources().getString(R.string.point_text1)
+                                    + " " + shopSellPointRulesList.get(i).points
+                                    + " " + getActivity().getResources().getString(R.string.point_text2)
+                    );
+                }
+            }
+        });
+    }
+
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -909,6 +1045,7 @@ public class Shop_local_sell_fragment extends Fragment implements AdapterView.On
 
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private void clearAllData() {
 
         convert_pdf();
@@ -924,6 +1061,8 @@ public class Shop_local_sell_fragment extends Fragment implements AdapterView.On
         sellPoint = 0.0;
         duePrice = 0.0;
         setPointText(sellPoint, productPriceText.getText().toString().trim());
+        customerSearchEditText.setText("");
+        productsAutoCompleteText.setText("");
 
         profitText.setText("");
     }
@@ -960,57 +1099,57 @@ public class Shop_local_sell_fragment extends Fragment implements AdapterView.On
         builder.show();
     }
 
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        String item = String.valueOf(parent.getItemAtPosition(position));
-
-        ((TextView) view).setVisibility(View.GONE);
-        productDetailsText.setText(item);
-        productPriceText.setText(productList.get(position).getPrice());
-        if (!productList.get(position).getImage().equals("")) {
-            ImageHelper.imageLoader(getActivity(), productImage, productList.get(position).getImage());
-            check = 2;
-            image = productList.get(position).getImage();
-        }
-
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
-    }
-
-    @Override
-    public void itemClick(int position) {
-        productDialog.dismiss();
-
-
-        Get_local_sell_product_response product;
-        if (productSearched) {
-            product = searchProductList.get(position);
-
-        } else {
-            product = productList.get(position);
-
-
-        }
-        imageList.add(product.getImage());
-        selectImage.setVisibility(View.GONE);
-        listImage.setVisibility(View.VISIBLE);
-        setUIValue(product.getProduct_details(), product.getPrice(), product.getBuy_price());
-        setImageAdapter(imageList);
-
-
-    }
+//    @Override
+//    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//        String item = String.valueOf(parent.getItemAtPosition(position));
+//
+//        ((TextView) view).setVisibility(View.GONE);
+//        productDetailsText.setText(item);
+//        productPriceText.setText(productList.get(position).getPrice());
+//        if (!productList.get(position).getImage().equals("")) {
+//            ImageHelper.imageLoader(getActivity(), productImage, productList.get(position).getImage());
+//            check = 2;
+//            image = productList.get(position).getImage();
+//        }
+//
+//    }
+//
+//    @Override
+//    public void onNothingSelected(AdapterView<?> parent) {
+//
+//    }
+//
+//    @Override
+//    public void itemClick(int position) {
+//        productDialog.dismiss();
+//
+//
+//        Get_local_sell_product_response product;
+//        if (productSearched) {
+//            product = searchProductList.get(position);
+//
+//        } else {
+//            product = productList.get(position);
+//
+//
+//        }
+//        imageList.add(product.getImage());
+//        selectImage.setVisibility(View.GONE);
+//        listImage.setVisibility(View.VISIBLE);
+//        setUIValue(product.getProduct_details(), product.getPrice(), product.getBuy_price());
+//        setImageAdapter(imageList);
+//
+//
+//    }
 
     @SuppressLint("SetTextI18n")
-    private void setUIValue(String productDetails, String product_price, String buy_price) {
+    public void setUIValue(String productDetails, String product_price, String buy_price) {
         productDetailsText.append(productDetails + ", ");
-        productPrice += Double.parseDouble(product_price);
+        productPrice = Double.parseDouble(product_price);
         productPriceText.setText(String.valueOf(productPrice));
         paidPriceText.setText(String.valueOf(productPrice));
 
-        buyPrice += Double.parseDouble(buy_price);
+        buyPrice = Double.parseDouble(buy_price);
         buyPriceText.setText(String.valueOf(buyPrice));
 
         Double profit = Double.parseDouble(productPriceText.getText().toString().trim()) - Double.parseDouble(buyPriceText.getText().toString().trim());
@@ -1038,7 +1177,7 @@ public class Shop_local_sell_fragment extends Fragment implements AdapterView.On
             }
         }
 
-        //Toast.makeText(getActivity(), sellPoint, Toast.LENGTH_SHORT).show();
+
         setPointText(sellPoint, String.valueOf(productPrice));
     }
 
@@ -1058,14 +1197,14 @@ public class Shop_local_sell_fragment extends Fragment implements AdapterView.On
         imageRecyclerView.setAdapter(adapter);
     }
 
-    @Override
-    public void customerItemClick(int position) {
-
-        Customer customer = customerList.get(position);
-
-        phoneText.setText(customer.getPhone());
-        nameText.setText(customer.getCustomerName());
-
-        contactDialog.dismiss();
-    }
+//    @Override
+//    public void customerItemClick(int position) {
+//
+//        Customer customer = customerList.get(position);
+//
+//        phoneText.setText(customer.getPhone());
+//        nameText.setText(customer.getCustomerName());
+//
+//        contactDialog.dismiss();
+//    }
 }

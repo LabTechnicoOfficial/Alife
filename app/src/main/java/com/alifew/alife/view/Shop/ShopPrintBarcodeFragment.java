@@ -456,8 +456,6 @@ public class ShopPrintBarcodeFragment extends Fragment implements Shop_product_b
         searchEditText = view.findViewById(R.id.searchEditText);
         shopID = String.valueOf(sessionManagement.getSession());
 
-        Log.d("dataxx", "init_view: id" + shopID);
-
         barCodeButton = view.findViewById(R.id.barCodeButton);
 
 

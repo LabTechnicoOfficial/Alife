@@ -140,7 +140,8 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp">
+            android:layout_marginBottom="5dp"
+            android:visibility="gone">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/productDetailsLayout"
@@ -186,6 +187,16 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <AutoCompleteTextView
+            android:id="@+id/productsAutoCompleteText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/border_shape"
+            android:hint="@string/product_details"
+            android:inputType="text"
+            android:padding="@dimen/_10sdp"
+            android:textCursorDrawable="@drawable/cursor_color" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -209,8 +220,6 @@
                     android:id="@+id/productPriceTextID"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:clickable="false"
-                    android:focusable="false"
                     android:inputType="numberDecimal"
                     android:textColor="@color/black"
                     android:textCursorDrawable="@drawable/cursor_color" />
@@ -231,8 +240,6 @@
                     android:id="@+id/paidPriceTextID"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:clickable="false"
-                    android:focusable="false"
                     android:inputType="numberDecimal"
                     android:textColor="@color/black"
                     android:textCursorDrawable="@drawable/cursor_color" />
@@ -264,13 +271,12 @@
                     android:id="@+id/buyPriceTextID"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:clickable="false"
-                    android:focusable="false"
                     android:inputType="numberDecimal"
                     android:textColor="@color/black"
                     android:textCursorDrawable="@drawable/cursor_color" />
 
             </com.google.android.material.textfield.TextInputLayout>
+
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -301,6 +307,15 @@
             </LinearLayout>
 
         </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/calculateButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape"
+            android:backgroundTint="@color/default_color"
+            android:text="Calculate"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/duePriceText"

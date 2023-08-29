@@ -9,18 +9,22 @@ import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.alifew.alife.DB.dao.CustomerDao;
+import com.alifew.alife.DB.dao.LocalSellProductsDao;
 import com.alifew.alife.DB.dao.ProductDao;
 import com.alifew.alife.DB.entity.Customer;
+import com.alifew.alife.DB.entity.LocalSellProducts;
 import com.alifew.alife.DB.entity.Products;
 import com.alifew.alife.Utils.Constants;
 
 import io.reactivex.rxjava3.annotations.NonNull;
 
-@Database(entities = {Products.class, Customer.class}, version = Constants.DB_VERSION)
+@Database(entities = {Products.class, Customer.class, LocalSellProducts.class}, version = Constants.DB_VERSION)
 public abstract class AppDatabase extends RoomDatabase {
     public abstract ProductDao productDao();
 
     public abstract CustomerDao customerDao();
+
+    public abstract LocalSellProductsDao localSellProductsDao();
 
     private static volatile AppDatabase INSTANCE;
 

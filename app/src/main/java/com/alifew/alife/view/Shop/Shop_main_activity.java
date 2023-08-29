@@ -131,8 +131,7 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
     private FirebaseAnalytics mFirebaseAnalytics;
     SessionManagement sessionManagement;
 
-    ShopCustomerViewModel shopCustomerViewModel;
-    CustomerDao customerDao;
+
 
     @SuppressLint("MissingPermission")
     protected void onStart() {
@@ -394,32 +393,11 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
 
         getReviewInfo();
 
-        getAllCustomer();
-
     }
 
-    private void getAllCustomer() {
-        Log.d("dataxx", "getAllCustomer: "+shop_id);
-        shopCustomerViewModel.getAllCustomer(shop_id).observe(this, new Observer<List<Get_shop_customer_response>>() {
-            @Override
-            public void onChanged(List<Get_shop_customer_response> getShopCustomerResponses) {
-                //Toast.makeText(Shop_main_activity.this, String.valueOf(getShopCustomerResponses.size()), Toast.LENGTH_SHORT).show();
-                for (int i = 0; i < getShopCustomerResponses.size(); i++) {
-                    Get_shop_customer_response response = getShopCustomerResponses.get(i);
 
-                    customerDao.insertCustomers(new Customer(response.getCustomer01r_id(), response.getCustomer01r_name(), response.getCustomer01r_address(), response.getCustomer01r_phone(), response.getCustomer01r_image()));
-                }
-            }
-        });
-    }
 
     private void initView() {
-
-        AppDatabase db = AppDatabase.getDatabase(getApplicationContext());
-        customerDao = db.customerDao();
-
-        customerDao.deleteAllCustomer();
-        customerDao.resetPrimaryKeySequence("tblCustomer");
 
         sessionManagement = new SessionManagement(this);
 
@@ -461,7 +439,6 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
 
 
         shop_details = new ViewModelProvider(this).get(Shop_details.class);
-        shopCustomerViewModel = new ViewModelProvider(this).get(ShopCustomerViewModel.class);
 
         profileName = view.findViewById(R.id.profile_name);
     }

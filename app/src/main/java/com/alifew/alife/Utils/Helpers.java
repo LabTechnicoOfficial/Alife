@@ -1,6 +1,7 @@
 package com.alifew.alife.Utils;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.ClipData;
 import android.content.Context;
@@ -19,6 +20,7 @@ import android.util.Log;
 import android.util.LruCache;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
@@ -242,8 +244,13 @@ public class Helpers {
             shareIntent.putExtra(Intent.EXTRA_TEXT, message);
             shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(Intent.createChooser(shareIntent, "choose one"));
-        } catch(Exception e) {
-            Log.d("dataxx", "appShare: "+e.getMessage());
+        } catch (Exception e) {
+            Log.d("dataxx", "appShare: " + e.getMessage());
         }
+    }
+
+    public static void hideSoftKeyboard(Context context) {
+        InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
     }
 }
