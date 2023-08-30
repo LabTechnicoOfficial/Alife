@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -67,6 +68,7 @@ import com.alifew.alife.viewmodel.User_instruction;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.play.core.appupdate.AppUpdateInfo;
@@ -130,7 +132,7 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
 
     private FirebaseAnalytics mFirebaseAnalytics;
     SessionManagement sessionManagement;
-
+    BottomNavigationView bottomNavigationView;
 
 
     @SuppressLint("MissingPermission")
@@ -393,12 +395,36 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
 
         getReviewInfo();
 
+        bottomNavigationView.setOnNavigationItemSelectedListener(navListener);
+
     }
 
+    private final BottomNavigationView.OnNavigationItemSelectedListener navListener = item -> {
+        // By using switch we can easily get
+        // the selected fragment
+        // by using there id.
+        Fragment selectedFragment = null;
+        int itemId = item.getItemId();
+        if (itemId == R.id.bottom_nav_home) {
+            selectedFragment = new Shop_homescreen_fragment();
+        } else if (itemId == R.id.bottom_nav_local_sell) {
+            selectedFragment = new Shop_local_sell_fragment();
+        } else if (itemId == R.id.bottom_nav_coupon) {
+            selectedFragment = new Shop_coupon_fragment();
+        } else if (itemId == R.id.bottom_nav_transaction) {
+            selectedFragment = new Tali_khata_fragment();
+        }
+        // It will help to replace the
+        // one fragment to other.
+        if (selectedFragment != null) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, selectedFragment).commit();
+        }
+        return true;
+    };
 
 
     private void initView() {
-
+        bottomNavigationView = findViewById(R.id.bottomNavigationView);
         sessionManagement = new SessionManagement(this);
 
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);

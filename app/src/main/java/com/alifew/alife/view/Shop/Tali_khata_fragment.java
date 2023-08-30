@@ -47,6 +47,7 @@ import com.alifew.alife.model.image;
 import com.alifew.alife.model.normal_sell_details_response;
 import com.alifew.alife.model.shop_tally_khata_response;
 import com.alifew.alife.model.systemetic_sell_details_response;
+import com.alifew.alife.session.SessionManagement;
 import com.alifew.alife.viewmodel.Get_daily_shop_tally;
 import com.alifew.alife.viewmodel.Sell_details;
 import com.alifew.alife.viewmodel.Shop_all_tally;
@@ -101,9 +102,7 @@ public class Tali_khata_fragment extends Fragment implements Shop_tally_khata_ad
     private List<image> normal_sell_image;
     private Normal_sell_details_image_adapter normal_sell_adapter;
 
-    public Tali_khata_fragment(String shop_id) {
-        this.shop_id = shop_id;
-    }
+    SessionManagement sessionManagement;
 
     int page1 = 1, page2 = 1, page3 = 1, limit = 15, end1 = 0, end2 = 0, end3 = 0;
     int select_type;
@@ -466,6 +465,9 @@ public class Tali_khata_fragment extends Fragment implements Shop_tally_khata_ad
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.shop_daily_account_fragment, container, false);
+
+        sessionManagement = new SessionManagement(getActivity());
+        shop_id = String.valueOf(sessionManagement.getSession());
 
         totalSellText = (TextView) view.findViewById(R.id.totalSellID);
         totalProfitText = (TextView) view.findViewById(R.id.totalProfitID);

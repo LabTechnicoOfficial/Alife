@@ -141,7 +141,7 @@ public class Shop_homescreen_fragment extends Fragment implements Instruction_ad
                         R.anim.fade_out,  // exit
                         R.anim.fade_in,   // popEnter
                         R.anim.slide_out  // popExit
-                ).replace(R.id.frame_container, new Tali_khata_fragment(shop_id)).addToBackStack(null).commit();
+                ).replace(R.id.frame_container, new Tali_khata_fragment()).addToBackStack(null).commit();
             }
         });
 
@@ -316,7 +316,7 @@ public class Shop_homescreen_fragment extends Fragment implements Instruction_ad
                         R.anim.fade_out,  // exit
                         R.anim.fade_in,   // popEnter
                         R.anim.slide_out  // popExit
-                ).replace(R.id.frame_container, new Shop_coupon_fragment(shop_id)).addToBackStack(null).commit();
+                ).replace(R.id.frame_container, new Shop_coupon_fragment()).addToBackStack(null).commit();
             }
         });
 

@@ -31,6 +31,7 @@ import com.alifew.alife.model.cupon.cupon_response;
 import com.alifew.alife.model.cupon.customerFor_cupon_response;
 import com.alifew.alife.model.cupon.edit_delete_response;
 import com.alifew.alife.model.cupon.notify_response;
+import com.alifew.alife.session.SessionManagement;
 import com.alifew.alife.viewmodel.cuponViewmodel.CouponViewModel;
 import com.alifew.alife.viewmodel.cuponViewmodel.CustomerFor_cupon;
 import com.alifew.alife.viewmodel.cuponViewmodel.Edit_delete_cupon_package;
@@ -65,9 +66,8 @@ public class Shop_coupon_fragment extends Fragment implements Shop_coupon_adapte
     Dialog loader;
     List<customerFor_cupon_response> customerList;
     String cupon_available;
-    public Shop_coupon_fragment(String shopID) {
-        this.shopID = shopID;
-    }
+    SessionManagement sessionManagement;
+
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -180,17 +180,8 @@ public class Shop_coupon_fragment extends Fragment implements Shop_coupon_adapte
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.shop_coupon_fragment, container, false);
 
+        initView(view);
 
-        edit_delete_cupon_package = new ViewModelProvider(this).get(Edit_delete_cupon_package.class);
-        couponViewModel = new ViewModelProvider(this).get(CouponViewModel.class);
-
-        addCouponButton = (ExtendedFloatingActionButton) view.findViewById(R.id.addCouponButtonID);
-        couponView = (RecyclerView) view.findViewById(R.id.couponViewID);
-        couponView.setHasFixedSize(true);
-        couponView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-        nestedScrollView = (NestedScrollView) view.findViewById(R.id.nestedRecyclerViewID);
 
         nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
@@ -212,6 +203,23 @@ public class Shop_coupon_fragment extends Fragment implements Shop_coupon_adapte
             }
         });
 
+        return view;
+    }
+
+    private void initView(View view) {
+        sessionManagement = new SessionManagement(getActivity());
+        shopID = String.valueOf(sessionManagement.getSession());
+        edit_delete_cupon_package = new ViewModelProvider(this).get(Edit_delete_cupon_package.class);
+        couponViewModel = new ViewModelProvider(this).get(CouponViewModel.class);
+
+        addCouponButton = (ExtendedFloatingActionButton) view.findViewById(R.id.addCouponButtonID);
+        couponView = (RecyclerView) view.findViewById(R.id.couponViewID);
+        couponView.setHasFixedSize(true);
+        couponView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+        nestedScrollView = (NestedScrollView) view.findViewById(R.id.nestedRecyclerViewID);
+
         dateCurrent = new SimpleDateFormat(myFormat, Locale.getDefault()).format(new Date());
         //dateText.setText(dateCurrent);
 
@@ -219,8 +227,6 @@ public class Shop_coupon_fragment extends Fragment implements Shop_coupon_adapte
         loader.setContentView(R.layout.loader);
         loader.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         loader.setCancelable(false);
-
-        return view;
     }
 
     private void pickCreateDate(TextView creationDateText, TextView endDateText) {
@@ -265,9 +271,7 @@ public class Shop_coupon_fragment extends Fragment implements Shop_coupon_adapte
 
         };
 
-        new DatePickerDialog(getActivity(), date, myCalendar
-                .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+        new DatePickerDialog(getActivity(), date, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH)).show();
     }
 
     private void pickEndDate(TextView creationDateText, TextView endDateText) {
@@ -312,9 +316,7 @@ public class Shop_coupon_fragment extends Fragment implements Shop_coupon_adapte
 
         };
 
-        new DatePickerDialog(getActivity(), date, myCalendar
-                .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+        new DatePickerDialog(getActivity(), date, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH)).show();
     }
 
     @Override
@@ -331,7 +333,6 @@ public class Shop_coupon_fragment extends Fragment implements Shop_coupon_adapte
         String currentTime = (String) android.text.format.DateFormat.format("yyyy-MM-dd HH:mm:ss", new java.util.Date());
 
         String targetdate = response.getEnd_date() + " 23:59:59";
-
 
 
         customerList = new ArrayList<>();
@@ -360,25 +361,21 @@ public class Shop_coupon_fragment extends Fragment implements Shop_coupon_adapte
                 try {
                     Date currentDate = myFormat.parse(currentTime);
                     Date targetDate = myFormat.parse(targetdate);
-                    if(currentDate.getTime()>targetDate.getTime())
-                    {
-                        cupon_available="0";
-                    }else
-                    {
-                        cupon_available="1";
+                    if (currentDate.getTime() > targetDate.getTime()) {
+                        cupon_available = "0";
+                    } else {
+                        cupon_available = "1";
                     }
 
-                }catch (Exception e)
-                {
+                } catch (Exception e) {
 
                 }
                 //Toast.makeText(getActivity(), couponID, Toast.LENGTH_SHORT).show();
-                getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(
-                        R.anim.slide_in,  // enter
+                getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in,  // enter
                         R.anim.fade_out,  // exit
                         R.anim.fade_in,   // popEnter
                         R.anim.slide_out  // popExit
-                ).replace(R.id.frame_container, new Shop_coupon_packages_fragment(shopID, couponID, customerList,cupon_available,response.getCupon_name())).addToBackStack(null).commit();
+                ).replace(R.id.frame_container, new Shop_coupon_packages_fragment(shopID, couponID, customerList, cupon_available, response.getCupon_name())).addToBackStack(null).commit();
 
 
             }
@@ -446,7 +443,7 @@ public class Shop_coupon_fragment extends Fragment implements Shop_coupon_adapte
 
         String targetdate = response.getEnd_date() + " 23:59:59";
 
-String duration="";
+        String duration = "";
         //SimpleDateFormat dateFormat = new SimpleDateFormat(myFormat, Locale.ENGLISH);
         try {
             // Use parse method to get date object of both dates
@@ -472,7 +469,7 @@ String duration="";
                 //holder.durationText.setText(duration);
             } else {
 
-               duration="Time End";
+                duration = "Time End";
             }
 
         }
@@ -480,7 +477,7 @@ String duration="";
         catch (ParseException excep) {
             excep.printStackTrace();
         }
-        String message = "Coupon:" + " " + response.getCupon_name() + " " + "Limit:" + " " +duration;
+        String message = "Coupon:" + " " + response.getCupon_name() + " " + "Limit:" + " " + duration;
 
         couponViewModel.getNotify(shopID, message).observe(getViewLifecycleOwner(), new Observer<notify_response>() {
             @Override
@@ -488,7 +485,7 @@ String duration="";
                 String message = notify_response.getMessage();
                 if (message.equals("success")) {
                     Toast.makeText(getActivity(), "Notificaton  sent", Toast.LENGTH_SHORT).show();
-                }else {
+                } else {
                     Toast.makeText(getActivity(), getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
                 }
             }
