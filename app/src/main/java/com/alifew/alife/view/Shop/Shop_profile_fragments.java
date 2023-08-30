@@ -50,7 +50,6 @@ import com.alifew.alife.session.SessionManagement;
 import com.alifew.alife.viewmodel.Shop_profile;
 import com.alifew.alife.viewmodel.Update_shop;
 import com.google.android.material.textfield.TextInputEditText;
-import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -116,7 +115,7 @@ public class Shop_profile_fragments extends Fragment {
         shop_owner = (TextView) view.findViewById(R.id.ownerNameID);
         shop_location = (TextView) view.findViewById(R.id.locationID);
         shop_contact = (TextView) view.findViewById(R.id.phoneID);
-        edit_Button = (ImageView) view.findViewById(R.id.editButtonID);
+        edit_Button = (ImageView) view.findViewById(R.id.editButton);
         shop_ID = (TextView) view.findViewById(R.id.shopID);
         printButton = (ImageView) view.findViewById(R.id.printButtonID);
 

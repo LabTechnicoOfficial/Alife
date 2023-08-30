@@ -43,7 +43,6 @@ import com.alifew.alife.session.SessionManagement;
 import com.alifew.alife.viewmodel.Update_customer;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -264,7 +263,7 @@ public class Customer_profile_fragments extends Fragment {
         name = (TextView) view.findViewById(R.id.NameId);
         phone = (TextView) view.findViewById(R.id.phoneID);
         address = (TextView) view.findViewById(R.id.locationID);
-        editButton = (ImageView) view.findViewById(R.id.editButtonID);
+        editButton = (ImageView) view.findViewById(R.id.editButton);
         image = (com.mikhaellopez.circularimageview.CircularImageView) view.findViewById(R.id.profile_imageID);
 
 

@@ -76,7 +76,6 @@ import com.google.android.material.floatingactionbutton.ExtendedFloatingActionBu
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mikhaellopez.circularimageview.CircularImageView;
-import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -564,7 +563,7 @@ public class Operator_sell_selected_product_list_fragment extends Fragment imple
         productUnitText = (TextView) addAmountAlert.findViewById(R.id.productUnitID);
         stock_amount = (TextView) addAmountAlert.findViewById(R.id.stockAmountID);
         sell_price = (TextView) addAmountAlert.findViewById(R.id.priceID);
-        product_amount = (TextView) addAmountAlert.findViewById(R.id.amountTextID);
+        product_amount = (TextView) addAmountAlert.findViewById(R.id.amountText);
         noOffersText = (TextView) addAmountAlert.findViewById(R.id.noOffersTextID);
 
         offerSecondSpinnerLayout = (LinearLayout) addAmountAlert.findViewById(R.id.offerSecondSpinnerLayoutID);
@@ -1847,7 +1846,7 @@ public class Operator_sell_selected_product_list_fragment extends Fragment imple
 
         ImageView closeButton = setAmountAlert.findViewById(R.id.crossID);
         AppCompatButton setButton = setAmountAlert.findViewById(R.id.setButtonID);
-        TextInputEditText amountText = setAmountAlert.findViewById(R.id.amountTextID);
+        TextInputEditText amountText = setAmountAlert.findViewById(R.id.amountText);
         TextInputLayout amountError = setAmountAlert.findViewById(R.id.amountErrorID);
         amountText.setText(selected_type.getType_amount());
 

@@ -75,7 +75,7 @@ void OnTypeDec(int position);
         public AppViewholder(@NonNull View itemView) {
             super(itemView);
             typeText = itemView.findViewById(R.id.typeTextID);
-            amountText = itemView.findViewById(R.id.amountTextID);
+            amountText = itemView.findViewById(R.id.amountText);
             selectedAmountText = itemView.findViewById(R.id.selectedAmountTextID);
             minusButton = itemView.findViewById(R.id.minusButtonID);
             addButton = itemView.findViewById(R.id.plusButtonID);

@@ -483,7 +483,7 @@ public class Operator_sell_product_selected_fragment extends Fragment implements
         //price = (EditText) view.findViewById(R.id.priceID);
         price = (TextView) view.findViewById(R.id.priceID);
 
-        product_amount = (TextView) view.findViewById(R.id.amountTextID);
+        product_amount = (TextView) view.findViewById(R.id.amountText);
         noOffersText = (TextView) view.findViewById(R.id.noOffersTextID);
 
         all_discount = (TextView) view.findViewById(R.id.allDiscountID);
@@ -776,7 +776,7 @@ public class Operator_sell_product_selected_fragment extends Fragment implements
 
         ImageView closeButton = setAmountAlert.findViewById(R.id.crossID);
         AppCompatButton setButton = setAmountAlert.findViewById(R.id.setButtonID);
-        TextInputEditText amountText = setAmountAlert.findViewById(R.id.amountTextID);
+        TextInputEditText amountText = setAmountAlert.findViewById(R.id.amountText);
         TextInputLayout amountError = setAmountAlert.findViewById(R.id.amountErrorID);
         amountText.setText(selected_type.getType_amount());
 

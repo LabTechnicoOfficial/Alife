@@ -40,6 +40,11 @@
             android:title="Slider" />
 
         <item
+            android:id="@+id/addPoint"
+            android:icon="@drawable/ic_points"
+            android:title="Points" />
+
+        <item
             android:id="@+id/shareButton"
             android:icon="@drawable/baseline_share_24"
             android:title="Share Us" />

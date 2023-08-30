@@ -148,7 +148,7 @@ public class Shop_coupon_packages_details_fragment extends Fragment {
 
         edit_delete_cupon_package = new ViewModelProvider(this).get(Edit_delete_cupon_package.class);
         customer_notification = new ViewModelProvider(this).get(sendPackageCustomer_notification.class);
-        editButton = (ExtendedFloatingActionButton) view.findViewById(R.id.editButtonID);
+        editButton = (ExtendedFloatingActionButton) view.findViewById(R.id.editButton);
         notificationSend = (TextView) view.findViewById(R.id.notificationID);
         customersView = (RecyclerView) view.findViewById(R.id.customersViewID);
         customersView.setHasFixedSize(true);

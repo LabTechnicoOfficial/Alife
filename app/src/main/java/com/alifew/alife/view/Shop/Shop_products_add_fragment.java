@@ -193,7 +193,7 @@ public class Shop_products_add_fragment extends Fragment {
         priceText = (TextInputEditText) view.findViewById(R.id.priceTextID);
         unitText = (TextInputEditText) view.findViewById(R.id.unitTextID);
         discountText = (TextInputEditText) view.findViewById(R.id.discountTextID);
-        amount = (TextInputEditText) view.findViewById(R.id.amountTextID);
+        amount = (TextInputEditText) view.findViewById(R.id.amountText);
         brand = (TextInputEditText) view.findViewById(R.id.brandTextID);
         // product_details = (TextInputEditText) view.findViewById(R.id.othersTextID);
         productAddButton = (TextView) view.findViewById(R.id.add_ID);

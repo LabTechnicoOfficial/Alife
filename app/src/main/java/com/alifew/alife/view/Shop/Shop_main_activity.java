@@ -532,6 +532,9 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
             case R.id.rateButton:
                 startReviewFlow();
                 break;
+            case R.id.addPoint:
+                getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, new ShopPointFragment()).addToBackStack(null).commit();
+                break;
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
@@ -838,7 +841,7 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
         alertDialog.setContentView(R.layout.update_app_alert);
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         alertDialog.setCancelable(false);
-        alertDialog.show();
+        // alertDialog.show();
 
         Window window = alertDialog.getWindow();
         WindowManager.LayoutParams wlp = window.getAttributes();

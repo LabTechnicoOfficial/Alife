@@ -245,7 +245,7 @@
                         android:visibility="gone" />
 
                     <TextView
-                        android:id="@+id/amountTextID"
+                        android:id="@+id/amountText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="0"

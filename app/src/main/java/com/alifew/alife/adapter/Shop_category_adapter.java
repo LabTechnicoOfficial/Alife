@@ -15,8 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.alifew.alife.R;
 import com.alifew.alife.Utils.ImageHelper;
 import com.alifew.alife.model.Category_response;
-import com.bumptech.glide.Glide;
-import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -136,8 +134,8 @@ public class Shop_category_adapter extends RecyclerView.Adapter<Shop_category_ad
 
             categoryImage = itemView.findViewById(R.id.categoryImageID);
             category = itemView.findViewById(R.id.categorylabel);
-            editButton = itemView.findViewById(R.id.editButtonID);
-            deleteButton = itemView.findViewById(R.id.deleteButtonID);
+            editButton = itemView.findViewById(R.id.editButton);
+            deleteButton = itemView.findViewById(R.id.deleteButton);
             categoryUnit = itemView.findViewById(R.id.categoryUnitID);
             total_items = itemView.findViewById(R.id.totalItemsID);
             total_products = itemView.findViewById(R.id.totalProductsID);

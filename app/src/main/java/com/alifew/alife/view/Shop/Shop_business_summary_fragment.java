@@ -53,7 +53,6 @@ import com.alifew.alife.viewmodel.Add_shop_business_summary;
 import com.alifew.alife.viewmodel.Get_shop_business_summary;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.squareup.picasso.Picasso;
 
 
 import java.io.ByteArrayOutputStream;
@@ -406,7 +405,7 @@ public class Shop_business_summary_fragment extends Fragment implements Normal_s
         TextInputLayout creditInError = view.findViewById(R.id.creditInErrorID);
         TextInputLayout creditOutError = view.findViewById(R.id.creditOutErrorID);
 
-        submitButton = (AppCompatButton) view.findViewById(R.id.submitButtonID);
+        submitButton = (AppCompatButton) view.findViewById(R.id.submitButton);
 
         businessAccountView = (RecyclerView) view.findViewById(R.id.businessAccountViewID);
         multipleImageView = (RecyclerView) view.findViewById(R.id.multipleImageViewID);

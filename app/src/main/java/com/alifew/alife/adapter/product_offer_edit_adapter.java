@@ -76,8 +76,8 @@ public class product_offer_edit_adapter extends RecyclerView.Adapter<product_off
             amount = itemView.findViewById(R.id.packageTextID);
             percentage = itemView.findViewById(R.id.percentageTextID);
             price = (TextView) itemView.findViewById(R.id.priceID);
-            edit = (ImageView) itemView.findViewById(R.id.editButtonID);
-            delete = (ImageView) itemView.findViewById(R.id.deleteButtonID);
+            edit = (ImageView) itemView.findViewById(R.id.editButton);
+            delete = (ImageView) itemView.findViewById(R.id.deleteButton);
            edit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

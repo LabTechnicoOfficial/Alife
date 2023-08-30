@@ -78,7 +78,7 @@ public class Shop_coupon_package_adapter extends RecyclerView.Adapter<Shop_coupo
             packageNameText = itemView.findViewById(R.id.packageNameTextID);
             sellAmountText = itemView.findViewById(R.id.sellAmountTextID);
             packageOwnerAmountText = itemView.findViewById(R.id.packageOwnerAmountTextID);
-            deleteButton = itemView.findViewById(R.id.deleteButtonID);
+            deleteButton = itemView.findViewById(R.id.deleteButton);
             winnerText = itemView.findViewById(R.id.winnerTextID);
             giftText = itemView.findViewById(R.id.giftTextID);
             packageHistory = itemView.findViewById(R.id.packageHistoryId);

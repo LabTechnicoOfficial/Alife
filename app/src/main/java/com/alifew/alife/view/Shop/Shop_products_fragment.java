@@ -438,7 +438,7 @@ public class Shop_products_fragment<SharedViewModel> extends Fragment implements
                 priceText = (TextInputEditText) alert.findViewById(R.id.priceTextID);
                 unitText = (TextInputEditText) alert.findViewById(R.id.unitTextID);
                 discountText = (TextInputEditText) alert.findViewById(R.id.discountTextID);
-                amount = (TextInputEditText) alert.findViewById(R.id.amountTextID);
+                amount = (TextInputEditText) alert.findViewById(R.id.amountText);
                 brand = (TextInputEditText) alert.findViewById(R.id.brandTextID);
                 // product_details = (TextInputEditText) alert.findViewById(R.id.othersTextID);
                 productAddButton = (TextView) alert.findViewById(R.id.add_ID);

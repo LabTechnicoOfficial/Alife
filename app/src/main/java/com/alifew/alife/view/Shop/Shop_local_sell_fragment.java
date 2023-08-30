@@ -382,6 +382,8 @@ public class Shop_local_sell_fragment extends Fragment {
         requireActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                customerDao.deleteAllCustomer();
+                customerDao.resetPrimaryKeySequence("tblCustomer");
                 getAllCustomer();
             }
         });

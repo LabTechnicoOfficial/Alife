@@ -74,7 +74,6 @@ import com.alifew.alife.viewmodel.Get_product_type;
 import com.alifew.alife.viewmodel.Product_imagetoserver;
 import com.alifew.alife.viewmodel.Product_offer_edit_delete;
 import com.alifew.alife.viewmodel.Update_product;
-import com.bumptech.glide.Glide;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -371,7 +370,7 @@ public class Product_details_fragment<SharedViewModel> extends Fragment implemen
                 priceText = (TextInputEditText) alert.findViewById(R.id.priceTextID);
                 unitText = (TextInputEditText) alert.findViewById(R.id.unitTextID);
                 discountText = (TextInputEditText) alert.findViewById(R.id.discountTextID);
-                amount = (TextInputEditText) alert.findViewById(R.id.amountTextID);
+                amount = (TextInputEditText) alert.findViewById(R.id.amountText);
                 priceTextforone = (TextView) alert.findViewById(R.id.unitPriceID);
                 priceTextwithDiscount = (EditText) alert.findViewById(R.id.price_after_discount);
                 priceTextwithDiscount_forone = (TextView) alert.findViewById(R.id.unitPriceDiscountID);
@@ -1180,8 +1179,8 @@ public class Product_details_fragment<SharedViewModel> extends Fragment implemen
         product_description = (TextView) view.findViewById(R.id.descriptionID);
         product_vaoture_no = (TextView) view.findViewById(R.id.vaoture_noID);
         vaotureImage = (ImageView) view.findViewById(R.id.vaoture_ImageID);
-        deleteImage = (ImageView) view.findViewById(R.id.deleteButtonID);
-        editImage = (ImageView) view.findViewById(R.id.editButtonID);
+        deleteImage = (ImageView) view.findViewById(R.id.deleteButton);
+        editImage = (ImageView) view.findViewById(R.id.editButton);
         LinearLayout addMoreImageButton = (LinearLayout) view.findViewById(R.id.addMoreImageID);
 
         addMoreImageButton.setOnClickListener(new View.OnClickListener() {

@@ -89,7 +89,6 @@ import com.google.android.material.floatingactionbutton.ExtendedFloatingActionBu
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mikhaellopez.circularimageview.CircularImageView;
-import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -761,7 +760,7 @@ public class Shop_sell_selected_product_list_fragment extends Fragment implement
         productUnitText = (TextView) addAmountAlert.findViewById(R.id.productUnitID);
         stock_amount = (TextView) addAmountAlert.findViewById(R.id.stockAmountID);
         sell_price = (TextView) addAmountAlert.findViewById(R.id.priceID);
-        product_amount = (TextView) addAmountAlert.findViewById(R.id.amountTextID);
+        product_amount = (TextView) addAmountAlert.findViewById(R.id.amountText);
         noOffersText = (TextView) addAmountAlert.findViewById(R.id.noOffersTextID);
 
 
@@ -2275,7 +2274,7 @@ public class Shop_sell_selected_product_list_fragment extends Fragment implement
 
         ImageView closeButton = setAmountAlert.findViewById(R.id.crossID);
         AppCompatButton setButton = setAmountAlert.findViewById(R.id.setButtonID);
-        TextInputEditText amountText = setAmountAlert.findViewById(R.id.amountTextID);
+        TextInputEditText amountText = setAmountAlert.findViewById(R.id.amountText);
         TextInputLayout amountError = setAmountAlert.findViewById(R.id.amountErrorID);
         amountText.setText(selected_type.getType_amount());
 

@@ -60,7 +60,7 @@ public class Shop_local_page_details_adapter extends RecyclerView.Adapter<Shop_l
             super(itemView);
 
             nameText = (TextView) itemView.findViewById(R.id.nameTextID);
-            amountText = (TextView) itemView.findViewById(R.id.amountTextID);
+            amountText = (TextView) itemView.findViewById(R.id.amountText);
             priceText = (TextView) itemView.findViewById(R.id.priceTextID);
             totalPriceText = (TextView) itemView.findViewById(R.id.totalPriceTextID);
             titleText = (TextView) itemView.findViewById(R.id.titleText);

@@ -70,7 +70,7 @@ public class Shop_offer_allProducts_fragment extends Fragment implements Shop_of
                 TextInputLayout priceError = addOfferAlert.findViewById(R.id.priceErrorID);
                 TextInputLayout offerError = addOfferAlert.findViewById(R.id.offerErrorID);
 
-                TextInputEditText amountText = addOfferAlert.findViewById(R.id.amountTextID);
+                TextInputEditText amountText = addOfferAlert.findViewById(R.id.amountText);
                 TextInputEditText priceText = addOfferAlert.findViewById(R.id.priceTextID);
                 TextInputEditText offerText = addOfferAlert.findViewById(R.id.offerTextID);
 
