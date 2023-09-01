@@ -20,7 +20,7 @@ public interface CustomerDao {
     @Query("DELETE FROM sqlite_sequence WHERE name = :tableName")
     void resetPrimaryKeySequence(String tableName);
 
-    @Query("SELECT * From tblCustomer WHERE phone LIKE '%' || :key || '%'")
+    @Query("SELECT * From tblCustomer WHERE phone LIKE '%' || :key || '%' OR name LIKE '%' || :key || '%'")
     List<Customer> getAllCustomer(String key);
 
 }

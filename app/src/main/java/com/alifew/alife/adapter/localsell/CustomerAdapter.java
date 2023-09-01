@@ -71,7 +71,7 @@ public class CustomerAdapter extends ArrayAdapter<Customer> {
                 String filterPattern = charSequence.toString().toLowerCase().trim();
 
                 for (Customer customer : customerList) {
-                    if (customer.getPhone().toLowerCase().contains(filterPattern)) {
+                    if (customer.getPhone().toLowerCase().contains(filterPattern) || customer.getCustomerName().toLowerCase().contains(filterPattern)) {
                         suggestions.add(customer);
                     }
                 }

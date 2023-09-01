@@ -798,6 +798,7 @@ public class Shop_local_sell_fragment extends Fragment implements Shop_local_sel
             @Override
             public void afterTextChanged(Editable editable) {
                 if (!editable.toString().isEmpty()) {
+                    //Toast.makeText(getActivity(), editable.toString(), Toast.LENGTH_SHORT).show();
                     customerList = customerDao.getAllCustomer(editable.toString().trim());
                     CustomerAdapter customerAdapter = new CustomerAdapter(getActivity(), customerList, Shop_local_sell_fragment.this);
                     customerSearchEditText.setAdapter(customerAdapter);
