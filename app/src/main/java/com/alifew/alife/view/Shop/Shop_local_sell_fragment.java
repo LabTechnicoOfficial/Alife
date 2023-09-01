@@ -415,7 +415,8 @@ public class Shop_local_sell_fragment extends Fragment implements Shop_local_sel
             @Override
             public void afterTextChanged(Editable editable) {
                 if (!editable.toString().isEmpty()) {
-                    // setUIValue(productsAutoCompleteText.getText().toString().trim(), String.valueOf(buyPrice), buyPriceText.getText().toString());
+                    //setUIValue(productsAutoCompleteText.getText().toString().trim(), String.valueOf(buyPrice), buyPriceText.getText().toString());
+                    calculateButtonFunc(productPriceText.getText().toString().trim(), paidPriceText.getText().toString().trim(), buyPriceText.getText().toString());
                 }
             }
         });
@@ -435,7 +436,28 @@ public class Shop_local_sell_fragment extends Fragment implements Shop_local_sel
             @Override
             public void afterTextChanged(Editable editable) {
                 if (!editable.toString().isEmpty()) {
-                    //setUIValue(productsAutoCompleteText.getText().toString().trim(), productPriceText.getText().toString().trim(), buyPriceText.getText().toString());
+                    //setUIValue(productDetailsText.getText().toString().trim(), productPriceText.getText().toString().trim(), buyPriceText.getText().toString());
+                    calculateButtonFunc(productPriceText.getText().toString().trim(), paidPriceText.getText().toString().trim(), buyPriceText.getText().toString());
+                }
+            }
+        });
+
+        paidPriceText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (!s.toString().isEmpty()) {
+                    //setUIValue(productDetailsText.getText().toString().trim(), productPriceText.getText().toString().trim(), buyPriceText.getText().toString());
+                    calculateButtonFunc(productPriceText.getText().toString().trim(), paidPriceText.getText().toString().trim(), buyPriceText.getText().toString());
                 }
             }
         });
@@ -451,23 +473,34 @@ public class Shop_local_sell_fragment extends Fragment implements Shop_local_sel
         return view;
     }
 
-    private void calculateButtonFunc(String product_price, String paid_price, String buy_price) {
-        productPrice = Double.parseDouble(product_price);
-        productPriceText.setText(String.valueOf(productPrice));
-        paidPriceText.setText(paid_price);
-
-        buyPrice = Double.parseDouble(buy_price);
-        buyPriceText.setText(String.valueOf(buyPrice));
-
-        Double profit = Double.parseDouble(productPriceText.getText().toString().trim()) - Double.parseDouble(buyPriceText.getText().toString().trim());
+    private void buyPriceChange(String product_price, String buy_price) {
+        // Toast.makeText(getActivity(), product_price, Toast.LENGTH_SHORT).show();
+        Double profit = Double.parseDouble(product_price) - Double.parseDouble(buy_price);
         profitText.setText(String.valueOf(profit));
 
-        duePrice = Double.parseDouble(productPriceText.getText().toString().trim()) - Double.parseDouble(paidPriceText.getText().toString().trim());
+    }
 
-        duePriceText.setText(getString(R.string.due) + ": " + String.valueOf(duePrice));
-        check = 2;
+    private void calculateButtonFunc(String product_price, String paid_price, String buy_price) {
+        try {
+            productPrice = Double.parseDouble(product_price);
+/*           productPriceText.setText(product_price);
+           paidPriceText.setText(paid_price);
 
-        pointsCalculation(productPrice);
+           buyPrice = Double.parseDouble(buy_price);
+           buyPriceText.setText(buy_price);*/
+
+            Double profit = Double.parseDouble(productPriceText.getText().toString().trim()) - Double.parseDouble(buyPriceText.getText().toString().trim());
+            profitText.setText(String.valueOf(profit));
+
+            duePrice = Double.parseDouble(productPriceText.getText().toString().trim()) - Double.parseDouble(paidPriceText.getText().toString().trim());
+
+            duePriceText.setText(getString(R.string.due) + ": " + String.valueOf(duePrice));
+            check = 2;
+
+            pointsCalculation(productPrice);
+        } catch (Exception e) {
+
+        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -549,7 +582,6 @@ public class Shop_local_sell_fragment extends Fragment implements Shop_local_sel
         productsAutoCompleteText = view.findViewById(R.id.productsAutoCompleteText);
         closeButton = view.findViewById(R.id.closeButton);
         rulesLayout = view.findViewById(R.id.rulesLayout);
-
 
     }
 
@@ -667,6 +699,31 @@ public class Shop_local_sell_fragment extends Fragment implements Shop_local_sel
                 listImage.setVisibility(View.VISIBLE);
                 //    setUIValue(product.getProduct_details(), product.getPrice(), product.getBuy_price());
                 setImageAdapter(imageList);
+            }
+        });
+
+        productDetailsText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.toString().trim().isEmpty()) {
+                    //clearAllData();
+                    duePrice = 0.0;
+                    duePriceText.setText(getActivity().getResources().getString(R.string.due)+": "+duePrice);
+                    profitText.setText("");
+                    paidPriceText.setText("");
+                    buyPriceText.setText("");
+                    productPriceText.setText("");
+                }
             }
         });
     }
@@ -981,6 +1038,7 @@ public class Shop_local_sell_fragment extends Fragment implements Shop_local_sel
                                                                                         loader.dismiss();
                                                                                         Toast.makeText(getActivity(), "Sell Successfully", Toast.LENGTH_SHORT).show();
                                                                                         clearAllData();
+                                                                                        convert_pdf();
                                                                                     }
                                                                                 });
                                                                             }
@@ -1004,7 +1062,7 @@ public class Shop_local_sell_fragment extends Fragment implements Shop_local_sel
                                                                                                 public void onChanged(com.alifew.alife.model.push_notification_response push_notification_response) {
                                                                                                     loader.dismiss();
                                                                                                     Toast.makeText(getActivity(), "Sell Successfully", Toast.LENGTH_SHORT).show();
-
+                                                                                                    convert_pdf();
                                                                                                     clearAllData();
                                                                                                 }
                                                                                             });
@@ -1025,7 +1083,7 @@ public class Shop_local_sell_fragment extends Fragment implements Shop_local_sel
                                                                                 public void onChanged(com.alifew.alife.model.push_notification_response push_notification_response) {
                                                                                     loader.dismiss();
                                                                                     Toast.makeText(getActivity(), "Sell Successfully", Toast.LENGTH_SHORT).show();
-
+                                                                                    //convert_pdf();
                                                                                     clearAllData();
 
                                                                                 }
@@ -1045,7 +1103,7 @@ public class Shop_local_sell_fragment extends Fragment implements Shop_local_sel
                                                                         public void onChanged(com.alifew.alife.model.push_notification_response push_notification_response) {
                                                                             loader.dismiss();
                                                                             Toast.makeText(getActivity(), "Sell Successfully", Toast.LENGTH_SHORT).show();
-
+                                                                            //convert_pdf();
                                                                             clearAllData();
 
                                                                         }
@@ -1083,7 +1141,7 @@ public class Shop_local_sell_fragment extends Fragment implements Shop_local_sel
     @SuppressLint("NotifyDataSetChanged")
     private void clearAllData() {
 
-        convert_pdf();
+
         phoneText.setText("");
         paidPriceText.setText("");
         productDetailsText.setText("");
@@ -1171,11 +1229,11 @@ public class Shop_local_sell_fragment extends Fragment implements Shop_local_sel
     @SuppressLint("SetTextI18n")
     public void setUIValue(String productDetails, String product_price, String buy_price) {
         productDetailsText.append(productDetails + ", ");
-        productPrice = Double.parseDouble(product_price);
+        productPrice += Double.parseDouble(product_price);
         productPriceText.setText(String.valueOf(productPrice));
         paidPriceText.setText(String.valueOf(productPrice));
 
-        buyPrice = Double.parseDouble(buy_price);
+        buyPrice += Double.parseDouble(buy_price);
         buyPriceText.setText(String.valueOf(buyPrice));
 
         Double profit = Double.parseDouble(productPriceText.getText().toString().trim()) - Double.parseDouble(buyPriceText.getText().toString().trim());
