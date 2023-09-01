@@ -175,7 +175,7 @@
                 android:background="@drawable/shape"
                 android:backgroundTint="@color/default_color"
                 android:clickable="true"
-                android:drawableEnd="@drawable/add_button"
+                android:drawableEnd="@drawable/search_icon"
                 android:drawableTint="@color/white"
                 android:focusable="true"
                 android:padding="5dp"
