@@ -16,7 +16,7 @@
     <string name="submit">বিক্রয়</string>
     <string name="add_image">ছবি যোগ করুন</string>
     <string name="date">তারিখ</string>
-    <string name="account">লেনদেন</string>
+    <string name="transaction">লেনদেন</string>
     <string name="customers">গ্রাহক</string>
     <string name="products">পণ্য</string>
     <string name="sell_products">পণ্য বিক্রয়</string>
@@ -79,4 +79,14 @@
     <string name="notification">নোটিফিকেশন</string>
     <string name="qr_scan">স্ক্যান</string>
     <string name="file_save">ফাইল লোকেশন</string>
+
+    <string name="home">হোম</string>
+    <string name="hero_coupon">হিরো কুপন</string>
+    <string name="rules_for_points">সেল পয়েন্টের শর্তাবলী</string>
+    <string name="point_text1">টাকা সেলের জন্য কাস্টমার</string>
+    <string name="point_text2">পয়েন্ট পাবেন</string>
+    <string name="choose_product">পন্য সিলেক্ট করুন</string>
+    <string name="no_product_found_for_local_sell">লোকাল সেলের জন্য কোন পন্য পাওয়া যায়নি</string>
+    <string name="points">পয়েন্ট</string>
+    <string name="search_customer">কাস্টমার খুঁজুন</string>
 </resources>

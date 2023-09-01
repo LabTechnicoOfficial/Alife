@@ -3,6 +3,7 @@ package com.alifew.alife.view.Customer;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -11,8 +12,10 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -21,17 +24,24 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alifew.alife.BuildConfig;
 import com.alifew.alife.R;
 import com.alifew.alife.Utils.Constants;
+import com.alifew.alife.Utils.Helpers;
+import com.alifew.alife.Utils.ImageHelper;
 import com.alifew.alife.model.Customer_response;
 import com.alifew.alife.model.getUser_deviceToken_response;
 import com.alifew.alife.model.get_version_response;
 import com.alifew.alife.view.LoginActivity;
+import com.alifew.alife.view.Shop.Shop_main_activity;
 import com.alifew.alife.viewmodel.Customer_details;
 import com.alifew.alife.viewmodel.Get_version;
 import com.alifew.alife.session.SessionManagement;
@@ -39,7 +49,22 @@ import com.alifew.alife.viewmodel.SessionManagment_registration;
 import com.alifew.alife.viewmodel.User_deviceToken;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.ads.admanager.AdManagerAdView;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.play.core.appupdate.AppUpdateInfo;
+import com.google.android.play.core.appupdate.AppUpdateManager;
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
+import com.google.android.play.core.install.InstallState;
+import com.google.android.play.core.install.InstallStateUpdatedListener;
+import com.google.android.play.core.install.model.AppUpdateType;
+import com.google.android.play.core.install.model.InstallStatus;
+import com.google.android.play.core.install.model.UpdateAvailability;
+
+import com.google.android.play.core.review.ReviewInfo;
+import com.google.android.play.core.review.ReviewManager;
+import com.google.android.play.core.review.ReviewManagerFactory;
 import com.onesignal.OneSignal;
 import com.squareup.picasso.Picasso;
 
@@ -60,36 +85,40 @@ public class Customer_main_activity extends AppCompatActivity implements Navigat
     private String customer_id;
     Get_version get_version;
     private String version_name, version_code;
-    Dialog dialog;
     private String deviceToken;
     User_deviceToken user_deviceToken;
     AdManagerAdView mAdManagerAdView;
 
     int userId;
+    SessionManagement sessionManagement;
 
     @SuppressLint("MissingPermission")
     protected void onStart() {
         // isInForeground = false;
         super.onStart();
-        SessionManagement sessionManagement = new SessionManagement(Customer_main_activity.this);
-         userId = sessionManagement.getSession();
 
-        SessionManagment_registration sessionManagment_registration = new SessionManagment_registration(this);
-        if (userId == -1) {
-            Intent intent = new Intent(Customer_main_activity.this, LoginActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-            startActivity(intent);
+        userId = sessionManagement.getSession();
 
+        checkForAppUpdate();
 
-        }
+        //checkVersion();
+    }
 
+    private void checkVersion() {
+
+        get_version = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(Get_version.class);
+
+        version_code = String.valueOf(BuildConfig.VERSION_CODE);
+        version_name = BuildConfig.VERSION_NAME;
+        Dialog dialog = new Dialog(Customer_main_activity.this);
+        dialog.setContentView(R.layout.update_alert);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.setCancelable(false);
         get_version.getData().observe(Customer_main_activity.this, new Observer<get_version_response>() {
             @Override
             public void onChanged(get_version_response get_version_response) {
                 if (!(get_version_response.getVersion_code().equals(version_code))) {
 
-                    dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                    dialog.setCancelable(false);
                     dialog.show();
                     TextView updateButton = dialog.findViewById(R.id.updateButton);
                     TextView noButton = dialog.findViewById(R.id.noButton);
@@ -126,50 +155,9 @@ public class Customer_main_activity extends AppCompatActivity implements Navigat
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        OneSignal.initWithContext(this);
-        OneSignal.setAppId(Constants.ONESIGNAL_APP_ID);
-        deviceToken = OneSignal.getDeviceState().getUserId();
-        Log.d("dataxx", "checkMultipleDeviceLogIN: "+deviceToken);
 
-        get_version = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(Get_version.class);
         user_deviceToken = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(User_deviceToken.class);
 
-        version_code = String.valueOf(BuildConfig.VERSION_CODE);
-        version_name = BuildConfig.VERSION_NAME;
-        dialog = new Dialog(Customer_main_activity.this);
-        dialog.setContentView(R.layout.update_alert);
-        get_version.getData().observe(Customer_main_activity.this, new Observer<get_version_response>() {
-            @Override
-            public void onChanged(get_version_response get_version_response) {
-                if (!(get_version_response.getVersion_code().equals(version_code))) {
-
-
-                    dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                    dialog.setCancelable(false);
-                    dialog.show();
-                    TextView updateButton = dialog.findViewById(R.id.updateButton);
-                    TextView noButton = dialog.findViewById(R.id.noButton);
-
-                    updateButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            //Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.ALife.alife"));
-                            //startActivity(intent);
-                            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.ALife.alife"));
-                            startActivity(intent);
-                        }
-                    });
-                    noButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            moveTaskToBack(true);
-                            android.os.Process.killProcess(android.os.Process.myPid());
-                            System.exit(1);
-                        }
-                    });
-                }
-            }
-        });
 
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         if (savedInstanceState == null) {
@@ -178,6 +166,11 @@ public class Customer_main_activity extends AppCompatActivity implements Navigat
         }
         setContentView(R.layout.customer_main_activity);
         checkConnection();
+
+        sessionManagement = new SessionManagement(Customer_main_activity.this);
+        deviceToken = sessionManagement.getDeviceToken();
+
+        //   Log.d("dataxx", "checkMultipleDeviceLogIN: "+deviceToken);
 
         alertCustom = new Dialog(Customer_main_activity.this);
         alertCustom.setContentView(R.layout.loader);
@@ -211,19 +204,15 @@ public class Customer_main_activity extends AppCompatActivity implements Navigat
             @Override
             public void onChanged(Customer_response customer_response) {
                 name = customer_response.getName();
-                image = customer_response.getImage();
-                Glide.with(getApplicationContext())
-                        .load(customer_response.getImage())
-                        .centerCrop()
-                        .placeholder(R.drawable.loader)
-                        .into(imageView);
-//                Picasso.get().load(image).fit().centerInside().into(imageView);
-                profileName = (TextView) view.findViewById(R.id.profile_name);
+                ImageHelper.imageLoader(getApplicationContext(), imageView, customer_response.getImage());
+                profileName =  view.findViewById(R.id.profile_name);
                 profileName.setText(name);
             }
         });
 
         checkMultipleDeviceLogIN();
+
+        getReviewInfo();
     }
 
     private void checkMultipleDeviceLogIN() {
@@ -232,9 +221,32 @@ public class Customer_main_activity extends AppCompatActivity implements Navigat
             @Override
             public void onChanged(getUser_deviceToken_response getUser_deviceToken_response) {
                 if (!getUser_deviceToken_response.getToken().equals(deviceToken)) {
-                    SessionManagement sessionManagement = new SessionManagement(Customer_main_activity.this);
-                    sessionManagement.removeSession();
-                    startActivity(new Intent(Customer_main_activity.this, LoginActivity.class));
+
+                    Dialog sessionOutAlert = new Dialog(Customer_main_activity.this);
+                    sessionOutAlert.setContentView(R.layout.session_out_alert);
+                    sessionOutAlert.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    sessionOutAlert.setCancelable(false);
+                    sessionOutAlert.show();
+
+                    Window window = sessionOutAlert.getWindow();
+                    WindowManager.LayoutParams wlp = window.getAttributes();
+                    wlp.gravity = Gravity.CENTER;
+                    wlp.width = android.view.WindowManager.LayoutParams.MATCH_PARENT;
+                    wlp.height = android.view.WindowManager.LayoutParams.WRAP_CONTENT;
+                    window.setAttributes(wlp);
+
+                    TextView okButton = sessionOutAlert.findViewById(R.id.okButton);
+
+                    okButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            //Toast.makeText(Shop_main_activity.this, "ok", Toast.LENGTH_SHORT).show();
+                            sessionManagement = new SessionManagement(Customer_main_activity.this);
+                            sessionManagement.removeSession();
+                            startActivity(new Intent(Customer_main_activity.this, LoginActivity.class));
+                            finish();
+                        }
+                    });
 
                 }
             }
@@ -250,25 +262,87 @@ public class Customer_main_activity extends AppCompatActivity implements Navigat
         return super.onOptionsItemSelected(item);
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.log_out) {
-            alertControl();
-            SessionManagement sessionManagement = new SessionManagement(Customer_main_activity.this);
-            sessionManagement.removeSession();
-            startActivity(new Intent(Customer_main_activity.this, LoginActivity.class));
-        } else if (item.getItemId() == R.id.profile) {
-            alertControl();
-            getSupportFragmentManager().beginTransaction().replace(R.id.cus_frame_container, new Customer_profile_fragments()).addToBackStack(null).commit();
-        } else if (item.getItemId() == R.id.shopListID) {
-            alertControl();
-            getSupportFragmentManager().beginTransaction().replace(R.id.cus_frame_container, new Customer_shopList_fragment(customer_id)).addToBackStack(null).commit();
+        switch (item.getItemId()) {
+            case R.id.log_out:
+                alertControl();
+                SessionManagement sessionManagement = new SessionManagement(Customer_main_activity.this);
+                sessionManagement.removeSession();
+                startActivity(new Intent(Customer_main_activity.this, LoginActivity.class));
+                break;
+            case R.id.profile:
+                alertControl();
+                getSupportFragmentManager().beginTransaction().replace(R.id.cus_frame_container, new Customer_profile_fragments()).addToBackStack(null).commit();
+                break;
+            case R.id.shopListID:
+                alertControl();
+                getSupportFragmentManager().beginTransaction().replace(R.id.cus_frame_container, new Customer_shopList_fragment(customer_id)).addToBackStack(null).commit();
+                break;
+            case R.id.shareButton:
+                appShare();
+                break;
+            case R.id.rateButton:
+                startReviewFlow();
+                break;
         }
 
 
         //close drawer
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void appShare() {
+        String message = "Boost your business with ALIFE. Get it from- ";
+        message = message + "https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID;
+        try {
+            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+            shareIntent.setType("text/plain");
+            shareIntent.putExtra(Intent.EXTRA_SUBJECT, getApplicationContext().getResources().getString(R.string.app_name));
+            shareIntent.putExtra(Intent.EXTRA_TEXT, message);
+            shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(Intent.createChooser(shareIntent, "choose one"));
+        } catch (Exception e) {
+            Log.d("dataxx", "appShare: " + e.getMessage());
+        }
+    }
+
+    ReviewManager reviewManager;
+    ReviewInfo reviewInfo = null;
+
+    private void getReviewInfo() {
+        reviewManager = ReviewManagerFactory.create(getApplicationContext());
+        Task<ReviewInfo> manager = reviewManager.requestReviewFlow();
+        manager.addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                reviewInfo = task.getResult();
+            } else {
+                // Toast.makeText(getActivity(), "In App ReviewFlow failed to start", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    public void startReviewFlow() {
+        if (reviewInfo != null) {
+            Task<Void> flow = reviewManager.launchReviewFlow(this, reviewInfo);
+            flow.addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(Task<Void> task) {
+                    //Toast.makeText(getActivity(), "In App Rating complete", Toast.LENGTH_LONG).show();
+                    Uri uri = Uri.parse("market://details?id=" + getApplicationContext().getPackageName());
+                    Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
+                    try {
+                        startActivity(goToMarket);
+                    } catch (ActivityNotFoundException e) {
+                        //UtilityClass.showAlertDialog(context, ERROR, "Couldn't launch the Google Playstore app", null, 0);
+                    }
+                }
+            });
+        } else {
+            //Toast.makeText(getActivity(), "In App Rating failed", Toast.LENGTH_LONG).show();
+        }
     }
 
     private void alertControl() {
@@ -351,6 +425,191 @@ public class Customer_main_activity extends AppCompatActivity implements Navigat
         final Configuration override = new Configuration(newBase.getResources().getConfiguration());
         override.fontScale = .9f;
         applyOverrideConfiguration(override);
+    }
+
+    private static final int REQ_CODE_VERSION_UPDATE = 530;
+    private AppUpdateManager appUpdateManager;
+    private InstallStateUpdatedListener installStateUpdatedListener;
+
+    @Override
+    public void onActivityResult(int requestCode, final int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+
+        if (requestCode == REQ_CODE_VERSION_UPDATE) {
+            if (resultCode != RESULT_OK) { //RESULT_OK / RESULT_CANCELED / RESULT_IN_APP_UPDATE_FAILED
+                Log.d("dataxx", "Update flow failed! Result code: " + resultCode);
+                // If the update is cancelled or fails,
+                // you can request to start the update again.
+                unregisterInstallStateUpdListener();
+            }
+        }
+    }
+
+
+    private void checkForAppUpdate() {
+        Log.d("dataxx", "checkForAppUpdate: ");
+        appUpdateManager = AppUpdateManagerFactory.create(getApplicationContext());
+
+        Task<AppUpdateInfo> appUpdateInfoTask = appUpdateManager.getAppUpdateInfo();
+
+        installStateUpdatedListener = new InstallStateUpdatedListener() {
+            @Override
+            public void onStateUpdate(InstallState installState) {
+                // Show module progress, log state, or install the update.
+                Log.d("dataxx", "onStateUpdate: ");
+                if (installState.installStatus() == InstallStatus.DOWNLOADED)
+                    // After the update is downloaded, show a notification
+                    // and request user confirmation to restart the app.
+                    Log.d("dataxx", "onStateUpdate: DOWNLOADED");
+                popupSnackbarForCompleteUpdateAndUnregister();
+            }
+        };
+
+        // Checks that the platform will allow the specified type of update.
+        appUpdateInfoTask.addOnSuccessListener(appUpdateInfo -> {
+            if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE) {
+                Log.d("dataxx", "UPDATE AVAILABLE: ");
+                if (appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)) {
+
+                    Log.d("dataxx", "checkForAppUpdate: FLEXIBLE");
+                    // Before starting an update, register a listener for updates.
+                    appUpdateManager.registerListener(installStateUpdatedListener);
+                    // Start an update.
+                    //startAppUpdateFlexible(appUpdateInfo);
+
+                    force_app_update(appUpdateInfo);
+                } else if (appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
+                    // Start an update.
+                    //startAppUpdateImmediate(appUpdateInfo);
+                    Log.d("dataxx", "checkForAppUpdate: IMMEDIATE");
+
+                    force_app_update(appUpdateInfo);
+                }
+            } else {
+                Log.d("dataxx", "NOT AVAILABLE");
+            }
+        });
+    }
+
+    private void startAppUpdateImmediate(AppUpdateInfo appUpdateInfo) {
+        try {
+            appUpdateManager.startUpdateFlowForResult(
+                    appUpdateInfo,
+                    AppUpdateType.IMMEDIATE,
+                    // The current activity making the update request.
+                    this,
+                    // Include a request code to later monitor this update request.
+                    REQ_CODE_VERSION_UPDATE);
+        } catch (IntentSender.SendIntentException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void startAppUpdateFlexible(AppUpdateInfo appUpdateInfo) {
+        try {
+            appUpdateManager.startUpdateFlowForResult(
+                    appUpdateInfo,
+                    AppUpdateType.FLEXIBLE,
+                    // The current activity making the update request.
+                    this,
+                    // Include a request code to later monitor this update request.
+                    REQ_CODE_VERSION_UPDATE);
+        } catch (IntentSender.SendIntentException e) {
+            e.printStackTrace();
+            unregisterInstallStateUpdListener();
+        }
+    }
+
+    /**
+     * Displays the snackbar notification and call to action.
+     * Needed only for Flexible app update
+     */
+    private void popupSnackbarForCompleteUpdateAndUnregister() {
+        Snackbar snackbar =
+                Snackbar.make(drawerLayout, "Updating", Snackbar.LENGTH_INDEFINITE);
+        snackbar.setAction(R.string.restart, new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                appUpdateManager.completeUpdate();
+            }
+        });
+        snackbar.setActionTextColor(getResources().getColor(R.color.white));
+        snackbar.show();
+
+        unregisterInstallStateUpdListener();
+    }
+
+    /**
+     * Checks that the update is not stalled during 'onResume()'.
+     * However, you should execute this check at all app entry points.
+     */
+    private void checkNewAppVersionState() {
+        appUpdateManager
+                .getAppUpdateInfo()
+                .addOnSuccessListener(
+                        appUpdateInfo -> {
+                            //FLEXIBLE:
+                            // If the update is downloaded but not installed,
+                            // notify the user to complete the update.
+                            if (appUpdateInfo.installStatus() == InstallStatus.DOWNLOADED) {
+                                popupSnackbarForCompleteUpdateAndUnregister();
+                            }
+
+                            //IMMEDIATE:
+                            if (appUpdateInfo.updateAvailability()
+                                    == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS) {
+                                // If an in-app update is already running, resume the update.
+                                startAppUpdateImmediate(appUpdateInfo);
+                                //Toast.makeText(this, "update available", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+    }
+
+    /**
+     * Needed only for FLEXIBLE update
+     */
+    private void unregisterInstallStateUpdListener() {
+        if (appUpdateManager != null && installStateUpdatedListener != null)
+            appUpdateManager.unregisterListener(installStateUpdatedListener);
+    }
+
+
+    //force app update
+
+    @SuppressLint("SetTextI18n")
+    public void force_app_update(AppUpdateInfo appUpdateInfo) {
+        Dialog alertDialog = new Dialog(this);
+        alertDialog.setContentView(R.layout.update_app_alert);
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        alertDialog.setCancelable(false);
+        alertDialog.show();
+
+        Window window = alertDialog.getWindow();
+        WindowManager.LayoutParams wlp = window.getAttributes();
+        wlp.gravity = Gravity.CENTER;
+        wlp.width = android.view.WindowManager.LayoutParams.MATCH_PARENT;
+        wlp.height = android.view.WindowManager.LayoutParams.WRAP_CONTENT;
+        window.setAttributes(wlp);
+
+        TextView titleText = alertDialog.findViewById(R.id.titleText);
+        TextView messageText = alertDialog.findViewById(R.id.messageText);
+
+        titleText.setText("Update " + getString(R.string.app_name));
+        messageText.setText(getString(R.string.app_name) + " recommends that you update to the latest version. You aren't authorized to access features of this without upgrading to the latest version.");
+
+        AppCompatButton updateButton = alertDialog.findViewById(R.id.updateButton);
+
+        updateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    startActivity(new Intent("android.intent.action.VIEW", Uri.parse("market://details?id=" + getPackageName())));
+                } catch (ActivityNotFoundException e) {
+                    startActivity(new Intent("android.intent.action.VIEW", Uri.parse("https://play.google.com/store/apps/details?id=" + getPackageName())));
+                }
+            }
+        });
     }
 }
 

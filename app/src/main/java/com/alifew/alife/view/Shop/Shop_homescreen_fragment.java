@@ -39,13 +39,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alifew.alife.Custom_Type.ProductSell;
-import com.alifew.alife.EarningApp.ViewModel.AddInterval;
 import com.alifew.alife.R;
+import com.alifew.alife.Utils.ImageHelper;
 import com.alifew.alife.adapter.Instruction_adapter;
 import com.alifew.alife.adapter.Shop_barcode_type_adapter;
 import com.alifew.alife.model.Fetch_product_detail_by_bar_code_response;
 import com.alifew.alife.model.user_instruction_response;
-import com.alifew.alife.viewmodel.EarningViewModel;
 import com.alifew.alife.session.SessionManagement;
 import com.alifew.alife.viewmodel.Get_product;
 import com.alifew.alife.viewmodel.User_instruction;
@@ -79,9 +78,7 @@ public class Shop_homescreen_fragment extends Fragment implements Instruction_ad
     private List<user_instruction_response> instructionList;
     Instruction_adapter instructionAdapter;
     private int timeLimit_UseriNSTRUCTION = 0;
-    EarningViewModel earningViewModel;
     private AdManagerAdView mAdManagerAdView;
-    private AddInterval addInterval;
     private InterstitialAd InterstitialAd;
 
     TextView barcodeText;
@@ -92,6 +89,11 @@ public class Shop_homescreen_fragment extends Fragment implements Instruction_ad
     private static final int REQUEST_CAMERA_PERMISSION = 201;
 
     Get_product getProductViewModel;
+
+    RecyclerView instructionView;
+
+    SessionManagement sessionManagement;
+    LinearLayout instructorLayout;
 
     @SuppressLint("MissingPermission")
     @Override
@@ -104,42 +106,10 @@ public class Shop_homescreen_fragment extends Fragment implements Instruction_ad
 //                loadAd();
 //            }
 //        });
-    /*    AdManagerAdRequest adRequest = new AdManagerAdRequest.Builder().build();
-       mAdManagerAdView.loadAd(adRequest);
-        mAdManagerAdView.setAdListener(new AdListener() {
-            @Override
-            public void onAdLoaded() {
-                // Code to be executed when an ad finishes loading.
-                // Toast.makeText(Shop_main_activity.this,"fiinsh",Toast.LENGTH_SHORT).show();
-            }
 
-            @Override
-            public void onAdFailedToLoad(LoadAdError adError) {
-                // Code to be executed when an ad request fails.
-            }
-
-            @Override
-            public void onAdOpened() {
-                // Code to be executed when an ad opens an overlay that
-                // covers the screen.
-            }
-
-            @Override
-            public void onAdClicked() {
-                // Code to be executed when the user clicks on an ad.
-            }
-
-            @Override
-            public void onAdClosed() {
-                // Code to be executed when the user is about to return
-                // to the app after tapping on an ad.
-            }
-        });
-*/
         main();
         instruction_func();
     }
-
 
 
     @SuppressLint("MissingPermission")
@@ -148,35 +118,8 @@ public class Shop_homescreen_fragment extends Fragment implements Instruction_ad
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.shop_homescreen_fragment, container, false);
 
-        dailyAccountButton = (LinearLayout) view.findViewById(R.id.dailyAccountButtonID);
-        dueListButton = (LinearLayout) view.findViewById(R.id.dueListButtonID);
-        customerListButton = (LinearLayout) view.findViewById(R.id.customerListButtonID);
-        sellProductButton = (LinearLayout) view.findViewById(R.id.sellProductsButtonID);
-        addProductButton = (LinearLayout) view.findViewById(R.id.addProductsButtonID);
-        allProductButton = (LinearLayout) view.findViewById(R.id.allProductsButtonID);
-        dueCustomerButton = (LinearLayout) view.findViewById(R.id.duecustomerListButtonID);
-        businessAccountButton = (LinearLayout) view.findViewById(R.id.businessAccountButtonID);
-        localPageButton = (LinearLayout) view.findViewById(R.id.localPageButtonID);
-        sellHistoryButton = (LinearLayout) view.findViewById(R.id.sellHistoryButtonID);
+        initView(view);
 
-        couponButton = (LinearLayout) view.findViewById(R.id.couponButtonID);
-        localSellButton = (LinearLayout) view.findViewById(R.id.localSellButtonID);
-        sendNotificationButton = (LinearLayout) view.findViewById(R.id.sendNotificationButtonID);
-        barcodeScanButton = view.findViewById(R.id.barcodeScanButton);
-        printBarcodeButton = view.findViewById(R.id.printBarcodeButton);
-
-        earningViewModel = new ViewModelProvider(this).get(EarningViewModel.class);
-        getProductViewModel = new ViewModelProvider(this).get(Get_product.class);
-
-        //banner add
-        mAdManagerAdView = (AdManagerAdView) view.findViewById(R.id.adManagerAdView);
-
-        fragmentManager = getFragmentManager();
-
-        SessionManagement sessionManagement = new SessionManagement(getActivity());
-        int userId = sessionManagement.getSession();
-
-        shop_id = String.valueOf(userId);
 
         localSellButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -186,7 +129,7 @@ public class Shop_homescreen_fragment extends Fragment implements Instruction_ad
                         R.anim.fade_out,  // exit
                         R.anim.fade_in,   // popEnter
                         R.anim.slide_out  // popExit
-                ).replace(R.id.frame_container, new Shop_local_sell_fragment(shop_id, 1)).addToBackStack(null).commit();
+                ).replace(R.id.frame_container, new Shop_local_sell_fragment()).addToBackStack(null).commit();
             }
         });
 
@@ -198,7 +141,7 @@ public class Shop_homescreen_fragment extends Fragment implements Instruction_ad
                         R.anim.fade_out,  // exit
                         R.anim.fade_in,   // popEnter
                         R.anim.slide_out  // popExit
-                ).replace(R.id.frame_container, new Tali_khata_fragment(shop_id)).addToBackStack(null).commit();
+                ).replace(R.id.frame_container, new Tali_khata_fragment()).addToBackStack(null).commit();
             }
         });
 
@@ -373,7 +316,7 @@ public class Shop_homescreen_fragment extends Fragment implements Instruction_ad
                         R.anim.fade_out,  // exit
                         R.anim.fade_in,   // popEnter
                         R.anim.slide_out  // popExit
-                ).replace(R.id.frame_container, new Shop_coupon_fragment(shop_id)).addToBackStack(null).commit();
+                ).replace(R.id.frame_container, new Shop_coupon_fragment()).addToBackStack(null).commit();
             }
         });
 
@@ -474,49 +417,60 @@ public class Shop_homescreen_fragment extends Fragment implements Instruction_ad
         return view;
     }
 
+    private void initView(View view) {
+        instructionView = view.findViewById(R.id.instructionView);
+        instructionView.setHasFixedSize(true);
+        instructionView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+
+        dailyAccountButton =  view.findViewById(R.id.dailyAccountButtonID);
+        dueListButton =  view.findViewById(R.id.dueListButtonID);
+        customerListButton =  view.findViewById(R.id.customerListButtonID);
+        sellProductButton =  view.findViewById(R.id.sellProductsButtonID);
+        addProductButton =  view.findViewById(R.id.addProductsButtonID);
+        allProductButton =  view.findViewById(R.id.allProductsButtonID);
+        dueCustomerButton =  view.findViewById(R.id.duecustomerListButtonID);
+        businessAccountButton =  view.findViewById(R.id.businessAccountButtonID);
+        localPageButton =  view.findViewById(R.id.localPageButtonID);
+        sellHistoryButton =  view.findViewById(R.id.sellHistoryButtonID);
+
+        couponButton =  view.findViewById(R.id.couponButtonID);
+        localSellButton =  view.findViewById(R.id.localSellButtonID);
+        sendNotificationButton =  view.findViewById(R.id.sendNotificationButtonID);
+        barcodeScanButton = view.findViewById(R.id.barcodeScanButton);
+        printBarcodeButton = view.findViewById(R.id.printBarcodeButton);
+
+        instructorLayout = view.findViewById(R.id.instructorLayout);
+
+
+        getProductViewModel = new ViewModelProvider(this).get(Get_product.class);
+        userInstruction = new ViewModelProvider(getActivity()).get(User_instruction.class);
+
+        //banner add
+        mAdManagerAdView = (AdManagerAdView) view.findViewById(R.id.adManagerAdView);
+
+        fragmentManager = getFragmentManager();
+
+        sessionManagement = new SessionManagement(getActivity());
+        shop_id = String.valueOf(sessionManagement.getSession());
+
+    }
+
     private void instruction_func() {
 
-        userInstruction = new ViewModelProvider(getActivity()).get(User_instruction.class);
+
         userInstruction.getInstruction("user").observe(getViewLifecycleOwner(), new Observer<List<user_instruction_response>>() {
             @Override
             public void onChanged(List<user_instruction_response> user_instruction_responses) {
-                int leng = user_instruction_responses.size();
-                instructionList = new ArrayList<>();
 
-                instructionList = user_instruction_responses;
-                instructionAdapter = new Instruction_adapter(instructionList);
-
-                if (leng > 0) {
-                    Dialog instructionAlert = new Dialog(getActivity());
-                    instructionAlert.setContentView(R.layout.user_instruction_alert);
-                    instructionAlert.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                    instructionAlert.setCancelable(true);
-                    instructionAlert.show();
-
-                    Window window = instructionAlert.getWindow();
-                    WindowManager.LayoutParams wlp = window.getAttributes();
-
-                    wlp.gravity = Gravity.BOTTOM;
-                    wlp.flags &= ~WindowManager.LayoutParams.FLAG_DIM_BEHIND;
-                    wlp.windowAnimations = R.style.DialogAnimation;
-                    //wlp.width = android.view.WindowManager.LayoutParams.MATCH_PARENT;
-                    // wlp.height = android.view.WindowManager.LayoutParams.WRAP_CONTENT;
-                    window.setAttributes(wlp);
-
-                    ImageView closeButton = instructionAlert.findViewById(R.id.closeID);
-                    closeButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            instructionAlert.dismiss();
-
-                        }
-                    });
-
-                    RecyclerView instructionView = (RecyclerView) instructionAlert.findViewById(R.id.instructionViewID);
-                    instructionView.setHasFixedSize(true);
-                    instructionView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-                    instructionAdapter.setOnClickListener(Shop_homescreen_fragment.this::OnItemClick);
+                if (user_instruction_responses.size() > 0) {
+                    instructorLayout.setVisibility(View.VISIBLE);
+                    instructionList = new ArrayList<>();
+                    instructionList = user_instruction_responses;
+                    instructionAdapter = new Instruction_adapter(instructionList);
+                    instructionAdapter.setOnClickListener(Shop_homescreen_fragment.this::OnInstructorItemClick);
                     instructionView.setAdapter(instructionAdapter);
+                }else {
+                    instructorLayout.setVisibility(View.GONE);
                 }
             }
         });
@@ -550,7 +504,8 @@ public class Shop_homescreen_fragment extends Fragment implements Instruction_ad
             }
         });
 
-        Picasso.get().load(response.productImage).into(productImage);
+
+        ImageHelper.imageLoader(getActivity(), productImage, response.productImage);
 
         TextView titleText = productDetailsAlert.findViewById(R.id.titleText);
         TextView categoryTitleText = productDetailsAlert.findViewById(R.id.categoryTitleText);
@@ -571,7 +526,7 @@ public class Shop_homescreen_fragment extends Fragment implements Instruction_ad
 
         if (response.type.size() > 0) {
 
-           // Log.d("dataxx", "page: "+String.valueOf(response.type.size()));
+            // Log.d("dataxx", "page: "+String.valueOf(response.type.size()));
             typeLayout.setVisibility(View.VISIBLE);
             Shop_barcode_type_adapter adapter = new Shop_barcode_type_adapter(response.type, response.productUnit);
             typeView.setAdapter(adapter);
@@ -581,7 +536,7 @@ public class Shop_homescreen_fragment extends Fragment implements Instruction_ad
     }
 
     @Override
-    public void OnItemClick(int position) {
+    public void OnInstructorItemClick(int position) {
         user_instruction_response response = instructionList.get(position);
         String link = response.getLink();
         Intent intent = new Intent(Intent.ACTION_VIEW);

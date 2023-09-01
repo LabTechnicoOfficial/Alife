@@ -34,6 +34,7 @@ import com.alifew.alife.R;
 import com.alifew.alife.Utils.ShowToast;
 import com.alifew.alife.model.OTP_response;
 import com.alifew.alife.model.registration;
+import com.alifew.alife.session.SessionManagement;
 import com.alifew.alife.view.OTP.Otp_validation_activity;
 import com.alifew.alife.viewmodel.OTP;
 import com.alifew.alife.viewmodel.SessionManagment_registration;
@@ -68,6 +69,7 @@ public class Shop_registration_fragment extends Fragment implements View.OnClick
 
     String shop, owner, loc, cont, phn, pass, repass, type = "shopkeeper", task_type = "registration";
 
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -88,6 +90,8 @@ public class Shop_registration_fragment extends Fragment implements View.OnClick
 
         View view = inflater.inflate(R.layout.shop_registration_fragment, container, false);
 
+
+
         profileImage = (ImageView) view.findViewById(R.id.profile_imageID);
         shopName = (TextInputEditText) view.findViewById(R.id.nameText);
         phone = (TextInputEditText) view.findViewById(R.id.contactText);
@@ -102,6 +106,9 @@ public class Shop_registration_fragment extends Fragment implements View.OnClick
         loaderDialog.setContentView(R.layout.loader);
         loaderDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         loaderDialog.setCancelable(false);
+
+
+
 
 
         return view;

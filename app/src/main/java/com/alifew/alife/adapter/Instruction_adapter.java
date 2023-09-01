@@ -10,14 +10,13 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alifew.alife.R;
+import com.alifew.alife.Utils.ImageHelper;
 import com.alifew.alife.model.user_instruction_response;
-import com.bumptech.glide.Glide;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class Instruction_adapter extends RecyclerView.Adapter<Instruction_adapter.AppViewholder> {
-    private Instruction_adapter.OnItemClickListener mListener;
+
     List<user_instruction_response> instructionList;
 
     public Instruction_adapter(List<user_instruction_response> instructionList) {
@@ -35,14 +34,10 @@ public class Instruction_adapter extends RecyclerView.Adapter<Instruction_adapte
     @Override
     public void onBindViewHolder(@NonNull AppViewholder holder, int position) {
         user_instruction_response response = instructionList.get(position);
+
         holder.instructionText.setText(response.getTitle());
 
-
-        Glide.with(holder.itemView.getContext())
-                .load(response.getImage())
-                .centerCrop()
-                .placeholder(R.drawable.loader)
-                .into(holder.instructionImage);
+        ImageHelper.imageLoader(holder.instructionImage.getContext(), holder.instructionImage, response.getImage());
     }
 
     @Override
@@ -50,12 +45,14 @@ public class Instruction_adapter extends RecyclerView.Adapter<Instruction_adapte
         return instructionList.size();
     }
 
+    private OnItemClickListener onItemClickListener;
+
     public interface OnItemClickListener {
-        void OnItemClick(int position);
+        void OnInstructorItemClick(int position);
     }
 
-    public void setOnClickListener(Instruction_adapter.OnItemClickListener listener) {
-        mListener = listener;
+    public void setOnClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
     }
 
     public class AppViewholder extends RecyclerView.ViewHolder {
@@ -66,13 +63,13 @@ public class Instruction_adapter extends RecyclerView.Adapter<Instruction_adapte
         public AppViewholder(@NonNull View itemView) {
             super(itemView);
 
-            instructionText = itemView.findViewById(R.id.instructionTextID);
+            instructionText = itemView.findViewById(R.id.instructionText);
             instructionImage = itemView.findViewById(R.id.instructionImageID);
             itemView.setOnClickListener(v -> {
-                if (mListener != null) {
+                if (onItemClickListener != null) {
                     int position = getAdapterPosition();
                     if (position != RecyclerView.NO_POSITION) {
-                        mListener.OnItemClick(position);
+                        onItemClickListener.OnInstructorItemClick(position);
                     }
                 }
             });

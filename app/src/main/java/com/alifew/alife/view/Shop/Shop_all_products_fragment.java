@@ -150,13 +150,13 @@ public class Shop_all_products_fragment extends Fragment implements get_product_
 
         offersButton = (ExtendedFloatingActionButton) view.findViewById(R.id.offersButtonID);
 
-        recyclerView1 = view.findViewById(R.id.recyclerViewID);
+        recyclerView1 = view.findViewById(R.id.itemView);
         recyclerView2 = view.findViewById(R.id.recyclerView2ID);
 
         gridBUtton = (ToggleButton) view.findViewById(R.id.toggleButtonID);
 
         gridOffLayout = (LinearLayout) view.findViewById(R.id.gridOffLayoutID);
-        gridSearchLayout = (LinearLayout) view.findViewById(R.id.gridLayoutID);
+        gridSearchLayout = (LinearLayout) view.findViewById(R.id.gridLayout);
         setDiscountLayout = (LinearLayout) view.findViewById(R.id.setDiscountLayoutID);
 
         productSearch = (EditText) view.findViewById(R.id.searchEditText);

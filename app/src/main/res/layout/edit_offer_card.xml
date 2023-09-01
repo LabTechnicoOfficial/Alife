@@ -39,7 +39,7 @@
             android:gravity="right">
 
             <ImageView
-                android:id="@+id/editButtonID"
+                android:id="@+id/editButton"
                 android:layout_width="18dp"
                 android:layout_height="wrap_content"
                 android:clickable="true"
@@ -48,7 +48,7 @@
                 android:layout_marginRight="3dp"/>
 
             <ImageView
-                android:id="@+id/deleteButtonID"
+                android:id="@+id/deleteButton"
                 android:layout_width="18dp"
                 android:layout_height="wrap_content"
                 android:clickable="true"

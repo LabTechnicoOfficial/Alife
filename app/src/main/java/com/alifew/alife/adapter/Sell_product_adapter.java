@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alifew.alife.R;
+import com.alifew.alife.Utils.ImageHelper;
 import com.alifew.alife.model.Get_product_response;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
@@ -42,7 +43,8 @@ public class Sell_product_adapter extends RecyclerView.Adapter<Sell_product_adap
     @Override
     public void onBindViewHolder(@NonNull AppViewholder holder, int position) {
         Get_product_response product = productList.get(position);
-        Picasso.get().load(product.getProduct_image()).into(holder.productImage);
+
+        ImageHelper.imageLoader(holder.itemView.getContext(), holder.productImage, product.getProduct_image());
         holder.productName.setText(product.getProduct_name());
         holder.stockAmount.setText(product.getStock_amount());
 

@@ -77,7 +77,7 @@ public class product_type_edit_adapter extends RecyclerView.Adapter<product_type
 
             type = itemView.findViewById(R.id.type);
             count = itemView.findViewById(R.id.count);
-            editButton = itemView.findViewById(R.id.editButtonID);
+            editButton = itemView.findViewById(R.id.editButton);
           editButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -89,7 +89,7 @@ public class product_type_edit_adapter extends RecyclerView.Adapter<product_type
                     }
                 }
             });
-            deleteButton = itemView.findViewById(R.id.deleteButtonID);
+            deleteButton = itemView.findViewById(R.id.deleteButton);
             deleteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

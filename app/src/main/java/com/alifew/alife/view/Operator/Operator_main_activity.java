@@ -28,6 +28,7 @@ import android.widget.Toast;
 import com.alifew.alife.BuildConfig;
 import com.alifew.alife.Custom_Type.ProductSell;
 import com.alifew.alife.R;
+import com.alifew.alife.Utils.ImageHelper;
 import com.alifew.alife.model.get_shop_admin_information_response;
 import com.alifew.alife.model.get_version_response;
 import com.alifew.alife.view.LoginActivity;
@@ -187,7 +188,7 @@ public class Operator_main_activity extends AppCompatActivity implements Navigat
             @Override
             public void onChanged(get_shop_admin_information_response get_shop_admin_information_response) {
                 agent_image = get_shop_admin_information_response.getAgent_image();
-                Picasso.get().load(agent_image).fit().centerInside().into(imageView);
+                ImageHelper.imageLoader(getApplicationContext(), imageView, agent_image);
                 agent_name = get_shop_admin_information_response.getAgent_name();
 
                 profileName.setText(agent_name);

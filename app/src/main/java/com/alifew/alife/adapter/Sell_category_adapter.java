@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alifew.alife.R;
+import com.alifew.alife.Utils.ImageHelper;
 import com.alifew.alife.model.Category_response;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
@@ -26,7 +27,7 @@ public class Sell_category_adapter extends RecyclerView.Adapter<Sell_category_ad
 
     public Sell_category_adapter(List<Category_response> categoryList) {
         this.categoryList = categoryList;
-        categoryList_All=new ArrayList<>();
+        categoryList_All = new ArrayList<>();
         this.categoryList_All = categoryList;
     }
 
@@ -40,8 +41,9 @@ public class Sell_category_adapter extends RecyclerView.Adapter<Sell_category_ad
 
     @Override
     public void onBindViewHolder(@NonNull Sell_category_adapter.AppViewholder holder, int position) {
-          Category_response category=categoryList.get(position);
-        Picasso.get().load(category.getCatagory01y_logo()).into(holder.categoryImage);
+        Category_response category = categoryList.get(position);
+
+        ImageHelper.imageLoader(holder.itemView.getContext(), holder.categoryImage, category.getCatagory01y_logo());
         holder.categoryName.setText(category.getCatagory01y_name());
 
     }
@@ -51,10 +53,11 @@ public class Sell_category_adapter extends RecyclerView.Adapter<Sell_category_ad
         return categoryList.size();
     }
 
-    public  Filter getFilter() {
+    public Filter getFilter() {
 
         return filter;
     }
+
     Filter filter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
@@ -85,14 +88,15 @@ public class Sell_category_adapter extends RecyclerView.Adapter<Sell_category_ad
     public interface OnItemClickListener {
         void OnItemClick(int position);
     }
-    public void setOnClickListener(OnItemClickListener mListener)
-    {
-        this.mListener=mListener;
+
+    public void setOnClickListener(OnItemClickListener mListener) {
+        this.mListener = mListener;
     }
 
     public class AppViewholder extends RecyclerView.ViewHolder {
         CircularImageView categoryImage;
         TextView categoryName;
+
         public AppViewholder(@NonNull View itemView) {
             super(itemView);
 

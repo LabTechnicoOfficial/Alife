@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alifew.alife.R;
+import com.alifew.alife.Utils.ImageHelper;
 import com.alifew.alife.model.Get_product_response;
 import com.squareup.picasso.Picasso;
 
@@ -70,9 +71,8 @@ public class Operator_product_grid_adapter extends RecyclerView.Adapter<Operator
         offer = Double.parseDouble(productList.get(position).getProduct_offer());
 
         holder.product_name.setText(productList.get(position).getProduct_name());
-        if (!(holder.product_image.equals("xyz"))) {
-            Picasso.get().load(product.getProduct_image()).into(holder.product_image);
-        }
+
+        ImageHelper.imageLoader(holder.itemView.getContext(),  holder.product_image, product.getProduct_image());
         holder.product_price.setText(new DecimalFormat("##.##").format(price));
 
         if (offer == 0) {

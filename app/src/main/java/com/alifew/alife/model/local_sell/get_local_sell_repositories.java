@@ -14,7 +14,7 @@ import retrofit2.Response;
 
 public class get_local_sell_repositories {
     private static get_local_sell_repositories get_local_sell_repositories;
-    private MutableLiveData<List<get_local_sell_product_response>> data_product;
+    private MutableLiveData<List<Get_local_sell_product_response>> data_product;
     private MutableLiveData<get_local_sell_details_response> sell_details;
     private MutableLiveData<get_product_by_bar_code_response> product;
     private MutableLiveData<List<customer_phone_response>> customer;
@@ -38,11 +38,11 @@ public class get_local_sell_repositories {
         return get_local_sell_repositories;
     }
 
-    public MutableLiveData<List<get_local_sell_product_response>> getData_product(String shop_id) {
-        Call<List<get_local_sell_product_response>> call = api.getlocal_sell_product(shop_id);
-        call.enqueue(new Callback<List<get_local_sell_product_response>>() {
+    public MutableLiveData<List<Get_local_sell_product_response>> getData_product(String shop_id) {
+        Call<List<Get_local_sell_product_response>> call = api.getlocal_sell_product(shop_id);
+        call.enqueue(new Callback<List<Get_local_sell_product_response>>() {
             @Override
-            public void onResponse(Call<List<get_local_sell_product_response>> call, Response<List<get_local_sell_product_response>> response) {
+            public void onResponse(Call<List<Get_local_sell_product_response>> call, Response<List<Get_local_sell_product_response>> response) {
                 if (response.isSuccessful()) {
                     data_product.postValue(response.body());
                    // Log.d("sizexx", String.valueOf(response.body().size()));
@@ -50,18 +50,18 @@ public class get_local_sell_repositories {
             }
 
             @Override
-            public void onFailure(Call<List<get_local_sell_product_response>> call, Throwable throwable) {
+            public void onFailure(Call<List<Get_local_sell_product_response>> call, Throwable throwable) {
                 Log.d("sizexx", throwable.getMessage());
             }
         });
         return data_product;
     }
 
-    public MutableLiveData<List<get_local_sell_product_response>> getData_product_bySearch(String shop_id,String search) {
-        Call<List<get_local_sell_product_response>> call = api.getlocal_sell_product_bySearch(shop_id,search);
-        call.enqueue(new Callback<List<get_local_sell_product_response>>() {
+    public MutableLiveData<List<Get_local_sell_product_response>> getData_product_bySearch(String shop_id, String search) {
+        Call<List<Get_local_sell_product_response>> call = api.getlocal_sell_product_bySearch(shop_id,search);
+        call.enqueue(new Callback<List<Get_local_sell_product_response>>() {
             @Override
-            public void onResponse(Call<List<get_local_sell_product_response>> call, Response<List<get_local_sell_product_response>> response) {
+            public void onResponse(Call<List<Get_local_sell_product_response>> call, Response<List<Get_local_sell_product_response>> response) {
                 if (response.isSuccessful()) {
                     data_product.postValue(response.body());
                     // Log.d("sizexx", String.valueOf(response.body().size()));
@@ -69,7 +69,7 @@ public class get_local_sell_repositories {
             }
 
             @Override
-            public void onFailure(Call<List<get_local_sell_product_response>> call, Throwable throwable) {
+            public void onFailure(Call<List<Get_local_sell_product_response>> call, Throwable throwable) {
                 Log.d("sizexx", throwable.getMessage());
             }
         });

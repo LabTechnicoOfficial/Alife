@@ -88,7 +88,7 @@ public class Shop_local_page_details_fragment extends Fragment implements Shop_l
                 alert.show();
                 alert.setCancelable(false);
                 EditText name = (EditText) alert.findViewById(R.id.nameTextID);
-                EditText amount = (EditText) alert.findViewById(R.id.amountTextID);
+                EditText amount = (EditText) alert.findViewById(R.id.amountText);
                 EditText price = (EditText) alert.findViewById(R.id.priceTextID);
                 TextView total_price = (TextView) alert.findViewById(R.id.totalPriceID);
                 ImageView closeButton = (ImageView) alert.findViewById(R.id.closeID);
@@ -135,7 +135,7 @@ public class Shop_local_page_details_fragment extends Fragment implements Shop_l
                                     LinearLayout layout = (LinearLayout) alert.findViewById(R.id.holder_layout);
                                     for (int i = 0; i < item_length; i++) {
                                         View single_layout = layout.getChildAt(i);
-                                        EditText amount_text = (EditText) single_layout.findViewById(R.id.amountTextID);
+                                        EditText amount_text = (EditText) single_layout.findViewById(R.id.amountText);
                                         EditText price_text = (EditText) single_layout.findViewById(R.id.priceTextID);
                                         if (!price_text.getText().toString().trim().isEmpty() && !amount_text.getText().toString().trim().isEmpty()) {
                                             total += Double.parseDouble(amount_text.getText().toString().trim()) * Double.parseDouble(price_text.getText().toString().trim());
@@ -190,7 +190,7 @@ public class Shop_local_page_details_fragment extends Fragment implements Shop_l
                                     LinearLayout layout = (LinearLayout) alert.findViewById(R.id.holder_layout);
                                     for (int i = 0; i < item_length; i++) {
                                         View single_layout = layout.getChildAt(i);
-                                        EditText amount_text = (EditText) single_layout.findViewById(R.id.amountTextID);
+                                        EditText amount_text = (EditText) single_layout.findViewById(R.id.amountText);
                                         EditText price_text = (EditText) single_layout.findViewById(R.id.priceTextID);
                                         if (!price_text.getText().toString().trim().isEmpty() && !amount_text.getText().toString().trim().isEmpty()) {
                                             total += Double.parseDouble(amount_text.getText().toString().trim()) * Double.parseDouble(price_text.getText().toString().trim());
@@ -230,7 +230,7 @@ public class Shop_local_page_details_fragment extends Fragment implements Shop_l
 
                         View dynamicView = LayoutInflater.from(getActivity()).inflate(R.layout.add_title_details_daynamic_layout, null, false);
                         NAME = (EditText) dynamicView.findViewById(R.id.nameTextID);
-                        AMOUNT = (EditText) dynamicView.findViewById(R.id.amountTextID);
+                        AMOUNT = (EditText) dynamicView.findViewById(R.id.amountText);
                         PRICE = (EditText) dynamicView.findViewById(R.id.priceTextID);
                         TOTAL_PRICE = (TextView) dynamicView.findViewById(R.id.totalPriceID);
                         CROSS = (ImageView) dynamicView.findViewById(R.id.crossID);
@@ -255,7 +255,7 @@ public class Shop_local_page_details_fragment extends Fragment implements Shop_l
                                         number = Double.parseDouble(amount.getText().toString().trim());
                                         for (int i = 0; i < item_length; i++) {
                                             View single_layout = layout.getChildAt(i);
-                                            EditText amount_text = (EditText) single_layout.findViewById(R.id.amountTextID);
+                                            EditText amount_text = (EditText) single_layout.findViewById(R.id.amountText);
                                             EditText price_text = (EditText) single_layout.findViewById(R.id.priceTextID);
                                             if (!price_text.getText().toString().trim().isEmpty() && !amount_text.getText().toString().trim().isEmpty()) {
                                                 total += Double.parseDouble(amount_text.getText().toString().trim()) * Double.parseDouble(price_text.getText().toString().trim());
@@ -307,7 +307,7 @@ public class Shop_local_page_details_fragment extends Fragment implements Shop_l
                                         number = Double.parseDouble(amount.getText().toString().trim());
                                         for (int i = 0; i < item_length; i++) {
                                             View single_layout = layout.getChildAt(i);
-                                            EditText amount_text = (EditText) single_layout.findViewById(R.id.amountTextID);
+                                            EditText amount_text = (EditText) single_layout.findViewById(R.id.amountText);
                                             EditText price_text = (EditText) single_layout.findViewById(R.id.priceTextID);
                                             if (!price_text.getText().toString().trim().isEmpty() && !amount_text.getText().toString().trim().isEmpty()) {
                                                 total += Double.parseDouble(amount_text.getText().toString().trim()) * Double.parseDouble(price_text.getText().toString().trim());
@@ -358,7 +358,7 @@ public class Shop_local_page_details_fragment extends Fragment implements Shop_l
                                     LinearLayout layout = (LinearLayout) alert.findViewById(R.id.holder_layout);
                                     for (int i = 0; i < item_length; i++) {
                                         View single_layout = layout.getChildAt(i);
-                                        EditText amount_text = (EditText) single_layout.findViewById(R.id.amountTextID);
+                                        EditText amount_text = (EditText) single_layout.findViewById(R.id.amountText);
                                         EditText price_text = (EditText) single_layout.findViewById(R.id.priceTextID);
                                         if (!price_text.getText().toString().trim().isEmpty() && !amount_text.getText().toString().trim().isEmpty()) {
                                             total += Double.parseDouble(amount_text.getText().toString().trim()) * Double.parseDouble(price_text.getText().toString().trim());
@@ -381,7 +381,7 @@ public class Shop_local_page_details_fragment extends Fragment implements Shop_l
                             if (item_length > 0) {
                                 View single_Layout = layout.getChildAt(item_length - 1);
                                 EditText name_text = (EditText) single_Layout.findViewById(R.id.nameTextID);
-                                EditText amount_text = (EditText) single_Layout.findViewById(R.id.amountTextID);
+                                EditText amount_text = (EditText) single_Layout.findViewById(R.id.amountText);
                                 EditText price_text = (EditText) single_Layout.findViewById(R.id.priceTextID);
                                 if (name_text.getText().toString().trim().isEmpty() || amount_text.getText().toString().trim().isEmpty() || price_text.getText().toString().trim().isEmpty()) {
                                     Toast.makeText(getActivity(), "Fill before field properly!!", Toast.LENGTH_SHORT).show();
@@ -389,7 +389,7 @@ public class Shop_local_page_details_fragment extends Fragment implements Shop_l
                                     for (int i = item_length; i > 0; i--) {
                                         single_Layout = layout.getChildAt(i - 1);
                                         name_text = (EditText) single_Layout.findViewById(R.id.nameTextID);
-                                        amount_text = (EditText) single_Layout.findViewById(R.id.amountTextID);
+                                        amount_text = (EditText) single_Layout.findViewById(R.id.amountText);
                                         price_text = (EditText) single_Layout.findViewById(R.id.priceTextID);
                                         TextView total_price = (TextView) single_Layout.findViewById(R.id.totalPriceID);
 
@@ -399,7 +399,7 @@ public class Shop_local_page_details_fragment extends Fragment implements Shop_l
                                         TOTAL_PRICE.setText(total_price.getText().toString().trim());
 
                                         NAME = (EditText) dynamicView.findViewById(R.id.nameTextID);
-                                        AMOUNT = (EditText) dynamicView.findViewById(R.id.amountTextID);
+                                        AMOUNT = (EditText) dynamicView.findViewById(R.id.amountText);
                                         PRICE = (EditText) dynamicView.findViewById(R.id.priceTextID);
                                         TOTAL_PRICE = (TextView) dynamicView.findViewById(R.id.totalPriceID);     // layout.addView(single_Layout,i);
                                     }
@@ -456,7 +456,7 @@ public class Shop_local_page_details_fragment extends Fragment implements Shop_l
                             for (int i = 0; i < item_length; i++) {
                                 View single_layout = layout.getChildAt(i);
                                 EditText name_text = (EditText) single_layout.findViewById(R.id.nameTextID);
-                                EditText amount_text = (EditText) single_layout.findViewById(R.id.amountTextID);
+                                EditText amount_text = (EditText) single_layout.findViewById(R.id.amountText);
                                 EditText price_text = (EditText) single_layout.findViewById(R.id.priceTextID);
                                 if (!price_text.getText().toString().trim().isEmpty() && !amount_text.getText().toString().trim().isEmpty() && !name_text.getText().toString().trim().isEmpty()) {
                                     Local_business_title_item item = new Local_business_title_item();
@@ -576,7 +576,7 @@ public class Shop_local_page_details_fragment extends Fragment implements Shop_l
 
         addButton = (ExtendedFloatingActionButton) view.findViewById(R.id.addButtonID);
         TOTAL_PRICE = (TextView) view.findViewById(R.id.totalPriceID);
-        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewID);
+        recyclerView = (RecyclerView) view.findViewById(R.id.itemView);
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

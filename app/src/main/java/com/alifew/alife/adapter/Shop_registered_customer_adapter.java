@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alifew.alife.R;
+import com.alifew.alife.Utils.ImageHelper;
 import com.alifew.alife.model.shop_due_customer_response;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
@@ -35,7 +36,8 @@ public class Shop_registered_customer_adapter extends  RecyclerView.Adapter<Shop
     @Override
     public void onBindViewHolder(@NonNull AppViewholder holder, int position) {
         shop_due_customer_response customer=customerList.get(position);
-        Picasso.get().load(customer.getCustomer_image()).into(holder.customerImage);
+
+        ImageHelper.imageLoader(holder.itemView.getContext(),  holder.customerImage, customer.getCustomer_image());
         holder.customerID.setText(customer.getCustomer_id());
         holder.customerName.setText(customer.getCustomer_name());
         holder.customerLocation.setText(customer.getCustomer_address());

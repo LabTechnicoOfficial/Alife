@@ -117,7 +117,7 @@ public class Shop_coupon_adapter extends RecyclerView.Adapter<Shop_coupon_adapte
         public AppViewholder(@NonNull View itemView) {
             super(itemView);
 
-            deleteButton = itemView.findViewById(R.id.deleteButtonID);
+            deleteButton = itemView.findViewById(R.id.deleteButton);
             couponNameText = itemView.findViewById(R.id.couponNameTextID);
             durationText = itemView.findViewById(R.id.durationTextID);
             createdTimeText = itemView.findViewById(R.id.createdTimeTextID);

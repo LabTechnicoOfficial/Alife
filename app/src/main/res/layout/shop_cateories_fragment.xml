@@ -188,7 +188,7 @@
                     android:src="@drawable/search_icon" />
 
                 <EditText
-                    android:id="@+id/searchID"
+                    android:id="@+id/searchEditText"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:backgroundTint="@color/black"
@@ -208,7 +208,7 @@
                     android:orientation="vertical">
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyclerViewID"
+                        android:id="@+id/itemView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:scrollbarStyle="outsideOverlay"

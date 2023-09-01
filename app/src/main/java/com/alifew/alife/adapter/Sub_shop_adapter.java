@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alifew.alife.R;
+import com.alifew.alife.Utils.ImageHelper;
 import com.alifew.alife.model.fetch_sub_shop_response;
 import com.squareup.picasso.Picasso;
 
@@ -36,7 +37,8 @@ public class Sub_shop_adapter extends RecyclerView.Adapter<Sub_shop_adapter.AppV
     @Override
     public void onBindViewHolder(@NonNull AppViewholder holder, int position) {
         fetch_sub_shop_response sub_shop = sub_shopList.get(position);
-        Picasso.get().load(sub_shop.getStore01e_image()).into(holder.shopImage);
+
+        ImageHelper.imageLoader(holder.itemView.getContext(),  holder.shopImage, sub_shop.getStore01e_image());
         holder.shopName.setText(sub_shop.getStore01e_name());
         holder.shopLocation.setText(sub_shop.getStore01e_location());
 

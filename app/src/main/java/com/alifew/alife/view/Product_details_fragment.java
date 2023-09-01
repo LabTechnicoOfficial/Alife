@@ -41,6 +41,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alifew.alife.R;
+import com.alifew.alife.Utils.ImageHelper;
 import com.alifew.alife.adapter.get_product_offer_adapter;
 import com.alifew.alife.adapter.get_product_type_adapter;
 import com.alifew.alife.adapter.product_multiple_image_adapter;
@@ -73,10 +74,8 @@ import com.alifew.alife.viewmodel.Get_product_type;
 import com.alifew.alife.viewmodel.Product_imagetoserver;
 import com.alifew.alife.viewmodel.Product_offer_edit_delete;
 import com.alifew.alife.viewmodel.Update_product;
-import com.bumptech.glide.Glide;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -168,15 +167,9 @@ public class Product_details_fragment<SharedViewModel> extends Fragment implemen
                 vaoture_image = get_product_response.getVaoture_image();
                 description = get_product_response.getProduct_description();
                 vaoture_no = get_product_response.getVaoture_no();
-//                Picasso.get().load(productimage).into(productImage);
-//                productImage.setClipToOutline(true);
 
+                ImageHelper.imageLoader(getActivity(), productImage, productimage);
 
-                Glide.with(getActivity())
-                        .load(productimage)
-                        .centerCrop()
-                        .placeholder(R.drawable.loader)
-                        .into(productImage);
                 productName.setText(productname);
 
                 product_buyPrice.setText(String.valueOf(new DecimalFormat("##.##").format(Double.parseDouble(buyprice))));
@@ -209,12 +202,9 @@ public class Product_details_fragment<SharedViewModel> extends Fragment implemen
 
                 product_vaoture_no.setText(vaoture_no);
 
-                //Picasso.get().load(vaoture_image).into(vaotureImage);
-                Glide.with(getActivity())
-                        .load(vaoture_image)
-                        .centerCrop()
-                        .placeholder(R.drawable.loader)
-                        .into(vaotureImage);
+
+                ImageHelper.imageLoader(getActivity(), vaotureImage, vaoture_image);
+
 
                 productName.setText(productname);
 
@@ -352,7 +342,7 @@ public class Product_details_fragment<SharedViewModel> extends Fragment implemen
 
                 get_product_type = new ViewModelProvider(getActivity()).get(Get_product_type.class);
                 data = new ArrayList<>();
-                recyclerView = alert.findViewById(R.id.recyclerViewID);
+                recyclerView = alert.findViewById(R.id.itemView);
                 recyclerView.setHasFixedSize(true);
                 layoutmanager = new LinearLayoutManager(alert.getContext());
                 recyclerView.setLayoutManager(layoutmanager);
@@ -380,7 +370,7 @@ public class Product_details_fragment<SharedViewModel> extends Fragment implemen
                 priceText = (TextInputEditText) alert.findViewById(R.id.priceTextID);
                 unitText = (TextInputEditText) alert.findViewById(R.id.unitTextID);
                 discountText = (TextInputEditText) alert.findViewById(R.id.discountTextID);
-                amount = (TextInputEditText) alert.findViewById(R.id.amountTextID);
+                amount = (TextInputEditText) alert.findViewById(R.id.amountText);
                 priceTextforone = (TextView) alert.findViewById(R.id.unitPriceID);
                 priceTextwithDiscount = (EditText) alert.findViewById(R.id.price_after_discount);
                 priceTextwithDiscount_forone = (TextView) alert.findViewById(R.id.unitPriceDiscountID);
@@ -389,14 +379,8 @@ public class Product_details_fragment<SharedViewModel> extends Fragment implemen
 
                 buyPrice = (TextInputEditText) alert.findViewById(R.id.buyPriceTextID);
                 profit = (TextInputEditText) alert.findViewById(R.id.profitTextID);
-//                Picasso.get().load(productimage).into(product_image);
 
-                Glide.with(getActivity())
-                        .load(productimage)
-                        .centerCrop()
-                        .placeholder(R.drawable.loader)
-                        .into(product_image);
-
+                ImageHelper.imageLoader(getActivity(), product_image, productimage);
                 productText.setText(productname);
                 amount.setText(String.valueOf(new DecimalFormat("##.##").format(Double.parseDouble(stockamount))));
                 //amount.setText(stockamount);
@@ -424,15 +408,9 @@ public class Product_details_fragment<SharedViewModel> extends Fragment implemen
                 //profit.setText(sellprofit);
                 description_product.setText(description);
                 product_vaoture.setText(vaoture_no);
-//                if (!(TextUtils.isEmpty(vaoture_image))) {
-//                    Picasso.get().load(vaoture_image).into(Image_vaoture);
-//                }
 
-                Glide.with(getActivity())
-                        .load(vaoture_image)
-                        .centerCrop()
-                        .placeholder(R.drawable.loader)
-                        .into(Image_vaoture);
+                ImageHelper.imageLoader(getActivity(), Image_vaoture, vaoture_image);
+
                 // edittext onchanged
                 buyPrice.addTextChangedListener(new TextWatcher() {
                     @Override
@@ -687,7 +665,7 @@ public class Product_details_fragment<SharedViewModel> extends Fragment implemen
 
                         if (info == null) {
                             Toast.makeText(getActivity(), "Connection error", Toast.LENGTH_SHORT).show();
-                        }else {
+                        } else {
 
                             product_name = productText.getText().toString().trim();
                             buy_price = buyPrice.getText().toString().trim();
@@ -714,7 +692,7 @@ public class Product_details_fragment<SharedViewModel> extends Fragment implemen
                                 ImageView closeButton = (ImageView) submit_alert.findViewById(R.id.closeID);
                                 Add = (ImageView) submit_alert.findViewById(R.id.addItemButtonID);
                                 submit = (TextView) submit_alert.findViewById(R.id.submit_ID);
-                                recyclerView = submit_alert.findViewById(R.id.recyclerViewID);
+                                recyclerView = submit_alert.findViewById(R.id.itemView);
                                 recyclerView.setHasFixedSize(true);
                                 layoutmanager = new LinearLayoutManager(alert.getContext());
                                 recyclerView.setLayoutManager(layoutmanager);
@@ -1174,7 +1152,7 @@ public class Product_details_fragment<SharedViewModel> extends Fragment implemen
         View view = inflater.inflate(product_details_fragment, container, false);
         checkConnection();
 
-        recyclerView = view.findViewById(R.id.recyclerViewID);
+        recyclerView = view.findViewById(R.id.itemView);
         recyclerView.setHasFixedSize(true);
         layoutmanager = new LinearLayoutManager(view.getContext());
         recyclerView.setLayoutManager(layoutmanager);
@@ -1201,8 +1179,8 @@ public class Product_details_fragment<SharedViewModel> extends Fragment implemen
         product_description = (TextView) view.findViewById(R.id.descriptionID);
         product_vaoture_no = (TextView) view.findViewById(R.id.vaoture_noID);
         vaotureImage = (ImageView) view.findViewById(R.id.vaoture_ImageID);
-        deleteImage = (ImageView) view.findViewById(R.id.deleteButtonID);
-        editImage = (ImageView) view.findViewById(R.id.editButtonID);
+        deleteImage = (ImageView) view.findViewById(R.id.deleteButton);
+        editImage = (ImageView) view.findViewById(R.id.editButton);
         LinearLayout addMoreImageButton = (LinearLayout) view.findViewById(R.id.addMoreImageID);
 
         addMoreImageButton.setOnClickListener(new View.OnClickListener() {
@@ -1593,14 +1571,8 @@ public class Product_details_fragment<SharedViewModel> extends Fragment implemen
         ImageView individualImage = (ImageView) imageDialog.findViewById(R.id.individualImageID);
         ImageView closeButton = (ImageView) imageDialog.findViewById(R.id.closeID);
         ImageView deleteImage = (ImageView) imageDialog.findViewById(R.id.individualDeleteID);
-        //Picasso.get().load(image).into(individualImage);
 
-        Glide.with(getActivity())
-                .load(image)
-                .centerCrop()
-                .placeholder(R.drawable.loader)
-                .into(individualImage);
-
+        ImageHelper.imageLoader(getActivity(), individualImage, image);
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

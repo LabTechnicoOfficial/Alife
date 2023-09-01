@@ -367,7 +367,7 @@
                         android:orientation="vertical">
 
                         <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/recyclerViewID"
+                            android:id="@+id/itemView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:scrollbarStyle="outsideOverlay"
@@ -383,7 +383,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/gridLayoutID"
+        android:id="@+id/gridLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/gridOffLayoutID"

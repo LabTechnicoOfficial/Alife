@@ -69,11 +69,11 @@ public class shop_registration_repositoris {
     }
 
     public @NonNull
-    MutableLiveData<String> getMessage(@NonNull String name, @NonNull String owner, @NonNull String location, @NonNull String phone, @NonNull String password, @NonNull String image, @NonNull String token) {
+    MutableLiveData<String> getMessage(@NonNull String name, @NonNull String owner, @NonNull String location, @NonNull String phone, @NonNull String password, @NonNull String image, @NonNull String token, String latitude, String longitude) {
         if (message == null) {
             message = new MutableLiveData<>();
         }
-        Call<registration_response> call = registration.shop_registration(name, owner, location, phone, password, image, token);
+        Call<registration_response> call = registration.shop_registration(name, owner, location, phone, password, image, token, latitude, longitude);
 
         call.enqueue(new Callback<registration_response>() {
             @Override

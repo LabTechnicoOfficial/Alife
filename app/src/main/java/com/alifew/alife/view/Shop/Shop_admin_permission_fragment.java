@@ -84,7 +84,7 @@ public class Shop_admin_permission_fragment extends Fragment {
         accessCategoryText = (TextView) view.findViewById(R.id.accessCategoryID);
         backButton = (ImageView) view.findViewById(R.id.backButtonID);
         radioGroup = (RadioGroup) view.findViewById(R.id.radioGroupID);
-        submitButton = (AppCompatButton) view.findViewById(R.id.submitButtonID);
+        submitButton = (AppCompatButton) view.findViewById(R.id.submitButton);
 
         alertCustom = new Dialog(getActivity());
         alertCustom.setContentView(R.layout.loader);

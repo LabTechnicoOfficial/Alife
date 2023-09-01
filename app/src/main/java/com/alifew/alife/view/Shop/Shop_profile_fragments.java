@@ -41,6 +41,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.alifew.alife.Utils.ImageHelper;
 import com.bumptech.glide.Glide;
 import com.alifew.alife.R;
 import com.alifew.alife.model.shop_profile_response;
@@ -49,7 +50,6 @@ import com.alifew.alife.session.SessionManagement;
 import com.alifew.alife.viewmodel.Shop_profile;
 import com.alifew.alife.viewmodel.Update_shop;
 import com.google.android.material.textfield.TextInputEditText;
-import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -115,7 +115,7 @@ public class Shop_profile_fragments extends Fragment {
         shop_owner = (TextView) view.findViewById(R.id.ownerNameID);
         shop_location = (TextView) view.findViewById(R.id.locationID);
         shop_contact = (TextView) view.findViewById(R.id.phoneID);
-        edit_Button = (ImageView) view.findViewById(R.id.editButtonID);
+        edit_Button = (ImageView) view.findViewById(R.id.editButton);
         shop_ID = (TextView) view.findViewById(R.id.shopID);
         printButton = (ImageView) view.findViewById(R.id.printButtonID);
 
@@ -137,7 +137,7 @@ public class Shop_profile_fragments extends Fragment {
                 shopImageEdit = (ImageView) alert.findViewById(R.id.shopImageEditID);
                 save_changesButton = (TextView) alert.findViewById(R.id.saveButton);
 
-                Picasso.get().load(image).into(shopImageEdit);
+                ImageHelper.imageLoader(getActivity(), shopImageEdit,image);
                 shopNameEdit.setText(shop_name.getText().toString());
                 ownerNameEdit.setText(shop_owner.getText().toString());
                 locationEdit.setText(shop_location.getText().toString());

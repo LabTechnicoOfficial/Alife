@@ -178,7 +178,7 @@ public class Sub_shop_fragment extends Fragment implements Sub_shop_adapter.OnIt
 
         fragmentManager = getFragmentManager();
         addShopButton = (ExtendedFloatingActionButton) view.findViewById(R.id.addShopButtonID);
-        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewID);
+        recyclerView = (RecyclerView) view.findViewById(R.id.itemView);
         pendingRecyclerView = (RecyclerView) view.findViewById(R.id.pendingRecyclerViewID);
         approvedLayout = (LinearLayout) view.findViewById(R.id.aprroveLayoutID);
         pendingLayout = (LinearLayout) view.findViewById(R.id.pendingLayoutID);

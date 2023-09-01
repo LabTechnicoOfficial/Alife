@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alifew.alife.R;
+import com.alifew.alife.Utils.ImageHelper;
 import com.alifew.alife.model.local_sell.local_sell_image;
 import com.squareup.picasso.Picasso;
 
@@ -35,7 +36,8 @@ public class local_sell_details_image_adapter extends RecyclerView.Adapter<local
     @Override
     public void onBindViewHolder(@NonNull local_sell_details_image_adapter.AppViewholder holder, int position) {
         local_sell_image product_image = imageList.get(position);
-        Picasso.get().load(product_image.getProduct_image()).into(holder.cardMultipleImageView);
+
+        ImageHelper.imageLoader(holder.itemView.getContext(),  holder.cardMultipleImageView, product_image.getProduct_image());
     }
 
     @Override

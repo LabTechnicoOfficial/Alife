@@ -568,7 +568,7 @@ public class Shop_local_sell_barcode_product_selected_fragment extends Fragment 
         allDiscountText = (TextView) view.findViewById(R.id.allDiscountID);
         noOffersText = (TextView) view.findViewById(R.id.noOffersTextID);
 
-        product_amount = (EditText) view.findViewById(R.id.amountTextID);
+        product_amount = (EditText) view.findViewById(R.id.amountText);
 
         //type_spinner = (Spinner) view.findViewById(R.id.typeSpinnerID);
         offerSpinner = (Spinner) view.findViewById(R.id.offerSpinnerID);
@@ -963,7 +963,7 @@ public class Shop_local_sell_barcode_product_selected_fragment extends Fragment 
 
         ImageView closeButton = setAmountAlert.findViewById(R.id.crossID);
         AppCompatButton setButton = setAmountAlert.findViewById(R.id.setButtonID);
-        TextInputEditText amountText = setAmountAlert.findViewById(R.id.amountTextID);
+        TextInputEditText amountText = setAmountAlert.findViewById(R.id.amountText);
         TextInputLayout amountError = setAmountAlert.findViewById(R.id.amountErrorID);
         amountText.setText(selected_type.getType_amount());
 

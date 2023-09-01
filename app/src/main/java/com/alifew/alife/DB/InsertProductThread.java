@@ -4,6 +4,9 @@ import android.content.Context;
 
 import androidx.room.Room;
 
+import com.alifew.alife.DB.dao.ProductDao;
+import com.alifew.alife.DB.entity.Products;
+
 public class InsertProductThread extends Thread {
     String productID, name, image, barcode, printCheck, price, stock, unit, type;
     Context context;
@@ -22,8 +25,7 @@ public class InsertProductThread extends Thread {
     }
 
     public void run() {
-        AppDatabase db = Room.databaseBuilder(context, AppDatabase.class, "alifeDB").fallbackToDestructiveMigration().build();
-
+        AppDatabase db = AppDatabase.getDatabase(context);
         ProductDao productDao = db.productDao();
         productDao.insertProducts(new Products(productID, name, printCheck, image, barcode, stock, price, unit, type));
     }

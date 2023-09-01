@@ -22,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alifew.alife.R;
+import com.alifew.alife.Utils.ImageHelper;
 import com.squareup.picasso.Picasso;
 
 public class Sub_shop_details_fragment extends Fragment {
@@ -58,7 +59,8 @@ public class Sub_shop_details_fragment extends Fragment {
 
         shopName.setText(subShop_name);
         shopLocation.setText(subShop_location);
-        Picasso.get().load(subShop_image).into(shopImage);
+
+        ImageHelper.imageLoader(getActivity(), shopImage, subShop_image);
 
         categoryLayout.setOnClickListener(new View.OnClickListener() {
             @Override

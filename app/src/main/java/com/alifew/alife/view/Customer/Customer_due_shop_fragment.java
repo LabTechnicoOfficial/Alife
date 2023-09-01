@@ -209,7 +209,7 @@ public class Customer_due_shop_fragment extends Fragment implements Customer_due
         totalDueText = (TextView) view.findViewById(R.id.totalDueTextID);
         totalDuetitle = (TextView) view.findViewById(R.id.totalDueID);
         totalShop = (TextView) view.findViewById(R.id.totalShopID);
-        search = (EditText) view.findViewById(R.id.searchID);
+        search = (EditText) view.findViewById(R.id.searchEditText);
         dueShopView = (RecyclerView) view.findViewById(R.id.dueShopViewID);
         dueShopView.setHasFixedSize(true);
         dueShopView.setLayoutManager(new LinearLayoutManager(getContext()));

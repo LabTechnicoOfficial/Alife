@@ -193,7 +193,7 @@ public class Shop_products_add_fragment extends Fragment {
         priceText = (TextInputEditText) view.findViewById(R.id.priceTextID);
         unitText = (TextInputEditText) view.findViewById(R.id.unitTextID);
         discountText = (TextInputEditText) view.findViewById(R.id.discountTextID);
-        amount = (TextInputEditText) view.findViewById(R.id.amountTextID);
+        amount = (TextInputEditText) view.findViewById(R.id.amountText);
         brand = (TextInputEditText) view.findViewById(R.id.brandTextID);
         // product_details = (TextInputEditText) view.findViewById(R.id.othersTextID);
         productAddButton = (TextView) view.findViewById(R.id.add_ID);
@@ -1511,7 +1511,7 @@ public class Shop_products_add_fragment extends Fragment {
         wlp.height = android.view.WindowManager.LayoutParams.WRAP_CONTENT;
         window.setAttributes(wlp);
 
-        AppCompatButton okButton = (AppCompatButton) successDialog.findViewById(R.id.okButtonID);
+        AppCompatButton okButton = (AppCompatButton) successDialog.findViewById(R.id.okButton);
         TextView product_name, product_stock, sell_price;
         product_name = (TextView) successDialog.findViewById(R.id.productNameID);
         product_stock = (TextView) successDialog.findViewById(R.id.stockAmountID);

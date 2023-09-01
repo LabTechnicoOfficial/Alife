@@ -438,7 +438,7 @@ public class Shop_products_fragment<SharedViewModel> extends Fragment implements
                 priceText = (TextInputEditText) alert.findViewById(R.id.priceTextID);
                 unitText = (TextInputEditText) alert.findViewById(R.id.unitTextID);
                 discountText = (TextInputEditText) alert.findViewById(R.id.discountTextID);
-                amount = (TextInputEditText) alert.findViewById(R.id.amountTextID);
+                amount = (TextInputEditText) alert.findViewById(R.id.amountText);
                 brand = (TextInputEditText) alert.findViewById(R.id.brandTextID);
                 // product_details = (TextInputEditText) alert.findViewById(R.id.othersTextID);
                 productAddButton = (TextView) alert.findViewById(R.id.add_ID);
@@ -1600,7 +1600,7 @@ public class Shop_products_fragment<SharedViewModel> extends Fragment implements
         successDialog.setCancelable(false);
         successDialog.show();
 
-        AppCompatButton okButton = (AppCompatButton) successDialog.findViewById(R.id.okButtonID);
+        AppCompatButton okButton = (AppCompatButton) successDialog.findViewById(R.id.okButton);
         TextView product_name, product_stock, sell_price;
         product_name = (TextView) successDialog.findViewById(R.id.productNameID);
         product_stock = (TextView) successDialog.findViewById(R.id.stockAmountID);
@@ -1686,11 +1686,11 @@ public class Shop_products_fragment<SharedViewModel> extends Fragment implements
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(fragment_products, container, false);
         checkConnection();
-        recyclerView1 = view.findViewById(R.id.recyclerViewID);
+        recyclerView1 = view.findViewById(R.id.itemView);
         recyclerView2 = view.findViewById(R.id.gridRecyclerViewID);
         gridBUtton = (ToggleButton) view.findViewById(R.id.toggleButtonID);
         gridOffLayout = (LinearLayout) view.findViewById(R.id.gridOffLayoutID);
-        gridSearchLayout = (LinearLayout) view.findViewById(R.id.gridLayoutID);
+        gridSearchLayout = (LinearLayout) view.findViewById(R.id.gridLayout);
         //gridOffLayout.setVisibility(View.GONE);
         recyclerView1.setHasFixedSize(true);
         recyclerView2.setHasFixedSize(true);

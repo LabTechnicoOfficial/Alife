@@ -210,7 +210,7 @@ public class Shop_sell_categories_fragment extends Fragment implements Sell_cate
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.shop_sell_categories_fragment, container, false);
-        searchBar = (EditText) view.findViewById(R.id.searchID);
+        searchBar = (EditText) view.findViewById(R.id.searchEditText);
         categoryView = (RecyclerView) view.findViewById(R.id.categoriesViewID);
 
         layoutManager = new LinearLayoutManager(view.getContext());

@@ -37,7 +37,7 @@ import com.alifew.alife.model.phone_verification_response;
 import com.alifew.alife.model.shop_due_customer_response;
 import com.alifew.alife.viewmodel.Customer_registration;
 import com.alifew.alife.viewmodel.Phone_verification;
-import com.alifew.alife.viewmodel.Shop_customer;
+import com.alifew.alife.viewmodel.ShopCustomerViewModel;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -53,7 +53,7 @@ public class Shop_due_customer_fragment extends Fragment implements Shop_due_cus
     EditText search;
     TextView totalDueText, totalDueTitle, totalCustomer;
     private String shop_id;
-    Shop_customer shop_customer;
+    ShopCustomerViewModel shop_customer;
     private Shop_due_customer_adapter adapter;
     private List<shop_due_customer_response> customerList;
     ExtendedFloatingActionButton addCustomerButton;
@@ -81,7 +81,7 @@ public class Shop_due_customer_fragment extends Fragment implements Shop_due_cus
                 addCustomerAlert.show();
 
                 ImageView closeButton = addCustomerAlert.findViewById(R.id.closeID);
-                AppCompatButton submitButton = addCustomerAlert.findViewById(R.id.submitButtonID);
+                AppCompatButton submitButton = addCustomerAlert.findViewById(R.id.submitButton);
                 TextInputEditText phoneText = addCustomerAlert.findViewById(R.id.contactText);
                 TextInputLayout phoneError = addCustomerAlert.findViewById(R.id.phoneErrorID);
 
@@ -185,7 +185,7 @@ public class Shop_due_customer_fragment extends Fragment implements Shop_due_cus
         TextView titleText = (TextView) successAlert.findViewById(R.id.titleText);
         titleText.setText("Successfully Added");
 
-        AppCompatButton okButton = (AppCompatButton) successAlert.findViewById(R.id.okButtonID);
+        AppCompatButton okButton = (AppCompatButton) successAlert.findViewById(R.id.okButton);
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -252,7 +252,7 @@ public class Shop_due_customer_fragment extends Fragment implements Shop_due_cus
     private void due_customer(int Page, int Limit) {
         progressBar.setVisibility(View.GONE);
         if (Page == 1) {
-            shop_customer = new ViewModelProvider(getActivity()).get(Shop_customer.class);
+            shop_customer = new ViewModelProvider(getActivity()).get(ShopCustomerViewModel.class);
             shop_customer.get_due_customer(shop_id).observe(getViewLifecycleOwner(), new Observer<List<shop_due_customer_response>>() {
                 @Override
                 public void onChanged(List<shop_due_customer_response> shop_due_customer_responses) {
@@ -337,7 +337,7 @@ public class Shop_due_customer_fragment extends Fragment implements Shop_due_cus
         View view = inflater.inflate(shop_due_customer_fragment, container, false);
         checkConnection();
 
-        search = (EditText) view.findViewById(R.id.searchID);
+        search = (EditText) view.findViewById(R.id.searchEditText);
         totalDueText = (TextView) view.findViewById(R.id.totalDueID);
         totalDueTitle = (TextView) view.findViewById(R.id.totalDueTitleId);
         totalCustomer = (TextView) view.findViewById(R.id.totalCustomerID);

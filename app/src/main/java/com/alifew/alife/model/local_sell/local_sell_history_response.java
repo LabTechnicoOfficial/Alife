@@ -5,23 +5,15 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class local_sell_history_response {
-    private class image{
-        private String product_image;
 
-        public String getProduct_image() {
-            return product_image;
-        }
-
-        public void setProduct_image(String product_image) {
-            this.product_image = product_image;
-        }
-    }
     @SerializedName("customer_name")
     private String customer_name;
     @SerializedName("customer_phone")
     private String customer_phone;
     @SerializedName("sell_price")
     private String sell_price;
+    @SerializedName("points")
+    private String points;
     @SerializedName("buy_price")
     private String buy_price;
     @SerializedName("profit")
@@ -32,6 +24,14 @@ public class local_sell_history_response {
     private String product_description;
     @SerializedName("image")
     private List<local_sell_image> image;
+
+    public String getPoints() {
+        return points;
+    }
+
+    public void setPoints(String points) {
+        this.points = points;
+    }
 
     public String getCustomer_name() {
         return customer_name;

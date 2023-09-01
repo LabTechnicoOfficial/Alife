@@ -9,12 +9,13 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alifew.alife.R;
+import com.alifew.alife.Utils.ImageHelper;
 import com.alifew.alife.model.fetch_shop_response;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class Shop_join_request_adapter extends RecyclerView.Adapter<Shop_join_request_adapter.AppViewholder>{
+public class Shop_join_request_adapter extends RecyclerView.Adapter<Shop_join_request_adapter.AppViewholder> {
     LayoutInflater layoutInflater;
     List<fetch_shop_response> shop_request;
     private OnItemAcceptListener mListener1;
@@ -34,8 +35,9 @@ public class Shop_join_request_adapter extends RecyclerView.Adapter<Shop_join_re
 
     @Override
     public void onBindViewHolder(@NonNull AppViewholder holder, int position) {
-        fetch_shop_response request=shop_request.get(position);
-        Picasso.get().load(request.getStore01e_image()).into(holder.shopImage);
+        fetch_shop_response request = shop_request.get(position);
+
+        ImageHelper.imageLoader(holder.itemView.getContext(), holder.shopImage, request.getStore01e_image());
         holder.shopName.setText(request.getStore01e_name());
 
     }
@@ -52,15 +54,16 @@ public class Shop_join_request_adapter extends RecyclerView.Adapter<Shop_join_re
     public interface OnItemCancelListener {
         void OnItemCancel(int position);
     }
-    public void OnClickListener(OnItemAcceptListener listener1,OnItemCancelListener listener2)
-    {
-        this.mListener1=listener1;
-        this.mListener2=listener2;
+
+    public void OnClickListener(OnItemAcceptListener listener1, OnItemCancelListener listener2) {
+        this.mListener1 = listener1;
+        this.mListener2 = listener2;
     }
 
     public class AppViewholder extends RecyclerView.ViewHolder {
         com.mikhaellopez.circularimageview.CircularImageView shopImage;
         TextView shopName, acceptButton, cancelButton;
+
         public AppViewholder(@NonNull View itemView) {
             super(itemView);
 

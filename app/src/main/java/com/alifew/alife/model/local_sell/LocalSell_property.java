@@ -12,5 +12,6 @@ public class LocalSell_property {
 
     //customer phone selection attribute
     public static String Customer_phone;
+    public static String customerName;
 
 }

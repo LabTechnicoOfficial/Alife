@@ -51,6 +51,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alifew.alife.R;
+import com.alifew.alife.Utils.ImageHelper;
 import com.alifew.alife.adapter.Normal_sell_details_image_adapter;
 import com.alifew.alife.adapter.Normal_sell_product_image_show_adapter;
 import com.alifew.alife.adapter.Systemetic_sell_details_adapter;
@@ -348,7 +349,7 @@ public class Shop_customer_details_fragments extends Fragment implements shop_cu
         multipleImageView.setHasFixedSize(true);
         multipleImageView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         if (!customer_id.equals("0")) {
-            Picasso.get().load(customer_image).into(customerImage);
+            ImageHelper.imageLoader(getActivity(), customerImage, customer_image);
         }
         customerName.setText(customer_name);
         customerContact.setText(customer_contact);
@@ -481,7 +482,8 @@ public class Shop_customer_details_fragments extends Fragment implements shop_cu
                             product_sell_payment = new ViewModelProvider(getActivity()).get(Product_sell_payment.class);
                             normal_sell = new ViewModelProvider(getActivity()).get(Normal_sell.class);
                             //Toast.makeText(getActivity(),date,Toast.LENGTH_SHORT).show();
-                            product_sell.sell(shop_id, customer_id, customer_name, customer_contact, totalPrice, "0", "0", "normally", date).observe(getViewLifecycleOwner(), new Observer<add_product_sell_response>() {
+
+                            product_sell.sell(shop_id, customer_id, customer_name, customer_contact, totalPrice, "0","0", "0", "0", "normally", date).observe(getViewLifecycleOwner(), new Observer<add_product_sell_response>() {
                                 @Override
                                 public void onChanged(add_product_sell_response add_product_sell_response) {
                                     if (!(add_product_sell_response.getSell_id().equals("failed") || add_product_sell_response.equals(null))) {
@@ -527,55 +529,7 @@ public class Shop_customer_details_fragments extends Fragment implements shop_cu
                                                                                                                         loaderDialog.dismiss();
                                                                                                                         success_alert();
                                                                                                                         main();
-                                                                                                                        //loaderDialog.dismiss();
-                                                                                                                        //Toast.makeText(getActivity(), "Sold", Toast.LENGTH_SHORT).show();
-                                                                                                                        /*otp = new ViewModelProvider(getActivity()).get(OTP.class);
-                                                                                                                        addMessagetoHistory = new ViewModelProvider(getActivity()).get(AddMessagetoHistory.class);
 
-                                                                                                                        String due_status, due, total_due_status, total_due;
-                                                                                                                        if (Double.parseDouble(totalPrice) - Double.parseDouble(paidPrice) >= 0.0) {
-                                                                                                                            due_status = "due: ";
-                                                                                                                            due = String.valueOf(Double.parseDouble(totalPrice) - Double.parseDouble(paidPrice));
-                                                                                                                        } else {
-                                                                                                                            due_status = "deposit: ";
-                                                                                                                            due = String.valueOf(-1 * (Double.parseDouble(totalPrice) - Double.parseDouble(paidPrice)));
-
-                                                                                                                        }
-                                                                                                                        if (Double.parseDouble(add_payment_transaction_response.getTotal_due()) >= 0) {
-                                                                                                                            total_due_status = "Total-due: ";
-                                                                                                                            total_due = add_payment_transaction_response.getTotal_due();
-                                                                                                                        } else {
-                                                                                                                            total_due_status = "Total-deposit: ";
-                                                                                                                            total_due = String.valueOf(Double.parseDouble(add_payment_transaction_response.getTotal_due()) * -1);
-                                                                                                                        }
-
-                                                                                                                        message = "ALife...Sell_price: " + totalPrice + "," + due_status + due + "," + total_due_status + total_due + ".";
-                                                                                                                        messagetocustomer = "ALife...Buy from: " + Shop_main_activity.SHOP_NAME + ", Total price: " + totalPrice + "," + due_status + due + "," + total_due_status + total_due + ",Shop contact: " + Shop_main_activity.SHOP_NUMBER + ".";
-                                                                                                                        messagetoshop = "ALife...Sell to: " + customer_name + ", Total price: " + totalPrice + "," + due_status + due + "," + total_due_status + total_due + ",Customer contact: " + customer_contact + ".";
-
-                                                                                                                        String shop_name = Shop_main_activity.SHOP_NAME;
-                                                                                                                        String shop_contact = Shop_main_activity.SHOP_NUMBER;
-                                                                                                                        otp.getStatus(customer_contact, messagetocustomer).observe(getViewLifecycleOwner(), new Observer<OTP_response>() {
-                                                                                                                            @Override
-                                                                                                                            public void onChanged(OTP_response otp_response) {
-                                                                                                                                otp.getStatus(Shop_main_activity.SHOP_NUMBER, messagetoshop).observe(getViewLifecycleOwner(), new Observer<OTP_response>() {
-                                                                                                                                    @Override
-                                                                                                                                    public void onChanged(OTP_response otp_response) {
-                                                                                                                                        addMessagetoHistory.getResponse(shop_id, shop_name, shop_contact, customer_id, customer_name, customer_contact, message).observe(getViewLifecycleOwner(), new Observer<addMessageResponse>() {
-                                                                                                                                            @Override
-                                                                                                                                            public void onChanged(addMessageResponse addMessageResponse) {
-                                                                                                                                                loaderDialog.dismiss();
-                                                                                                                                                success_alert();
-                                                                                                                                                main();
-                                                                                                                                            }
-                                                                                                                                        });
-
-                                                                                                                                    }
-                                                                                                                                });
-                                                                                                                            }
-                                                                                                                        });
-
-                                                                                                                  */
                                                                                                                     }
                                                                                                                 }
                                                                                                             });
@@ -602,50 +556,6 @@ public class Shop_customer_details_fragments extends Fragment implements shop_cu
                                                                                                         success_alert();
                                                                                                         main();
 
-                                                                                                       /* otp = new ViewModelProvider(getActivity()).get(OTP.class);
-                                                                                                        addMessagetoHistory = new ViewModelProvider(getActivity()).get(AddMessagetoHistory.class);
-                                                                                                        String due_status, due, total_due_status, total_due;
-                                                                                                        if (Double.parseDouble(totalPrice) - Double.parseDouble(paidPrice) >= 0.0) {
-                                                                                                            due_status = "due: ";
-                                                                                                            due = String.valueOf(Double.parseDouble(totalPrice) - Double.parseDouble(paidPrice));
-                                                                                                        } else {
-                                                                                                            due_status = "deposit: ";
-                                                                                                            due = String.valueOf(-1 * (Double.parseDouble(totalPrice) - Double.parseDouble(paidPrice)));
-
-                                                                                                        }
-                                                                                                        if (Double.parseDouble(add_payment_transaction_response.getTotal_due()) >= 0) {
-                                                                                                            total_due_status = "Total-due: ";
-                                                                                                            total_due = add_payment_transaction_response.getTotal_due();
-                                                                                                        } else {
-                                                                                                            total_due_status = "Total-deposit: ";
-                                                                                                            total_due = String.valueOf(Double.parseDouble(add_payment_transaction_response.getTotal_due()) * -1);
-                                                                                                        }
-
-                                                                                                        message = "ALife...Sell_price: " + totalPrice + "," + due_status + due + "," + total_due_status + total_due + ".";
-                                                                                                        messagetocustomer = "ALife...Buy from: " + Shop_main_activity.SHOP_NAME + ", Total price: " + totalPrice + "," + due_status + due + "," + total_due_status + total_due + ",Shop contact: " + Shop_main_activity.SHOP_NUMBER + ".";
-                                                                                                        messagetoshop = "ALife...Sell to: " + customer_name + ", Total price: " + totalPrice + "," + due_status + due + "," + total_due_status + total_due + ",Customer contact: " + customer_contact + ".";
-                                                                                                        String shop_name = Shop_main_activity.SHOP_NAME;
-                                                                                                        String shop_contact = Shop_main_activity.SHOP_NUMBER;
-                                                                                                        otp.getStatus(customer_contact, messagetocustomer).observe(getViewLifecycleOwner(), new Observer<OTP_response>() {
-                                                                                                            @Override
-                                                                                                            public void onChanged(OTP_response otp_response) {
-                                                                                                                otp.getStatus(Shop_main_activity.SHOP_NUMBER, messagetoshop).observe(getViewLifecycleOwner(), new Observer<OTP_response>() {
-                                                                                                                    @Override
-                                                                                                                    public void onChanged(OTP_response otp_response) {
-                                                                                                                        addMessagetoHistory.getResponse(shop_id, shop_name, shop_contact, customer_id, customer_name, customer_contact, message).observe(getViewLifecycleOwner(), new Observer<addMessageResponse>() {
-                                                                                                                            @Override
-                                                                                                                            public void onChanged(addMessageResponse addMessageResponse) {
-                                                                                                                               // Log.d("success:", addMessageResponse.getMessage());
-                                                                                                                                loaderDialog.dismiss();
-                                                                                                                                success_alert();
-                                                                                                                                main();
-                                                                                                                            }
-                                                                                                                        });
-
-                                                                                                                    }
-                                                                                                                });
-                                                                                                            }
-                                                                                                        });*/
                                                                                                     }
                                                                                                 }
                                                                                             });
@@ -696,12 +606,12 @@ public class Shop_customer_details_fragments extends Fragment implements shop_cu
         productSellButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (productSellState == true) {
+                if (productSellState) {
                     downImage.setVisibility(View.GONE);
                     upImage.setVisibility(View.VISIBLE);
                     productsSellLayout.setVisibility(View.VISIBLE);
                     productSellState = false;
-                } else if (productSellState == false) {
+                } else{
                     upImage.setVisibility(View.GONE);
                     productsSellLayout.setVisibility(View.GONE);
                     downImage.setVisibility(View.VISIBLE);
@@ -761,7 +671,7 @@ public class Shop_customer_details_fragments extends Fragment implements shop_cu
                 createPDF();
             }
         });
-        AppCompatButton okButton = (AppCompatButton) successDialog.findViewById(R.id.okButtonID);
+        AppCompatButton okButton = (AppCompatButton) successDialog.findViewById(R.id.okButton);
         TextView titleText = (TextView) successDialog.findViewById(R.id.titleText);
 
         titleText.setText("Sell Successful");
@@ -1168,7 +1078,8 @@ public class Shop_customer_details_fragments extends Fragment implements shop_cu
 
         ImageView closeButton = (ImageView) imageDialog.findViewById(R.id.closeID);
         ImageView deleteImage = (ImageView) imageDialog.findViewById(R.id.individualDeleteID);
-        Picasso.get().load(image).into(individualImage);
+
+        ImageHelper.imageLoader(getActivity(), individualImage, image);
         hideLayout.setVisibility(View.INVISIBLE);
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override

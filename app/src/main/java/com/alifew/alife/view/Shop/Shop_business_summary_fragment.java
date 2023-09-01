@@ -40,6 +40,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.alifew.alife.R;
+import com.alifew.alife.Utils.ImageHelper;
 import com.alifew.alife.adapter.Normal_sell_product_image_show_adapter;
 import com.alifew.alife.adapter.Shop_business_summary_adapter;
 import com.alifew.alife.adapter.Shop_business_summary_image_adapter;
@@ -52,7 +53,6 @@ import com.alifew.alife.viewmodel.Add_shop_business_summary;
 import com.alifew.alife.viewmodel.Get_shop_business_summary;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.squareup.picasso.Picasso;
 
 
 import java.io.ByteArrayOutputStream;
@@ -405,7 +405,7 @@ public class Shop_business_summary_fragment extends Fragment implements Normal_s
         TextInputLayout creditInError = view.findViewById(R.id.creditInErrorID);
         TextInputLayout creditOutError = view.findViewById(R.id.creditOutErrorID);
 
-        submitButton = (AppCompatButton) view.findViewById(R.id.submitButtonID);
+        submitButton = (AppCompatButton) view.findViewById(R.id.submitButton);
 
         businessAccountView = (RecyclerView) view.findViewById(R.id.businessAccountViewID);
         multipleImageView = (RecyclerView) view.findViewById(R.id.multipleImageViewID);
@@ -628,7 +628,8 @@ public class Shop_business_summary_fragment extends Fragment implements Normal_s
 
         ImageView closeButton = (ImageView) imageDialog.findViewById(R.id.closeID);
         ImageView deleteImage = (ImageView) imageDialog.findViewById(R.id.individualDeleteID);
-        Picasso.get().load(image).into(individualImage);
+
+        ImageHelper.imageLoader(getActivity(), individualImage, image);
         hideLayout.setVisibility(View.INVISIBLE);
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override

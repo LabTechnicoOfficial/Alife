@@ -54,7 +54,7 @@ import com.alifew.alife.model.accept_cancle_customer_join_request_response;
 import com.alifew.alife.model.add_remove_shop_customer_response;
 import com.alifew.alife.model.customer_registration_response;
 import com.alifew.alife.model.get_shop_all_due_details_response;
-import com.alifew.alife.model.get_shop_customer_response;
+import com.alifew.alife.model.Get_shop_customer_response;
 import com.alifew.alife.model.image;
 import com.alifew.alife.model.normal_sell_details_response;
 import com.alifew.alife.model.systemetic_sell_details_response;
@@ -64,7 +64,7 @@ import com.alifew.alife.viewmodel.Customer_registration;
 import com.alifew.alife.viewmodel.Fetch_all_customer;
 import com.alifew.alife.viewmodel.Fetch_customer_join_request;
 import com.alifew.alife.viewmodel.Sell_details;
-import com.alifew.alife.viewmodel.Shop_customer;
+import com.alifew.alife.viewmodel.ShopCustomerViewModel;
 import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -89,7 +89,7 @@ public class Shop_customer_list_fragments extends Fragment implements get_shop_c
     private Shop_customer_allduelist_adapter duelist_adapter;
     Systemetic_sell_details_adapter sell_details_adapter;
     private RecyclerView.LayoutManager yourcustomerlayoutmanager, allCustomerLayoutManager, requestLayoutManager;
-    Shop_customer shop_customer;
+    ShopCustomerViewModel shop_customer;
     Fetch_all_customer fetch_all_customer;
     Fetch_customer_join_request fetch_customer_join_request;
     Accept_cancle_customer_join_request accept_Cancel_customer_join_request;
@@ -99,11 +99,11 @@ public class Shop_customer_list_fragments extends Fragment implements get_shop_c
     MaterialButtonToggleGroup toggleGroup;
     EditText search, all_search;
     String id, category_id;
-    List<get_shop_customer_response> data;
-    List<get_shop_customer_response> data_all;
-    List<get_shop_customer_response> selected_data;
-    List<get_shop_customer_response> temp;
-    List<get_shop_customer_response> customer_request;
+    List<Get_shop_customer_response> data;
+    List<Get_shop_customer_response> data_all;
+    List<Get_shop_customer_response> selected_data;
+    List<Get_shop_customer_response> temp;
+    List<Get_shop_customer_response> customer_request;
     List<get_shop_all_due_details_response> dueList;
     List<get_shop_all_due_details_response> convertList;
     TextView requestValue, title, totalDueText;
@@ -142,9 +142,9 @@ public class Shop_customer_list_fragments extends Fragment implements get_shop_c
 
     public void notifi() {
 
-        fetch_customer_join_request.getData(id).observe(getViewLifecycleOwner(), new Observer<List<get_shop_customer_response>>() {
+        fetch_customer_join_request.getData(id).observe(getViewLifecycleOwner(), new Observer<List<Get_shop_customer_response>>() {
             @Override
-            public void onChanged(List<get_shop_customer_response> get_shop_customer_responses) {
+            public void onChanged(List<Get_shop_customer_response> get_shop_customer_responses) {
                 customer_request = get_shop_customer_responses;
 
                 request_adapter = new Customer_join_request_adapter(customer_request);
@@ -331,7 +331,7 @@ public class Shop_customer_list_fragments extends Fragment implements get_shop_c
     private void due_details(int page, int limit) {
 
 
-        shop_customer = new ViewModelProvider(getActivity()).get(Shop_customer.class);
+        shop_customer = new ViewModelProvider(getActivity()).get(ShopCustomerViewModel.class);
         shop_customer.get_dueList(id, page, limit).observe(getViewLifecycleOwner(), new Observer<List<get_shop_all_due_details_response>>() {
             @Override
             public void onChanged(List<get_shop_all_due_details_response> get_shop_all_due_details_responses) {
@@ -437,15 +437,15 @@ public class Shop_customer_list_fragments extends Fragment implements get_shop_c
         allCustomerLayout = view.findViewById(R.id.allCustomerLayoutID);
         defaultLayout = view.findViewById(R.id.defaultLayoutID);
         requestLayout = view.findViewById(R.id.requestLayoutID);
-        requestValueLayout = (LinearLayout) view.findViewById(R.id.requestValueLayoutID);
+      //  requestValueLayout = (LinearLayout) view.findViewById(R.id.requestValueLayoutID);
         showDetailsButton = (LinearLayout) view.findViewById(R.id.showDetailsID);
         detailsLayout = (HorizontalScrollView) view.findViewById(R.id.detailsLayoutID);
 
         toggleGroup = view.findViewById(R.id.toggleGroupID);
-        search = (EditText) view.findViewById(R.id.searchID);
+        search = (EditText) view.findViewById(R.id.searchEditText);
         all_search = (EditText) view.findViewById(R.id.allCustomerSearchID);
 
-        requestValue = (TextView) view.findViewById(R.id.requestValueID);
+     //   requestValue = (TextView) view.findViewById(R.id.requestValueID);
         title = (TextView) view.findViewById(R.id.one);
         totalDueText = (TextView) view.findViewById(R.id.totalDueID);
 
@@ -539,7 +539,7 @@ public class Shop_customer_list_fragments extends Fragment implements get_shop_c
 
     @Override
     public void OnItemClick(int position) {
-        get_shop_customer_response clickItem = data.get(position);
+        Get_shop_customer_response clickItem = data.get(position);
 
         String customer_id = clickItem.getCustomer01r_id();
         String customer_name = clickItem.getCustomer01r_name();
@@ -554,7 +554,6 @@ public class Shop_customer_list_fragments extends Fragment implements get_shop_c
 
     public void refreshFragment() {
         getActivity().getSupportFragmentManager().beginTransaction().detach(this).commitAllowingStateLoss();
-        getActivity().getSupportFragmentManager().beginTransaction().attach(this).commitAllowingStateLoss();
         //adapter.notifyDataSetChanged();
     }
 
@@ -580,10 +579,10 @@ public class Shop_customer_list_fragments extends Fragment implements get_shop_c
     }
 
     private void filter(int page, int limit) {
-        shop_customer = new ViewModelProvider(getActivity()).get(Shop_customer.class);
-        shop_customer.getData(id, page, limit).observe(getViewLifecycleOwner(), new Observer<List<get_shop_customer_response>>() {
+        shop_customer = new ViewModelProvider(getActivity()).get(ShopCustomerViewModel.class);
+        shop_customer.getData(id, page, limit).observe(getViewLifecycleOwner(), new Observer<List<Get_shop_customer_response>>() {
             @Override
-            public void onChanged(List<get_shop_customer_response> get_shop_customer_responses) {
+            public void onChanged(List<Get_shop_customer_response> get_shop_customer_responses) {
                 progressBar.setVisibility(View.GONE);
                 for (int i = 0; i < get_shop_customer_responses.size(); i++) {
                     data.add(get_shop_customer_responses.get(i));
@@ -605,9 +604,9 @@ public class Shop_customer_list_fragments extends Fragment implements get_shop_c
 
     private void filter_all() {
         fetch_all_customer = new ViewModelProvider(getActivity()).get(Fetch_all_customer.class);
-        fetch_all_customer.getData().observe(getViewLifecycleOwner(), new Observer<List<get_shop_customer_response>>() {
+        fetch_all_customer.getData().observe(getViewLifecycleOwner(), new Observer<List<Get_shop_customer_response>>() {
             @Override
-            public void onChanged(List<get_shop_customer_response> get_shop_customer_responses) {
+            public void onChanged(List<Get_shop_customer_response> get_shop_customer_responses) {
                 data_all = get_shop_customer_responses;
                 for (int i = 0; i < data_all.size(); i++) {
                     for (int j = 0; j < selected_data.size(); j++) {
@@ -628,11 +627,11 @@ public class Shop_customer_list_fragments extends Fragment implements get_shop_c
     }
 
     private void selected_filter() {
-        shop_customer = new ViewModelProvider(getActivity()).get(Shop_customer.class);
+        shop_customer = new ViewModelProvider(getActivity()).get(ShopCustomerViewModel.class);
         selected_data = new ArrayList<>();
-        shop_customer.get_selected_customer(id).observe(getViewLifecycleOwner(), new Observer<List<get_shop_customer_response>>() {
+        shop_customer.get_selected_customer(id).observe(getViewLifecycleOwner(), new Observer<List<Get_shop_customer_response>>() {
             @Override
-            public void onChanged(List<get_shop_customer_response> get_shop_customer_responses) {
+            public void onChanged(List<Get_shop_customer_response> get_shop_customer_responses) {
 
                 selected_data = get_shop_customer_responses;
                 filter_all();
@@ -688,10 +687,10 @@ public class Shop_customer_list_fragments extends Fragment implements get_shop_c
     }
 
     private void getSearchCustomer(String value) {
-        shop_customer = new ViewModelProvider(getActivity()).get(Shop_customer.class);
-        shop_customer.getSearchData(id, value).observe(getViewLifecycleOwner(), new Observer<List<get_shop_customer_response>>() {
+        shop_customer = new ViewModelProvider(getActivity()).get(ShopCustomerViewModel.class);
+        shop_customer.getSearchData(id, value).observe(getViewLifecycleOwner(), new Observer<List<Get_shop_customer_response>>() {
             @Override
-            public void onChanged(List<get_shop_customer_response> get_shop_customer_responses) {
+            public void onChanged(List<Get_shop_customer_response> get_shop_customer_responses) {
                 data = new ArrayList<>();
                 data = get_shop_customer_responses;
                 adapter = new get_shop_customer_adapter(data);
@@ -733,7 +732,7 @@ public class Shop_customer_list_fragments extends Fragment implements get_shop_c
 
     @Override
     public void OnRemoveItem(int position) {
-        get_shop_customer_response clickItem = data.get(position);
+        Get_shop_customer_response clickItem = data.get(position);
         String customer_id = clickItem.getCustomer01r_id();
         // if (clickItem.getTotal_due().equals("0")) {
         Add_remove_shop_customer add_remove_shop_customer;
@@ -754,7 +753,7 @@ public class Shop_customer_list_fragments extends Fragment implements get_shop_c
 
     @Override
     public void OnAddItem(int position) {
-        get_shop_customer_response clickItem = data_all.get(position);
+        Get_shop_customer_response clickItem = data_all.get(position);
         // Toast.makeText(getActivity(),clickItem.getCustomer01r_id(),Toast.LENGTH_SHORT).show();
 
         String customer_id = clickItem.getCustomer01r_id();
@@ -766,7 +765,7 @@ public class Shop_customer_list_fragments extends Fragment implements get_shop_c
             @Override
             public void onChanged(add_remove_shop_customer_response add_remove_shop_customer_response) {
                 if (add_remove_shop_customer_response.getMessage().equals("Customer added successfully")) {
-                    //Toast.makeText(getActivity(),add_remove_shop_customer_response.getMessage(),Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(),add_remove_shop_customer_response.getMessage(),Toast.LENGTH_SHORT).show();
 
                     // main();
                     allCustomerLayout.setVisibility(View.GONE);
@@ -774,7 +773,7 @@ public class Shop_customer_list_fragments extends Fragment implements get_shop_c
                     yourCustomerLayout.setVisibility(View.VISIBLE);
                     toggleGroup.check(R.id.yourCustomerID);
 
-                    refreshFragment();
+                    filter_all();
                 }
             }
         });
@@ -783,7 +782,7 @@ public class Shop_customer_list_fragments extends Fragment implements get_shop_c
     @Override
     public void OnItemAccept(int position) {
 
-        get_shop_customer_response request = customer_request.get(position);
+        Get_shop_customer_response request = customer_request.get(position);
         String customer_id = request.getCustomer01r_id();
         accept_Cancel_customer_join_request.getData1(id, customer_id).observe(getViewLifecycleOwner(), new Observer<accept_cancle_customer_join_request_response>() {
             @Override
@@ -799,7 +798,7 @@ public class Shop_customer_list_fragments extends Fragment implements get_shop_c
 
     @Override
     public void OnItemCancel(int position) {
-        get_shop_customer_response request = customer_request.get(position);
+        Get_shop_customer_response request = customer_request.get(position);
         String customer_id = request.getCustomer01r_id();
         accept_Cancel_customer_join_request.getData2(id, customer_id).observe(getViewLifecycleOwner(), new Observer<accept_cancle_customer_join_request_response>() {
             @Override

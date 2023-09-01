@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alifew.alife.R;
+import com.alifew.alife.Utils.ImageHelper;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -31,13 +32,19 @@ public class Shop_local_sell_image_list_adapter extends RecyclerView.Adapter<Sho
     @Override
     public void onBindViewHolder(@NonNull AppViewHolder holder, int position) {
         String image = imageList.get(position);
-        Picasso.get().load(image).into(holder.cardMultipleImageview);
+
+        ImageHelper.imageLoader(holder.itemView.getContext(), holder.cardMultipleImageview, image);
 
     }
 
     @Override
     public int getItemCount() {
-        return imageList.size();
+        if (imageList.size() > 1) {
+            return 1;
+        } else {
+            return imageList.size();
+        }
+//        return imageList.size();
     }
 
     public class AppViewHolder extends RecyclerView.ViewHolder {

@@ -12,6 +12,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alifew.alife.R;
+import com.alifew.alife.Utils.ImageHelper;
 import com.alifew.alife.model.fetch_shop_admin_response;
 import com.squareup.picasso.Picasso;
 
@@ -44,7 +45,8 @@ public class Shop_admin_adapter extends RecyclerView.Adapter<Shop_admin_adapter.
     @Override
     public void onBindViewHolder(@NonNull AppViewholder holder, int position) {
         admin = adminList.get(position);
-        Picasso.get().load(admin.getAgent_image()).into(holder.adminImage);
+
+        ImageHelper.imageLoader(holder.itemView.getContext(),  holder.adminImage, admin.getAgent_image());
         holder.adminName.setText(admin.getAgent_name());
         if(admin.getAgent_access().equals("1")){
             admin_roll = "Assistant";

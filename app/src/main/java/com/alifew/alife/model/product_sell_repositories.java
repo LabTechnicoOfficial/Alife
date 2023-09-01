@@ -50,8 +50,8 @@ public class product_sell_repositories {
 
 
     public @NonNull
-    MutableLiveData<add_product_sell_response> getData_sell_product(@NonNull String shop_id, @NonNull String customer_id, @NonNull String customer_name, @NonNull String customer_phone, @NonNull String price, @NonNull String buy_price, @NonNull String selled_by, @NonNull String sell_type, @NonNull String date) {
-        Call<add_product_sell_response> call = product_sell_api.add_product_sell(shop_id, customer_id, customer_name, customer_phone, price, buy_price, selled_by, sell_type, date);
+    MutableLiveData<add_product_sell_response> getData_sell_product(@NonNull String shop_id, @NonNull String customer_id, @NonNull String customer_name, @NonNull String customer_phone, @NonNull String price, @NonNull String buy_price,String duePrice, String points, @NonNull String selled_by, @NonNull String sell_type, @NonNull String date) {
+        Call<add_product_sell_response> call = product_sell_api.add_product_sell(shop_id, customer_id, customer_name, customer_phone, price, buy_price, selled_by, sell_type, date, duePrice, points);
         call.enqueue(new Callback<add_product_sell_response>() {
             @Override
             public void onResponse(Call<add_product_sell_response> call, Response<add_product_sell_response> response) {

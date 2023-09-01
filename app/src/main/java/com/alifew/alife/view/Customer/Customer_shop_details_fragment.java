@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alifew.alife.R;
+import com.alifew.alife.Utils.ImageHelper;
 import com.alifew.alife.adapter.Normal_sell_details_image_adapter;
 import com.alifew.alife.adapter.Slider.CustomerSliderViewAdapter;
 import com.alifew.alife.adapter.Systemetic_sell_details_adapter;
@@ -70,11 +71,7 @@ public class Customer_shop_details_fragment extends Fragment implements shop_cus
     NestedScrollView nestedScrollView;
     ProgressBar progressBar;
     int page = 1, limit = 20, end = 0;
-    SliderViewModel sliderViewModel;
 
-    List<SliderResponse> bannerList;
-
-    SliderView imageSliderView;
 
     public Customer_shop_details_fragment(String customer_id, String shop_id, String name, String location, String phone, String image) {
         this.customer_id = customer_id;
@@ -204,7 +201,7 @@ public class Customer_shop_details_fragment extends Fragment implements shop_cus
 
         showProductsButton = (ExtendedFloatingActionButton) view.findViewById(R.id.showProductsButtonID);
 
-        sliderViewModel = new ViewModelProvider(getActivity()).get(SliderViewModel.class);
+
 
         shopImage = (ImageView) view.findViewById(R.id.shopImageID);
         shopName = (TextView) view.findViewById(R.id.shopNameID);
@@ -218,7 +215,7 @@ public class Customer_shop_details_fragment extends Fragment implements shop_cus
         dueListView.setHasFixedSize(true);
         dueListView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        imageSliderView = view.findViewById(R.id.imageSliderView);
+
 
         Glide.with(getActivity())
                 .load(image)
@@ -262,36 +259,12 @@ public class Customer_shop_details_fragment extends Fragment implements shop_cus
             }
         });
 
-        loadBanner();
+
 
         return view;
     }
 
-    private void loadBanner() {
-        sliderViewModel.getBannerList(shop_id).observe(getViewLifecycleOwner(), new Observer<List<SliderResponse>>() {
-            @Override
-            public void onChanged(List<SliderResponse> sliderRespons) {
-                bannerList = new ArrayList<>();
 
-                for (int i = 0; i < sliderRespons.size(); i++) {
-                    if (sliderRespons.get(i).status.equals("active")){
-                        bannerList.add(sliderRespons.get(i));
-                    }
-                }
-
-                //bannerList = sliderRespons;
-                CustomerSliderViewAdapter sliderViewAdapter = new CustomerSliderViewAdapter(bannerList);
-                imageSliderView.setSliderAdapter(sliderViewAdapter);
-                imageSliderView.setIndicatorAnimation(IndicatorAnimationType.WORM); //set indicator animation by using IndicatorAnimationType. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
-                imageSliderView.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
-                imageSliderView.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_BACK_AND_FORTH);
-                imageSliderView.setIndicatorSelectedColor(Color.WHITE);
-                imageSliderView.setIndicatorUnselectedColor(Color.GRAY);
-                imageSliderView.setScrollTimeInSec(2); //set scroll delay in seconds :
-                imageSliderView.startAutoCycle();
-            }
-        });
-    }
 
     public void refreshFragment() {
         getActivity().getSupportFragmentManager().beginTransaction().detach(this).commitAllowingStateLoss();
@@ -434,7 +407,8 @@ public class Customer_shop_details_fragment extends Fragment implements shop_cus
 
         ImageView closeButton = (ImageView) imageDialog.findViewById(R.id.closeID);
         ImageView deleteImage = (ImageView) imageDialog.findViewById(R.id.individualDeleteID);
-        Picasso.get().load(image).into(individualImage);
+
+        ImageHelper.imageLoader(getActivity(), individualImage, image);
         hideLayout.setVisibility(View.INVISIBLE);
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override

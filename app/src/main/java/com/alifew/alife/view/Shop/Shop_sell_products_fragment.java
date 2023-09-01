@@ -281,7 +281,7 @@ public class Shop_sell_products_fragment extends Fragment implements Sell_produc
         View view = inflater.inflate(R.layout.shop_sell_products_fragment, container, false);
 
         productView = view.findViewById(R.id.productViewID);
-        searchBar = (EditText) view.findViewById(R.id.searchID);
+        searchBar = (EditText) view.findViewById(R.id.searchEditText);
 
         productView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(view.getContext());

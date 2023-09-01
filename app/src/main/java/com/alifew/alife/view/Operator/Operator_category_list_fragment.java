@@ -157,11 +157,11 @@ public class Operator_category_list_fragment extends Fragment implements Shop_ca
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(operator_category_list_fragment, container, false);
         checkConnection();
-        recyclerView = view.findViewById(R.id.recyclerViewID);
+        recyclerView = view.findViewById(R.id.itemView);
         recyclerView.setHasFixedSize(true);
         layoutmanager = new LinearLayoutManager(view.getContext());
         recyclerView.setLayoutManager(layoutmanager);
-        search = (EditText) view.findViewById(R.id.searchID);
+        search = (EditText) view.findViewById(R.id.searchEditText);
         total_product = (TextView) view.findViewById(R.id.totalProductsID);
         total_sell_price = (TextView) view.findViewById(R.id.totalSellPriceID);
         total_profit = (TextView) view.findViewById(R.id.totalProfitID);

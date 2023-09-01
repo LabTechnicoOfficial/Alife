@@ -61,7 +61,7 @@ public class Shop_offer_all_products_adapter extends RecyclerView.Adapter<Shop_o
             minAmountText = itemView.findViewById(R.id.minProductAmountID);
             minPriceText = itemView.findViewById(R.id.minPriceID);
             offerText = itemView.findViewById(R.id.offerID);
-            deleteButton = itemView.findViewById(R.id.deleteButtonID);
+            deleteButton = itemView.findViewById(R.id.deleteButton);
             deleteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

@@ -44,6 +44,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alifew.alife.R;
+import com.alifew.alife.Utils.ImageHelper;
 import com.alifew.alife.adapter.Customer.Customer_allShop_adapter;
 import com.alifew.alife.adapter.Customer.Customer_shopList_adapter;
 import com.alifew.alife.adapter.Customer.Customer_shop_all_due_list_adapter;
@@ -240,7 +241,7 @@ public class Customer_shopList_fragment extends Fragment implements Customer_all
         detailsLayout = (HorizontalScrollView) view.findViewById(R.id.detailsLayoutID);
 
         toggleButton = (MaterialButtonToggleGroup) view.findViewById(R.id.toggleGroupID);
-        search = (EditText) view.findViewById(R.id.searchID);
+        search = (EditText) view.findViewById(R.id.searchEditText);
         all_search = (EditText) view.findViewById(R.id.AllShopSearchID);
         customerRequestButton = (ImageView) view.findViewById(R.id.customerRequestButtonID);
         requestValue = (TextView) view.findViewById(R.id.requestValueID);
@@ -862,7 +863,8 @@ public class Customer_shopList_fragment extends Fragment implements Customer_all
             }
         });
 
-        Picasso.get().load(response.productImage).into(productImage);
+
+        ImageHelper.imageLoader(getActivity(),  productImage, response.productImage);
 
         TextView titleText = productDetailsAlert.findViewById(R.id.titleText);
         TextView categoryTitleText = productDetailsAlert.findViewById(R.id.categoryTitleText);

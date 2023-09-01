@@ -16,7 +16,7 @@ import retrofit2.Response;
 public class fetch_customer_join_request_repositories {
     fetch_customer_join_request_api fetch_customer_join_request;
     private String shop_id;
-    MutableLiveData<List<get_shop_customer_response>> data;
+    MutableLiveData<List<Get_shop_customer_response>> data;
     private static fetch_customer_join_request_repositories fetch_customer_join_request_repositories;
     protected void onSaveInstanceState(@NonNull Bundle outState)
     {
@@ -36,18 +36,18 @@ public class fetch_customer_join_request_repositories {
     }
 
     public @NonNull
-    MutableLiveData<List<get_shop_customer_response>> getData(@NonNull String shop_id) {
-        Call<List<get_shop_customer_response>> call = fetch_customer_join_request.getcustomer(shop_id);
-        call.enqueue(new Callback<List<get_shop_customer_response>>() {
+    MutableLiveData<List<Get_shop_customer_response>> getData(@NonNull String shop_id) {
+        Call<List<Get_shop_customer_response>> call = fetch_customer_join_request.getcustomer(shop_id);
+        call.enqueue(new Callback<List<Get_shop_customer_response>>() {
             @Override
-            public void onResponse(Call<List<get_shop_customer_response>> call, Response<List<get_shop_customer_response>> response) {
+            public void onResponse(Call<List<Get_shop_customer_response>> call, Response<List<Get_shop_customer_response>> response) {
                 if (response.isSuccessful()) {
                     data.postValue(response.body());
                 }
             }
 
             @Override
-            public void onFailure(Call<List<get_shop_customer_response>> call, Throwable t) {
+            public void onFailure(Call<List<Get_shop_customer_response>> call, Throwable t) {
 
             }
         });

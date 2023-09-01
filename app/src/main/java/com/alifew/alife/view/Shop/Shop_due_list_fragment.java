@@ -43,7 +43,7 @@ import com.alifew.alife.model.normal_sell_details_response;
 import com.alifew.alife.model.systemetic_sell_details_response;
 import com.alifew.alife.viewmodel.Local_sell.Get_local_sell;
 import com.alifew.alife.viewmodel.Sell_details;
-import com.alifew.alife.viewmodel.Shop_customer;
+import com.alifew.alife.viewmodel.ShopCustomerViewModel;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -66,7 +66,7 @@ public class Shop_due_list_fragment extends Fragment implements Shop_customer_al
     List<get_shop_all_due_details_response> dueList;
     List<get_shop_all_due_details_response> convertList;
     Sell_details sell_details;
-    Shop_customer shop_customer;
+    ShopCustomerViewModel shop_customer;
     Spinner optionSpinner;
     EditText searchDate, fromText, toText;
     ImageView searchDateButton, customSearchButton;
@@ -100,7 +100,7 @@ public class Shop_due_list_fragment extends Fragment implements Shop_customer_al
     private void main() {
         checkConnection();
         dueList = new ArrayList<>();
-        shop_customer = new ViewModelProvider(getActivity()).get(Shop_customer.class);
+        shop_customer = new ViewModelProvider(getActivity()).get(ShopCustomerViewModel.class);
         // all_due();
         dateCurrent = new SimpleDateFormat(myFormat, Locale.getDefault()).format(new Date());
         //String date = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());

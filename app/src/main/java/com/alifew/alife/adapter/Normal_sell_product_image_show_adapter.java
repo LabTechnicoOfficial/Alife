@@ -10,15 +10,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alifew.alife.R;
+import com.alifew.alife.Utils.ImageHelper;
 
 import java.util.List;
 
 public class Normal_sell_product_image_show_adapter extends RecyclerView.Adapter<Normal_sell_product_image_show_adapter.AppViewholder> {
     List<Bitmap> imageList;
     private LayoutInflater layoutInflater;
-private OnItemClickListener listener;
+    private OnItemClickListener listener;
 
-    public Normal_sell_product_image_show_adapter( List<Bitmap> imageList) {
+    public Normal_sell_product_image_show_adapter(List<Bitmap> imageList) {
 
         this.imageList = imageList;
     }
@@ -35,14 +36,8 @@ private OnItemClickListener listener;
 
     @Override
     public void onBindViewHolder(@NonNull AppViewholder holder, int position) {
-       Bitmap image = imageList.get(position);
-       holder.cardMultipleImageView.setImageBitmap(image);
-
-        // Picasso.get().load(image.getImage()).resize(400,400).centerCrop().into(holder.cardMultipleImageView);
-
-
-
-
+        Bitmap image = imageList.get(position);
+        holder.cardMultipleImageView.setImageBitmap(image);
 
     }
 
@@ -52,12 +47,12 @@ private OnItemClickListener listener;
     }
 
     public interface OnItemClickListener {
-         void OnItemClick(int position);
+        void OnItemClick(int position);
     }
-public void setOnClickListener(OnItemClickListener listener)
-{
-    this.listener=listener;
-}
+
+    public void setOnClickListener(OnItemClickListener listener) {
+        this.listener = listener;
+    }
 
     public class AppViewholder extends RecyclerView.ViewHolder {
         ImageView cardMultipleImageView;

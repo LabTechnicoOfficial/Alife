@@ -254,7 +254,7 @@
                                 app:hintTextColor="@color/black">
 
                                 <com.google.android.material.textfield.TextInputEditText
-                                    android:id="@+id/amountTextID"
+                                    android:id="@+id/amountText"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:inputType="number|numberDecimal"
@@ -930,18 +930,21 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:padding="10dp">
+                    android:gravity="center">
 
                     <TextView
                         android:id="@+id/add_ID"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="@drawable/shape"
+                        android:backgroundTint="@color/default_color"
                         android:clickable="true"
                         android:focusable="true"
                         android:text="Add"
-                        android:textColor="@color/red"
-                        android:textSize="18sp"
+                        android:gravity="center"
+                        android:textColor="@color/white"
+                        android:textSize="14sp"
+                        android:padding="@dimen/_10sdp"
                         android:textStyle="bold" />
                 </LinearLayout>
 

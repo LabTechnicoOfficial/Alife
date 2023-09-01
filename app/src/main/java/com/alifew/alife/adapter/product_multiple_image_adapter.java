@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.alifew.alife.Utils.ImageHelper;
 import com.bumptech.glide.Glide;
 import com.alifew.alife.R;
 import com.alifew.alife.model.get_product_multiple_image_response;
@@ -46,15 +47,7 @@ public class product_multiple_image_adapter extends RecyclerView.Adapter<product
     public void onBindViewHolder(@NonNull AppViewholder holder, int position) {
         get_product_multiple_image_response image = imageList.get(position);
 
-       // Picasso.get().load(image.getImage()).resize(400,400).centerCrop().into(holder.cardMultipleImageView);
-      //Glide.with(context).load(image.getImage()).into(holder.cardMultipleImageView);
-
-        Glide.with(holder.itemView.getContext())
-                .load(image.getImage())
-                .centerCrop()
-                .placeholder(R.drawable.loader)
-                .into(holder.cardMultipleImageView);
-
+        ImageHelper.imageLoader(holder.itemView.getContext(), holder.cardMultipleImageView, image.getImage());
 
     }
 

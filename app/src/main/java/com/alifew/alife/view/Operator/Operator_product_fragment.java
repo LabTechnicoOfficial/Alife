@@ -409,7 +409,7 @@ public class Operator_product_fragment<SharedViewModel> extends Fragment impleme
                 priceText = (TextInputEditText) alert.findViewById(R.id.priceTextID);
                 unitText = (TextInputEditText) alert.findViewById(R.id.unitTextID);
                 discountText = (TextInputEditText) alert.findViewById(R.id.discountTextID);
-                amount = (TextInputEditText) alert.findViewById(R.id.amountTextID);
+                amount = (TextInputEditText) alert.findViewById(R.id.amountText);
                 brand = (TextInputEditText) alert.findViewById(R.id.brandTextID);
                 // product_details = (TextInputEditText) alert.findViewById(R.id.othersTextID);
                 productAddButton = (TextView) alert.findViewById(R.id.add_ID);
@@ -1578,11 +1578,11 @@ public class Operator_product_fragment<SharedViewModel> extends Fragment impleme
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(operator_product_fragment, container, false);
         checkConnection();
-        recyclerView1 = view.findViewById(R.id.recyclerViewID);
+        recyclerView1 = view.findViewById(R.id.itemView);
         recyclerView2 = view.findViewById(R.id.recyclerView2ID);
         gridButton = (ToggleButton) view.findViewById(R.id.toggleButtonID);
         gridOffLayout = (LinearLayout) view.findViewById(R.id.gridOffLayoutID);
-        gridSearchLayout = (LinearLayout) view.findViewById(R.id.gridLayoutID);
+        gridSearchLayout = (LinearLayout) view.findViewById(R.id.gridLayout);
         //gridOffLayout.setVisibility(View.GONE);
         recyclerView1.setHasFixedSize(true);
         recyclerView2.setHasFixedSize(true);

@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alifew.alife.R;
+import com.alifew.alife.Utils.ImageHelper;
 import com.alifew.alife.model.Get_product_response;
 import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
@@ -37,12 +38,8 @@ public class Customer_product_adapter extends RecyclerView.Adapter<Customer_prod
     public void onBindViewHolder(@NonNull Customer_product_adapter.AppViewholder holder, int position) {
         Get_product_response response = productList.get(position);
 
-        //Picasso.get().load(response.getProduct_image()).into(holder.productImage);
-        Glide.with(holder.itemView.getContext())
-                .load(response.getProduct_image())
-                .centerCrop()
-                .placeholder(R.drawable.loader)
-                .into(holder.productImage);
+        ImageHelper.imageLoader(holder.itemView.getContext(), holder.productImage, response.getProduct_image());
+
 
         holder.productLabel.setText(response.getProduct_name());
         holder.priceText.setText(response.getSelling_price());

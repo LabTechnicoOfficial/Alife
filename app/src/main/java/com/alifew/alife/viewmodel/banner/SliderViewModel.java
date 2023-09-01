@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.alifew.alife.model.CommonResponse;
+import com.alifew.alife.model.slider.Customer_slider_response;
 import com.alifew.alife.model.slider.SliderRepositories;
 import com.alifew.alife.model.slider.SliderResponse;
 
@@ -14,11 +15,15 @@ public class SliderViewModel extends ViewModel {
         return SliderRepositories.getInstance().getBannerList(id);
     }
 
-    public LiveData<CommonResponse> updateBannerStatus(String shopID, String bannerID,String status){
+    public LiveData<CommonResponse> updateBannerStatus(String shopID, String bannerID, String status) {
         return SliderRepositories.getInstance().updateBannerStatus(shopID, bannerID, status);
     }
 
-    public LiveData<CommonResponse> uploadSlider(String shopID, String image){
+    public LiveData<CommonResponse> uploadSlider(String shopID, String image) {
         return SliderRepositories.getInstance().uploadSlider(shopID, image);
+    }
+
+    public LiveData<List<Customer_slider_response>> getSliderListByLatLong(String latitude, String longitude) {
+        return SliderRepositories.getInstance().getSliderListByLatLong(latitude, longitude);
     }
 }

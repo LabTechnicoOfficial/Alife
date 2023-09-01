@@ -38,15 +38,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alifew.alife.R;
+import com.alifew.alife.Utils.ImageHelper;
 import com.alifew.alife.adapter.Local_sell_product_adapter;
 import com.alifew.alife.model.local_sell.add_local_sell_product_response;
 import com.alifew.alife.model.local_sell.delete_local_sell_product_response;
-import com.alifew.alife.model.local_sell.get_local_sell_product_response;
+import com.alifew.alife.model.local_sell.Get_local_sell_product_response;
 import com.alifew.alife.viewmodel.Local_sell.Add_local_sell;
 import com.alifew.alife.viewmodel.Local_sell.Get_local_sell;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -77,7 +77,7 @@ public class Shop_local_sell_add_product_fragment extends Fragment implements Lo
 
     AppCompatButton addButton;
     Get_local_sell get_local_sell;
-    private List<get_local_sell_product_response> productList;
+    private List<Get_local_sell_product_response> productList;
     private Local_sell_product_adapter adapter;
     private Double profit;
 
@@ -110,20 +110,21 @@ public class Shop_local_sell_add_product_fragment extends Fragment implements Lo
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        products_func();
+
     }
 
     private void products_func() {
 
         //Toast.makeText(getActivity(), "hi", Toast.LENGTH_SHORT).show();
-        get_local_sell.getData_product(shopID).observe(getViewLifecycleOwner(), new Observer<List<get_local_sell_product_response>>() {
+        get_local_sell.getData_product(shopID).observe(getViewLifecycleOwner(), new Observer<List<Get_local_sell_product_response>>() {
             @Override
-            public void onChanged(List<get_local_sell_product_response> get_local_sell_product_responses) {
+            public void onChanged(List<Get_local_sell_product_response> get_local_sell_product_responses) {
                 productList = new ArrayList<>();
                 productList = get_local_sell_product_responses;
                 adapter = new Local_sell_product_adapter(productList);
+                adapter.setOnClickListener(Shop_local_sell_add_product_fragment.this, Shop_local_sell_add_product_fragment.this);
                 productsView.setAdapter(adapter);
-                adapter.setOnClickListener(Shop_local_sell_add_product_fragment.this::OnItemDelete, Shop_local_sell_add_product_fragment.this::OnItemEdit);
+
             }
         });
     }
@@ -133,14 +134,9 @@ public class Shop_local_sell_add_product_fragment extends Fragment implements Lo
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.shop_local_sell_add_product_fragment, container, false);
 
-        get_local_sell = new ViewModelProvider(this).get(Get_local_sell.class);
+        initView(view);
 
-        loader = new Dialog(getActivity());
-        loader.setContentView(R.layout.loader);
-        loader.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        loader.setCancelable(false);
-
-        addButton = view.findViewById(R.id.addButtonID);
+        products_func();
 
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -154,7 +150,6 @@ public class Shop_local_sell_add_product_fragment extends Fragment implements Lo
 
                 Window window = dialog.getWindow();
                 WindowManager.LayoutParams wlp = window.getAttributes();
-
                 wlp.gravity = Gravity.CENTER;
                 wlp.width = android.view.WindowManager.LayoutParams.MATCH_PARENT;
                 wlp.height = android.view.WindowManager.LayoutParams.WRAP_CONTENT;
@@ -287,11 +282,23 @@ public class Shop_local_sell_add_product_fragment extends Fragment implements Lo
             }
         });
 
+
+        return view;
+    }
+
+    private void initView(View view) {
+        get_local_sell = new ViewModelProvider(this).get(Get_local_sell.class);
+
+        loader = new Dialog(getActivity());
+        loader.setContentView(R.layout.loader);
+        loader.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        loader.setCancelable(false);
+
         productsView = view.findViewById(R.id.productsViewID);
         productsView.setHasFixedSize(true);
         productsView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        return view;
+        addButton = view.findViewById(R.id.addButtonID);
     }
 
     private String imgToString(Bitmap bitmap) {
@@ -330,14 +337,21 @@ public class Shop_local_sell_add_product_fragment extends Fragment implements Lo
     public void OnItemDelete(int position) {
 
 
-        Dialog alert = new Dialog(getActivity());
-        alert.setContentView(R.layout.delete_alert);
+        Dialog alertDialog = new Dialog(getActivity());
+        alertDialog.setContentView(R.layout.delete_alert);
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        alertDialog.setCancelable(false);
+        alertDialog.show();
 
+        Window window = alertDialog.getWindow();
+        WindowManager.LayoutParams wlp = window.getAttributes();
+        wlp.gravity = Gravity.CENTER;
+        wlp.width = android.view.WindowManager.LayoutParams.MATCH_PARENT;
+        wlp.height = android.view.WindowManager.LayoutParams.WRAP_CONTENT;
+        window.setAttributes(wlp);
 
-        alert.show();
-
-        TextView yesButton = alert.findViewById(R.id.yesButton);
-        TextView noButton = alert.findViewById(R.id.noButton);
+        TextView yesButton = alertDialog.findViewById(R.id.yesButton);
+        TextView noButton = alertDialog.findViewById(R.id.noButton);
 
         yesButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -348,18 +362,10 @@ public class Shop_local_sell_add_product_fragment extends Fragment implements Lo
                     @Override
                     public void onChanged(delete_local_sell_product_response delete_local_sell_product_response) {
                         if (delete_local_sell_product_response.getMessage().equals("Product deleted successfully")) {
-
-                            Toast toast = Toast.makeText(getActivity(), delete_local_sell_product_response.getMessage(), Toast.LENGTH_SHORT);
-                            toast.setGravity(Gravity.CENTER, 0, 0);
-                            toast.show();
-                            alert.cancel();
                             products_func();
-                        } else {
-                            Toast toast = Toast.makeText(getActivity(), delete_local_sell_product_response.getMessage(), Toast.LENGTH_SHORT);
-                            toast.setGravity(Gravity.CENTER, 0, 0);
-                            toast.show();
-                            alert.cancel();
                         }
+                        alertDialog.cancel();
+                        Toast.makeText(getActivity(), delete_local_sell_product_response.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -368,7 +374,7 @@ public class Shop_local_sell_add_product_fragment extends Fragment implements Lo
         noButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                alert.cancel();
+                alertDialog.cancel();
             }
         });
 
@@ -385,7 +391,6 @@ public class Shop_local_sell_add_product_fragment extends Fragment implements Lo
 
         Window window = dialog.getWindow();
         WindowManager.LayoutParams wlp = window.getAttributes();
-
         wlp.gravity = Gravity.CENTER;
         wlp.width = android.view.WindowManager.LayoutParams.MATCH_PARENT;
         wlp.height = android.view.WindowManager.LayoutParams.WRAP_CONTENT;
@@ -418,9 +423,8 @@ public class Shop_local_sell_add_product_fragment extends Fragment implements Lo
 
         LinearLayout choseImageButton = dialog.findViewById(R.id.choseImageButtonId);
         ImageView productImage = dialog.findViewById(R.id.productImage);
-        if (!TextUtils.isEmpty(productList.get(position).getImage()))
-            Picasso.get().load(productList.get(position).getImage()).into(productImage);
 
+        ImageHelper.imageLoader(getActivity(), productImage, productList.get(position).getImage());
 
         editProductButton = dialog.findViewById(R.id.saveProductButtonID);
         productPriceText.addTextChangedListener(new TextWatcher() {

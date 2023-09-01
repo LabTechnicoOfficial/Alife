@@ -210,11 +210,11 @@ public class Shop_categories_fragment<SharedViewModel> extends Fragment implemen
         View view = inflater.inflate(shop_cateories_fragment, container, false);
         checkConnection();
 
-        recyclerView = view.findViewById(R.id.recyclerViewID);
+        recyclerView = view.findViewById(R.id.itemView);
         recyclerView.setHasFixedSize(true);
         layoutmanager = new LinearLayoutManager(view.getContext());
         recyclerView.setLayoutManager(layoutmanager);
-        search = (EditText) view.findViewById(R.id.searchID);
+        search = (EditText) view.findViewById(R.id.searchEditText);
         total_item = (TextView) view.findViewById(R.id.totalItemsID);
         total_products = (TextView) view.findViewById(R.id.totalProductsID);
         total_sell_price = (TextView) view.findViewById(R.id.totalSellPriceID);

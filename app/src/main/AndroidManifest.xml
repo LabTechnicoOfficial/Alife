@@ -3,32 +3,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.alifew.alife">
 
-    <uses-feature
-        android:name="android.hardware.camera.any"
-        android:required="true" />
-    <uses-feature
-        android:name="android.hardware.camera.autofocus"
-        android:required="false" />
-    <uses-feature
-        android:name="android.hardware.camera.flash"
-        android:required="false" />
 
-    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
     <uses-permission android:name="android.permission.INTERNET" />
+
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission
-        android:name="android.permission.QUERY_ALL_PACKAGES"
-        tools:ignore="QueryAllPackagesPermission" />
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+
     <queries>
         <intent>
             <action android:name="android.intent.action.SENDTO" />
+
             <data android:scheme="mailto" />
         </intent>
         <intent>
@@ -36,6 +36,7 @@
         </intent>
         <intent>
             <action android:name="android.intent.action.VIEW" />
+
             <data android:mimeType="*/*" />
         </intent>
     </queries>
@@ -50,98 +51,114 @@
         android:theme="@style/Theme.Alife"
         android:usesCleartextTraffic="true"
         tools:ignore="HardcodedDebugMode"
-        tools:node="replace">
-
+        tools:node="merge"
+        tools:targetApi="m">
         <activity
-            android:name="com.alifew.alife.view.LoginActivity"
-            android:exported="true">
+            android:name=".PrintActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.LoginActivity"
+            android:exported="false">
 
+        </activity>
+        <activity
+            android:name=".view.SplashActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
 
         <activity
-            android:name="com.alifew.alife.view.SplashActivity"
-            android:exported="false" />
-
+            android:name="com.karumi.dexter.DexterActivity"
+            android:exported="false"
+            android:theme="@style/Dexter.Internal.Theme.Transparent" />
         <activity
-            android:name="com.alifew.alife.view.ForgotPassword.Forgot_password_activity"
-            android:exported="false" />
-        <activity
-            android:name="com.alifew.alife.view.OTP.Otp_validation_activity"
+            android:name=".view.ForgotPassword.Forgot_password_activity"
             android:exported="false" />
         <activity
-            android:name="com.alifew.alife.view.Operator.Operator_main_activity"
+            android:name=".view.OTP.Otp_validation_activity"
             android:exported="false" />
         <activity
-            android:name="com.alifew.alife.view.Customer.Customer_main_activity"
+            android:name=".view.Operator.Operator_main_activity"
             android:exported="false" />
         <activity
-            android:name="com.alifew.alife.view.Shop.Shop_main_activity"
+            android:name=".view.Customer.Customer_main_activity"
             android:exported="false" />
         <activity
-            android:name="com.alifew.alife.view.Registration.Register_activity"
-            android:exported="false" >
-
-        </activity>
-        <activity
-            android:name="com.alifew.alife.view.MainActivity"
-            android:exported="false" />
-
-        <activity
-            android:name="com.alifew.alife.view.Registration.Shop_register_activity"
+            android:name=".view.Shop.Shop_main_activity"
             android:exported="false" />
         <activity
-            android:name="com.alifew.alife.EarningApp.View.Activity.MainActivity"
+            android:name=".view.Registration.Register_activity"
             android:exported="false" />
-
+        <activity
+            android:name=".view.MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.Registration.Shop_register_activity"
+            android:exported="false" />
+        <activity
+            android:name="com.google.android.play.core.common.PlayCoreDialogWrapperActivity"
+            android:exported="false" />
 
         <service
-            android:name="com.alifew.alife.view.Firebase.FirebaseMessagingService"
-            android:exported="true">
+            android:name=".Firebase.FirebaseService"
+            android:directBootAware="true"
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/bell_icon" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/purple_700" />
+        <meta-data
+            android:name="com.google.firebase.default_notification_channel"
+            android:value="@string/default_notification_channel_id" />
         <service
-            android:name="com.alifew.alife.view.Firebase.FirebaseInstanceIdService"
-            android:exported="true"
-            tools:ignore="Instantiatable">
-            <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
-            </intent-filter>
-        </service>
-<!--                <service-->
-<!--                    android:name="androidx.work.impl.foreground.SystemForegroundService"-->
-<!--                    android:exported="true"-->
-<!--                    tools:replace="android:exported"-->
-<!--                    android:foregroundServiceType="location|camera|microphone" />-->
+            android:name="com.google.firebase.components.ComponentDiscoveryService"
+            android:directBootAware="true"
+            android:exported="false"
+            tools:targetApi="n">
 
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.messaging.FirebaseMessagingRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar" />
+
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.installations.FirebaseInstallationsRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar" />
+        </service>
+
+
+        <!-- <service -->
+        <!-- android:name="androidx.work.impl.foreground.SystemForegroundService" -->
+        <!-- android:exported="true" -->
+        <!-- tools:replace="android:exported" -->
+        <!-- android:foregroundServiceType="location|camera|microphone" /> -->
         <receiver
-            android:name="com.alifew.alife.view.OTP.OTP_Receiver"
-            android:exported="true">
+            android:name=".view.OTP.OTP_Receiver"
+            android:exported="true"
+            android:permission="android.permission.BROADCAST_SMS">
             <intent-filter>
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
-        </receiver>
-
-        <!-- addmob -->
+        </receiver> <!-- addmob -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="@string/admob_id" />
-
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
-
         <meta-data
             android:name="com.google.android.gms.vision.DEPENDENCIES"
             android:value="barcode" />
-
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
@@ -155,8 +172,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-
-
     </application>
 
 </manifest>

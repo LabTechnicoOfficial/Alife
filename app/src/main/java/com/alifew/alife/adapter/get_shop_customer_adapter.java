@@ -13,7 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alifew.alife.R;
-import com.alifew.alife.model.get_shop_customer_response;
+import com.alifew.alife.Utils.ImageHelper;
+import com.alifew.alife.model.Get_shop_customer_response;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -22,13 +23,13 @@ import java.util.List;
 
 public class get_shop_customer_adapter extends RecyclerView.Adapter<get_shop_customer_adapter.AppViewholder> implements Filterable {
     private LayoutInflater layoutInflater;
-    List<get_shop_customer_response> customerList;
-    List<get_shop_customer_response> customerListAll;
+    List<Get_shop_customer_response> customerList;
+    List<Get_shop_customer_response> customerListAll;
     private get_shop_customer_adapter.OnItemClickListener mListener1;
     private OnRemoveItemListener mListener2;
     LinearLayout removeButton;
 
-    public get_shop_customer_adapter(List<get_shop_customer_response> customerList) {
+    public get_shop_customer_adapter(List<Get_shop_customer_response> customerList) {
         this.customerList = customerList;
         this.customerListAll = new ArrayList<>();
         this.customerListAll = customerList;
@@ -45,9 +46,9 @@ public class get_shop_customer_adapter extends RecyclerView.Adapter<get_shop_cus
 
     @Override
     public void onBindViewHolder(@NonNull get_shop_customer_adapter.AppViewholder holder, int position) {
-        get_shop_customer_response customer = customerList.get(position);
+        Get_shop_customer_response customer = customerList.get(position);
 
-        Picasso.get().load(customer.getCustomer01r_image()).into(holder.customerImage);
+        ImageHelper.imageLoader(holder.itemView.getContext(), holder.customerImage, customer.getCustomer01r_image());
         holder.customerName.setText(customer.getCustomer01r_name());
         holder.customerLocation.setText(customer.getCustomer01r_address());
        // Double totaldue = Double.parseDouble(customer.getTotal_due());
@@ -67,11 +68,11 @@ public class get_shop_customer_adapter extends RecyclerView.Adapter<get_shop_cus
     Filter filter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
-            List<get_shop_customer_response> filterList = new ArrayList<>();
+            List<Get_shop_customer_response> filterList = new ArrayList<>();
             if (constraint.toString().isEmpty()) {
                 filterList.addAll(customerListAll);
             } else {
-                for (get_shop_customer_response customer : customerListAll) {
+                for (Get_shop_customer_response customer : customerListAll) {
                     if (customer.getCustomer01r_name().toLowerCase().contains(constraint.toString().toLowerCase())) {
                         filterList.add(customer);
                     }
@@ -85,7 +86,7 @@ public class get_shop_customer_adapter extends RecyclerView.Adapter<get_shop_cus
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             customerList.clear();
-            customerList.addAll((Collection<? extends get_shop_customer_response>) results.values);
+            customerList.addAll((Collection<? extends Get_shop_customer_response>) results.values);
             notifyDataSetChanged();
 
         }

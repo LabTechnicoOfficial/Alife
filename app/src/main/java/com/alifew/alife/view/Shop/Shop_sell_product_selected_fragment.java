@@ -714,7 +714,7 @@ public class Shop_sell_product_selected_fragment extends Fragment implements Sho
         allDiscountText = (TextView) view.findViewById(R.id.allDiscountID);
         noOffersText = (TextView) view.findViewById(R.id.noOffersTextID);
 
-        product_amount = (EditText) view.findViewById(R.id.amountTextID);
+        product_amount = (EditText) view.findViewById(R.id.amountText);
 
         //type_spinner = (Spinner) view.findViewById(R.id.typeSpinnerID);
         offerSpinner = (Spinner) view.findViewById(R.id.offerSpinnerID);
@@ -941,7 +941,7 @@ public class Shop_sell_product_selected_fragment extends Fragment implements Sho
         addMoreAlert.show();
         ImageView closeButton = (ImageView) addMoreAlert.findViewById(R.id.crossID);
         all_productView = (RecyclerView) addMoreAlert.findViewById(R.id.productsViewID);
-        searchBar = (EditText) addMoreAlert.findViewById(R.id.searchID);
+        searchBar = (EditText) addMoreAlert.findViewById(R.id.searchEditText);
         // allDiscountText = (TextView) addMoreAlert.findViewById(R.id.allDiscountID);
 
         all_productView.setHasFixedSize(true);
@@ -1136,7 +1136,7 @@ public class Shop_sell_product_selected_fragment extends Fragment implements Sho
 
         ImageView closeButton = setAmountAlert.findViewById(R.id.crossID);
         AppCompatButton setButton = setAmountAlert.findViewById(R.id.setButtonID);
-        TextInputEditText amountText = setAmountAlert.findViewById(R.id.amountTextID);
+        TextInputEditText amountText = setAmountAlert.findViewById(R.id.amountText);
         TextInputLayout amountError = setAmountAlert.findViewById(R.id.amountErrorID);
         amountText.setText(selected_type.getType_amount());
 

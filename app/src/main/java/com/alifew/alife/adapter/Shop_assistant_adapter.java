@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alifew.alife.R;
+import com.alifew.alife.Utils.ImageHelper;
 import com.alifew.alife.model.fetch_shop_admin_response;
 import com.squareup.picasso.Picasso;
 
@@ -35,7 +36,8 @@ public class Shop_assistant_adapter extends RecyclerView.Adapter<Shop_assistant_
     @Override
     public void onBindViewHolder(@NonNull AppViewholder holder, int position) {
         fetch_shop_admin_response assistant=assistantList.get(position);
-        Picasso.get().load(assistant.getAgent_image()).into(holder.adminImage);
+
+        ImageHelper.imageLoader(holder.itemView.getContext(),  holder.adminImage, assistant.getAgent_image());
         holder.adminName.setText(assistant.getAgent_name());
 
     }

@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.alifew.alife.Utils.ImageHelper;
 import com.alifew.alife.model.image;
 import com.alifew.alife.R;
 import com.squareup.picasso.Picasso;
@@ -37,9 +38,8 @@ private ImageClickListener listener;
     @Override
     public void onBindViewHolder(@NonNull AppViewholder holder, int position) {
         image product_image = imageList.get(position);
-        Picasso.get().load(product_image.getImage()).into(holder.cardMultipleImageView);
 
-
+        ImageHelper.imageLoader(holder.itemView.getContext(), holder.cardMultipleImageView, product_image.getImage());
     }
 
     @Override

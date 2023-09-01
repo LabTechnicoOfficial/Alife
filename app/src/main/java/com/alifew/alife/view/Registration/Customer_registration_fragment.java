@@ -24,10 +24,10 @@ import androidx.lifecycle.ViewModelProvider;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -41,8 +41,6 @@ import com.alifew.alife.viewmodel.OTP;
 import com.alifew.alife.viewmodel.SessionManagment_registration;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -51,10 +49,9 @@ import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class Customer_registration_fragment extends Fragment implements View.OnClickListener {
+public class Customer_registration_fragment extends Fragment {
     String token = "x";
-    FirebaseAuth mAuth;
-    DatabaseReference databaseReference, registerUsers;
+  
     Customer_registration customer_registration;
     private static final int REQUEST_CAMERA = 1;
     private static final int SELECT_FILE = 1;
@@ -80,7 +77,7 @@ public class Customer_registration_fragment extends Fragment implements View.OnC
 
         customer_registration = new ViewModelProvider(this).get(Customer_registration.class);
 
-        addimage = (ImageView) view.findViewById(R.id.profile_image);
+        addimage = (ImageView) view.findViewById(R.id.profileImage);
 
         cusName = (TextInputEditText) view.findViewById(R.id.nameText);
         address = (TextInputEditText) view.findViewById(R.id.addressText);
@@ -103,26 +100,31 @@ public class Customer_registration_fragment extends Fragment implements View.OnC
             }
         });
 
-        registerButton.setOnClickListener(this);
+        registerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                cname = cusName.getText().toString().trim();
+                addr = address.getText().toString().trim();
+                phn = phone.getText().toString().trim();
+                pass = password.getText().toString().trim();
+                repass = repassword.getText().toString().trim();
+
+
+                validation(cname, addr, phn, pass, repass);
+
+            }
+        });
+
 
         return view;
     }
 
 
-    @Override
-    public void onClick(View v) {
-        if (v.getId() == R.id.registerButton) {
-            cname = cusName.getText().toString().trim();
-            addr = address.getText().toString().trim();
-            phn = phone.getText().toString().trim();
-            pass = password.getText().toString().trim();
-            repass = repassword.getText().toString().trim();
 
-            validation(cname, addr, phn, pass, repass);
-        }
-    }
 
     private void validation(String cname, String addr, String phn, String pass, String repass) {
+        Log.d("dataxx", "validation1: "+phn);
         if (!(TextUtils.isEmpty(cname) || TextUtils.isEmpty(addr) || TextUtils.isEmpty(phn) || TextUtils.isEmpty(pass) || TextUtils.isEmpty(repass))) {
 
             int len = pass.length();
@@ -133,7 +135,7 @@ public class Customer_registration_fragment extends Fragment implements View.OnC
                 if (len < 5) {
                     message = "Min. Password length 5";
 
-                } else if (len > 6) {
+                } else {
                     message = "Max. Password length 6";
                 }
 
@@ -142,9 +144,9 @@ public class Customer_registration_fragment extends Fragment implements View.OnC
                 if (pass.equals(repass)) {
 
 
-                    if (phone_validation(phn) == true) {
+                    if (phone_validation(phn)) {
                         if (check == 1) {
-                            loaderDialog.show();
+
                             imgdata = imgToString(bitmap);
                             otp = new ViewModelProvider(getActivity()).get(OTP.class);
 
@@ -153,20 +155,19 @@ public class Customer_registration_fragment extends Fragment implements View.OnC
                             if (info == null) {
                                 Toast.makeText(getActivity(), "Connection error", Toast.LENGTH_SHORT).show();
                             } else {
+
+                                Log.d("dataxx", "validation: "+phn);
+                                loaderDialog.show();
                                 customer_registration.getvarification(phn).observe(getActivity(), new Observer<String>() {
                                     @Override
                                     public void onChanged(String s) {
                                         if (!(s.equals("yes"))) {
-                                            loaderDialog.cancel();
-                                            Toast.makeText(getActivity(), s, Toast.LENGTH_SHORT).show();
+                                            loaderDialog.dismiss();
                                         } else {
-                                            //dialog.show();
-                                            //registration();
-                                            Toast.makeText(getActivity(), s, Toast.LENGTH_SHORT).show();
                                             Random r = new Random();
                                             int ran = r.nextInt(99999 - 10000 + 1) + 10000;
                                             String random_otp = String.valueOf(ran);
-                                            otp.getStatus(phn, "ALife.Customer Registration OTP is-" + random_otp).observe(getActivity(), new Observer<OTP_response>() {
+                                            otp.getStatus(phn, "Customer registration OTP is " + random_otp+" -POWERED by ALIFE").observe(getActivity(), new Observer<OTP_response>() {
                                                 @Override
                                                 public void onChanged(OTP_response otp_response) {
                                                     if (otp_response.getStatus().equals("queued")) {

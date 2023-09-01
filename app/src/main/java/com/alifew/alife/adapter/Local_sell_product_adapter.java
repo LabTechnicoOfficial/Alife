@@ -1,6 +1,6 @@
 package com.alifew.alife.adapter;
 
-import android.text.TextUtils;
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,18 +11,18 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alifew.alife.R;
-import com.alifew.alife.model.local_sell.get_local_sell_product_response;
-import com.squareup.picasso.Picasso;
+import com.alifew.alife.Utils.ImageHelper;
+import com.alifew.alife.model.local_sell.Get_local_sell_product_response;
 
 import java.util.List;
 
 public class Local_sell_product_adapter extends RecyclerView.Adapter<Local_sell_product_adapter.AppViewHolder> {
 
-    private List<get_local_sell_product_response> productList;
+    private List<Get_local_sell_product_response> productList;
     private onItemDeleteListener deleteListener;
     private onItemEditListener editListener;
 
-    public Local_sell_product_adapter(List<get_local_sell_product_response> productList) {
+    public Local_sell_product_adapter(List<Get_local_sell_product_response> productList) {
         this.productList = productList;
     }
 
@@ -34,16 +34,15 @@ public class Local_sell_product_adapter extends RecyclerView.Adapter<Local_sell_
         return new Local_sell_product_adapter.AppViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull AppViewHolder holder, int position) {
-        get_local_sell_product_response response = productList.get(position);
+        Get_local_sell_product_response response = productList.get(position);
 
         holder.productNameText.setText(response.getProduct_details());
-        holder.priceText.setText(response.getPrice());
+        holder.priceText.setText(holder.itemView.getContext().getResources().getString(R.string.price)+": "+response.getPrice());
 
-        if (!TextUtils.isEmpty(response.getImage())) {
-            Picasso.get().load(response.getImage()).into(holder.productImage);
-        }
+        ImageHelper.imageLoader(holder.itemView.getContext(), holder.productImage, response.getImage());
 
     }
 
@@ -66,8 +65,8 @@ public class Local_sell_product_adapter extends RecyclerView.Adapter<Local_sell_
     }
 
     public class AppViewHolder extends RecyclerView.ViewHolder {
-        ImageView productImage;
-        TextView productNameText, priceText, edit, delete;
+        ImageView productImage, editButton, deleteButton;
+        TextView productNameText, priceText;
 
         public AppViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -75,9 +74,9 @@ public class Local_sell_product_adapter extends RecyclerView.Adapter<Local_sell_
             productNameText = itemView.findViewById(R.id.productNameTextID);
             productImage = itemView.findViewById(R.id.productImage);
             priceText = itemView.findViewById(R.id.priceTextID);
-            edit = itemView.findViewById(R.id.edit);
-            delete = itemView.findViewById(R.id.delete);
-            edit.setOnClickListener(new View.OnClickListener() {
+            editButton = itemView.findViewById(R.id.editButton);
+            deleteButton = itemView.findViewById(R.id.deleteButton);
+            editButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (editListener != null) {
@@ -88,7 +87,7 @@ public class Local_sell_product_adapter extends RecyclerView.Adapter<Local_sell_
                     }
                 }
             });
-            delete.setOnClickListener(new View.OnClickListener() {
+            deleteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (deleteListener != null) {

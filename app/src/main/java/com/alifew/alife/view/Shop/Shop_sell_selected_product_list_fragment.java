@@ -52,6 +52,7 @@ import com.alifew.alife.Custom_Type.ProductSell;
 import com.alifew.alife.Custom_Type.Product_sell_offer;
 import com.alifew.alife.Custom_Type.productSell_temp;
 import com.alifew.alife.R;
+import com.alifew.alife.Utils.ImageHelper;
 import com.alifew.alife.adapter.Selected_sell_product_list_adapter;
 import com.alifew.alife.adapter.Sell_product_adapter;
 import com.alifew.alife.adapter.Sell_success_adapter;
@@ -82,13 +83,12 @@ import com.alifew.alife.viewmodel.Payment_method;
 import com.alifew.alife.viewmodel.Product_sell;
 import com.alifew.alife.viewmodel.Product_sell_payment;
 import com.alifew.alife.viewmodel.Push_notification;
-import com.alifew.alife.viewmodel.Shop_customer;
+import com.alifew.alife.viewmodel.ShopCustomerViewModel;
 import com.alifew.alife.viewmodel.Shop_profile;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mikhaellopez.circularimageview.CircularImageView;
-import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -140,7 +140,7 @@ public class Shop_sell_selected_product_list_fragment extends Fragment implement
     private String offer_type = "none";
 
     ExtendedFloatingActionButton addUnregisteredCustomer;
-    private Shop_customer get_customer;
+    private ShopCustomerViewModel get_customer;
 
     TextView customerName, customerLocation, customerPhone, customerID;
     TextView price, showDate, noProductsAvailableText;
@@ -563,7 +563,7 @@ public class Shop_sell_selected_product_list_fragment extends Fragment implement
         ImageView closeButton = (ImageView) addMoreAlert.findViewById(R.id.crossID);
         layoutManager1 = new LinearLayoutManager(getActivity());
         all_productView = (RecyclerView) addMoreAlert.findViewById(R.id.productsViewID);
-        searchBar = (EditText) addMoreAlert.findViewById(R.id.searchID);
+        searchBar = (EditText) addMoreAlert.findViewById(R.id.searchEditText);
         allDiscountText = (TextView) addMoreAlert.findViewById(R.id.allDiscountID);
 
         all_productView.setHasFixedSize(true);
@@ -760,7 +760,7 @@ public class Shop_sell_selected_product_list_fragment extends Fragment implement
         productUnitText = (TextView) addAmountAlert.findViewById(R.id.productUnitID);
         stock_amount = (TextView) addAmountAlert.findViewById(R.id.stockAmountID);
         sell_price = (TextView) addAmountAlert.findViewById(R.id.priceID);
-        product_amount = (TextView) addAmountAlert.findViewById(R.id.amountTextID);
+        product_amount = (TextView) addAmountAlert.findViewById(R.id.amountText);
         noOffersText = (TextView) addAmountAlert.findViewById(R.id.noOffersTextID);
 
 
@@ -1052,7 +1052,7 @@ public class Shop_sell_selected_product_list_fragment extends Fragment implement
         customerView = (RecyclerView) selectCustomerAlert.findViewById(R.id.customersViewID);
         addUnregisteredCustomer = (ExtendedFloatingActionButton) selectCustomerAlert.findViewById(R.id.addCustomerID);
         ImageView closeButton = (ImageView) selectCustomerAlert.findViewById(R.id.closeButtonID);
-        EditText searchBox = (EditText) selectCustomerAlert.findViewById(R.id.searchID);
+        EditText searchBox = (EditText) selectCustomerAlert.findViewById(R.id.searchEditText);
 
         layoutManager2 = new LinearLayoutManager(getContext());
         customerView.setHasFixedSize(true);
@@ -1122,7 +1122,7 @@ public class Shop_sell_selected_product_list_fragment extends Fragment implement
     }
 
     public void get_shop_customer(String search) {
-        get_customer = new ViewModelProvider(getActivity()).get(Shop_customer.class);
+        get_customer = new ViewModelProvider(getActivity()).get(ShopCustomerViewModel.class);
         get_customer.get_due_customer_by_search(shop_id, search).observe(getViewLifecycleOwner(), new Observer<List<shop_due_customer_response>>() {
             @Override
             public void onChanged(List<shop_due_customer_response> get_shop_customer_responses) {
@@ -1417,7 +1417,8 @@ public class Shop_sell_selected_product_list_fragment extends Fragment implement
         customerDetailsLayout.setVisibility(View.VISIBLE);
         if (!customer_image.equals("blank")) {
             customerImage.setVisibility(View.VISIBLE);
-            Picasso.get().load(customer_image).into(customerImage);
+
+            ImageHelper.imageLoader(getActivity(), customerImage, customer_image);
         } else {
             customerImage.setVisibility(View.GONE);
         }
@@ -1526,7 +1527,9 @@ public class Shop_sell_selected_product_list_fragment extends Fragment implement
             loader.show();
             double price_less_rate = total_price / Double.parseDouble(finalPrice.getText().toString().trim());
 
-            product_sell.sell(shop_id, customer_id, customer_name, customer_phone, String.valueOf(total_price), String.valueOf(total_buy_price), "0", "systemetic", showDate.getText().toString().trim()).observe(getViewLifecycleOwner(), new Observer<add_product_sell_response>() {
+            Double duePrice = total_price - total_buy_price;
+
+            product_sell.sell(shop_id, customer_id, customer_name, customer_phone, String.valueOf(total_price), String.valueOf(total_buy_price), String.valueOf(duePrice), "0","systemetic","", showDate.getText().toString().trim()).observe(getViewLifecycleOwner(), new Observer<add_product_sell_response>() {
                 @Override
                 public void onChanged(add_product_sell_response add_product_sell_response) {
 
@@ -2271,7 +2274,7 @@ public class Shop_sell_selected_product_list_fragment extends Fragment implement
 
         ImageView closeButton = setAmountAlert.findViewById(R.id.crossID);
         AppCompatButton setButton = setAmountAlert.findViewById(R.id.setButtonID);
-        TextInputEditText amountText = setAmountAlert.findViewById(R.id.amountTextID);
+        TextInputEditText amountText = setAmountAlert.findViewById(R.id.amountText);
         TextInputLayout amountError = setAmountAlert.findViewById(R.id.amountErrorID);
         amountText.setText(selected_type.getType_amount());
 
