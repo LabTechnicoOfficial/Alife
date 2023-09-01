@@ -337,7 +337,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:layout_width="100dp"
+                    android:layout_width="80dp"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="@string/profit"

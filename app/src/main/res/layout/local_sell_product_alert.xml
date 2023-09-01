@@ -77,10 +77,13 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/productView"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/_250sdp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/searchEditText" />
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                app:layout_constraintTop_toBottomOf="@id/searchEditText"
+                app:layout_constrainedHeight="true"
+                android:nestedScrollingEnabled="false"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

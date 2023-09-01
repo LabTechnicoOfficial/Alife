@@ -57,7 +57,7 @@
 
         <TextView
             android:id="@+id/pointsText"
-            android:layout_width="100dp"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textColor="@color/black"
@@ -65,7 +65,7 @@
 
         <TextView
             android:id="@+id/profitTextID"
-            android:layout_width="100dp"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textColor="@color/black"

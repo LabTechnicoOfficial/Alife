@@ -583,7 +583,7 @@ public class Customer_main_activity extends AppCompatActivity implements Navigat
         alertDialog.setContentView(R.layout.update_app_alert);
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         alertDialog.setCancelable(false);
-        alertDialog.show();
+      //  alertDialog.show();
 
         Window window = alertDialog.getWindow();
         WindowManager.LayoutParams wlp = window.getAttributes();

@@ -256,7 +256,7 @@ public class Shop_local_sell_fragment extends Fragment implements Shop_local_sel
                         R.anim.fade_out,  // exit
                         R.anim.fade_in,   // popEnter
                         R.anim.slide_out  // popExit
-                ).replace(R.id.frame_container, new Shop_local_sell_history_fragment(shopID)).addToBackStack(null).commit();
+                ).replace(R.id.frame_container, new Shop_local_sell_history_fragment()).addToBackStack(null).commit();
             }
         });
 
@@ -1154,6 +1154,8 @@ public class Shop_local_sell_fragment extends Fragment implements Shop_local_sel
         setImageAdapter(imageList);
         sellPoint = 0.0;
         duePrice = 0.0;
+        productPrice = 0.0;
+        buyPrice = 0.0;
         setPointText(sellPoint, productPriceText.getText().toString().trim());
         customerSearchEditText.setText("");
         productsAutoCompleteText.setText("");
