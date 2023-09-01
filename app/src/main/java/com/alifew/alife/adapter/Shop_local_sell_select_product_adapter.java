@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.alifew.alife.DB.entity.LocalSellProducts;
 import com.alifew.alife.R;
 import com.alifew.alife.Utils.ImageHelper;
 import com.alifew.alife.model.local_sell.Get_local_sell_product_response;
@@ -16,27 +17,27 @@ import com.alifew.alife.model.local_sell.Get_local_sell_product_response;
 import java.util.List;
 
 public class Shop_local_sell_select_product_adapter extends RecyclerView.Adapter<Shop_local_sell_select_product_adapter.AppViewholder> {
-    private List<Get_local_sell_product_response> productList;
+    private List<LocalSellProducts> productList;
     private LayoutInflater layoutInflater;
-private OnItemClickListener listener;
-    public Shop_local_sell_select_product_adapter(List<Get_local_sell_product_response> productList) {
+    private OnItemClickListener listener;
+
+    public Shop_local_sell_select_product_adapter(List<LocalSellProducts> productList) {
         this.productList = productList;
     }
 
     @NonNull
     @Override
     public AppViewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.local_sell_select_product_card, parent, false);
-        return new AppViewholder(view);
+
+        return new AppViewholder(LayoutInflater.from(parent.getContext()).inflate(R.layout.local_sell_select_product_card, parent, false));
     }
 
 
     @Override
     public void onBindViewHolder(@NonNull AppViewholder holder, int position) {
-        Get_local_sell_product_response response = productList.get(position);
-        holder.product_name.setText(response.getProduct_details());
-        holder.product_price.setText(response.getPrice());
+        LocalSellProducts response = productList.get(position);
+        holder.product_name.setText(response.getName());
+        holder.product_price.setText(response.getSellPrice());
 
         ImageHelper.imageLoader(holder.itemView.getContext(), holder.product_image, response.getImage());
     }
@@ -49,9 +50,9 @@ private OnItemClickListener listener;
     public interface OnItemClickListener {
         void itemClick(int position);
     }
-    public void setOnClickListener(OnItemClickListener listener)
-    {
-        this.listener=listener;
+
+    public void setOnClickListener(OnItemClickListener listener) {
+        this.listener = listener;
     }
 
     public class AppViewholder extends RecyclerView.ViewHolder {

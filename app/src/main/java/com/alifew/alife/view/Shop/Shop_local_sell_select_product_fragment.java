@@ -86,29 +86,29 @@ public class Shop_local_sell_select_product_fragment extends Fragment implements
     private void products_func() {
 
         //Toast.makeText(getActivity(), "hi", Toast.LENGTH_SHORT).show();
-        get_local_sell.getData_product(shop_id).observe(getViewLifecycleOwner(), new Observer<List<Get_local_sell_product_response>>() {
-            @Override
-            public void onChanged(List<Get_local_sell_product_response> get_local_sell_product_responses) {
-                productList = new ArrayList<>();
-                productList = get_local_sell_product_responses;
-                adapter = new Shop_local_sell_select_product_adapter(productList);
-                adapter.setOnClickListener(Shop_local_sell_select_product_fragment.this::itemClick);
-                productsView.setAdapter(adapter);
-            }
-        });
+//        get_local_sell.getData_product(shop_id).observe(getViewLifecycleOwner(), new Observer<List<Get_local_sell_product_response>>() {
+//            @Override
+//            public void onChanged(List<Get_local_sell_product_response> get_local_sell_product_responses) {
+//                productList = new ArrayList<>();
+//                productList = get_local_sell_product_responses;
+//                adapter = new Shop_local_sell_select_product_adapter(productList);
+//                adapter.setOnClickListener(Shop_local_sell_select_product_fragment.this::itemClick);
+//                productsView.setAdapter(adapter);
+//            }
+//        });
     }
 
     private void search_product_function(String searchText) {
-        get_local_sell.getData_product_bySearch(shop_id, searchText).observe(getViewLifecycleOwner(), new Observer<List<Get_local_sell_product_response>>() {
-            @Override
-            public void onChanged(List<Get_local_sell_product_response> get_local_sell_product_responses) {
-                productList = new ArrayList<>();
-                productList = get_local_sell_product_responses;
-                adapter = new Shop_local_sell_select_product_adapter(productList);
-                adapter.setOnClickListener(Shop_local_sell_select_product_fragment.this::itemClick);
-                productsView.setAdapter(adapter);
-            }
-        });
+//        get_local_sell.getData_product_bySearch(shop_id, searchText).observe(getViewLifecycleOwner(), new Observer<List<Get_local_sell_product_response>>() {
+//            @Override
+//            public void onChanged(List<Get_local_sell_product_response> get_local_sell_product_responses) {
+//                productList = new ArrayList<>();
+//                productList = get_local_sell_product_responses;
+//                adapter = new Shop_local_sell_select_product_adapter(productList);
+//                adapter.setOnClickListener(Shop_local_sell_select_product_fragment.this::itemClick);
+//                productsView.setAdapter(adapter);
+//            }
+//        });
     }
 
     @Override

@@ -125,7 +125,7 @@ public class Otp_validation_activity extends AppCompatActivity implements TextWa
         loader.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         loader.setCancelable(false);
 
-        Toast.makeText(this, sessionManagement.getLatitude()+" "+sessionManagement.getLongitude(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, otp, Toast.LENGTH_SHORT).show();
 
         deviceToken = sessionManagement.getDeviceToken();
         Log.d("dataxx", "otpcheckMultipleDeviceLogIN: " + password + " " + deviceToken);

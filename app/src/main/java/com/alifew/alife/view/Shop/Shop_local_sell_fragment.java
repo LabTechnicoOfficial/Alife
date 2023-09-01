@@ -107,7 +107,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 
-public class Shop_local_sell_fragment extends Fragment {
+public class Shop_local_sell_fragment extends Fragment implements Shop_local_sell_select_product_adapter.OnItemClickListener {
 
     String shopID;
 
@@ -274,7 +274,8 @@ public class Shop_local_sell_fragment extends Fragment {
         select_product.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                downLoadLocalSellProducts();
+                //downLoadLocalSellProducts();
+                selectProducts();
             }
         });
         select_phone.setOnClickListener(new View.OnClickListener() {
@@ -414,7 +415,7 @@ public class Shop_local_sell_fragment extends Fragment {
             @Override
             public void afterTextChanged(Editable editable) {
                 if (!editable.toString().isEmpty()) {
-                   // setUIValue(productsAutoCompleteText.getText().toString().trim(), String.valueOf(buyPrice), buyPriceText.getText().toString());
+                    // setUIValue(productsAutoCompleteText.getText().toString().trim(), String.valueOf(buyPrice), buyPriceText.getText().toString());
                 }
             }
         });
@@ -442,11 +443,31 @@ public class Shop_local_sell_fragment extends Fragment {
         calculateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setUIValue(productsAutoCompleteText.getText().toString().trim(), productPriceText.getText().toString().trim(), buyPriceText.getText().toString());
+                //setUIValue(productsAutoCompleteText.getText().toString().trim(), productPriceText.getText().toString().trim(), buyPriceText.getText().toString());
+                calculateButtonFunc(productPriceText.getText().toString().trim(), paidPriceText.getText().toString().trim(), buyPriceText.getText().toString());
             }
         });
 
         return view;
+    }
+
+    private void calculateButtonFunc(String product_price, String paid_price, String buy_price) {
+        productPrice = Double.parseDouble(product_price);
+        productPriceText.setText(String.valueOf(productPrice));
+        paidPriceText.setText(paid_price);
+
+        buyPrice = Double.parseDouble(buy_price);
+        buyPriceText.setText(String.valueOf(buyPrice));
+
+        Double profit = Double.parseDouble(productPriceText.getText().toString().trim()) - Double.parseDouble(buyPriceText.getText().toString().trim());
+        profitText.setText(String.valueOf(profit));
+
+        duePrice = Double.parseDouble(productPriceText.getText().toString().trim()) - Double.parseDouble(paidPriceText.getText().toString().trim());
+
+        duePriceText.setText(getString(R.string.due) + ": " + String.valueOf(duePrice));
+        check = 2;
+
+        pointsCalculation(productPrice);
     }
 
     @SuppressLint("SetTextI18n")
@@ -522,7 +543,7 @@ public class Shop_local_sell_fragment extends Fragment {
 
         productView = productDialog.findViewById(R.id.productView);
         productView.setHasFixedSize(true);
-        productView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        productView.setLayoutManager(new GridLayoutManager(getActivity(), 1));
 
         customerSearchEditText = view.findViewById(R.id.customerSearchEditText);
         productsAutoCompleteText = view.findViewById(R.id.productsAutoCompleteText);
@@ -530,6 +551,77 @@ public class Shop_local_sell_fragment extends Fragment {
         rulesLayout = view.findViewById(R.id.rulesLayout);
 
 
+    }
+
+
+    public void selectProducts() {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                productList = localSellProductsDao.getLocalSellProducts("");
+            }
+        });
+        if (!productList.isEmpty()) {
+
+            productDialog.show();
+            Window window = productDialog.getWindow();
+            WindowManager.LayoutParams wlp = window.getAttributes();
+            wlp.gravity = Gravity.CENTER;
+            wlp.width = android.view.WindowManager.LayoutParams.MATCH_PARENT;
+            wlp.height = android.view.WindowManager.LayoutParams.WRAP_CONTENT;
+            window.setAttributes(wlp);
+
+            ImageView closeButton = productDialog.findViewById(R.id.closeButton);
+            closeButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    productDialog.dismiss();
+                }
+            });
+
+
+            setProductAdapter(productList);
+
+            EditText searchEditText = productDialog.findViewById(R.id.searchEditText);
+            searchEditText.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+//                    if (editable.toString().trim().isEmpty()) {
+//                        setProductAdapter(productList);
+//                        productSearched = false;
+//                    } else {
+//                        productSearched = true;
+//                        searchProductList.clear();
+//                        HashSet<Get_local_sell_product_response> searchSet = new HashSet<>();
+//                        for (int i = 0; i < productList.size(); i++) {
+//                            if (productList.get(i).getProduct_details().toLowerCase(Locale.ROOT).contains(editable.toString().trim().toLowerCase())) {
+//                                searchSet.add(productList.get(i));
+//                            }
+//                        }
+//
+//                        searchProductList.addAll(searchSet);
+//                        setProductAdapter(searchProductList);
+//
+//                    }
+                    productList = localSellProductsDao.getLocalSellProducts(editable.toString().trim());
+                    setProductAdapter(productList);
+                }
+            });
+
+
+        } else {
+            Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.no_product_found_for_local_sell), Toast.LENGTH_SHORT).show();
+        }
     }
 
 
@@ -689,72 +781,13 @@ public class Shop_local_sell_fragment extends Fragment {
                     localSellProductsDao.insertProducts(new LocalSellProducts(response.getId(), response.getProduct_details(), response.getPrice(), response.getBuy_price(), response.getImage()));
                 }
 
-               /* if (!productList.isEmpty()) {
-
-                    productDialog.show();
-                    Window window = productDialog.getWindow();
-                    WindowManager.LayoutParams wlp = window.getAttributes();
-                    wlp.gravity = Gravity.CENTER;
-                    wlp.width = android.view.WindowManager.LayoutParams.MATCH_PARENT;
-                    wlp.height = android.view.WindowManager.LayoutParams.WRAP_CONTENT;
-                    window.setAttributes(wlp);
-
-                    ImageView closeButton = productDialog.findViewById(R.id.closeButton);
-                    closeButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            productDialog.dismiss();
-                        }
-                    });
-
-
-                    setProductAdapter(productList);
-
-                    EditText searchEditText = productDialog.findViewById(R.id.searchEditText);
-                    searchEditText.addTextChangedListener(new TextWatcher() {
-                        @Override
-                        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                        }
-
-                        @Override
-                        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                        }
-
-                        @Override
-                        public void afterTextChanged(Editable editable) {
-                            if (editable.toString().trim().isEmpty()) {
-                                setProductAdapter(productList);
-                                productSearched = false;
-                            } else {
-                                productSearched = true;
-                                searchProductList.clear();
-                                HashSet<Get_local_sell_product_response> searchSet = new HashSet<>();
-                                for (int i = 0; i < productList.size(); i++) {
-                                    if (productList.get(i).getProduct_details().toLowerCase(Locale.ROOT).contains(editable.toString().trim().toLowerCase())) {
-                                        searchSet.add(productList.get(i));
-                                    }
-                                }
-
-                                searchProductList.addAll(searchSet);
-                                setProductAdapter(searchProductList);
-
-                            }
-                        }
-                    });
-
-
-                } else {
-                    Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.no_product_found_for_local_sell), Toast.LENGTH_SHORT).show();
-                }*/
             }
         });
     }
 
-    private void setProductAdapter(List<Get_local_sell_product_response> productList) {
+    private void setProductAdapter(List<LocalSellProducts> productList) {
         shopLocalSellSelectProductAdapter = new Shop_local_sell_select_product_adapter(productList);
-        //shopLocalSellSelectProductAdapter.setOnClickListener(Shop_local_sell_fragment.this::itemClick);
+        shopLocalSellSelectProductAdapter.setOnClickListener(Shop_local_sell_fragment.this::itemClick);
         productView.setAdapter(shopLocalSellSelectProductAdapter);
     }
 
@@ -765,14 +798,14 @@ public class Shop_local_sell_fragment extends Fragment {
 
                 shopSellPointRulesList = shopLocalSellPointResponses;
 
-                Collections.sort(shopSellPointRulesList, new Comparator<Shop_local_sell_point_response>() {
+/*                Collections.sort(shopSellPointRulesList, new Comparator<Shop_local_sell_point_response>() {
                     @Override
                     public int compare(Shop_local_sell_point_response t1, Shop_local_sell_point_response t2) {
                         return t1.amount.compareToIgnoreCase(t2.amount);
                     }
-                });
+                });*/
 //
-                Log.d("dataxx", String.valueOf(shopLocalSellPointResponses.size()));
+                //              Log.d("dataxx", String.valueOf(shopLocalSellPointResponses.size()));
                 for (int i = 0; i < shopSellPointRulesList.size(); i++) {
                     String pos = String.valueOf(i + 1);
                     pointsCriteriaText.append(
@@ -1101,7 +1134,7 @@ public class Shop_local_sell_fragment extends Fragment {
         builder.show();
     }
 
-//    @Override
+    //    @Override
 //    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 //        String item = String.valueOf(parent.getItemAtPosition(position));
 //
@@ -1121,28 +1154,19 @@ public class Shop_local_sell_fragment extends Fragment {
 //
 //    }
 //
-//    @Override
-//    public void itemClick(int position) {
-//        productDialog.dismiss();
-//
-//
-//        Get_local_sell_product_response product;
-//        if (productSearched) {
-//            product = searchProductList.get(position);
-//
-//        } else {
-//            product = productList.get(position);
-//
-//
-//        }
-//        imageList.add(product.getImage());
-//        selectImage.setVisibility(View.GONE);
-//        listImage.setVisibility(View.VISIBLE);
-//        setUIValue(product.getProduct_details(), product.getPrice(), product.getBuy_price());
-//        setImageAdapter(imageList);
-//
-//
-//    }
+    @Override
+    public void itemClick(int position) {
+        productDialog.dismiss();
+
+        LocalSellProducts product = productList.get(position);
+        imageList.add(product.getImage());
+        selectImage.setVisibility(View.GONE);
+        listImage.setVisibility(View.VISIBLE);
+        setUIValue(product.getName(), product.getSellPrice(), product.getBuyPrice());
+        setImageAdapter(imageList);
+
+
+    }
 
     @SuppressLint("SetTextI18n")
     public void setUIValue(String productDetails, String product_price, String buy_price) {
@@ -1198,6 +1222,7 @@ public class Shop_local_sell_fragment extends Fragment {
         adapter = new Shop_local_sell_image_list_adapter(imageList);
         imageRecyclerView.setAdapter(adapter);
     }
+
 
 //    @Override
 //    public void customerItemClick(int position) {

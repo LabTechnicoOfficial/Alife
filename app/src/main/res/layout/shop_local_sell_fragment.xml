@@ -175,9 +175,10 @@
                 android:background="@drawable/shape"
                 android:backgroundTint="@color/default_color"
                 android:clickable="true"
+                android:drawableEnd="@drawable/add_button"
+                android:drawableTint="@color/white"
                 android:focusable="true"
                 android:padding="5dp"
-                android:text="Select products"
                 android:textColor="@color/white"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -212,7 +213,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
                 android:layout_weight="1"
-                android:hint="@string/price"
+                android:hint="@string/sell_price"
                 app:boxStrokeColor="@color/black"
                 app:hintTextColor="@color/black">
 
