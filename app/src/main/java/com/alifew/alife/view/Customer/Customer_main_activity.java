@@ -23,12 +23,15 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +40,7 @@ import com.alifew.alife.R;
 import com.alifew.alife.Utils.Constants;
 import com.alifew.alife.Utils.Helpers;
 import com.alifew.alife.Utils.ImageHelper;
+import com.alifew.alife.model.CommonResponse;
 import com.alifew.alife.model.Customer_response;
 import com.alifew.alife.model.getUser_deviceToken_response;
 import com.alifew.alife.model.get_version_response;
@@ -203,16 +207,66 @@ public class Customer_main_activity extends AppCompatActivity implements Navigat
         customer_details.getdata(String.valueOf(userId)).observe(Customer_main_activity.this, new Observer<Customer_response>() {
             @Override
             public void onChanged(Customer_response customer_response) {
-                name = customer_response.getName();
-                ImageHelper.imageLoader(getApplicationContext(), imageView, customer_response.getImage());
-                profileName =  view.findViewById(R.id.profile_name);
-                profileName.setText(name);
+
+                ImageHelper.imageLoader(getApplicationContext(), imageView, customer_response.customerImage);
+                profileName = view.findViewById(R.id.profile_name);
+                profileName.setText(customer_response.customerName);
+
+                if (customer_response.referralCode.isEmpty()) {
+                    updateReferralCode();
+                }
             }
         });
 
         checkMultipleDeviceLogIN();
 
         getReviewInfo();
+    }
+
+    private void updateReferralCode() {
+        Dialog dialog = new Dialog(Customer_main_activity.this);
+        dialog.setContentView(R.layout.update_refer_code_alert);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.setCancelable(false);
+        dialog.show();
+
+        Window window = dialog.getWindow();
+        WindowManager.LayoutParams wlp = window.getAttributes();
+        wlp.gravity = Gravity.CENTER;
+        wlp.width = android.view.WindowManager.LayoutParams.MATCH_PARENT;
+        wlp.height = android.view.WindowManager.LayoutParams.WRAP_CONTENT;
+        window.setAttributes(wlp);
+
+        ImageView closeButton = dialog.findViewById(R.id.closeButton);
+        closeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        EditText referCodeEditText = dialog.findViewById(R.id.referCodeEditText);
+        AppCompatButton submitButton = dialog.findViewById(R.id.submitButton);
+
+        submitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (TextUtils.isEmpty(referCodeEditText.getText().toString().trim())) {
+                    Toast.makeText(Customer_main_activity.this, "empty field", Toast.LENGTH_SHORT).show();
+                } else {
+                    customer_details.addReferCode(String.valueOf(userId), referCodeEditText.getText().toString().trim()).observe(Customer_main_activity.this, new Observer<CommonResponse>() {
+                        @Override
+                        public void onChanged(CommonResponse commonResponse) {
+                            if (commonResponse.message.equals("Update successful")) {
+                                dialog.dismiss();
+                            }
+
+                            Toast.makeText(getApplicationContext(), commonResponse.message, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+        });
     }
 
     private void checkMultipleDeviceLogIN() {
@@ -285,6 +339,9 @@ public class Customer_main_activity extends AppCompatActivity implements Navigat
                 break;
             case R.id.rateButton:
                 startReviewFlow();
+                break;
+            case R.id.referButton:
+                getSupportFragmentManager().beginTransaction().replace(R.id.cus_frame_container, new CustomerReferFragment()).addToBackStack(null).commit();
                 break;
         }
 
@@ -583,7 +640,7 @@ public class Customer_main_activity extends AppCompatActivity implements Navigat
         alertDialog.setContentView(R.layout.update_app_alert);
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         alertDialog.setCancelable(false);
-      //  alertDialog.show();
+        //  alertDialog.show();
 
         Window window = alertDialog.getWindow();
         WindowManager.LayoutParams wlp = window.getAttributes();

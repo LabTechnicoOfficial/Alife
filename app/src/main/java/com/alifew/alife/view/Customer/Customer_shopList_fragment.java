@@ -62,6 +62,7 @@ import com.alifew.alife.model.image;
 import com.alifew.alife.model.normal_sell_details_response;
 import com.alifew.alife.model.systemetic_sell_details_response;
 import com.alifew.alife.model.unfollow_customer_shop_response;
+import com.alifew.alife.session.SessionManagement;
 import com.alifew.alife.viewmodel.Accept_cancle_shop_join_request;
 import com.alifew.alife.viewmodel.Customer_shopList;
 import com.alifew.alife.viewmodel.Fetch_shop;
@@ -133,6 +134,7 @@ public class Customer_shopList_fragment extends Fragment implements Customer_all
     private static final int REQUEST_CAMERA_PERMISSION = 201;
 
     Get_product getProductViewModel;
+    SessionManagement sessionManagement;
 
     public Customer_shopList_fragment(String customer_id) {
         this.customer_id = customer_id;

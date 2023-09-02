@@ -1,6 +1,7 @@
 package com.alifew.alife.model;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
@@ -12,17 +13,20 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class Customer_details_repositories {
-    String id;
+
     Customer_details_api customer_details;
     MutableLiveData<Customer_response> data;
     private static Customer_details_repositories customer_details_repositories;
-    protected void onSaveInstanceState(@NonNull Bundle outState)
-    {
+    MutableLiveData<CommonResponse> commonResponse;
+
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
 
     }
+
     public Customer_details_repositories() {
         //this.id = id;
         customer_details = ApiUtilize.get_Customer();
+        commonResponse = new MutableLiveData<>();
     }
 
     public synchronized static Customer_details_repositories getInstance() {
@@ -42,21 +46,39 @@ public class Customer_details_repositories {
             @Override
             public void onResponse(Call<Customer_response> call, Response<Customer_response> response) {
                 if (response.isSuccessful()) {
-                    Customer_response showresponse = response.body();
-                    data.postValue(showresponse);
+                    Log.d("dataxx", "success: " + response.body().customerName);
+                    data.postValue(response.body());
                 }
 
             }
 
             @Override
             public void onFailure(Call<Customer_response> call, Throwable t) {
-                //Toast.makeText(Shop_details_repositories.this,"something error.Try again",Toast.LENGTH_SHORT).show();
 
-                // idMessage.setValue(t.getMessage());
+                Log.d("dataxx", "onFailure: " + t.getMessage());
             }
 
 
         });
         return data;
+    }
+
+    public MutableLiveData<CommonResponse> addReferCode(String userID, String referCode) {
+        Call<CommonResponse> call = customer_details.addReferCode(userID, referCode);
+        call.enqueue(new Callback<CommonResponse>() {
+            @Override
+            public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
+                if (response.isSuccessful()) {
+                    commonResponse.postValue(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CommonResponse> call, Throwable t) {
+
+            }
+        });
+
+        return commonResponse;
     }
 }
