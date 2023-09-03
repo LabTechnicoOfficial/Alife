@@ -1,5 +1,6 @@
 package com.alifew.alife.model.points;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.alifew.alife.API.ApiUtilize;
@@ -90,5 +91,62 @@ public class Shop_local_sell_points_repository {
 
         return commonResponse;
 
+    }
+
+    public MutableLiveData<CommonResponse> addReferralPointForLocalSell(String shopID, String amount, String points) {
+
+        Call<CommonResponse> call = shopLocalSellPointsApi.addReferralPointForLocalSell(shopID, amount, points);
+        call.enqueue(new Callback<CommonResponse>() {
+            @Override
+            public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
+                if(response.isSuccessful()){
+                    commonResponse.postValue(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CommonResponse> call, Throwable t) {
+
+            }
+        });
+
+        return commonResponse;
+    }
+
+    public MutableLiveData<List<Shop_local_sell_point_response>> getShopLocalSellReferPoints(String shopID) {
+        Call<List<Shop_local_sell_point_response>> call = shopLocalSellPointsApi.getShopLocalSellReferPoints(shopID);
+        call.enqueue(new Callback<List<Shop_local_sell_point_response>>() {
+            @Override
+            public void onResponse(Call<List<Shop_local_sell_point_response>> call, Response<List<Shop_local_sell_point_response>> response) {
+                if (response.isSuccessful()) {
+                    localSellPointsList.postValue(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Shop_local_sell_point_response>> call, Throwable t) {
+
+            }
+        });
+        return localSellPointsList;
+    }
+
+    public MutableLiveData<CommonResponse> deleteLocalSellReferPoint(String id) {
+        Call<CommonResponse> call = shopLocalSellPointsApi.deleteLocalSellReferPoint(id);
+        call.enqueue(new Callback<CommonResponse>() {
+            @Override
+            public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
+                if (response.isSuccessful()) {
+                    commonResponse.postValue(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CommonResponse> call, Throwable t) {
+
+            }
+        });
+
+        return commonResponse;
     }
 }
