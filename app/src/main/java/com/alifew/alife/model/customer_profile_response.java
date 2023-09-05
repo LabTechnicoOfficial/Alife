@@ -13,6 +13,8 @@ public class customer_profile_response {
     public String customer01r_phone;
     @SerializedName("customer01r_image")
     public String customer01r_image;
+    @SerializedName("balance_point")
+    public String balance_point;
 
     public String getCustomer01r_name() {
         return customer01r_name;

@@ -90,15 +90,19 @@ public class CustomerReferFragment extends Fragment {
     public void shareReferCode() {
         String message = "Use this refer code- " + myReferCode;
 
-        try {
-            Intent shareIntent = new Intent(Intent.ACTION_SEND);
-            shareIntent.setType("text/plain");
-            shareIntent.putExtra(Intent.EXTRA_SUBJECT, getActivity().getApplicationContext().getResources().getString(R.string.app_name));
-            shareIntent.putExtra(Intent.EXTRA_TEXT, message);
-            shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(Intent.createChooser(shareIntent, "choose one"));
-        } catch (Exception e) {
-            Log.d("dataxx", "appShare: " + e.getMessage());
+        if(!myReferCode.isEmpty()){
+            try {
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.setType("text/plain");
+                shareIntent.putExtra(Intent.EXTRA_SUBJECT, getActivity().getApplicationContext().getResources().getString(R.string.app_name));
+                shareIntent.putExtra(Intent.EXTRA_TEXT, message);
+                shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(Intent.createChooser(shareIntent, "choose one"));
+            } catch (Exception e) {
+                Log.d("dataxx", "appShare: " + e.getMessage());
+            }
+        }else {
+            Toast.makeText(getActivity(), "No refer code to share", Toast.LENGTH_SHORT).show();
         }
     }
 }

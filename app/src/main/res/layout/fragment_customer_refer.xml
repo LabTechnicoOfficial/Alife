@@ -71,9 +71,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/_5sdp"
+            android:background="@drawable/border_shape"
             android:drawableEnd="@drawable/baseline_content_copy_24"
             android:drawablePadding="10dp"
             android:drawableTint="@color/black"
+            android:padding="@dimen/_5sdp"
             android:textColor="@color/black"
             android:textSize="@dimen/_14sdp" />
 

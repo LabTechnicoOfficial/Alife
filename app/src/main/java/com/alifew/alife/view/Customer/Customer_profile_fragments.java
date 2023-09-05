@@ -52,7 +52,7 @@ import static com.alifew.alife.R.layout.customer_profile_fragments;
 
 public class Customer_profile_fragments extends Fragment {
     SwipeRefreshLayout refresh;
-    TextView name, phone, address, saveChange;
+    TextView name, phone, address, saveChange, pointsText;
     ImageView editButton, closeButton;
     com.mikhaellopez.circularimageview.CircularImageView image;
     de.hdodenhof.circleimageview.CircleImageView imageEdit;
@@ -85,6 +85,7 @@ public class Customer_profile_fragments extends Fragment {
                 name.setText(customer_profile_response.getCustomer01r_name());
                 phone.setText(customer_profile_response.getCustomer01r_phone());
                 address.setText(customer_profile_response.getCustomer01r_address());
+                pointsText.setText(customer_profile_response.balance_point);
 
             }
         });
@@ -134,12 +135,12 @@ public class Customer_profile_fragments extends Fragment {
 
                         nameError.setErrorEnabled(false);
                         locationError.setErrorEnabled(false);
-                        if(TextUtils.isEmpty(name) || TextUtils.isEmpty(location)){
-                            if(TextUtils.isEmpty(name)){
+                        if (TextUtils.isEmpty(name) || TextUtils.isEmpty(location)) {
+                            if (TextUtils.isEmpty(name)) {
                                 nameError.setError(" ");
-                            }else if(TextUtils.isEmpty(location))
+                            } else if (TextUtils.isEmpty(location))
                                 locationError.setError(" ");
-                        }else{
+                        } else {
                             //edit code
 
                             Dialog alertCustom = new Dialog(getActivity());
@@ -156,8 +157,8 @@ public class Customer_profile_fragments extends Fragment {
                                 imgdata = imgToString(bitmap);
                             }
                             Update_customer update_customer;
-                            update_customer=new ViewModelProvider(getActivity()).get(Update_customer.class);
-                            update_customer.getData(String.valueOf(customer_id),name,location,imgdata,token).observe(getViewLifecycleOwner(), new Observer<update_customer_response>() {
+                            update_customer = new ViewModelProvider(getActivity()).get(Update_customer.class);
+                            update_customer.getData(String.valueOf(customer_id), name, location, imgdata, token).observe(getViewLifecycleOwner(), new Observer<update_customer_response>() {
                                 @Override
                                 public void onChanged(update_customer_response update_customer_response) {
                                     if (update_customer_response.getMessage().equals("Edited successfully")) {
@@ -185,6 +186,7 @@ public class Customer_profile_fragments extends Fragment {
         });
 
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -265,10 +267,11 @@ public class Customer_profile_fragments extends Fragment {
         address = (TextView) view.findViewById(R.id.locationID);
         editButton = (ImageView) view.findViewById(R.id.editButton);
         image = (com.mikhaellopez.circularimageview.CircularImageView) view.findViewById(R.id.profile_imageID);
-
+        pointsText = view.findViewById(R.id.pointsText);
 
         return view;
     }
+
     public void refreshFragment() {
         getActivity().getSupportFragmentManager().beginTransaction().detach(this).commitAllowingStateLoss();
         getActivity().getSupportFragmentManager().beginTransaction().attach(this).commitAllowingStateLoss();
