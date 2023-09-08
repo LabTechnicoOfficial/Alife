@@ -71,6 +71,33 @@
             android:textColor="@color/black"
             android:textSize="12sp" />
 
+        <TextView
+            android:id="@+id/referNameText"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="-"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/referPhoneText"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="-"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/referPointText"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="-"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+
     </LinearLayout>
 
 </LinearLayout>

@@ -28,6 +28,9 @@ public class shop_sell_history_list_response {
     @SerializedName("date")
     private String date;
 
+    @SerializedName("refer_info")
+    public ReferInfo referInfo;
+
     public String getProduct_id() {
         return product_id;
     }
@@ -122,6 +125,17 @@ public class shop_sell_history_list_response {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public class ReferInfo {
+
+        @SerializedName("name")
+        public String name;
+        @SerializedName("phone")
+        public String phone;
+        @SerializedName("point")
+        public String point;
+
     }
 }
 
