@@ -232,7 +232,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 sessionManagement.saveDeviceToken(deviceToken);
                 String id = shop_login_response.getId();
                 Log.d("dataxx", "onChanged: " + id);
-                if (id.equals("36")) {
+                if (id.equals("35")) {
                     token_update.shop_token_update(id, deviceToken).observe(LoginActivity.this, new Observer<token_update_response>() {
                         @Override
                         public void onChanged(token_update_response token_update_response) {
