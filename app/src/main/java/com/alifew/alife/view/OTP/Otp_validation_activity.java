@@ -1,6 +1,5 @@
 package com.alifew.alife.view.OTP;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.lifecycle.Observer;
@@ -24,13 +23,11 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.alifew.alife.R;
-import com.alifew.alife.Utils.Constants;
 import com.alifew.alife.model.customer_registration_response;
 import com.alifew.alife.model.token_update_response;
 import com.alifew.alife.model.update_shop_customer_record_response;
 import com.alifew.alife.view.Customer.Customer_main_activity;
 import com.alifew.alife.view.LoginActivity;
-import com.alifew.alife.view.Operator.Operator_main_activity;
 import com.alifew.alife.view.Registration.Register_activity;
 import com.alifew.alife.view.Shop.Shop_main_activity;
 import com.alifew.alife.viewmodel.Customer_registration;
@@ -40,9 +37,6 @@ import com.alifew.alife.viewmodel.SessionManagment_registration;
 import com.alifew.alife.viewmodel.Shop_registration;
 import com.alifew.alife.viewmodel.Token_update;
 import com.alifew.alife.viewmodel.User;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.onesignal.OneSignal;
 
 public class Otp_validation_activity extends AppCompatActivity implements TextWatcher {
 
@@ -73,9 +67,6 @@ public class Otp_validation_activity extends AppCompatActivity implements TextWa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sessionManagement = new SessionManagement(Otp_validation_activity.this);
-        int userId = sessionManagement.getSession();
-        String Type = sessionManagement.getType();
-        // String phone = sessionManagment.getPhone();
 
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 
@@ -108,7 +99,7 @@ public class Otp_validation_activity extends AppCompatActivity implements TextWa
         editText4 = (EditText) findViewById(R.id.editText4ID);
         editText5 = (EditText) findViewById(R.id.editText5ID);
 
-        backButton = (ImageView) findViewById(R.id.backButtonID);
+        backButton = (ImageView) findViewById(R.id.backButton);
 
         verifyButton = (AppCompatButton) findViewById(R.id.verifyButtonID);
 
@@ -241,7 +232,7 @@ public class Otp_validation_activity extends AppCompatActivity implements TextWa
         }
     }
 
-    private void shopTokenUpdate() {
+    private void resendOtpCode() {
 
 
     }

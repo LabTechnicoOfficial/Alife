@@ -137,7 +137,7 @@ public class Shop_admin_categories_fragment extends Fragment implements Shop_adm
 
         floatingActionButton = (ExtendedFloatingActionButton) view.findViewById(R.id.flaotingActionButtonID);
         categotyView = (RecyclerView) view.findViewById(R.id.categoryViewID);
-        backButton = (ImageView) view.findViewById(R.id.backButtonID);
+        backButton = (ImageView) view.findViewById(R.id.backButton);
         selectAllButton = (TextView) view.findViewById(R.id.selectAllID);
 
         fragmentManager = getFragmentManager();

@@ -81,7 +81,7 @@ public class Shop_register_activity extends AppCompatActivity implements View.On
         /*Bundle extras = getIntent().getExtras();
         type = extras.getString("key");*/
 
-        backButton = (ImageView) findViewById(R.id.backButtonID);
+        backButton = (ImageView) findViewById(R.id.backButton);
         profileImage = (ImageView) findViewById(R.id.profile_imageID);
         shopName = (TextInputEditText) findViewById(R.id.nameText);
         ownerName = (TextInputEditText) findViewById(R.id.ownerNameTextID);
@@ -127,7 +127,7 @@ public class Shop_register_activity extends AppCompatActivity implements View.On
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.backButtonID) {
+        if (v.getId() == R.id.backButton) {
             dialog.show();
             Intent intent = new Intent(this, Register_activity.class);
             startActivity(intent);
