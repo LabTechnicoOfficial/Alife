@@ -25,6 +25,11 @@
             android:title="Share Us" />
 
         <item
+            android:id="@+id/referButton"
+            android:icon="@drawable/ic_refer"
+            android:title="Refer" />
+
+        <item
             android:id="@+id/rateButton"
             android:icon="@drawable/baseline_thumb_up_24"
             android:title="Rate Us" />

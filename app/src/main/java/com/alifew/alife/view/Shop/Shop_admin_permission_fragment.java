@@ -82,7 +82,7 @@ public class Shop_admin_permission_fragment extends Fragment {
         adminNameText = (TextView) view.findViewById(R.id.adminNameID);
         adminPhoneText = (TextView) view.findViewById(R.id.adminPhoneID);
         accessCategoryText = (TextView) view.findViewById(R.id.accessCategoryID);
-        backButton = (ImageView) view.findViewById(R.id.backButtonID);
+        backButton = (ImageView) view.findViewById(R.id.backButton);
         radioGroup = (RadioGroup) view.findViewById(R.id.radioGroupID);
         submitButton = (AppCompatButton) view.findViewById(R.id.submitButton);
 

@@ -162,7 +162,7 @@ public class Admin_addmore_category_fragment extends Fragment implements Shop_ad
         checkConnection();
         floatingActionButton = (ExtendedFloatingActionButton) view.findViewById(R.id.flaotingActionButtonID);
         categotyView = (RecyclerView) view.findViewById(R.id.categoryViewID);
-        backButton = (ImageView) view.findViewById(R.id.backButtonID);
+        backButton = (ImageView) view.findViewById(R.id.backButton);
         selectAllButton = (TextView) view.findViewById(R.id.selectAllID);
         floatingActionButton.setText("Save");
 

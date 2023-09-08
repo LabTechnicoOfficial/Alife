@@ -16,10 +16,11 @@ public class customer_profile_repositories {
     customer_profile_api customer_profile;
     MutableLiveData<customer_profile_response> data;
     public static customer_profile_repositories customer_profile_repositories;
-    protected void onSaveInstanceState(@NonNull Bundle outState)
-    {
+
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
 
     }
+
     public customer_profile_repositories() {
         //this.id = id;
         customer_profile = ApiUtilize.customer_profile_response();

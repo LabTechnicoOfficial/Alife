@@ -39,6 +39,7 @@ import com.alifew.alife.adapter.local_sell_details_image_adapter;
 import com.alifew.alife.model.local_sell.local_sell_history_response;
 import com.alifew.alife.model.local_sell.local_sell_summary_response;
 import com.alifew.alife.model.shop_sell_history_list_response;
+import com.alifew.alife.session.SessionManagement;
 import com.alifew.alife.viewmodel.Local_sell.Get_local_sell;
 import com.alifew.alife.viewmodel.Shop_sell_history;
 import com.google.android.material.textfield.TextInputEditText;
@@ -86,9 +87,8 @@ public class Shop_local_sell_history_fragment extends Fragment implements Adapte
     int page1 = 1, page2 = 1, page3 = 1, limit = 15, end1 = 0, end2 = 0, end3 = 0;
     int select_type;
 
-    public Shop_local_sell_history_fragment(String shopID) {
-        this.shopID = shopID;
-    }
+    SessionManagement sessionManagement;
+
 
     private void main() {
         search.setText("");
@@ -591,38 +591,14 @@ public class Shop_local_sell_history_fragment extends Fragment implements Adapte
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.shop_local_sell_history_fragment, container, false);
 
-        totalSellPriceText = (TextView) view.findViewById(R.id.totalSellID);
-        totalBuyPriceText = (TextView) view.findViewById(R.id.totalBuyID);
-        totalProfitText = (TextView) view.findViewById(R.id.totalProfitID);
-
-        sellHistoryListView = (RecyclerView) view.findViewById(R.id.sellHistoryListID);
-
-        searchDate = (EditText) view.findViewById(R.id.dateEditID);
-        search = (EditText) view.findViewById(R.id.SearchID);
-        searchDateButton = (ImageView) view.findViewById(R.id.searchButtonID);
-        customSearchButton = (ImageView) view.findViewById(R.id.customSearchButtonID);
-
-        searchLayout = (LinearLayout) view.findViewById(R.id.searchLayoutID);
-        customSearchLayout = (LinearLayout) view.findViewById(R.id.customSearchLayoutID);
-
-        optionSpinner = (Spinner) view.findViewById(R.id.optionSpinnerID);
-
-        fromText = (TextInputEditText) view.findViewById(R.id.fromDateTextID);
-        toText = (TextInputEditText) view.findViewById(R.id.toDateTextID);
+        initView(view);
 
         ArrayAdapter optionAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_item, options);
         optionAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         optionSpinner.setAdapter(optionAdapter);
         optionSpinner.setOnItemSelectedListener(this);
 
-        sellHistoryListView.setHasFixedSize(true);
-        sellHistoryListView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        myCalendar = Calendar.getInstance();
-
-
-        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-        nestedScrollView = (NestedScrollView) view.findViewById(R.id.nestedRecyclerViewID);
         nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
             public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
@@ -651,6 +627,34 @@ public class Shop_local_sell_history_fragment extends Fragment implements Adapte
 
         main();
         return view;
+    }
+
+    private void initView(View view) {
+        sessionManagement = new SessionManagement(getActivity());
+        shopID = String.valueOf(sessionManagement.getSession());
+
+        totalSellPriceText = (TextView) view.findViewById(R.id.totalSellID);
+        totalBuyPriceText = (TextView) view.findViewById(R.id.totalBuyID);
+        totalProfitText = (TextView) view.findViewById(R.id.totalProfitID);
+        searchDate = (EditText) view.findViewById(R.id.dateEditID);
+        search = (EditText) view.findViewById(R.id.SearchID);
+        searchDateButton = (ImageView) view.findViewById(R.id.searchButtonID);
+        customSearchButton = (ImageView) view.findViewById(R.id.customSearchButtonID);
+        searchLayout = (LinearLayout) view.findViewById(R.id.searchLayoutID);
+        customSearchLayout = (LinearLayout) view.findViewById(R.id.customSearchLayoutID);
+        optionSpinner = (Spinner) view.findViewById(R.id.optionSpinnerID);
+        fromText = (TextInputEditText) view.findViewById(R.id.fromDateTextID);
+        toText = (TextInputEditText) view.findViewById(R.id.toDateTextID);
+
+        sellHistoryListView = (RecyclerView) view.findViewById(R.id.sellHistoryListID);
+        sellHistoryListView.setHasFixedSize(true);
+        sellHistoryListView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        myCalendar = Calendar.getInstance();
+
+        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+        nestedScrollView = (NestedScrollView) view.findViewById(R.id.nestedRecyclerViewID);
+
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.alifew.alife.adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +35,7 @@ public class Shop_coupon_package_adapter extends RecyclerView.Adapter<Shop_coupo
 
     @Override
     public void onBindViewHolder(@NonNull Shop_coupon_package_adapter.AppViewHolder holder, int position) {
+
         Package_response response = packagesList.get(position);
         holder.packageNameText.setText(response.getPackage_name());
         holder.sellAmountText.setText(response.getPackageSellAmount());
@@ -45,6 +47,8 @@ public class Shop_coupon_package_adapter extends RecyclerView.Adapter<Shop_coupo
         } else {
             holder.packageHistory.setText("প্যাকেজ হিস্ট্রি দেখুন");
         }
+
+      //  Log.d("dataxx", "onBindViewHolder: "+response.getMaximum_package_owner());
     }
 
     @Override

@@ -167,7 +167,6 @@ public class Shop_coupon_fragment extends Fragment implements Shop_coupon_adapte
                 shop_coupon_adapter = new Shop_coupon_adapter(couponList);
                 shop_coupon_adapter.setOnClickListener(Shop_coupon_fragment.this::OnItemClick, Shop_coupon_fragment.this::OnItemDelete, Shop_coupon_fragment.this::OnItemNotify);
                 couponView.setAdapter(shop_coupon_adapter);
-                // shop_coupon_adapter.setOnClickListener(Shop_coupon_fragment.this::OnItemClick);
             }
         });
     }

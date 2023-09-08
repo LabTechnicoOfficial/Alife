@@ -3,15 +3,12 @@ package com.alifew.alife.view.Registration;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 
 import com.alifew.alife.R;
-import com.alifew.alife.view.LoginActivity;
 import com.google.android.material.button.MaterialButtonToggleGroup;
 
 public class Register_activity extends AppCompatActivity implements View.OnClickListener {
@@ -27,7 +24,7 @@ public class Register_activity extends AppCompatActivity implements View.OnClick
         }
         setContentView(R.layout.register_activity);
 
-        backButton = (ImageView) findViewById(R.id.backButtonID);
+        backButton = (ImageView) findViewById(R.id.backButton);
 
         toggleButton = findViewById(R.id.toggleGroup);
 
@@ -51,7 +48,7 @@ public class Register_activity extends AppCompatActivity implements View.OnClick
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.backButtonID) {
+        if (v.getId() == R.id.backButton) {
             finish();
         }
     }

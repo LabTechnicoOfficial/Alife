@@ -42,7 +42,12 @@
         <item
             android:id="@+id/addPoint"
             android:icon="@drawable/ic_points"
-            android:title="Points" />
+            android:title="Sell Point" />
+
+        <item
+            android:id="@+id/referPointSetup"
+            android:icon="@drawable/ic_points"
+            android:title="Refer Point" />
 
         <item
             android:id="@+id/shareButton"

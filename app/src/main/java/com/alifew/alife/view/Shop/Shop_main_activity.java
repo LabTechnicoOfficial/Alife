@@ -13,7 +13,6 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -44,28 +43,21 @@ import android.widget.Toast;
 
 import com.alifew.alife.BuildConfig;
 import com.alifew.alife.Custom_Type.ProductSell;
-import com.alifew.alife.DB.AppDatabase;
-import com.alifew.alife.DB.InsertCustomerThread;
-import com.alifew.alife.DB.dao.CustomerDao;
-import com.alifew.alife.DB.entity.Customer;
 import com.alifew.alife.R;
 import com.alifew.alife.Utils.ImageHelper;
 import com.alifew.alife.adapter.Instruction_adapter;
 import com.alifew.alife.model.Shop_response;
 import com.alifew.alife.model.getUser_deviceToken_response;
-import com.alifew.alife.model.Get_shop_customer_response;
 import com.alifew.alife.model.get_version_response;
 import com.alifew.alife.model.shop_status_response;
 import com.alifew.alife.model.user_instruction_response;
 import com.alifew.alife.view.LoginActivity;
 import com.alifew.alife.viewmodel.Get_version;
 import com.alifew.alife.session.SessionManagement;
-import com.alifew.alife.viewmodel.ShopCustomerViewModel;
 import com.alifew.alife.viewmodel.Shop_details;
 import com.alifew.alife.viewmodel.Shop_status;
 import com.alifew.alife.viewmodel.User_deviceToken;
 import com.alifew.alife.viewmodel.User_instruction;
-import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -534,6 +526,9 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
                 break;
             case R.id.addPoint:
                 getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, new ShopPointFragment()).addToBackStack(null).commit();
+                break;
+            case R.id.referPointSetup:
+                getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, new ShopReferPointSetupFragment()).addToBackStack(null).commit();
                 break;
         }
         drawerLayout.closeDrawer(GravityCompat.START);

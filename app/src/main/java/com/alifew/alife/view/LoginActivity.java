@@ -130,8 +130,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                     String token = task.getResult();
                     deviceToken = token;
-//                    Log.d("FCM_TOKEN", token);
-//                    Toast.makeText(this, token, Toast.LENGTH_SHORT).show();
                 });
     }
 

@@ -37,7 +37,8 @@ public class Shop_local_sell_select_product_adapter extends RecyclerView.Adapter
     public void onBindViewHolder(@NonNull AppViewholder holder, int position) {
         LocalSellProducts response = productList.get(position);
         holder.product_name.setText(response.getName());
-        holder.product_price.setText(response.getSellPrice());
+        holder.product_price.setText(holder.itemView.getContext().getResources().getString(R.string.sell_price) + ": " +response.getSellPrice());
+        holder.buyPriceText.setText(holder.itemView.getContext().getResources().getString(R.string.buy_price) + ": " + response.getBuyPrice());
 
         ImageHelper.imageLoader(holder.itemView.getContext(), holder.product_image, response.getImage());
     }
@@ -56,7 +57,7 @@ public class Shop_local_sell_select_product_adapter extends RecyclerView.Adapter
     }
 
     public class AppViewholder extends RecyclerView.ViewHolder {
-        TextView product_name, product_price, product_unit, product_discount;
+        TextView product_name, product_price, buyPriceText, product_discount;
         ImageView product_image;
 
         public AppViewholder(@NonNull View itemView) {
@@ -64,6 +65,7 @@ public class Shop_local_sell_select_product_adapter extends RecyclerView.Adapter
             product_name = itemView.findViewById(R.id.productlabelID);
             product_image = itemView.findViewById(R.id.productImage);
             product_price = (TextView) itemView.findViewById(R.id.priceID);
+            buyPriceText = itemView.findViewById(R.id.buyPriceText);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

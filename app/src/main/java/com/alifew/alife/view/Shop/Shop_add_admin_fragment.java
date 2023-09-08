@@ -91,7 +91,7 @@ public class Shop_add_admin_fragment extends Fragment {
         passwordError = (TextInputLayout) view.findViewById(R.id.passwordErrorID);
         rePasswordError = (TextInputLayout) view.findViewById(R.id.rePasswordErrorID);
 
-        backButton = (ImageView) view.findViewById(R.id.backButtonID);
+        backButton = (ImageView) view.findViewById(R.id.backButton);
         nextButton = (AppCompatButton) view.findViewById(R.id.nextButtonID);
 
         adminImage.setOnClickListener(new View.OnClickListener() {

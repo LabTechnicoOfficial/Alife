@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_grey"
+    android:padding="10dp"
+    tools:context=".view.Customer.CustomerReferFragment">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="@dimen/_100sdp"
+        android:layout_height="@dimen/_100sdp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/refer_image"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/topLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintHeight_percent=".2"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imageView">
+
+        <TextView
+            android:id="@+id/myReferralCode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_5sdp"
+            android:background="@drawable/border_shape"
+            android:clickable="true"
+            android:drawableEnd="@drawable/baseline_content_copy_24"
+            android:drawablePadding="10dp"
+            android:drawableTint="@color/black"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:padding="@dimen/_5sdp"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_14sdp" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="My Refer Code"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_10sdp" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/userLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintHeight_percent=".2"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/topLayout">
+
+        <TextView
+            android:id="@+id/friendReferralCode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_5sdp"
+            android:background="@drawable/border_shape"
+            android:drawableEnd="@drawable/baseline_content_copy_24"
+            android:drawablePadding="10dp"
+            android:drawableTint="@color/black"
+            android:padding="@dimen/_5sdp"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_14sdp" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Used Refer Code"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_10sdp" />
+    </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/shareReferCode"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/_30sdp"
+        android:background="@drawable/shape"
+        android:backgroundTint="@color/default_color"
+        android:clickable="true"
+        android:drawableEnd="@drawable/baseline_share_24"
+        android:drawablePadding="@dimen/_10sdp"
+        android:drawableTint="@color/white"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:paddingStart="@dimen/_10sdp"
+        android:paddingEnd="@dimen/_10sdp"
+        android:text="Share My Refer code"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_10sdp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/userLayout" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

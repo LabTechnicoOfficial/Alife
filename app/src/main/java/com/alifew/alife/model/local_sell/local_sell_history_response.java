@@ -1,5 +1,6 @@
 package com.alifew.alife.model.local_sell;
 
+import com.alifew.alife.model.shop_sell_history_list_response;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
@@ -22,6 +23,9 @@ public class local_sell_history_response {
     private String date;
     @SerializedName("prduct_description")
     private String product_description;
+
+    @SerializedName("refer_info")
+    public ReferInfo referInfo;
     @SerializedName("image")
     private List<local_sell_image> image;
 
@@ -95,5 +99,16 @@ public class local_sell_history_response {
 
     public void setImage(List<local_sell_image> image) {
         this.image = image;
+    }
+
+    public class ReferInfo {
+
+        @SerializedName("name")
+        public String name;
+        @SerializedName("phone")
+        public String phone;
+        @SerializedName("point")
+        public String point;
+
     }
 }

@@ -45,6 +45,9 @@ public class Shop_local_sell_history_adapter extends RecyclerView.Adapter<Shop_l
         holder.buyPriceText.setText(response.getBuy_price());
         holder.profitText.setText(response.getProfit());
         holder.pointsText.setText(response.getPoints().isEmpty() ? "0.0" : response.getPoints());
+        holder.referNameText.setText(response.referInfo.name);
+        holder.referPhoneText.setText(response.referInfo.phone);
+        holder.referPointText.setText( response.referInfo.point);
     }
 
     @Override
@@ -53,7 +56,8 @@ public class Shop_local_sell_history_adapter extends RecyclerView.Adapter<Shop_l
     }
 
     public class AppViewHolder extends RecyclerView.ViewHolder {
-        TextView dateText, customerContactText, nameText, sellPriceText, buyPriceText, profitText, pointsText;
+        TextView dateText, customerContactText, nameText, sellPriceText, buyPriceText;
+        TextView  profitText, pointsText, referNameText, referPhoneText, referPointText;
 
         public AppViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -65,6 +69,9 @@ public class Shop_local_sell_history_adapter extends RecyclerView.Adapter<Shop_l
             buyPriceText = itemView.findViewById(R.id.buyPriceTextID);
             profitText = itemView.findViewById(R.id.profitTextID);
             pointsText = itemView.findViewById(R.id.pointsText);
+            referNameText = itemView.findViewById(R.id.referNameText);
+            referPhoneText = itemView.findViewById(R.id.referPhoneText);
+            referPointText = itemView.findViewById(R.id.referPointText);
         }
     }
 }

@@ -131,7 +131,7 @@ public class Shop_add_assistant_fragment extends Fragment implements Shop_add_as
         saveButton = (ExtendedFloatingActionButton) view.findViewById(R.id.saveButtonID);
         assistantView = (RecyclerView) view.findViewById(R.id.assistantViewID);
         selectButton = (TextView) view.findViewById(R.id.selectAllID);
-        backButton = (ImageView) view.findViewById(R.id.backButtonID);
+        backButton = (ImageView) view.findViewById(R.id.backButton);
         fragmentManager = getFragmentManager();
 
         assistantView.setHasFixedSize(true);
