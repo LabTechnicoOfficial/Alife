@@ -1,6 +1,7 @@
 package com.alifew.alife.API;
 
 import com.alifew.alife.model.*;
+import com.alifew.alife.model.logout.Logout_api;
 import com.alifew.alife.model.points.Shop_local_sell_points_api;
 import com.alifew.alife.model.slider.SliderApi;
 import com.alifew.alife.model.cupon.cupon_api;
@@ -724,6 +725,10 @@ public class ApiUtilize {
 
     public static Shop_local_sell_points_api shopLocalSellPointsApi() {
         return Retrofit_client.getClient(BASE_URL).create(Shop_local_sell_points_api.class);
+    }
+
+    public static Logout_api logoutApi() {
+        return Retrofit_client.getClient(BASE_URL).create(Logout_api.class);
     }
 
 }

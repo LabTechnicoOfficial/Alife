@@ -51,6 +51,7 @@ import com.alifew.alife.viewmodel.Get_version;
 import com.alifew.alife.session.SessionManagement;
 import com.alifew.alife.viewmodel.SessionManagment_registration;
 import com.alifew.alife.viewmodel.User_deviceToken;
+import com.alifew.alife.viewmodel.logout.LogOutViewModel;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.ads.admanager.AdManagerAdView;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -95,6 +96,7 @@ public class Customer_main_activity extends AppCompatActivity implements Navigat
 
     int userId;
     SessionManagement sessionManagement;
+    LogOutViewModel logOutViewModel;
 
     @SuppressLint("MissingPermission")
     protected void onStart() {
@@ -218,6 +220,8 @@ public class Customer_main_activity extends AppCompatActivity implements Navigat
             }
         });
 
+        logOutViewModel = new ViewModelProvider(this).get(LogOutViewModel.class);
+
         checkMultipleDeviceLogIN();
 
         getReviewInfo();
@@ -321,10 +325,8 @@ public class Customer_main_activity extends AppCompatActivity implements Navigat
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.log_out:
-                alertControl();
-                SessionManagement sessionManagement = new SessionManagement(Customer_main_activity.this);
-                sessionManagement.removeSession();
-                startActivity(new Intent(Customer_main_activity.this, LoginActivity.class));
+
+                logOutFunction();
                 break;
             case R.id.profile:
                 alertControl();
@@ -349,6 +351,24 @@ public class Customer_main_activity extends AppCompatActivity implements Navigat
         //close drawer
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void logOutFunction() {
+
+        alertControl();
+
+        logOutViewModel.customerLogout(customer_id).observe(this, new Observer<CommonResponse>() {
+            @Override
+            public void onChanged(CommonResponse commonResponse) {
+                if (commonResponse.message.equals("success")) {
+                    sessionManagement.removeSession();
+                    startActivity(new Intent(Customer_main_activity.this, LoginActivity.class));
+
+                } else {
+                    Toast.makeText(Customer_main_activity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     public void appShare() {
