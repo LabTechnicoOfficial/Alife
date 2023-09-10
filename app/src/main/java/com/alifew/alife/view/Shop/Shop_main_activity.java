@@ -75,7 +75,7 @@ import com.google.android.play.core.install.model.UpdateAvailability;
 import com.google.android.play.core.review.ReviewInfo;
 import com.google.android.play.core.review.ReviewManager;
 import com.google.android.play.core.review.ReviewManagerFactory;
-import com.google.firebase.analytics.FirebaseAnalytics;
+
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -122,7 +122,7 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
 
     int user;
 
-    private FirebaseAnalytics mFirebaseAnalytics;
+
     SessionManagement sessionManagement;
     BottomNavigationView bottomNavigationView;
 
@@ -419,7 +419,7 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         sessionManagement = new SessionManagement(this);
 
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
 
 
         statusdialog = new Dialog(Shop_main_activity.this);
