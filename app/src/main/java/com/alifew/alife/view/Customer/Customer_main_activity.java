@@ -329,11 +329,11 @@ public class Customer_main_activity extends AppCompatActivity implements Navigat
                 logOutFunction();
                 break;
             case R.id.profile:
-                alertControl();
+
                 getSupportFragmentManager().beginTransaction().replace(R.id.cus_frame_container, new Customer_profile_fragments()).addToBackStack(null).commit();
                 break;
             case R.id.shopListID:
-                alertControl();
+
                 getSupportFragmentManager().beginTransaction().replace(R.id.cus_frame_container, new Customer_shopList_fragment(customer_id)).addToBackStack(null).commit();
                 break;
             case R.id.shareButton:
@@ -355,7 +355,6 @@ public class Customer_main_activity extends AppCompatActivity implements Navigat
 
     private void logOutFunction() {
 
-        alertControl();
 
         logOutViewModel.customerLogout(customer_id).observe(this, new Observer<CommonResponse>() {
             @Override
@@ -363,6 +362,7 @@ public class Customer_main_activity extends AppCompatActivity implements Navigat
                 if (commonResponse.message.equals("success")) {
                     sessionManagement.removeSession();
                     startActivity(new Intent(Customer_main_activity.this, LoginActivity.class));
+                    finish();
 
                 } else {
                     Toast.makeText(Customer_main_activity.this, "Something went wrong", Toast.LENGTH_SHORT).show();

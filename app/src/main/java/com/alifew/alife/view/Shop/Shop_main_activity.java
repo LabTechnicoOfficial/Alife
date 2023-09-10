@@ -46,11 +46,13 @@ import com.alifew.alife.Custom_Type.ProductSell;
 import com.alifew.alife.R;
 import com.alifew.alife.Utils.ImageHelper;
 import com.alifew.alife.adapter.Instruction_adapter;
+import com.alifew.alife.model.CommonResponse;
 import com.alifew.alife.model.Shop_response;
 import com.alifew.alife.model.getUser_deviceToken_response;
 import com.alifew.alife.model.get_version_response;
 import com.alifew.alife.model.shop_status_response;
 import com.alifew.alife.model.user_instruction_response;
+import com.alifew.alife.view.Customer.Customer_main_activity;
 import com.alifew.alife.view.LoginActivity;
 import com.alifew.alife.viewmodel.Get_version;
 import com.alifew.alife.session.SessionManagement;
@@ -58,6 +60,7 @@ import com.alifew.alife.viewmodel.Shop_details;
 import com.alifew.alife.viewmodel.Shop_status;
 import com.alifew.alife.viewmodel.User_deviceToken;
 import com.alifew.alife.viewmodel.User_instruction;
+import com.alifew.alife.viewmodel.logout.LogOutViewModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -125,7 +128,7 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
 
     SessionManagement sessionManagement;
     BottomNavigationView bottomNavigationView;
-
+    LogOutViewModel logOutViewModel;
 
     @SuppressLint("MissingPermission")
     protected void onStart() {
@@ -420,8 +423,6 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
         sessionManagement = new SessionManagement(this);
 
 
-
-
         statusdialog = new Dialog(Shop_main_activity.this);
         statusdialog.setContentView(R.layout.inactive_status_alert);
         user_deviceToken = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(User_deviceToken.class);
@@ -459,6 +460,8 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
         shop_details = new ViewModelProvider(this).get(Shop_details.class);
 
         profileName = view.findViewById(R.id.profile_name);
+
+        logOutViewModel = new ViewModelProvider(this).get(LogOutViewModel.class);
     }
 
 
@@ -477,10 +480,7 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
         switch (item.getItemId()) {
             case R.id.log_out:
 
-                SessionManagement sessionManagement = new SessionManagement(Shop_main_activity.this);
-                sessionManagement.removeSession();
-                startActivity(new Intent(this, LoginActivity.class));
-                finish();
+                logOutFunction();
 
                 break;
             case R.id.categoryListID:
@@ -533,6 +533,23 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void logOutFunction() {
+
+        logOutViewModel.shopLogout(shop_id).observe(this, new Observer<CommonResponse>() {
+            @Override
+            public void onChanged(CommonResponse commonResponse) {
+                if (commonResponse.message.equals("success")) {
+                    sessionManagement.removeSession();
+                    startActivity(new Intent(Shop_main_activity.this, LoginActivity.class));
+                    finish();
+
+                } else {
+                    Toast.makeText(Shop_main_activity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     public void appShare() {
