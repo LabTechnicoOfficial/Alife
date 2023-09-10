@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "678338540390",
+    "project_id": "alife-e173b",
+    "storage_bucket": "alife-e173b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:678338540390:android:8c25d17597094af0c5cea7",
+        "android_client_info": {
+          "package_name": "com.alifew.alife"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2fIet-GWdHAmDVzJTj3X_TACgct8kRuk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
