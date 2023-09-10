@@ -5,6 +5,7 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +13,7 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -20,9 +22,11 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alifew.alife.R;
+import com.alifew.alife.model.OTP_response;
 import com.alifew.alife.model.customer_registration_response;
 import com.alifew.alife.model.token_update_response;
 import com.alifew.alife.model.update_shop_customer_record_response;
@@ -33,10 +37,13 @@ import com.alifew.alife.view.Shop.Shop_main_activity;
 import com.alifew.alife.viewmodel.Customer_registration;
 import com.alifew.alife.viewmodel.Last_logintime;
 import com.alifew.alife.session.SessionManagement;
+import com.alifew.alife.viewmodel.OTP;
 import com.alifew.alife.viewmodel.SessionManagment_registration;
 import com.alifew.alife.viewmodel.Shop_registration;
 import com.alifew.alife.viewmodel.Token_update;
 import com.alifew.alife.viewmodel.User;
+
+import java.util.Random;
 
 public class Otp_validation_activity extends AppCompatActivity implements TextWatcher {
 
@@ -56,6 +63,10 @@ public class Otp_validation_activity extends AppCompatActivity implements TextWa
     String deviceToken;
     SessionManagement sessionManagement;
 
+    TextView sendAgainButton, timeText;
+
+    OTP otpViewModel;
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -71,7 +82,6 @@ public class Otp_validation_activity extends AppCompatActivity implements TextWa
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 
         setContentView(R.layout.otp_validation_activity);
-        SessionManagement sessionManagement1 = new SessionManagement(this);
 
         SessionManagment_registration sessionManagment_registration = new SessionManagment_registration(Otp_validation_activity.this);
 
@@ -115,8 +125,6 @@ public class Otp_validation_activity extends AppCompatActivity implements TextWa
         loader.setContentView(R.layout.loader);
         loader.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         loader.setCancelable(false);
-
-        Toast.makeText(this, otp, Toast.LENGTH_SHORT).show();
 
         deviceToken = sessionManagement.getDeviceToken();
         Log.d("dataxx", "otpcheckMultipleDeviceLogIN: " + password + " " + deviceToken);
@@ -166,8 +174,41 @@ public class Otp_validation_activity extends AppCompatActivity implements TextWa
             }
         });
 
+        timeText = findViewById(R.id.timerText);
+        sendAgainButton = findViewById(R.id.sendAgainButton);
+        otpViewModel = new ViewModelProvider(this).get(OTP.class);
+
+        startCountDown();
+
+        sendAgainButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resendOtpCode();
+            }
+        });
+
     }
 
+    private void startCountDown() {
+
+        Toast.makeText(this, otp, Toast.LENGTH_SHORT).show();
+        sendAgainButton.setVisibility(View.GONE);
+        new CountDownTimer(60000, 1000) {
+
+            @SuppressLint("SetTextI18n")
+            public void onTick(long millisUntilFinished) {
+                Log.d("dataxx", "seconds remaining: " + millisUntilFinished / 1000);
+                timeText.setText("You can resend OTP after " + millisUntilFinished / 1000 + " seconds");
+            }
+
+            @SuppressLint("SetTextI18n")
+            public void onFinish() {
+                timeText.setText("You can resend OTP");
+                sendAgainButton.setVisibility(View.VISIBLE);
+                //startCountDown();
+            }
+        }.start();
+    }
 
 
     private void back_function() {
@@ -233,7 +274,23 @@ public class Otp_validation_activity extends AppCompatActivity implements TextWa
     }
 
     private void resendOtpCode() {
+        Random r = new Random();
+        int ran = r.nextInt(99999 - 10000 + 1) + 10000;
+        String random_otp = String.valueOf(ran);
+        otpViewModel.getStatus(phone, "Your " + type + " login OTP code is -" + random_otp + " " + ". Powered by ALIFE.").observe(Otp_validation_activity.this, new Observer<OTP_response>() {
+            @Override
+            public void onChanged(OTP_response otp_response) {
 
+                if (otp_response.getStatus().equals("queued")) {
+                    Toast.makeText(Otp_validation_activity.this, "OTP code successfully send to the phone.", Toast.LENGTH_SHORT).show();
+                    otp = random_otp;
+                    startCountDown();
+
+                } else {
+                    Toast.makeText(Otp_validation_activity.this, otp_response.getStatus(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
     }
 
