@@ -102,46 +102,14 @@
         <activity
             android:name="com.google.android.play.core.common.PlayCoreDialogWrapperActivity"
             android:exported="false" />
-
         <service
-            android:name=".Firebase.FirebaseService"
-            android:directBootAware="true"
+            android:name=".Firebase.MyFirebaseMessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/bell_icon" />
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_color"
-            android:resource="@color/purple_700" />
-        <meta-data
-            android:name="com.google.firebase.default_notification_channel"
-            android:value="@string/default_notification_channel_id" />
-        <service
-            android:name="com.google.firebase.components.ComponentDiscoveryService"
-            android:directBootAware="true"
-            android:exported="false"
-            tools:targetApi="n">
-
-            <meta-data
-                android:name="com.google.firebase.components:com.google.firebase.messaging.FirebaseMessagingRegistrar"
-                android:value="com.google.firebase.components.ComponentRegistrar" />
-
-            <meta-data
-                android:name="com.google.firebase.components:com.google.firebase.installations.FirebaseInstallationsRegistrar"
-                android:value="com.google.firebase.components.ComponentRegistrar" />
-        </service>
-
-
-        <!-- <service -->
-        <!-- android:name="androidx.work.impl.foreground.SystemForegroundService" -->
-        <!-- android:exported="true" -->
-        <!-- tools:replace="android:exported" -->
-        <!-- android:foregroundServiceType="location|camera|microphone" /> -->
         <receiver
             android:name=".view.OTP.OTP_Receiver"
             android:exported="true"
