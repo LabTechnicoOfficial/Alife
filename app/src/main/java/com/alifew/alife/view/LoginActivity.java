@@ -297,7 +297,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 sessionManagement.saveDeviceToken(deviceToken);
 
                 if (id.equals("457")) {
-                    token_update.shop_token_update(id, deviceToken).observe(LoginActivity.this, new Observer<token_update_response>() {
+                    token_update.customer_token_update(id, deviceToken).observe(LoginActivity.this, new Observer<token_update_response>() {
                         @Override
                         public void onChanged(token_update_response token_update_response) {
                             if (token_update_response.getMessage().equals("Update successfully")) {

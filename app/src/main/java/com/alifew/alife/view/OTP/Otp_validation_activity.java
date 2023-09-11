@@ -248,7 +248,7 @@ public class Otp_validation_activity extends AppCompatActivity implements TextWa
 
         } else if (user_type.equals("customer")) {
             message = "no";
-            token_update.shop_token_update(password, deviceToken).observe(Otp_validation_activity.this, new Observer<token_update_response>() {
+            token_update.customer_token_update(password, deviceToken).observe(Otp_validation_activity.this, new Observer<token_update_response>() {
                 @Override
                 public void onChanged(token_update_response token_update_response) {
                     if (token_update_response.getMessage().equals("Update successfully")) {
