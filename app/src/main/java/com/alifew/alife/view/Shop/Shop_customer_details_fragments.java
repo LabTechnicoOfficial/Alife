@@ -483,7 +483,7 @@ public class Shop_customer_details_fragments extends Fragment implements shop_cu
                             normal_sell = new ViewModelProvider(getActivity()).get(Normal_sell.class);
                             //Toast.makeText(getActivity(),date,Toast.LENGTH_SHORT).show();
 
-                            product_sell.sell(shop_id, customer_id, customer_name, customer_contact, totalPrice, "0","0", "0", "0", "normally", date).observe(getViewLifecycleOwner(), new Observer<add_product_sell_response>() {
+                            product_sell.sell(shop_id, customer_id, customer_name, customer_contact, totalPrice, "0","0", "0", "0", "normally", date, true).observe(getViewLifecycleOwner(), new Observer<add_product_sell_response>() {
                                 @Override
                                 public void onChanged(add_product_sell_response add_product_sell_response) {
                                     if (!(add_product_sell_response.getSell_id().equals("failed") || add_product_sell_response.equals(null))) {

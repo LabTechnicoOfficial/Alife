@@ -18,7 +18,8 @@ public interface add_product_sell_api {
                                                      @Field("sell_type") String sell_type,
                                                      @Field("date") String date,
                                                      @Field("due_price") String duePrice,
-                                                     @Field("points") String points);
+                                                     @Field("points") String points,
+                                                     @Field("due_check") Boolean dueCheck);
 
 
 }

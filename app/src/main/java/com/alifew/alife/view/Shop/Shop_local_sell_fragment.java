@@ -36,6 +36,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -134,8 +135,6 @@ public class Shop_local_sell_fragment extends Fragment implements Shop_local_sel
     String customer_id, customer_name;
     private static final int PICK_IMAGE_REQUEST = 1, CAMERA_REQUEST = 1;
     static int check;
-    int state;
-    String imgdata;
     final int IMAGE_REQUEST_CODE = 999;
     String sell_id, image;
     LinearLayout addProductsButton;
@@ -175,6 +174,7 @@ public class Shop_local_sell_fragment extends Fragment implements Shop_local_sel
     ShopCustomerViewModel shopCustomerViewModel;
     LocalSellProductsDao localSellProductsDao;
     AppCompatButton calculateButton;
+    CheckBox dueCheckBox;
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -279,12 +279,6 @@ public class Shop_local_sell_fragment extends Fragment implements Shop_local_sel
         select_phone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-/*                getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(
-                        R.anim.slide_in,  // enter
-                        R.anim.fade_out,  // exit
-                        R.anim.fade_in,   // popEnter
-                        R.anim.slide_out  // popExit
-                ).replace(R.id.frame_container, new Shop_local_sell_select_customer_phone_fragment()).addToBackStack(null).commit();*/
 
                 loadContacts();
 
@@ -307,7 +301,7 @@ public class Shop_local_sell_fragment extends Fragment implements Shop_local_sel
             @Override
             public void onClick(View v) {
                 ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA}, IMAGE_REQUEST_CODE);
-                imageselect();
+                imageSelect();
             }
         });
 
@@ -482,18 +476,13 @@ public class Shop_local_sell_fragment extends Fragment implements Shop_local_sel
     private void calculateButtonFunc(String product_price, String paid_price, String buy_price) {
         try {
             productPrice = Double.parseDouble(product_price);
-/*           productPriceText.setText(product_price);
-           paidPriceText.setText(paid_price);
-
-           buyPrice = Double.parseDouble(buy_price);
-           buyPriceText.setText(buy_price);*/
 
             Double profit = Double.parseDouble(productPriceText.getText().toString().trim()) - Double.parseDouble(buyPriceText.getText().toString().trim());
             profitText.setText(String.valueOf(profit));
 
             duePrice = Double.parseDouble(productPriceText.getText().toString().trim()) - Double.parseDouble(paidPriceText.getText().toString().trim());
 
-            duePriceText.setText(getString(R.string.due) + ": " + String.valueOf(duePrice));
+            duePriceText.setText(getString(R.string.discount) + ": " + String.valueOf(duePrice));
             check = 2;
 
             pointsCalculation(productPrice);
@@ -571,7 +560,7 @@ public class Shop_local_sell_fragment extends Fragment implements Shop_local_sel
         contactView.setLayoutManager(new LinearLayoutManager(getActivity()));
         pointsText = view.findViewById(R.id.pointsText);
 
-        duePriceText.setText(getString(R.string.due) + ": " + String.valueOf(0.0));
+        duePriceText.setText(getString(R.string.discount) + ": " + String.valueOf(0.0));
 
         productView = productDialog.findViewById(R.id.productView);
         productView.setHasFixedSize(true);
@@ -581,7 +570,7 @@ public class Shop_local_sell_fragment extends Fragment implements Shop_local_sel
         productsAutoCompleteText = view.findViewById(R.id.productsAutoCompleteText);
         closeButton = view.findViewById(R.id.closeButton);
         rulesLayout = view.findViewById(R.id.rulesLayout);
-
+        dueCheckBox = view.findViewById(R.id.dueCheckBox);
     }
 
 
@@ -700,7 +689,7 @@ public class Shop_local_sell_fragment extends Fragment implements Shop_local_sel
                 if (s.toString().trim().isEmpty()) {
                     //     clearAllData();
                     duePrice = 0.0;
-                    duePriceText.setText(getActivity().getResources().getString(R.string.due) + ": " + duePrice);
+                    duePriceText.setText(getActivity().getResources().getString(R.string.discount) + ": " + duePrice);
                     profitText.setText("");
                     paidPriceText.setText("");
                     buyPriceText.setText("");
@@ -974,13 +963,16 @@ public class Shop_local_sell_fragment extends Fragment implements Shop_local_sel
     }
 
     private void sell(String productDetails, String productPrice, String paidPrice, String phone) {
+
+      //  Toast.makeText(getActivity(), String.valueOf(dueCheckBox.isChecked()), Toast.LENGTH_SHORT).show();
+
         product_sell = new ViewModelProvider(getActivity()).get(Product_sell.class);
         product_sell_payment = new ViewModelProvider(getActivity()).get(Product_sell_payment.class);
         add_local_sell = new ViewModelProvider(getActivity()).get(Add_local_sell.class);
         product_sell.sell(shopID, customer_id, customer_name, customerSearchEditText.getText().toString().trim(), productPrice,
                 buyPriceText.getText().toString().trim(),
                 String.valueOf(duePrice),
-                String.valueOf(sellPoint), "0", "local", "cc").observe(getViewLifecycleOwner(), new Observer<add_product_sell_response>() {
+                String.valueOf(sellPoint), "0", "local", "cc", dueCheckBox.isChecked()).observe(getViewLifecycleOwner(), new Observer<add_product_sell_response>() {
             @Override
             public void onChanged(add_product_sell_response add_product_sell_response) {
                 if (!add_product_sell_response.getSell_id().equals("failed")) {
@@ -1094,12 +1086,10 @@ public class Shop_local_sell_fragment extends Fragment implements Shop_local_sel
     private String imgToString(Bitmap bitmap) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
-        byte[] imgbytes = byteArrayOutputStream.toByteArray();
-        String encodeimg = Base64.encodeToString(imgbytes, Base64.DEFAULT);
-        return encodeimg;
+        return Base64.encodeToString(byteArrayOutputStream.toByteArray(), Base64.DEFAULT);
     }
 
-    public void imageselect() {
+    public void imageSelect() {
         final CharSequence[] items = {"Camera", "Gallery", "Cancel"};
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Add Image");
@@ -1123,26 +1113,6 @@ public class Shop_local_sell_fragment extends Fragment implements Shop_local_sel
         builder.show();
     }
 
-    //    @Override
-//    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//        String item = String.valueOf(parent.getItemAtPosition(position));
-//
-//        ((TextView) view).setVisibility(View.GONE);
-//        productDetailsText.setText(item);
-//        productPriceText.setText(productList.get(position).getPrice());
-//        if (!productList.get(position).getImage().equals("")) {
-//            ImageHelper.imageLoader(getActivity(), productImage, productList.get(position).getImage());
-//            check = 2;
-//            image = productList.get(position).getImage();
-//        }
-//
-//    }
-//
-//    @Override
-//    public void onNothingSelected(AdapterView<?> parent) {
-//
-//    }
-//
     @Override
     public void itemClick(int position) {
         productDialog.dismiss();
@@ -1153,9 +1123,6 @@ public class Shop_local_sell_fragment extends Fragment implements Shop_local_sel
         listImage.setVisibility(View.VISIBLE);
         setUIValue(product.getName(), product.getSellPrice(), product.getBuyPrice());
         setImageAdapter(imageList);
-        Log.d("dataxx", "itemClick: "+String.valueOf(imageList.size()));
-
-
     }
 
     @SuppressLint("SetTextI18n")
@@ -1173,7 +1140,7 @@ public class Shop_local_sell_fragment extends Fragment implements Shop_local_sel
 
         duePrice = Double.parseDouble(productPriceText.getText().toString().trim()) - Double.parseDouble(paidPriceText.getText().toString().trim());
 
-        duePriceText.setText(getString(R.string.due) + ": " + String.valueOf(duePrice));
+        duePriceText.setText(getString(R.string.discount) + ": " + String.valueOf(duePrice));
         check = 2;
 
         pointsCalculation(productPrice);

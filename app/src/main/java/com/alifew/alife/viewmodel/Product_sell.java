@@ -12,10 +12,10 @@ import com.alifew.alife.model.update_product_type_by_sell_response;
 public class Product_sell extends ViewModel {
     private product_sell_repositories repositories;
 
-    public LiveData<add_product_sell_response> sell(String shop_id, String customer_id, String customer_name, String customer_phone, String price, String buy_price, String duePrice, String points, String selled_by, String sell_type, String date) {
+    public LiveData<add_product_sell_response> sell(String shop_id, String customer_id, String customer_name, String customer_phone, String price, String buy_price, String duePrice, String points, String selled_by, String sell_type, String date, Boolean dueCheck) {
         //repositories=new product_sell_repositories(shop_id,customer_id,customer_name,customer_phone,price,buy_price,selled_by,sell_type,date);
         //return repositories.getData_sell_product();
-        return product_sell_repositories.getInstance().getData_sell_product(shop_id, customer_id, customer_name, customer_phone, price, buy_price, duePrice, points, selled_by, sell_type, date);
+        return product_sell_repositories.getInstance().getData_sell_product(shop_id, customer_id, customer_name, customer_phone, price, buy_price, duePrice, points, selled_by, sell_type, date,  dueCheck);
     }
 
     public LiveData<add_sell_details_response> sell_details(String sell_id, String product_id, String product_name, String product_image, String type_id, String product_amount, String price, String buy_price) {
