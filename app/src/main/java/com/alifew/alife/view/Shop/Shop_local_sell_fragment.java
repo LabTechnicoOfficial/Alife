@@ -236,14 +236,12 @@ public class Shop_local_sell_fragment extends Fragment implements Shop_local_sel
                     buyPriceText.setText("");
                     paidPriceText.setText("");
                     productPriceText.setText("");
+                    profitText.setText("");
+                    pointsText.setText("");
                     sellPoint = 0.0;
                     duePrice = 0.0;
-                    setPointText(sellPoint, productPriceText.getText().toString().trim());
-                    imageList.clear();
-                    setImageAdapter(imageList);
-
-                    profitText.setText("");
-
+                    productPrice = 0.0;
+                    buyPrice = 0.0;
                 }
             }
         });
@@ -328,6 +326,7 @@ public class Shop_local_sell_fragment extends Fragment implements Shop_local_sel
                     customer_exist_check = new ViewModelProvider(getActivity()).get(Customer_exist_check.class);
                     shop_customer = new ViewModelProvider(getActivity()).get(ShopCustomerViewModel.class);
                     push_notification = new ViewModelProvider(getActivity()).get(Push_notification.class);
+                    loader.show();
                     customer_exist_check.getData(phone).observe(getViewLifecycleOwner(), new Observer<customer_exist_check_response>() {
                         @Override
                         public void onChanged(customer_exist_check_response customer_exist_check_response) {
@@ -628,23 +627,6 @@ public class Shop_local_sell_fragment extends Fragment implements Shop_local_sel
 
                 @Override
                 public void afterTextChanged(Editable editable) {
-//                    if (editable.toString().trim().isEmpty()) {
-//                        setProductAdapter(productList);
-//                        productSearched = false;
-//                    } else {
-//                        productSearched = true;
-//                        searchProductList.clear();
-//                        HashSet<Get_local_sell_product_response> searchSet = new HashSet<>();
-//                        for (int i = 0; i < productList.size(); i++) {
-//                            if (productList.get(i).getProduct_details().toLowerCase(Locale.ROOT).contains(editable.toString().trim().toLowerCase())) {
-//                                searchSet.add(productList.get(i));
-//                            }
-//                        }
-//
-//                        searchProductList.addAll(searchSet);
-//                        setProductAdapter(searchProductList);
-//
-//                    }
                     productList = localSellProductsDao.getLocalSellProducts(editable.toString().trim());
                     setProductAdapter(productList);
                 }
@@ -716,9 +698,9 @@ public class Shop_local_sell_fragment extends Fragment implements Shop_local_sel
             @Override
             public void afterTextChanged(Editable s) {
                 if (s.toString().trim().isEmpty()) {
-                    //clearAllData();
+                    //     clearAllData();
                     duePrice = 0.0;
-                    duePriceText.setText(getActivity().getResources().getString(R.string.due)+": "+duePrice);
+                    duePriceText.setText(getActivity().getResources().getString(R.string.due) + ": " + duePrice);
                     profitText.setText("");
                     paidPriceText.setText("");
                     buyPriceText.setText("");
@@ -855,15 +837,6 @@ public class Shop_local_sell_fragment extends Fragment implements Shop_local_sel
             public void onChanged(List<Shop_local_sell_point_response> shopLocalSellPointResponses) {
 
                 shopSellPointRulesList = shopLocalSellPointResponses;
-
-/*                Collections.sort(shopSellPointRulesList, new Comparator<Shop_local_sell_point_response>() {
-                    @Override
-                    public int compare(Shop_local_sell_point_response t1, Shop_local_sell_point_response t2) {
-                        return t1.amount.compareToIgnoreCase(t2.amount);
-                    }
-                });*/
-//
-                //              Log.d("dataxx", String.valueOf(shopLocalSellPointResponses.size()));
                 for (int i = 0; i < shopSellPointRulesList.size(); i++) {
                     String pos = String.valueOf(i + 1);
                     pointsCriteriaText.append(
@@ -1030,20 +1003,9 @@ public class Shop_local_sell_fragment extends Fragment implements Shop_local_sel
                                                                 add_local_sell.addImage(sell_id, image, check).observe(getViewLifecycleOwner(), new Observer<add_local_sell_image_response>() {
                                                                     @Override
                                                                     public void onChanged(add_local_sell_image_response add_local_sell_image_response) {
-                                                                        push_notification.sell_notification_customer(shopID, customer_id, productPrice, String.valueOf(Double.parseDouble(productPrice) - Double.parseDouble(paidPrice))).observe(getViewLifecycleOwner(), new Observer<push_notification_response>() {
-                                                                            @Override
-                                                                            public void onChanged(push_notification_response push_notification_response) {
-                                                                                push_notification.sell_notification_shop(shopID, phone, productPrice, String.valueOf(Double.parseDouble(productPrice) - Double.parseDouble(paidPrice))).observe(getViewLifecycleOwner(), new Observer<com.alifew.alife.model.push_notification_response>() {
-                                                                                    @Override
-                                                                                    public void onChanged(com.alifew.alife.model.push_notification_response push_notification_response) {
-                                                                                        loader.dismiss();
-                                                                                        Toast.makeText(getActivity(), "Sell Successfully", Toast.LENGTH_SHORT).show();
-                                                                                        clearAllData();
-                                                                                        convert_pdf();
-                                                                                    }
-                                                                                });
-                                                                            }
-                                                                        });
+                                                                        loader.dismiss();
+                                                                        Toast.makeText(getActivity(), "Sell Successfully", Toast.LENGTH_SHORT).show();
+                                                                        clearAllData();
                                                                     }
                                                                 });
 
@@ -1055,20 +1017,10 @@ public class Shop_local_sell_fragment extends Fragment implements Shop_local_sel
                                                                             @Override
                                                                             public void onChanged(add_local_sell_image_response add_local_sell_image_response) {
                                                                                 if (loopItem == imageList.size() - 1) {
-                                                                                    push_notification.sell_notification_customer(shopID, customer_id, productPrice, String.valueOf(Double.parseDouble(productPrice) - Double.parseDouble(paidPrice))).observe(getViewLifecycleOwner(), new Observer<push_notification_response>() {
-                                                                                        @Override
-                                                                                        public void onChanged(push_notification_response push_notification_response) {
-                                                                                            push_notification.sell_notification_shop(shopID, phone, productPrice, String.valueOf(Double.parseDouble(productPrice) - Double.parseDouble(paidPrice))).observe(getViewLifecycleOwner(), new Observer<com.alifew.alife.model.push_notification_response>() {
-                                                                                                @Override
-                                                                                                public void onChanged(com.alifew.alife.model.push_notification_response push_notification_response) {
-                                                                                                    loader.dismiss();
-                                                                                                    Toast.makeText(getActivity(), "Sell Successfully", Toast.LENGTH_SHORT).show();
-                                                                                                    convert_pdf();
-                                                                                                    clearAllData();
-                                                                                                }
-                                                                                            });
-                                                                                        }
-                                                                                    });
+                                                                                    loader.dismiss();
+                                                                                    Toast.makeText(getActivity(), "Sell Successfully", Toast.LENGTH_SHORT).show();
+                                                                                    convert_pdf();
+                                                                                    clearAllData();
 
                                                                                 }
                                                                             }
@@ -1076,41 +1028,19 @@ public class Shop_local_sell_fragment extends Fragment implements Shop_local_sel
 
                                                                     }
                                                                 } else {
-                                                                    push_notification.sell_notification_customer(shopID, customer_id, productPrice, String.valueOf(Double.parseDouble(productPrice) - Double.parseDouble(paidPrice))).observe(getViewLifecycleOwner(), new Observer<push_notification_response>() {
-                                                                        @Override
-                                                                        public void onChanged(push_notification_response push_notification_response) {
-                                                                            push_notification.sell_notification_shop(shopID, phone, productPrice, String.valueOf(Double.parseDouble(productPrice) - Double.parseDouble(paidPrice))).observe(getViewLifecycleOwner(), new Observer<com.alifew.alife.model.push_notification_response>() {
-                                                                                @Override
-                                                                                public void onChanged(com.alifew.alife.model.push_notification_response push_notification_response) {
-                                                                                    loader.dismiss();
-                                                                                    Toast.makeText(getActivity(), "Sell Successfully", Toast.LENGTH_SHORT).show();
-                                                                                    //convert_pdf();
-                                                                                    clearAllData();
-
-                                                                                }
-                                                                            });
-                                                                        }
-                                                                    });
+                                                                    loader.dismiss();
+                                                                    Toast.makeText(getActivity(), "Sell Successfully", Toast.LENGTH_SHORT).show();
+                                                                    //convert_pdf();
+                                                                    clearAllData();
 
                                                                 }
                                                             }
 
                                                         } else {
-                                                            push_notification.sell_notification_customer(shopID, customer_id, productPrice, String.valueOf(Double.parseDouble(productPrice) - Double.parseDouble(paidPrice))).observe(getViewLifecycleOwner(), new Observer<push_notification_response>() {
-                                                                @Override
-                                                                public void onChanged(push_notification_response push_notification_response) {
-                                                                    push_notification.sell_notification_shop(shopID, phone, productPrice, String.valueOf(Double.parseDouble(productPrice) - Double.parseDouble(paidPrice))).observe(getViewLifecycleOwner(), new Observer<com.alifew.alife.model.push_notification_response>() {
-                                                                        @Override
-                                                                        public void onChanged(com.alifew.alife.model.push_notification_response push_notification_response) {
-                                                                            loader.dismiss();
-                                                                            Toast.makeText(getActivity(), "Sell Successfully", Toast.LENGTH_SHORT).show();
-                                                                            //convert_pdf();
-                                                                            clearAllData();
-
-                                                                        }
-                                                                    });
-                                                                }
-                                                            });
+                                                            loader.dismiss();
+                                                            Toast.makeText(getActivity(), "Sell Successfully", Toast.LENGTH_SHORT).show();
+                                                            //convert_pdf();
+                                                            clearAllData();
                                                         }
                                                     }
                                                 }
@@ -1139,7 +1069,6 @@ public class Shop_local_sell_fragment extends Fragment implements Shop_local_sel
 
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     private void clearAllData() {
 
 
@@ -1150,7 +1079,6 @@ public class Shop_local_sell_fragment extends Fragment implements Shop_local_sel
         buyPriceText.setText("");
         nameText.setText("");
         imageList.clear();
-        adapter.notifyDataSetChanged();
         setImageAdapter(imageList);
         sellPoint = 0.0;
         duePrice = 0.0;
@@ -1225,6 +1153,7 @@ public class Shop_local_sell_fragment extends Fragment implements Shop_local_sel
         listImage.setVisibility(View.VISIBLE);
         setUIValue(product.getName(), product.getSellPrice(), product.getBuyPrice());
         setImageAdapter(imageList);
+        Log.d("dataxx", "itemClick: "+String.valueOf(imageList.size()));
 
 
     }
@@ -1279,20 +1208,11 @@ public class Shop_local_sell_fragment extends Fragment implements Shop_local_sel
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private void setImageAdapter(List<String> imageList) {
         adapter = new Shop_local_sell_image_list_adapter(imageList);
+        adapter.notifyDataSetChanged();
         imageRecyclerView.setAdapter(adapter);
     }
 
-
-//    @Override
-//    public void customerItemClick(int position) {
-//
-//        Customer customer = customerList.get(position);
-//
-//        phoneText.setText(customer.getPhone());
-//        nameText.setText(customer.getCustomerName());
-//
-//        contactDialog.dismiss();
-//    }
 }

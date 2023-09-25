@@ -39,12 +39,12 @@ public class Shop_local_sell_image_list_adapter extends RecyclerView.Adapter<Sho
 
     @Override
     public int getItemCount() {
-        if (imageList.size() > 1) {
-            return 1;
-        } else {
-            return imageList.size();
-        }
-//        return imageList.size();
+//        if (imageList.size() > 1) {
+//            return 1;
+//        } else {
+//            return imageList.size();
+//        }
+        return imageList.size();
     }
 
     public class AppViewHolder extends RecyclerView.ViewHolder {
