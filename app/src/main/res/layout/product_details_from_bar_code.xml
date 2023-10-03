@@ -157,7 +157,7 @@
                 android:id="@+id/headerLayout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:background="@color/background_grey"
+                android:background="@color/background_color"
                 android:padding="5dp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"

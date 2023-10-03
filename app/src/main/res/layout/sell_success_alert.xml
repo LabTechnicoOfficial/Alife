@@ -6,7 +6,7 @@
     android:layout_marginTop="@dimen/distance"
     android:layout_marginBottom="@dimen/distance"
     android:background="@drawable/shape"
-    android:backgroundTint="@color/background_grey"
+    android:backgroundTint="@color/background_color"
     android:orientation="vertical">
 
     <LinearLayout

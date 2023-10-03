@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.Operator.Operator_home_fragment"
-    android:background="@color/background_grey"
+    android:background="@color/background_color"
     android:padding="10dp">
 
     <TextView

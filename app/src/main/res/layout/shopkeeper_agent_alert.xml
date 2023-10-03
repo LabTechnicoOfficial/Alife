@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/shape"
         android:orientation="vertical"
-        android:backgroundTint="@color/background_grey"
+        android:backgroundTint="@color/background_color"
         android:padding="@dimen/distance">
 
 

@@ -28,7 +28,7 @@
         android:orientation="vertical"
         android:background="@drawable/shape"
         android:gravity="center"
-        android:backgroundTint="@color/background_grey"
+        android:backgroundTint="@color/background_color"
         android:padding="10dp">
         <TextView
             android:id="@+id/layout1"

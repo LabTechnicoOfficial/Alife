@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_grey"
+    android:background="@color/background_color"
     android:orientation="vertical"
     android:padding="@dimen/distance"
     tools:context=".view.Registration.Shop_register_activity">
@@ -29,7 +29,7 @@
             android:id="@+id/toggleGroup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/background_grey"
+            android:background="@color/background_color"
             android:gravity="center"
             app:checkedButton="@id/shopkeeperID"
             app:singleSelection="true">
