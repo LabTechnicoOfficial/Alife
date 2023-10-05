@@ -192,7 +192,7 @@ public class Shop_coupon_packages_fragment extends Fragment implements Shop_coup
                                 temp.remove(j);
                                 j--;
                             }
-                        }catch (Exception e){
+                        }catch (Exception ignored){
 
                         }
                     }
@@ -275,8 +275,13 @@ public class Shop_coupon_packages_fragment extends Fragment implements Shop_coup
 
         if (count > 0) {
             for (int i = removecustomer; i < temp.size(); i++) {
-                if (Double.parseDouble(temp.get(i).getSell_amount()) >= sellAmount) {
-                    packageCustomerList.add(temp.get(i));
+                try {
+                    if (Double.parseDouble(temp.get(i).getSell_amount()) >= sellAmount) {
+                        packageCustomerList.add(temp.get(i));
+                    }
+                }catch (Exception ignored){
+
+
                 }
             }
             Collections.sort(packageCustomerList, new Comparator<customerFor_cupon_response>() {
