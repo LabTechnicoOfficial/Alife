@@ -186,10 +186,14 @@ public class Shop_coupon_packages_fragment extends Fragment implements Shop_coup
                     Double sellAmount = Double.parseDouble(packagesList.get(i).getPackageSellAmount());
                     int count = 0;
                     for (int j = 0; j < temp.size(); j++) {
-                        if (Double.parseDouble(temp.get(j).getSell_amount()) >= sellAmount) {
-                            count++;
-                            temp.remove(j);
-                            j--;
+                        try {
+                            if (Double.parseDouble(temp.get(j).getSell_amount()) >= sellAmount) {
+                                count++;
+                                temp.remove(j);
+                                j--;
+                            }
+                        }catch (Exception e){
+
                         }
                     }
                     packagesList.get(i).setMaximum_package_owner(String.valueOf(count));
