@@ -65,6 +65,7 @@ import com.alifew.alife.Utils.ImageHelper;
 import com.alifew.alife.adapter.Shop_local_sell_image_list_adapter;
 import com.alifew.alife.adapter.Shop_local_sell_select_customer_adapter;
 import com.alifew.alife.adapter.Shop_local_sell_select_product_adapter;
+import com.alifew.alife.adapter.Shop_point_adapter;
 import com.alifew.alife.adapter.localsell.CustomerAdapter;
 import com.alifew.alife.adapter.localsell.ProductAdapter;
 import com.alifew.alife.model.Get_shop_customer_response;
@@ -161,7 +162,7 @@ public class Shop_local_sell_fragment extends Fragment implements Shop_local_sel
     Shop_local_sell_select_product_adapter shopLocalSellSelectProductAdapter;
     Dialog productDialog, contactDialog;
 
-    public Double buyPrice = 0.0, productPrice = 0.0, paidPrice = 0.0, sellPoint = 0.0, duePrice = 0.0;
+    public Double buyPrice = 0.0, productPrice = 0.0, paidPrice = 0.0, sellPoint = 0.0, duePrice = 0.0, referPoint = 0.0;
     String productName, phone;
     SessionManagement sessionManagement;
     CustomerDao customerDao;
@@ -176,6 +177,7 @@ public class Shop_local_sell_fragment extends Fragment implements Shop_local_sel
     AppCompatButton calculateButton;
     CheckBox dueCheckBox;
 
+    List<Shop_local_sell_point_response> shopReferPointRulesList = new ArrayList<>();
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -821,22 +823,41 @@ public class Shop_local_sell_fragment extends Fragment implements Shop_local_sel
     }
 
     private void loadLocalSellPoints() {
-        shopLocalSellPointsViewModel.getShopLocalSellPoints(shopID).observe(getViewLifecycleOwner(), new Observer<List<Shop_local_sell_point_response>>() {
-            @Override
-            public void onChanged(List<Shop_local_sell_point_response> shopLocalSellPointResponses) {
 
-                shopSellPointRulesList = shopLocalSellPointResponses;
-                for (int i = 0; i < shopSellPointRulesList.size(); i++) {
-                    String pos = String.valueOf(i + 1);
-                    pointsCriteriaText.append(
-                            "\n" + pos + ". " + shopSellPointRulesList.get(i).amount
-                                    + " " + getActivity().getResources().getString(R.string.point_text1)
-                                    + " " + shopSellPointRulesList.get(i).points
-                                    + " " + getActivity().getResources().getString(R.string.point_text2)
-                    );
-                }
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                shopLocalSellPointsViewModel.getShopLocalSellPoints(shopID).observe(getViewLifecycleOwner(), new Observer<List<Shop_local_sell_point_response>>() {
+                    @Override
+                    public void onChanged(List<Shop_local_sell_point_response> shopLocalSellPointResponses) {
+
+                        shopSellPointRulesList = shopLocalSellPointResponses;
+                        for (int i = 0; i < shopSellPointRulesList.size(); i++) {
+                            String pos = String.valueOf(i + 1);
+                            pointsCriteriaText.append(
+                                    "\n" + pos + ". " + shopSellPointRulesList.get(i).amount
+                                            + " " + getActivity().getResources().getString(R.string.point_text1)
+                                            + " " + shopSellPointRulesList.get(i).points
+                                            + " " + getActivity().getResources().getString(R.string.point_text2)
+                            );
+                        }
+                    }
+                });
             }
         });
+
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                shopLocalSellPointsViewModel.getShopLocalSellReferPoints(shopID).observe(getViewLifecycleOwner(), new Observer<List<Shop_local_sell_point_response>>() {
+                    @Override
+                    public void onChanged(List<Shop_local_sell_point_response> shopLocalSellPointResponses) {
+                        shopReferPointRulesList = shopLocalSellPointResponses;
+                    }
+                });
+            }
+        });
+
     }
 
 
@@ -1076,7 +1097,7 @@ public class Shop_local_sell_fragment extends Fragment implements Shop_local_sel
         duePrice = 0.0;
         productPrice = 0.0;
         buyPrice = 0.0;
-        setPointText(sellPoint, productPriceText.getText().toString().trim());
+        setPointText(sellPoint,referPoint, productPriceText.getText().toString().trim());
         customerSearchEditText.setText("");
         productsAutoCompleteText.setText("");
 
@@ -1149,26 +1170,50 @@ public class Shop_local_sell_fragment extends Fragment implements Shop_local_sel
     private void pointsCalculation(Double productPrice) {
 
 
-        if (productPrice >= Double.parseDouble(shopSellPointRulesList.get(shopSellPointRulesList.size() - 1).amount)) {
-            sellPoint = Double.parseDouble(shopSellPointRulesList.get(shopSellPointRulesList.size() - 1).points);
-        } else {
-            for (int i = 0; i < shopSellPointRulesList.size() - 1; i++) {
-                if (productPrice >= Double.parseDouble(shopSellPointRulesList.get(i).amount)
-                        && productPrice < Double.parseDouble(shopSellPointRulesList.get(i + 1).amount)) {
-                    sellPoint = Double.parseDouble(shopSellPointRulesList.get(i).points);
-                }
-            }
-        }
+       getActivity().runOnUiThread(new Runnable() {
+           @Override
+           public void run() {
+               if (productPrice >= Double.parseDouble(shopSellPointRulesList.get(shopSellPointRulesList.size() - 1).amount)) {
+                   sellPoint = Double.parseDouble(shopSellPointRulesList.get(shopSellPointRulesList.size() - 1).points);
+               } else {
+                   for (int i = 0; i < shopSellPointRulesList.size() - 1; i++) {
+                       if (productPrice >= Double.parseDouble(shopSellPointRulesList.get(i).amount)
+                               && productPrice < Double.parseDouble(shopSellPointRulesList.get(i + 1).amount)) {
+                           sellPoint = Double.parseDouble(shopSellPointRulesList.get(i).points);
+                       }
+                   }
+               }
+           }
+       });
+
+       getActivity().runOnUiThread(new Runnable() {
+           @Override
+           public void run() {
+               if (productPrice >= Double.parseDouble(shopReferPointRulesList.get(shopReferPointRulesList.size() - 1).amount)) {
+                   referPoint = Double.parseDouble(shopReferPointRulesList.get(shopReferPointRulesList.size() - 1).points);
+               } else {
+                   for (int i = 0; i < shopReferPointRulesList.size() - 1; i++) {
+                       if (productPrice >= Double.parseDouble(shopReferPointRulesList.get(i).amount)
+                               && productPrice < Double.parseDouble(shopReferPointRulesList.get(i + 1).amount)) {
+                           referPoint = Double.parseDouble(shopReferPointRulesList.get(i).points);
+                       }
+                   }
+               }
+           }
+       });
+
+        //shopReferPointRulesList
 
 
-        setPointText(sellPoint, String.valueOf(productPrice));
+        setPointText(sellPoint, referPoint, String.valueOf(productPrice));
     }
 
     @SuppressLint("SetTextI18n")
-    private void setPointText(Double sellPoint, String productPrice) {
+    private void setPointText(Double sellPoint, Double referPoint, String productPrice) {
         if (!productPrice.isEmpty()) {
             pointsText.setVisibility(View.VISIBLE);
-            pointsText.setText("** " + productPrice + " " + getActivity().getResources().getString(R.string.point_text1) + " " + String.valueOf(sellPoint) + " " + getActivity().getResources().getString(R.string.point_text2));
+            pointsText.setText("** " + productPrice + " " + getActivity().getResources().getString(R.string.point_text1) + " " + String.valueOf(sellPoint) + " " + getActivity().getResources().getString(R.string.point_text2)+ " "+
+                    getActivity().getResources().getString(R.string.and)+" "+getActivity().getResources().getString(R.string.refer_user)+" "+String.valueOf(referPoint)+" " + getActivity().getResources().getString(R.string.point_text2));
 
         } else {
             pointsText.setVisibility(View.GONE);

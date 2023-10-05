@@ -92,4 +92,6 @@
     <string name="refer_phone">রেফার ফোন</string>
     <string name="refer_point">রেফার পয়েন্ট</string>
     <string name="refer_name">রেফার নাম</string>
+    <string name="and">এবং</string>
+    <string name="refer_user">রেফার ইউজার</string>
 </resources>
