@@ -43,6 +43,10 @@ android {
     lintOptions {
         checkReleaseBuilds false
     }
+
+    viewBinding{
+        enabled = true
+    }
 }
 
 configurations.all {

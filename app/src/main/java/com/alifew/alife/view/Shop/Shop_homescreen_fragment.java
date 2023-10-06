@@ -414,6 +414,19 @@ public class Shop_homescreen_fragment extends Fragment implements Instruction_ad
             }
         });
 
+        LinearLayout pointsButton = view.findViewById(R.id.pointsButton);
+        pointsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fragmentManager.beginTransaction().setCustomAnimations(
+                        R.anim.slide_in,  // enter
+                        R.anim.fade_out,  // exit
+                        R.anim.fade_in,   // popEnter
+                        R.anim.slide_out  // popExit
+                ).replace(R.id.frame_container, new ShopPointsFragment()).addToBackStack(null).commit();
+            }
+        });
+
         return view;
     }
 
