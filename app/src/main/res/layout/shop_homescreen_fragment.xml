@@ -463,13 +463,13 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginBottom="5dp"
-                android:src="@drawable/baseline_star_rate_24"
+                android:src="@drawable/ic_refer"
                 app:tint="@color/default_color"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Points"
+                android:text="@string/refer"
                 android:textAllCaps="false"
                 android:textColor="@color/black" />
 
