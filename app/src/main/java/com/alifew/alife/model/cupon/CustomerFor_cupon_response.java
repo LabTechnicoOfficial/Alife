@@ -2,13 +2,16 @@ package com.alifew.alife.model.cupon;
 
 import com.google.gson.annotations.SerializedName;
 
-public class customerFor_cupon_response {
+public class CustomerFor_cupon_response {
     @SerializedName("customer_id")
-    private String customer_id;
+    public String customer_id;
     @SerializedName("customer_phone")
-    private String customer_phone;
+    public String customer_phone;
     @SerializedName("sell_amount")
-    private String sell_amount;
+    public String sell_amount;
+
+    @SerializedName("points")
+    public String points;
 
     public String getCustomer_id() {
         return customer_id;
@@ -33,4 +36,6 @@ public class customerFor_cupon_response {
     public void setSell_amount(String sell_amount) {
         this.sell_amount = sell_amount;
     }
+
+
 }

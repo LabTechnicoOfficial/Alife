@@ -28,7 +28,7 @@ import com.alifew.alife.R;
 import com.alifew.alife.adapter.Shop_coupon_adapter;
 import com.alifew.alife.model.cupon.add_response;
 import com.alifew.alife.model.cupon.cupon_response;
-import com.alifew.alife.model.cupon.customerFor_cupon_response;
+import com.alifew.alife.model.cupon.CustomerFor_cupon_response;
 import com.alifew.alife.model.cupon.edit_delete_response;
 import com.alifew.alife.model.cupon.notify_response;
 import com.alifew.alife.session.SessionManagement;
@@ -64,7 +64,7 @@ public class Shop_coupon_fragment extends Fragment implements Shop_coupon_adapte
     String myFormat = "yyyy-MM-dd", dateCurrent;
     TextView durationText;
     Dialog loader;
-    List<customerFor_cupon_response> customerList;
+    List<CustomerFor_cupon_response> customerList;
     String cupon_available;
     SessionManagement sessionManagement;
 
@@ -335,14 +335,14 @@ public class Shop_coupon_fragment extends Fragment implements Shop_coupon_adapte
 
 
         customerList = new ArrayList<>();
-        customerFor_cupon.getData(shopID, date1, date2).observe(getViewLifecycleOwner(), new Observer<List<customerFor_cupon_response>>() {
+        customerFor_cupon.getData(shopID, date1, date2).observe(getViewLifecycleOwner(), new Observer<List<CustomerFor_cupon_response>>() {
             @Override
-            public void onChanged(List<customerFor_cupon_response> customerFor_cupon_responses) {
+            public void onChanged(List<CustomerFor_cupon_response> customerFor_cupon_responses) {
                 customerList = customerFor_cupon_responses;
-                Collections.sort(customerList, new Comparator<customerFor_cupon_response>() {
+                Collections.sort(customerList, new Comparator<CustomerFor_cupon_response>() {
 
                     @Override
-                    public int compare(customerFor_cupon_response lhs, customerFor_cupon_response rhs) {
+                    public int compare(CustomerFor_cupon_response lhs, CustomerFor_cupon_response rhs) {
                         // TODO Auto-generated method stub
 
                         try {

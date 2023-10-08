@@ -23,7 +23,7 @@ public interface cupon_api {
     // add cupon package api
     @FormUrlEncoded
     @POST("cupon/add_package.php")
-    Call<add_response> add_package(@Field("cupon_id") String cupon_id, @Field("package_name") String package_name, @Field("packageSellAmount") String packageSellAmount,@Field("winner") String winner,@Field("gift") String gift);
+    Call<add_response> add_package(@Field("cupon_id") String cupon_id, @Field("package_name") String package_name, @Field("packageSellAmount") String packageSellAmount, @Field("winner") String winner, @Field("gift") String gift);
 
     //fetch cupon package
 
@@ -37,11 +37,11 @@ public interface cupon_api {
 
     //fetch customerFor_cupon
     @GET("cupon/get_customerFor_cupon.php")
-    Call<List<customerFor_cupon_response>> fetch_cuponCustomer(@Query("shop_id") String shop_id, @Query("date1") String create_date, @Query("date2") String end_date);
+    Call<List<CustomerFor_cupon_response>> fetch_cuponCustomer(@Query("shop_id") String shop_id, @Query("date1") String create_date, @Query("date2") String end_date);
 
     // fetch cupon shop
     @GET("cupon/get_cupon_shopList.php")
-    Call<List<cuponShop_response>> fetch_cuponShop(@Query("page") int page,@Query("limit") int limit);
+    Call<List<cuponShop_response>> fetch_cuponShop(@Query("page") int page, @Query("limit") int limit);
 
     //delete cupon
     @FormUrlEncoded
@@ -68,6 +68,13 @@ public interface cupon_api {
 
     //ishtiak
     @GET("cupon/total_buy_from_shop.php")
-    Call<active_cupon> activeCupon(@Query("cupon_id") String cupon_id, @Query("shop_id") String shop_id,@Query("customer_phone") String customer_phone,@Query("date1") String date1,@Query("date2") String date2);
+    Call<active_cupon> activeCupon(@Query("cupon_id") String cupon_id,
+                                   @Query("shop_id") String shop_id,
+                                   @Query("customer_phone") String customer_phone,
+                                   @Query("date1") String date1, @Query("date2") String date2);
 
+
+    @GET("cupon/get_customer_list_for_cupon.php")
+    Call<List<CustomerFor_cupon_response>> getCustomerListForCoupon(@Query("shop_id") String shopID,
+                                                                    @Query("package_id") String packageID);
 }

@@ -20,7 +20,7 @@ import com.alifew.alife.R;
 import com.alifew.alife.adapter.Customer_package_adapter;
 import com.alifew.alife.model.cupon.active_cupon;
 import com.alifew.alife.model.cupon.cupon_api;
-import com.alifew.alife.model.cupon.customerFor_cupon_response;
+import com.alifew.alife.model.cupon.CustomerFor_cupon_response;
 import com.alifew.alife.model.cupon.Package_response;
 import com.alifew.alife.model.customer_profile_response;
 import com.alifew.alife.viewmodel.Customer_profile;
@@ -45,7 +45,7 @@ public class Customer_coupon_shop_coupon_package_list_fragment extends Fragment 
     int page = 1, limit = 10, end = 0;
     CouponPackageViewModel couponPackageViewModel;
     private List<Package_response> packagesList;
-    private List<customerFor_cupon_response> customerList;
+    private List<CustomerFor_cupon_response> customerList;
     private Customer_package_adapter adapter;
     String customerID;
     Customer_profile customer_profile;
@@ -54,7 +54,7 @@ public class Customer_coupon_shop_coupon_package_list_fragment extends Fragment 
     private cupon_api cupon_api;
     SessionManagment_registration sessionManagement;
 
-    public Customer_coupon_shop_coupon_package_list_fragment(String shopID, String couponID, List<customerFor_cupon_response> customerList, String customerID, String cupon_available, String creadtedDate, String endDate) {
+    public Customer_coupon_shop_coupon_package_list_fragment(String shopID, String couponID, List<CustomerFor_cupon_response> customerList, String customerID, String cupon_available, String creadtedDate, String endDate) {
         this.couponID = couponID;
         this.shopID = shopID;
         this.customerList = customerList;
@@ -98,7 +98,7 @@ public class Customer_coupon_shop_coupon_package_list_fragment extends Fragment 
                     }
                 });
 
-                List<customerFor_cupon_response> temp = new ArrayList<>();
+                List<CustomerFor_cupon_response> temp = new ArrayList<>();
                 for (int i = 0; i < customerList.size(); i++)
                     temp.add(customerList.get(i));
                 for (int i = 0; i < packagesList.size(); i++) {
@@ -188,10 +188,10 @@ public class Customer_coupon_shop_coupon_package_list_fragment extends Fragment 
 
     @Override
     public void OnItemClick(int position) {
-        List<customerFor_cupon_response> temp = new ArrayList<>();
+        List<CustomerFor_cupon_response> temp = new ArrayList<>();
         for (int i = 0; i < customerList.size(); i++)
             temp.add(customerList.get(i));
-        List<customerFor_cupon_response> packageCustomerList = new ArrayList<>();
+        List<CustomerFor_cupon_response> packageCustomerList = new ArrayList<>();
         int count = Integer.parseInt(packagesList.get(position).getMaximum_package_owner());
         double sellAmount = Double.parseDouble(packagesList.get(position).getPackageSellAmount());
         int packageSize = packagesList.size();
@@ -206,10 +206,10 @@ public class Customer_coupon_shop_coupon_package_list_fragment extends Fragment 
                     packageCustomerList.add(temp.get(i));
                 }
             }
-            Collections.sort(packageCustomerList, new Comparator<customerFor_cupon_response>() {
+            Collections.sort(packageCustomerList, new Comparator<CustomerFor_cupon_response>() {
 
                 @Override
-                public int compare(customerFor_cupon_response lhs, customerFor_cupon_response rhs) {
+                public int compare(CustomerFor_cupon_response lhs, CustomerFor_cupon_response rhs) {
                     // TODO Auto-generated method stub
 
                     try {

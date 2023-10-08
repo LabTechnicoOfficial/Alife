@@ -25,7 +25,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.alifew.alife.R;
 import com.alifew.alife.adapter.Shop_coupon_package_adapter;
 import com.alifew.alife.model.cupon.add_response;
-import com.alifew.alife.model.cupon.customerFor_cupon_response;
+import com.alifew.alife.model.cupon.CustomerFor_cupon_response;
 import com.alifew.alife.model.cupon.edit_delete_response;
 import com.alifew.alife.model.cupon.Package_response;
 import com.alifew.alife.model.shop_profile_response;
@@ -54,13 +54,13 @@ public class Shop_coupon_packages_fragment extends Fragment implements Shop_coup
     CouponPackageViewModel couponPackageViewModel;
     private List<Package_response> packagesList;
     private Shop_coupon_package_adapter adapter;
-    List<customerFor_cupon_response> customerList;
+    List<CustomerFor_cupon_response> customerList;
     private String cupon_available;
     String cupon_name;
     Dialog loader;
     Shop_profile shop_profile;
 
-    public Shop_coupon_packages_fragment(String shopID, String couponID, List<customerFor_cupon_response> customerList, String cupon_available, String cupon_name) {
+    public Shop_coupon_packages_fragment(String shopID, String couponID, List<CustomerFor_cupon_response> customerList, String cupon_available, String cupon_name) {
         this.shopID = shopID;
         this.couponID = couponID;
         this.customerList = customerList;
@@ -177,7 +177,7 @@ public class Shop_coupon_packages_fragment extends Fragment implements Shop_coup
                         }
                     }
                 });
-                List<customerFor_cupon_response> temp = new ArrayList<>();
+                List<CustomerFor_cupon_response> temp = new ArrayList<>();
                 for (int i = 0; i < customerList.size(); i++)
                     temp.add(customerList.get(i));
 
@@ -192,7 +192,7 @@ public class Shop_coupon_packages_fragment extends Fragment implements Shop_coup
                                 temp.remove(j);
                                 j--;
                             }
-                        }catch (Exception ignored){
+                        } catch (Exception ignored) {
 
                         }
                     }
@@ -261,10 +261,10 @@ public class Shop_coupon_packages_fragment extends Fragment implements Shop_coup
 
     @Override
     public void OnItemClick(int position) {
-        List<customerFor_cupon_response> temp = new ArrayList<>();
+        List<CustomerFor_cupon_response> temp = new ArrayList<>();
         for (int i = 0; i < customerList.size(); i++)
             temp.add(customerList.get(i));
-        List<customerFor_cupon_response> packageCustomerList = new ArrayList<>();
+        List<CustomerFor_cupon_response> packageCustomerList = new ArrayList<>();
         int count = Integer.parseInt(packagesList.get(position).getMaximum_package_owner());
         double sellAmount = Double.parseDouble(packagesList.get(position).getPackageSellAmount());
         int packageSize = packagesList.size();
@@ -279,15 +279,15 @@ public class Shop_coupon_packages_fragment extends Fragment implements Shop_coup
                     if (Double.parseDouble(temp.get(i).getSell_amount()) >= sellAmount) {
                         packageCustomerList.add(temp.get(i));
                     }
-                }catch (Exception ignored){
+                } catch (Exception ignored) {
 
 
                 }
             }
-            Collections.sort(packageCustomerList, new Comparator<customerFor_cupon_response>() {
+            Collections.sort(packageCustomerList, new Comparator<CustomerFor_cupon_response>() {
 
                 @Override
-                public int compare(customerFor_cupon_response lhs, customerFor_cupon_response rhs) {
+                public int compare(CustomerFor_cupon_response lhs, CustomerFor_cupon_response rhs) {
                     // TODO Auto-generated method stub
 
                     try {
@@ -295,13 +295,11 @@ public class Shop_coupon_packages_fragment extends Fragment implements Shop_coup
                         Double v3 = (Double.parseDouble(rhs.getSell_amount()));
                         return v3.compareTo(v1);
                     } catch (Exception e) {
-                        // TODO Auto-generated catch block
                         e.printStackTrace();
                         return 0;
                     }
                 }
             });
-            //Toast.makeText(getActivity(),String.valueOf(packageCustomerList.size()),Toast.LENGTH_SHORT).show();
             //Toast.makeText(getActivity(),String.valueOf(packageCustomerList.size()),Toast.LENGTH_SHORT).show();
 
             Package_response response = packagesList.get(position);

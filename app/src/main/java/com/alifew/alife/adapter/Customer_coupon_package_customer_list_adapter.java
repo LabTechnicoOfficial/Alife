@@ -9,16 +9,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alifew.alife.R;
-import com.alifew.alife.model.cupon.customerFor_cupon_response;
+import com.alifew.alife.model.cupon.CustomerFor_cupon_response;
 
 import java.util.List;
 
 public class Customer_coupon_package_customer_list_adapter extends RecyclerView.Adapter<Customer_coupon_package_customer_list_adapter.AppViewHolder> {
     //ishtiak
     String phone;
-    private List<customerFor_cupon_response> customerList;
+    private List<CustomerFor_cupon_response> customerList;
 
-    public Customer_coupon_package_customer_list_adapter(String phone, List<customerFor_cupon_response> customerList) {
+    public Customer_coupon_package_customer_list_adapter(String phone, List<CustomerFor_cupon_response> customerList) {
         this.phone = phone;
         this.customerList = customerList;
     }
@@ -33,7 +33,7 @@ public class Customer_coupon_package_customer_list_adapter extends RecyclerView.
 
     @Override
     public void onBindViewHolder(@NonNull Customer_coupon_package_customer_list_adapter.AppViewHolder holder, int position) {
-        customerFor_cupon_response response = customerList.get(position);
+        CustomerFor_cupon_response response = customerList.get(position);
 
         holder.positionText.setText(String.valueOf(position + 1)+".");
 

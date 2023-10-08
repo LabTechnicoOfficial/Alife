@@ -24,9 +24,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.alifew.alife.R;
 import com.alifew.alife.adapter.Shop_coupon_package_details_customer_list_adapter;
-import com.alifew.alife.model.cupon.customerFor_cupon_response;
+import com.alifew.alife.model.cupon.CustomerFor_cupon_response;
 import com.alifew.alife.model.cupon.edit_delete_response;
 import com.alifew.alife.model.cupon.notify_response;
+import com.alifew.alife.session.SessionManagement;
+import com.alifew.alife.viewmodel.cuponViewmodel.CouponViewModel;
 import com.alifew.alife.viewmodel.cuponViewmodel.Edit_delete_cupon_package;
 import com.alifew.alife.viewmodel.cuponViewmodel.sendPackageCustomer_notification;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
@@ -38,21 +40,21 @@ import java.util.List;
 public class Shop_coupon_packages_details_fragment extends Fragment {
 
     RecyclerView customersView;
-    NestedScrollView nestedScrollView;
-    ProgressBar progressBar;
     ExtendedFloatingActionButton editButton;
     int page = 1, limit = 10, end = 0;
-    private List<customerFor_cupon_response> packageCustomerList;
+    private List<CustomerFor_cupon_response> packageCustomerList;
     private Shop_coupon_package_details_customer_list_adapter adapter;
     Edit_delete_cupon_package edit_delete_cupon_package;
     Dialog loader;
     TextView notificationSend;
     String packageID, packageName, packageSellAmount, cupon_available, cupon_name, package_name, shop_name;
     sendPackageCustomer_notification customer_notification;
+    CouponViewModel couponViewModel;
+    int shopID;
+    SessionManagement sessionManagement;
 
-
-    public Shop_coupon_packages_details_fragment(List<customerFor_cupon_response> packageCustomerList, String packageID, String packageName, String packageSellAmount, String cupon_available, String cupon_name, String package_name, String shop_name) {
-        this.packageCustomerList = packageCustomerList;
+    public Shop_coupon_packages_details_fragment(List<CustomerFor_cupon_response> packageCustomerList, String packageID, String packageName, String packageSellAmount, String cupon_available, String cupon_name, String package_name, String shop_name) {
+        //this.packageCustomerList = packageCustomerList;
         this.packageID = packageID;
         this.packageName = packageName;
         this.packageSellAmount = packageSellAmount;
@@ -66,7 +68,6 @@ public class Shop_coupon_packages_details_fragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        customers_list();
 
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -136,16 +137,24 @@ public class Shop_coupon_packages_details_fragment extends Fragment {
         });
     }
 
-    private void customers_list() {
-        adapter = new Shop_coupon_package_details_customer_list_adapter(packageCustomerList);
-        customersView.setAdapter(adapter);
-    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.shop_coupon_packages_details_fragment, container, false);
 
+        initView(view);
+
+
+        loadCustomerList();
+
+        return view;
+    }
+
+    private void initView(View view) {
+        sessionManagement = new SessionManagement(getActivity());
+        shopID = sessionManagement.getSession();
         edit_delete_cupon_package = new ViewModelProvider(this).get(Edit_delete_cupon_package.class);
         customer_notification = new ViewModelProvider(this).get(sendPackageCustomer_notification.class);
         editButton = (ExtendedFloatingActionButton) view.findViewById(R.id.editButton);
@@ -154,13 +163,10 @@ public class Shop_coupon_packages_details_fragment extends Fragment {
         customersView.setHasFixedSize(true);
         customersView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-        nestedScrollView = (NestedScrollView) view.findViewById(R.id.nestedRecyclerViewID);
         if (cupon_available.equals("0")) {
             editButton.setVisibility(View.GONE);
             notificationSend.setVisibility(View.GONE);
         }
-
         notificationSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -182,32 +188,23 @@ public class Shop_coupon_packages_details_fragment extends Fragment {
             }
         });
 
-        nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
-            @Override
-            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-
-                if (scrollY > oldScrollY) {
-                    editButton.hide();
-                } else {
-                    editButton.show();
-                }
-                //mFloatingActionButton.show();
-                if (scrollY == v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight()) {
-                    if (end == 0) {
-                        progressBar.setVisibility(View.VISIBLE);
-                        page++;
-                        //filter(page, limit);
-                    }
-                }
-            }
-        });
-
         loader = new Dialog(getActivity());
         loader.setContentView(R.layout.loader);
         loader.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         loader.setCancelable(false);
 
-        return view;
+        couponViewModel = new ViewModelProvider(getActivity()).get(CouponViewModel.class);
+    }
+
+    private void loadCustomerList() {
+        couponViewModel.getCustomerListForCoupon(String.valueOf(shopID), packageID).observe(getViewLifecycleOwner(), new Observer<List<CustomerFor_cupon_response>>() {
+            @Override
+            public void onChanged(List<CustomerFor_cupon_response> customerForCuponResponses) {
+                packageCustomerList = customerForCuponResponses;
+                adapter = new Shop_coupon_package_details_customer_list_adapter(packageCustomerList);
+                customersView.setAdapter(adapter);
+            }
+        });
     }
 
     public String getEmojiByUnicode(int unicode) {

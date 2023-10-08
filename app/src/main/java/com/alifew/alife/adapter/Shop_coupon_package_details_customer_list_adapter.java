@@ -9,15 +9,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alifew.alife.R;
-import com.alifew.alife.model.cupon.customerFor_cupon_response;
+import com.alifew.alife.model.cupon.CustomerFor_cupon_response;
 
 import java.util.List;
 
 public class Shop_coupon_package_details_customer_list_adapter extends RecyclerView.Adapter<Shop_coupon_package_details_customer_list_adapter.AppViewHolder> {
 
-    private List<customerFor_cupon_response> packageCustomerList;
+    private List<CustomerFor_cupon_response> packageCustomerList;
 
-    public Shop_coupon_package_details_customer_list_adapter(List<customerFor_cupon_response> packageCustomerList) {
+    public Shop_coupon_package_details_customer_list_adapter(List<CustomerFor_cupon_response> packageCustomerList) {
         this.packageCustomerList = packageCustomerList;
     }
 
@@ -31,9 +31,11 @@ public class Shop_coupon_package_details_customer_list_adapter extends RecyclerV
 
     @Override
     public void onBindViewHolder(@NonNull Shop_coupon_package_details_customer_list_adapter.AppViewHolder holder, int position) {
-        customerFor_cupon_response response = packageCustomerList.get(position);
+        CustomerFor_cupon_response response = packageCustomerList.get(position);
         holder.phoneText.setText(response.getCustomer_phone());
         holder.sellAmountText.setText(response.getSell_amount());
+        holder.positionText.setText(String.valueOf(position + 1));
+        holder.pointsText.setText(response.points);
     }
 
     @Override
@@ -42,13 +44,15 @@ public class Shop_coupon_package_details_customer_list_adapter extends RecyclerV
     }
 
     public class AppViewHolder extends RecyclerView.ViewHolder {
-        TextView phoneText, sellAmountText;
+        TextView phoneText, sellAmountText, positionText, pointsText;
 
         public AppViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            phoneText = itemView.findViewById(R.id.contactText);
+            phoneText = itemView.findViewById(R.id.phoneText);
             sellAmountText = itemView.findViewById(R.id.sellAmountTextID);
+            positionText = itemView.findViewById(R.id.positionText);
+            pointsText = itemView.findViewById(R.id.pointsText);
         }
     }
 }

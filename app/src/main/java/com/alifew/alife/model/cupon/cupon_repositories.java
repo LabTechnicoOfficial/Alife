@@ -14,14 +14,17 @@ public class cupon_repositories {
     private MutableLiveData<add_response> add_response;
     private MutableLiveData<List<cupon_response>> data;
     private MutableLiveData<notify_response> data2;
+
+    private MutableLiveData<List<CustomerFor_cupon_response>> customerList;
     private cupon_api api;
     private static cupon_repositories cupon_repositories;
 
     private cupon_repositories() {
         data = new MutableLiveData<>();
-        data2=new MutableLiveData<>();
+        data2 = new MutableLiveData<>();
         add_response = new MutableLiveData<>();
         api = ApiUtilize.cupon_response();
+        customerList = new MutableLiveData<>();
 
     }
 
@@ -84,5 +87,26 @@ public class cupon_repositories {
             }
         });
         return data2;
+    }
+
+    //getCustomerListForCoupon
+    public MutableLiveData<List<CustomerFor_cupon_response>> getCustomerListForCoupon(String shopID, String packageID) {
+        Call<List<CustomerFor_cupon_response>> call = api.getCustomerListForCoupon(shopID, packageID);
+        call.enqueue(new Callback<List<CustomerFor_cupon_response>>() {
+            @Override
+            public void onResponse(Call<List<CustomerFor_cupon_response>> call, Response<List<CustomerFor_cupon_response>> response) {
+
+                if (response.isSuccessful()) {
+                    customerList.postValue(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<CustomerFor_cupon_response>> call, Throwable t) {
+
+            }
+        });
+
+        return customerList;
     }
 }

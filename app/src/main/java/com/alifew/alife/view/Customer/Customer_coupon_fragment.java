@@ -20,7 +20,7 @@ import com.alifew.alife.R;
 import com.alifew.alife.adapter.Customer_coupon_shop_list_adapter;
 import com.alifew.alife.model.cupon.cuponShop_response;
 import com.alifew.alife.model.cupon.cupon_api;
-import com.alifew.alife.model.cupon.customerFor_cupon_response;
+import com.alifew.alife.model.cupon.CustomerFor_cupon_response;
 import com.alifew.alife.viewmodel.cuponViewmodel.CuponShopList;
 
 import java.util.ArrayList;
@@ -36,7 +36,7 @@ public class Customer_coupon_fragment extends Fragment implements Customer_coupo
     private List<cuponShop_response> shopList = new ArrayList<>();
     CuponShopList cuponShopListViewModel;
     String customerID;
-    private MutableLiveData<List<customerFor_cupon_response>> data;
+    private MutableLiveData<List<CustomerFor_cupon_response>> data;
 
 
     public Customer_coupon_fragment(String customerID) {

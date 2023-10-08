@@ -13,7 +13,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class customerFor_cupon_repositories {
-    private MutableLiveData<List<customerFor_cupon_response>> data;
+    private MutableLiveData<List<CustomerFor_cupon_response>> data;
     private cupon_api api;
     private static customerFor_cupon_repositories customerFor_cupon_repositories;
 
@@ -29,17 +29,17 @@ public class customerFor_cupon_repositories {
         return customerFor_cupon_repositories;
     }
 
-    public MutableLiveData<List<customerFor_cupon_response>> getData(String shop_id, String date1, String date2) {
-        Call<List<customerFor_cupon_response>> call = api.fetch_cuponCustomer(shop_id, date1, date2);
-        call.enqueue(new Callback<List<customerFor_cupon_response>>() {
+    public MutableLiveData<List<CustomerFor_cupon_response>> getData(String shop_id, String date1, String date2) {
+        Call<List<CustomerFor_cupon_response>> call = api.fetch_cuponCustomer(shop_id, date1, date2);
+        call.enqueue(new Callback<List<CustomerFor_cupon_response>>() {
             @Override
-            public void onResponse(Call<List<customerFor_cupon_response>> call, Response<List<customerFor_cupon_response>> response) {
+            public void onResponse(Call<List<CustomerFor_cupon_response>> call, Response<List<CustomerFor_cupon_response>> response) {
                 if (response.isSuccessful())
                     data.postValue(response.body());
             }
 
             @Override
-            public void onFailure(Call<List<customerFor_cupon_response>> call, Throwable throwable) {
+            public void onFailure(Call<List<CustomerFor_cupon_response>> call, Throwable throwable) {
                 Log.d("mesba",throwable.getMessage());
             }
         });

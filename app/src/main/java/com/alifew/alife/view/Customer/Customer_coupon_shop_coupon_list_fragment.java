@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.alifew.alife.R;
 import com.alifew.alife.adapter.Customer_coupon_adapter;
 import com.alifew.alife.model.cupon.cupon_response;
-import com.alifew.alife.model.cupon.customerFor_cupon_response;
+import com.alifew.alife.model.cupon.CustomerFor_cupon_response;
 import com.alifew.alife.viewmodel.cuponViewmodel.CouponViewModel;
 import com.alifew.alife.viewmodel.cuponViewmodel.CustomerFor_cupon;
 
@@ -38,7 +38,7 @@ public class Customer_coupon_shop_coupon_list_fragment extends Fragment implemen
     CouponViewModel couponViewModel;
     private Customer_coupon_adapter adapter;
     private List<cupon_response> couponList;
-    List<customerFor_cupon_response> customerList;
+    List<CustomerFor_cupon_response> customerList;
     String customerID;
     String cupon_available;
     public Customer_coupon_shop_coupon_list_fragment(String shopID, String customerID) {
@@ -115,14 +115,14 @@ public class Customer_coupon_shop_coupon_list_fragment extends Fragment implemen
         String currentTime = (String) android.text.format.DateFormat.format("yyyy-MM-dd HH:mm:ss", new java.util.Date());
 
         String targetdate = response.getEnd_date() + " 23:59:59";
-        customerFor_cupon.getData(shopID, createDate, endDate).observe(getViewLifecycleOwner(), new Observer<List<customerFor_cupon_response>>() {
+        customerFor_cupon.getData(shopID, createDate, endDate).observe(getViewLifecycleOwner(), new Observer<List<CustomerFor_cupon_response>>() {
             @Override
-            public void onChanged(List<customerFor_cupon_response> customerFor_cupon_responses) {
+            public void onChanged(List<CustomerFor_cupon_response> customerFor_cupon_responses) {
                 customerList = customerFor_cupon_responses;
-                Collections.sort(customerList, new Comparator<customerFor_cupon_response>() {
+                Collections.sort(customerList, new Comparator<CustomerFor_cupon_response>() {
 
                     @Override
-                    public int compare(customerFor_cupon_response lhs, customerFor_cupon_response rhs) {
+                    public int compare(CustomerFor_cupon_response lhs, CustomerFor_cupon_response rhs) {
                         // TODO Auto-generated method stub
 
                         try {

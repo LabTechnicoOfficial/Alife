@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.alifew.alife.R;
 import com.alifew.alife.adapter.Customer_coupon_package_customer_list_adapter;
-import com.alifew.alife.model.cupon.customerFor_cupon_response;
+import com.alifew.alife.model.cupon.CustomerFor_cupon_response;
 
 import java.util.List;
 
@@ -22,14 +22,14 @@ import java.util.List;
 public class Customer_coupon_package_customerList_fragment extends Fragment {
 
     String phone;
-    private List<customerFor_cupon_response> customerList;
+    private List<CustomerFor_cupon_response> customerList;
     RecyclerView customersView;
     NestedScrollView nestedScrollView;
     ProgressBar progressBar;
     int page = 1, limit = 10, end = 0;
     private Customer_coupon_package_customer_list_adapter adapter;
 
-    public Customer_coupon_package_customerList_fragment(List<customerFor_cupon_response> customerList, String phone) {
+    public Customer_coupon_package_customerList_fragment(List<CustomerFor_cupon_response> customerList, String phone) {
         this.customerList = customerList;
         this.phone = phone;
     }
