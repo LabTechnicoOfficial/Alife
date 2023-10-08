@@ -56,7 +56,7 @@ public class Shop_local_page_details_fragment extends Fragment implements Shop_l
 
     int page = 1, limit = 10, end = 0;
     Local_business local_business;
-    //private List<shop_local_page_item_list_response> data;
+
     private List<shop_local_page_item_list_response> Data;
     private Shop_local_page_details_adapter adapter;
     Dialog show_details, add_details;
