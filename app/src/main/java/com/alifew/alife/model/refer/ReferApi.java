@@ -26,4 +26,17 @@ public interface ReferApi {
 
     @GET("shop_refer_delete.php")
     Call<CommonResponse> deleteRefer(@Query("id") String referID);
+
+
+    @FormUrlEncoded
+    @POST("refer_package_add.php")
+    Call<CommonResponse> addReferPackage(@Field("shop_id") String shopID,
+                                         @Field("refer_id") String referID,
+                                         @Field("title") String name,
+                                         @Field("min_amount") String packageAmount,
+                                         @Field("winner_amount") String winnerAmount,
+                                         @Field("gift") String giftName);
+
+    @GET("get_refer_package_list.php")
+    Call<List<ReferPackageResponse>> getReferPackageList(@Query("refer_id") String referID);
 }

@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.alifew.alife.model.CommonResponse;
 import com.alifew.alife.model.cupon.add_response;
+import com.alifew.alife.model.refer.ReferPackageResponse;
 import com.alifew.alife.model.refer.ReferResponse;
 
 import java.util.List;
@@ -22,4 +23,14 @@ public class ShopReferViewModel extends ViewModel {
     public LiveData<CommonResponse> deleteRefer(String id) {
         return ShopReferRepositories.getInstance().deleteRefer(id);
     }
+
+
+    public LiveData<CommonResponse> addReferPackage(int shopID, String referID, String name,String packageAmount,String winnerAmount,String giftName) {
+        return ShopReferRepositories.getInstance().addReferPackage(shopID, referID, name, packageAmount, winnerAmount, giftName);
+    }
+
+    public LiveData<List<ReferPackageResponse>> getReferPackageList(String referID) {
+        return ShopReferRepositories.getInstance().getReferPackageList(referID);
+    }
+
 }

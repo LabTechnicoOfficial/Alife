@@ -5,9 +5,12 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -83,6 +86,13 @@ public class Shop_coupon_packages_fragment extends Fragment implements Shop_coup
                 addPackageAlert.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 addPackageAlert.setCancelable(false);
                 addPackageAlert.show();
+
+                Window window = addPackageAlert.getWindow();
+                WindowManager.LayoutParams wlp = window.getAttributes();
+                wlp.gravity = Gravity.CENTER;
+                wlp.width = android.view.WindowManager.LayoutParams.MATCH_PARENT;
+                wlp.height = android.view.WindowManager.LayoutParams.WRAP_CONTENT;
+                window.setAttributes(wlp);
 
                 ImageView closeButton = addPackageAlert.findViewById(R.id.closeButtonID);
                 AppCompatButton addButton = addPackageAlert.findViewById(R.id.addButtonID);

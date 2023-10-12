@@ -7,8 +7,8 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.alifew.alife.API.ApiUtilize;
 import com.alifew.alife.model.CommonResponse;
-import com.alifew.alife.model.cupon.add_response;
 import com.alifew.alife.model.refer.ReferApi;
+import com.alifew.alife.model.refer.ReferPackageResponse;
 import com.alifew.alife.model.refer.ReferResponse;
 
 import java.util.List;
@@ -21,12 +21,14 @@ public class ShopReferRepositories {
     private static ShopReferRepositories referRepositories;
     private ReferApi referApi;
     MutableLiveData<List<ReferResponse>> referList;
+    MutableLiveData<List<ReferPackageResponse>> referPackageList;
     MutableLiveData<CommonResponse> commonResponse;
 
     public ShopReferRepositories() {
         referApi = ApiUtilize.referApi();
         referList = new MutableLiveData<>();
         commonResponse = new MutableLiveData<>();
+        referPackageList = new MutableLiveData<>();
     }
 
     public synchronized static ShopReferRepositories getInstance() {
@@ -90,5 +92,44 @@ public class ShopReferRepositories {
             }
         });
         return commonResponse;
+    }
+
+    public MutableLiveData<CommonResponse> addReferPackage(int shopID, String referID, String name, String packageAmount, String winnerAmount, String giftName) {
+        Call<CommonResponse> call = referApi.addReferPackage(String.valueOf(shopID), referID, name, packageAmount, winnerAmount, giftName);
+        call.enqueue(new Callback<CommonResponse>() {
+            @Override
+            public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
+                if (response.isSuccessful()) {
+                    commonResponse.postValue(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CommonResponse> call, Throwable t) {
+
+            }
+        });
+        return commonResponse;
+    }
+
+
+    public LiveData<List<ReferPackageResponse>> getReferPackageList(String referID) {
+
+        Call<List<ReferPackageResponse>> call = referApi.getReferPackageList(referID);
+        call.enqueue(new Callback<List<ReferPackageResponse>>() {
+            @Override
+            public void onResponse(Call<List<ReferPackageResponse>> call, Response<List<ReferPackageResponse>> response) {
+                if (response.isSuccessful()) {
+                    referPackageList.postValue(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<ReferPackageResponse>> call, Throwable t) {
+
+            }
+        });
+
+        return referPackageList;
     }
 }
