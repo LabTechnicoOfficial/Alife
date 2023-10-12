@@ -3,6 +3,7 @@ package com.alifew.alife.adapter.refer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -49,20 +50,11 @@ public class ShopReferAdapter extends RecyclerView.Adapter<ShopReferAdapter.View
             Date date1 = myFormat.parse(currentTime);
             Date date2 = myFormat.parse(targetdate);
             if (!(date1.getTime() > date2.getTime())) {
-                // Calucalte time difference in milliseconds
                 long time_difference = date2.getTime() - date1.getTime();
-                // Calucalte time difference in days
                 long days_difference = (time_difference / (1000 * 60 * 60 * 24)) % 365;
-                // Calucalte time difference in years
                 long years_difference = (time_difference / (1000l * 60 * 60 * 24 * 365));
-                // Calucalte time difference in seconds
-
-                // Calucalte time difference in minutes
                 long minutes_difference = (time_difference / (1000 * 60)) % 60;
-
-                // Calucalte time difference in hours
                 long hours_difference = (time_difference / (1000 * 60 * 60)) % 24;
-                // Show difference in years, in days, hours, minutes, and seconds
                 String duration = days_difference + " দিন " + hours_difference + " ঘণ্টা " + minutes_difference + " মিনিট ";
                 holder.durationText.setText(duration);
             } else {
@@ -82,8 +74,21 @@ public class ShopReferAdapter extends RecyclerView.Adapter<ShopReferAdapter.View
         return referList.size();
     }
 
+    private OnItemDeleteListener onItemDeleteListener;
+
+
+    public interface  OnItemDeleteListener{
+        void onDeleteClick(int position);
+    }
+
+    public void setOnClickListener(OnItemDeleteListener onItemDeleteListener){
+        this.onItemDeleteListener = onItemDeleteListener;
+    }
+
     public class Viewholder extends RecyclerView.ViewHolder {
         TextView nameText, createdTimeText, endTimeText, durationText;
+
+        ImageView deleteButton;
 
         public Viewholder(@NonNull View itemView) {
             super(itemView);
@@ -91,6 +96,16 @@ public class ShopReferAdapter extends RecyclerView.Adapter<ShopReferAdapter.View
             durationText = itemView.findViewById(R.id.durationText);
             createdTimeText = itemView.findViewById(R.id.createdTimeText);
             endTimeText = itemView.findViewById(R.id.endTimeText);
+            deleteButton = itemView.findViewById(R.id.deleteButton);
+
+            deleteButton.setOnClickListener(v -> {
+                if (onItemDeleteListener != null) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        onItemDeleteListener.onDeleteClick(position);
+                    }
+                }
+            });
         }
     }
 }

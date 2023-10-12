@@ -4,6 +4,9 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class ReferResponse {
+    @SerializedName("id")
+    @Expose
+    public String id;
     @SerializedName("start_at")
     @Expose
     public String startAt;
