@@ -80,7 +80,6 @@ import com.alifew.alife.viewmodel.Sell_details;
 import com.alifew.alife.viewmodel.Shop_profile;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -337,7 +336,7 @@ public class Shop_customer_details_fragments extends Fragment implements shop_cu
 
         addImageButton = (LinearLayout) view.findViewById(R.id.addImageID);
         detailsLayoutButton = (LinearLayout) view.findViewById(R.id.detailsLayoutButtonID);
-        mainLayout = (LinearLayout) view.findViewById(R.id.mainLayoutID);
+        mainLayout = (LinearLayout) view.findViewById(R.id.mainLayout);
         detailsLayout = (LinearLayout) view.findViewById(R.id.detailsLayoutID);
         productSellButton = (LinearLayout) view.findViewById(R.id.productsSellButtonID);
         productsSellLayout = (LinearLayout) view.findViewById(R.id.productsSellLayoutID);
@@ -638,7 +637,7 @@ public class Shop_customer_details_fragments extends Fragment implements shop_cu
         window.setAttributes(wlp);
 
       //  ImageView closeButton = successDialog.findViewById(R.id.closeButtonID);
-        LinearLayout mainLayout = successDialog.findViewById(R.id.mainLayoutID);
+        LinearLayout mainLayout = successDialog.findViewById(R.id.mainLayout);
         TextView shopNameText = successDialog.findViewById(R.id.nameText);
         TextView productDetailsTextPDF = successDialog.findViewById(R.id.productDetailsTextID);
         TextView totalPriceTextPDF = successDialog.findViewById(R.id.totalPriceTextID);

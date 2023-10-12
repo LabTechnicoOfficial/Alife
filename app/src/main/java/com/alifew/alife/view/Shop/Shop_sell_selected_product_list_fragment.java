@@ -1693,7 +1693,7 @@ public class Shop_sell_selected_product_list_fragment extends Fragment implement
         TextView dateText = (TextView) successAlert.findViewById(R.id.dateTextID);
         String currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
         LinearLayout savePDFButton = (LinearLayout) successAlert.findViewById(R.id.savePDFButtonID);
-        LinearLayout mainLayout = (LinearLayout) successAlert.findViewById(R.id.mainLayoutID);
+        LinearLayout mainLayout = (LinearLayout) successAlert.findViewById(R.id.mainLayout);
         shop_profile = new ViewModelProvider(getActivity()).get(Shop_profile.class);
         shop_profile.getData(String.valueOf(shop_id)).observe(getViewLifecycleOwner(), new Observer<shop_profile_response>() {
             @Override

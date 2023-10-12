@@ -96,4 +96,5 @@
     <string name="refer_user">রেফার ইউজার</string>
     <string name="refer">রেফার</string>
     <string name="sell_amount_tk">বিক্রির পরিমান(টাকা)</string>
+    <string name="time_remaining">সময় বাকি</string>
 </resources>
