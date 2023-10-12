@@ -20,14 +20,11 @@ public class Retrofit_client {
                 .readTimeout(30, TimeUnit.SECONDS)
                 .writeTimeout(15, TimeUnit.SECONDS)
                 .build();
-        /*Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl("http:*******")
-                .client(okHttpClient)
-                .addConverterFactory(GsonConverterFactory.create());*/
+
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
                     .baseUrl(baseUrl)
-                    
+                    .client(okHttpClient)
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .build();
         }
