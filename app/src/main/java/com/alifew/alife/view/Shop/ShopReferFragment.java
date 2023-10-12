@@ -26,11 +26,8 @@ import android.widget.Toast;
 
 import com.alifew.alife.R;
 import com.alifew.alife.adapter.refer.ShopReferAdapter;
-import com.alifew.alife.databinding.FragmentShopPointsBinding;
+import com.alifew.alife.databinding.FragmentShopReferBinding;
 import com.alifew.alife.model.CommonResponse;
-import com.alifew.alife.model.cupon.add_response;
-import com.alifew.alife.model.cupon.cupon_response;
-import com.alifew.alife.model.cupon.edit_delete_response;
 import com.alifew.alife.model.refer.ReferResponse;
 import com.alifew.alife.session.SessionManagement;
 import com.alifew.alife.viewmodel.refer.ShopReferViewModel;
@@ -45,12 +42,12 @@ import java.util.List;
 import java.util.Locale;
 
 
-public class ShopPointsFragment extends Fragment implements ShopReferAdapter.OnItemDeleteListener {
+public class ShopReferFragment extends Fragment implements ShopReferAdapter.OnItemDeleteListener, ShopReferAdapter.OnItemClickListener {
 
     SessionManagement sessionManagement;
     int shopID;
     ExtendedFloatingActionButton addButton;
-    FragmentShopPointsBinding binding;
+    FragmentShopReferBinding binding;
     List<ReferResponse> referList;
     ShopReferViewModel referViewModel;
     ShopReferAdapter adapter;
@@ -63,7 +60,7 @@ public class ShopPointsFragment extends Fragment implements ShopReferAdapter.OnI
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        binding = FragmentShopPointsBinding.inflate(getLayoutInflater());
+        binding = FragmentShopReferBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
 
         initView(view);
@@ -89,7 +86,7 @@ public class ShopPointsFragment extends Fragment implements ShopReferAdapter.OnI
             binding.progressBar.setVisibility(View.GONE);
             referList = referResponses;
             adapter = new ShopReferAdapter(referList);
-            adapter.setOnClickListener(ShopPointsFragment.this::onDeleteClick);
+            adapter.setOnClickListener(ShopReferFragment.this::onDeleteClick, ShopReferFragment.this::onItemClick);
             binding.itemView.setAdapter(adapter);
         });
     }
@@ -117,6 +114,13 @@ public class ShopPointsFragment extends Fragment implements ShopReferAdapter.OnI
         addReferDialog.setCancelable(false);
         addReferDialog.show();
 
+        Window window = addReferDialog.getWindow();
+        WindowManager.LayoutParams wlp = window.getAttributes();
+        wlp.gravity = Gravity.CENTER;
+        wlp.width = android.view.WindowManager.LayoutParams.MATCH_PARENT;
+        wlp.height = android.view.WindowManager.LayoutParams.WRAP_CONTENT;
+        window.setAttributes(wlp);
+
         ImageView closeButton = addReferDialog.findViewById(R.id.closeButtonID);
         AppCompatButton addButton = addReferDialog.findViewById(R.id.addButtonID);
         TextView creationDateText = addReferDialog.findViewById(R.id.creationDateTextID);
@@ -132,59 +136,39 @@ public class ShopPointsFragment extends Fragment implements ShopReferAdapter.OnI
         endDateText.setText("Select End Date");
         //creationDateText.setText(new SimpleDateFormat(myFormat, Locale.getDefault()).format(new Date()));
 
-        creationDateText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pickCreateDate(creationDateText, endDateText);
-            }
-        });
+        creationDateText.setOnClickListener(v -> pickCreateDate(creationDateText, endDateText));
 
-        endDateText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pickEndDate(creationDateText, endDateText);
-            }
-        });
+        endDateText.setOnClickListener(v -> pickEndDate(creationDateText, endDateText));
 
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String name = nameText.getText().toString().trim();
-                String description = descriptionText.getText().toString().trim();
+        addButton.setOnClickListener(v -> {
+            String name = nameText.getText().toString().trim();
+            String description = descriptionText.getText().toString().trim();
 
-                if (TextUtils.isEmpty(name) || creationDateText.getText().toString().trim().equals("Select Create Date") || endDateText.getText().toString().trim().equals("Select End Date") || TextUtils.isEmpty(durationText.getText().toString().trim())) {
-                    Toast.makeText(getActivity(), "Give data correctly", Toast.LENGTH_SHORT).show();
-                } else {
-                    //Toast.makeText(getActivity(), "F", Toast.LENGTH_SHORT).show();
-                    if (TextUtils.isEmpty(description)) {
-                        description = " ";
-                    }
+            if (TextUtils.isEmpty(name) || creationDateText.getText().toString().trim().equals("Select Create Date") || endDateText.getText().toString().trim().equals("Select End Date") || TextUtils.isEmpty(durationText.getText().toString().trim())) {
+                Toast.makeText(getActivity(), "Give data correctly", Toast.LENGTH_SHORT).show();
+            } else {
 
-                    loader.show();
-                    referViewModel.addRefer(shopID, name, creationDateText.getText().toString().trim(), endDateText.getText().toString().trim(), description).observe(getViewLifecycleOwner(), commonResponse -> {
-                        String message = commonResponse.message;
-                        loader.dismiss();
-                        //Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
-
-                        if (message.equals("success")) {
-                            addReferDialog.dismiss();
-
-                            Toast.makeText(getActivity(), "Coupon added", Toast.LENGTH_SHORT).show();
-                            load_data();
-                        } else {
-                            Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                if (TextUtils.isEmpty(description)) {
+                    description = " ";
                 }
+
+                loader.show();
+                referViewModel.addRefer(shopID, name, creationDateText.getText().toString().trim(), endDateText.getText().toString().trim(), description).observe(getViewLifecycleOwner(), commonResponse -> {
+                    String message = commonResponse.message;
+                    loader.dismiss();
+
+
+                    if (message.equals("Add successfully")) {
+                        addReferDialog.dismiss();
+
+                        load_data();
+                    }
+                    Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+                });
             }
         });
 
-        closeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addReferDialog.dismiss();
-            }
-        });
+        closeButton.setOnClickListener(v -> addReferDialog.dismiss());
     }
 
     private void pickCreateDate(TextView creationDateText, TextView endDateText) {
@@ -299,38 +283,41 @@ public class ShopPointsFragment extends Fragment implements ShopReferAdapter.OnI
         TextView yesButton = deleteAlert.findViewById(R.id.yesButton);
         TextView noButton = deleteAlert.findViewById(R.id.noButton);
 
-        yesButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        yesButton.setOnClickListener(v -> {
 
-                loader.show();
-                referViewModel.deleteRefer(referID).observe(getViewLifecycleOwner(), new Observer<CommonResponse>() {
-                    @Override
-                    public void onChanged(CommonResponse commonResponse) {
+            loader.show();
+            referViewModel.deleteRefer(referID).observe(getViewLifecycleOwner(), new Observer<CommonResponse>() {
+                @Override
+                public void onChanged(CommonResponse commonResponse) {
 
-                        String message = commonResponse.message;
+                    String message = commonResponse.message;
 
-                        loader.dismiss();
+                    loader.dismiss();
 
-                        if (message.equals("deleted successfully")) {
-                            load_data();
-                            deleteAlert.dismiss();
-                            Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(getActivity(), getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
+                    if (message.equals("deleted successfully")) {
+                        load_data();
+                        deleteAlert.dismiss();
+                        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getActivity(), getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
 
-                        }
                     }
-                });
+                }
+            });
 
-            }
         });
 
-        noButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                deleteAlert.dismiss();
-            }
-        });
+        noButton.setOnClickListener(v -> deleteAlert.dismiss());
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        ReferResponse response = referList.get(position);
+
+        getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in,  // enter
+                R.anim.fade_out,  // exit
+                R.anim.fade_in,   // popEnter
+                R.anim.slide_out  // popExit
+        ).replace(R.id.frame_container, new ShopReferPackageFragment(response.id)).addToBackStack(null).commit();
     }
 }

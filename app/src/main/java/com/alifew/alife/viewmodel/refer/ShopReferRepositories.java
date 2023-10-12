@@ -56,8 +56,8 @@ public class ShopReferRepositories {
     }
 
 
-    public MutableLiveData<CommonResponse> addRefer(int shopID, String couponName, String createdAt, String endAt, String description) {
-        Call<CommonResponse> call = referApi.addRefer(String.valueOf(shopID), couponName, createdAt, endAt, description);
+    public MutableLiveData<CommonResponse> addRefer(int shopID, String name, String createdAt, String endAt, String description) {
+        Call<CommonResponse> call = referApi.addRefer(String.valueOf(shopID), name, createdAt, endAt, description);
         call.enqueue(new Callback<CommonResponse>() {
             @Override
             public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {

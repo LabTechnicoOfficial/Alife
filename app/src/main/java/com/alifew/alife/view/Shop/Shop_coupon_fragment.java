@@ -89,6 +89,14 @@ public class Shop_coupon_fragment extends Fragment implements Shop_coupon_adapte
                 addCouponAlert.setCancelable(false);
                 addCouponAlert.show();
 
+
+                Window window = addCouponAlert.getWindow();
+                WindowManager.LayoutParams wlp = window.getAttributes();
+                wlp.gravity = Gravity.CENTER;
+                wlp.width = android.view.WindowManager.LayoutParams.MATCH_PARENT;
+                wlp.height = android.view.WindowManager.LayoutParams.WRAP_CONTENT;
+                window.setAttributes(wlp);
+
                 ImageView closeButton = addCouponAlert.findViewById(R.id.closeButtonID);
                 AppCompatButton addButton = addCouponAlert.findViewById(R.id.addButtonID);
                 TextView creationDateText = addCouponAlert.findViewById(R.id.creationDateTextID);

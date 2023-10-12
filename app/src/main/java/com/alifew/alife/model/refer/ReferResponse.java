@@ -7,6 +7,12 @@ public class ReferResponse {
     @SerializedName("id")
     @Expose
     public String id;
+    @SerializedName("name")
+    @Expose
+    public String name;
+    @SerializedName("description")
+    @Expose
+    public String description;
     @SerializedName("start_at")
     @Expose
     public String startAt;

@@ -15,8 +15,8 @@ public class ShopReferViewModel extends ViewModel {
         return ShopReferRepositories.getInstance().getReferList(shopID);
     }
 
-    public LiveData<CommonResponse> addRefer(int shopID, String couponName, String createdAt, String endAt, String description) {
-        return ShopReferRepositories.getInstance().addRefer(shopID, couponName, createdAt, endAt, description);
+    public LiveData<CommonResponse> addRefer(int shopID, String name, String createdAt, String endAt, String description) {
+        return ShopReferRepositories.getInstance().addRefer(shopID, name, createdAt, endAt, description);
     }
 
     public LiveData<CommonResponse> deleteRefer(String id) {

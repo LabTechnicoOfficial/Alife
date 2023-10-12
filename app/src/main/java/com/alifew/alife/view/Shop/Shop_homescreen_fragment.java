@@ -59,7 +59,6 @@ import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
-import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -423,7 +422,7 @@ public class Shop_homescreen_fragment extends Fragment implements Instruction_ad
                         R.anim.fade_out,  // exit
                         R.anim.fade_in,   // popEnter
                         R.anim.slide_out  // popExit
-                ).replace(R.id.frame_container, new ShopPointsFragment()).addToBackStack(null).commit();
+                ).replace(R.id.frame_container, new ShopReferFragment()).addToBackStack(null).commit();
             }
         });
 

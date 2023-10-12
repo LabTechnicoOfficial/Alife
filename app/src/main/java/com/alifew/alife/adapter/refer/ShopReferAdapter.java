@@ -35,7 +35,7 @@ public class ShopReferAdapter extends RecyclerView.Adapter<ShopReferAdapter.View
     public void onBindViewHolder(@NonNull ShopReferAdapter.Viewholder holder, int position) {
 
         ReferResponse response = referList.get(position);
-        holder.nameText.setText("");
+        holder.nameText.setText(response.name);
         holder.createdTimeText.setText(response.startAt);
         holder.endTimeText.setText(response.endAt);
 
@@ -75,14 +75,20 @@ public class ShopReferAdapter extends RecyclerView.Adapter<ShopReferAdapter.View
     }
 
     private OnItemDeleteListener onItemDeleteListener;
+    private OnItemClickListener onItemClickListener;
+
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+    }
 
 
-    public interface  OnItemDeleteListener{
+    public interface OnItemDeleteListener {
         void onDeleteClick(int position);
     }
 
-    public void setOnClickListener(OnItemDeleteListener onItemDeleteListener){
+    public void setOnClickListener(OnItemDeleteListener onItemDeleteListener, OnItemClickListener onItemClickListener) {
         this.onItemDeleteListener = onItemDeleteListener;
+        this.onItemClickListener = onItemClickListener;
     }
 
     public class Viewholder extends RecyclerView.ViewHolder {
@@ -103,6 +109,15 @@ public class ShopReferAdapter extends RecyclerView.Adapter<ShopReferAdapter.View
                     int position = getAdapterPosition();
                     if (position != RecyclerView.NO_POSITION) {
                         onItemDeleteListener.onDeleteClick(position);
+                    }
+                }
+            });
+
+            itemView.setOnClickListener(v-> {
+                if (onItemClickListener != null) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        onItemClickListener.onItemClick(position);
                     }
                 }
             });
