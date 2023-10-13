@@ -53,7 +53,7 @@ public class Shop_coupon_packages_details_fragment extends Fragment {
     int shopID;
     SessionManagement sessionManagement;
 
-    public Shop_coupon_packages_details_fragment(List<CustomerFor_cupon_response> packageCustomerList, String packageID, String packageName, String packageSellAmount, String cupon_available, String cupon_name, String package_name, String shop_name) {
+    public Shop_coupon_packages_details_fragment(String packageID, String packageName, String packageSellAmount, String cupon_available, String cupon_name, String package_name) {
         //this.packageCustomerList = packageCustomerList;
         this.packageID = packageID;
         this.packageName = packageName;
@@ -61,7 +61,6 @@ public class Shop_coupon_packages_details_fragment extends Fragment {
         this.cupon_available = cupon_available;
         this.cupon_name = cupon_name;
         this.package_name = package_name;
-        this.shop_name = shop_name;
     }
 
     @Override

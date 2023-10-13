@@ -39,4 +39,8 @@ public interface ReferApi {
 
     @GET("get_refer_package_list.php")
     Call<List<ReferPackageResponse>> getReferPackageList(@Query("refer_id") String referID);
+
+    @FormUrlEncoded
+    @POST("refer_package_delete.php")
+    Call<CommonResponse> deleteReferPackage(@Field("id") String id);
 }

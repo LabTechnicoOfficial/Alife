@@ -25,12 +25,16 @@ public class ShopReferViewModel extends ViewModel {
     }
 
 
-    public LiveData<CommonResponse> addReferPackage(int shopID, String referID, String name,String packageAmount,String winnerAmount,String giftName) {
+    public LiveData<CommonResponse> addReferPackage(int shopID, String referID, String name, String packageAmount, String winnerAmount, String giftName) {
         return ShopReferRepositories.getInstance().addReferPackage(shopID, referID, name, packageAmount, winnerAmount, giftName);
     }
 
     public LiveData<List<ReferPackageResponse>> getReferPackageList(String referID) {
         return ShopReferRepositories.getInstance().getReferPackageList(referID);
+    }
+
+    public LiveData<CommonResponse> deleteReferPackage(String referID) {
+        return ShopReferRepositories.getInstance().deleteReferPackage(referID);
     }
 
 }

@@ -163,57 +163,15 @@ public class Shop_coupon_packages_fragment extends Fragment implements Shop_coup
     }
 
     private void package_data() {
-        SessionManagment_registration sessionManagment_registration = new SessionManagment_registration(getActivity());
-        String phone = sessionManagment_registration.getPhone();
-        couponPackageViewModel.getPackage(couponID, "", "", "", "").observe(getViewLifecycleOwner(), new Observer<List<Package_response>>() {
+        couponPackageViewModel.getPackage(couponID, shopID, "", "", "").observe(getViewLifecycleOwner(), new Observer<List<Package_response>>() {
             @Override
             public void onChanged(List<Package_response> package_respons) {
-                packagesList = new ArrayList<>();
                 packagesList = package_respons;
-                Collections.sort(packagesList, new Comparator<Package_response>() {
-
-                    @Override
-                    public int compare(Package_response lhs, Package_response rhs) {
-                        // TODO Auto-generated method stub
-
-                        try {
-                            Double v1 = (Double.parseDouble(lhs.getPackageSellAmount()));
-                            Double v3 = (Double.parseDouble(rhs.getPackageSellAmount()));
-                            return v3.compareTo(v1);
-                        } catch (Exception e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-                            return 0;
-                        }
-                    }
-                });
-                List<CustomerFor_cupon_response> temp = new ArrayList<>();
-                for (int i = 0; i < customerList.size(); i++)
-                    temp.add(customerList.get(i));
-
-                //temp = customerList;
-                for (int i = 0; i < packagesList.size(); i++) {
-                    Double sellAmount = Double.parseDouble(packagesList.get(i).getPackageSellAmount());
-                    int count = 0;
-                    for (int j = 0; j < temp.size(); j++) {
-                        try {
-                            if (Double.parseDouble(temp.get(j).getSell_amount()) >= sellAmount) {
-                                count++;
-                                temp.remove(j);
-                                j--;
-                            }
-                        } catch (Exception ignored) {
-
-                        }
-                    }
-                    packagesList.get(i).setMaximum_package_owner(String.valueOf(count));
-                }
-
 
                 adapter = new Shop_coupon_package_adapter(packagesList, cupon_available);
                 adapter.setOnClickListener(Shop_coupon_packages_fragment.this::OnItemClick, Shop_coupon_packages_fragment.this::OnItemDelete);
                 packagesView.setAdapter(adapter);
-                //Toast.makeText(getActivity(),String.valueOf(customerList.size()),Toast.LENGTH_SHORT).show();
+               // Toast.makeText(getActivity(),String.valueOf(couponID),Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -271,66 +229,18 @@ public class Shop_coupon_packages_fragment extends Fragment implements Shop_coup
 
     @Override
     public void OnItemClick(int position) {
-        List<CustomerFor_cupon_response> temp = new ArrayList<>();
-        for (int i = 0; i < customerList.size(); i++)
-            temp.add(customerList.get(i));
-        List<CustomerFor_cupon_response> packageCustomerList = new ArrayList<>();
-        int count = Integer.parseInt(packagesList.get(position).getMaximum_package_owner());
-        double sellAmount = Double.parseDouble(packagesList.get(position).getPackageSellAmount());
-        int packageSize = packagesList.size();
-        int removecustomer = 0;
-        for (int i = 0; i < position; i++) {
-            removecustomer += Integer.parseInt(packagesList.get(i).getMaximum_package_owner());
-        }
+        Package_response response = packagesList.get(position);
+        String packageID = response.getId();
+        String packageName = response.getPackage_name();
+        String packageSellAmount = response.getPackageSellAmount();
 
-        if (count > 0) {
-            for (int i = removecustomer; i < temp.size(); i++) {
-                try {
-                    if (Double.parseDouble(temp.get(i).getSell_amount()) >= sellAmount) {
-                        packageCustomerList.add(temp.get(i));
-                    }
-                } catch (Exception ignored) {
+        getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(
+                R.anim.slide_in,  // enter
+                R.anim.fade_out,  // exit
+                R.anim.fade_in,   // popEnter
+                R.anim.slide_out  // popExit
+        ).replace(R.id.frame_container, new Shop_coupon_packages_details_fragment( packageID, packageName, packageSellAmount, cupon_available, cupon_name, packageName)).addToBackStack(null).commit();
 
-
-                }
-            }
-            Collections.sort(packageCustomerList, new Comparator<CustomerFor_cupon_response>() {
-
-                @Override
-                public int compare(CustomerFor_cupon_response lhs, CustomerFor_cupon_response rhs) {
-                    // TODO Auto-generated method stub
-
-                    try {
-                        Double v1 = (Double.parseDouble(lhs.getSell_amount()));
-                        Double v3 = (Double.parseDouble(rhs.getSell_amount()));
-                        return v3.compareTo(v1);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        return 0;
-                    }
-                }
-            });
-            //Toast.makeText(getActivity(),String.valueOf(packageCustomerList.size()),Toast.LENGTH_SHORT).show();
-
-            Package_response response = packagesList.get(position);
-            String packageID = response.getId();
-            String packageName = response.getPackage_name();
-            String packageSellAmount = response.getPackageSellAmount();
-            shop_profile.getData(shopID).observe(getViewLifecycleOwner(), new Observer<shop_profile_response>() {
-                @Override
-                public void onChanged(shop_profile_response shop_profile_response) {
-                    getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(
-                            R.anim.slide_in,  // enter
-                            R.anim.fade_out,  // exit
-                            R.anim.fade_in,   // popEnter
-                            R.anim.slide_out  // popExit
-                    ).replace(R.id.frame_container, new Shop_coupon_packages_details_fragment(packageCustomerList, packageID, packageName, packageSellAmount, cupon_available, cupon_name, packageName, shop_profile_response.getStore01e_name())).addToBackStack(null).commit();
-
-                }
-            });
-
-
-        }
     }
 
     @Override

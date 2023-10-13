@@ -18,6 +18,9 @@ public class Package_response {
     @SerializedName("gift")
     private String gift;
 
+    @SerializedName("customer_count")
+    private String customerCount;
+
     @SerializedName(("inPackage"))
     private Boolean inPackage;
 
@@ -83,5 +86,13 @@ public class Package_response {
 
     public void setGift(String gift) {
         this.gift = gift;
+    }
+
+    public String getCustomerCount() {
+        return customerCount;
+    }
+
+    public void setCustomerCount(String customerCount) {
+        this.customerCount = customerCount;
     }
 }

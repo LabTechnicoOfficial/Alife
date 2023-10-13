@@ -35,7 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class ShopReferPackageFragment extends Fragment {
+public class ShopReferPackageFragment extends Fragment implements ShopReferPackageAdapter.OnItemClickListener, ShopReferPackageAdapter.OnItemDeleteClickListener {
 
     com.alifew.alife.databinding.FragmentShopReferPackageBinding binding;
     String referID;
@@ -160,6 +160,7 @@ public class ShopReferPackageFragment extends Fragment {
             binding.progressBar.setVisibility(View.GONE);
             referPackageList = referPackageResponses;
             ShopReferPackageAdapter adapter = new ShopReferPackageAdapter(referPackageList);
+            adapter.setOnItemClickListener(ShopReferPackageFragment.this::onItemClick, ShopReferPackageFragment.this::onItemDeleteClick);
             binding.itemView.setAdapter(adapter);
         });
     }
@@ -177,5 +178,34 @@ public class ShopReferPackageFragment extends Fragment {
         loader.setContentView(R.layout.loader);
         loader.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         loader.setCancelable(false);
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        ReferPackageResponse response = referPackageList.get(position);
+
+        getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in,  // enter
+                R.anim.fade_out,  // exit
+                R.anim.fade_in,   // popEnter
+                R.anim.slide_out  // popExit
+        ).replace(R.id.frame_container, new ShopReferPackageCustomerList(response.id)).addToBackStack(null).commit();
+    }
+
+    @Override
+    public void onItemDeleteClick(int position) {
+        ReferPackageResponse response = referPackageList.get(position);
+
+        loader.show();
+        shopReferViewModel.deleteReferPackage(response.id).observe(getViewLifecycleOwner(), new Observer<CommonResponse>() {
+            @Override
+            public void onChanged(CommonResponse commonResponse) {
+                loader.dismiss();
+                if (commonResponse.message.equals("deleted successfully")) {
+                    load_data();
+                }
+
+                Toast.makeText(getActivity(),commonResponse.message, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

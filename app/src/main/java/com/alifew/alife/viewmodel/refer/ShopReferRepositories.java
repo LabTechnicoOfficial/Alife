@@ -132,4 +132,22 @@ public class ShopReferRepositories {
 
         return referPackageList;
     }
+
+    public MutableLiveData<CommonResponse> deleteReferPackage(String referID) {
+        Call<CommonResponse> call = referApi.deleteReferPackage(referID);
+        call.enqueue(new Callback<CommonResponse>() {
+            @Override
+            public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
+                if (response.isSuccessful()) {
+                    commonResponse.postValue(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CommonResponse> call, Throwable t) {
+
+            }
+        });
+        return commonResponse;
+    }
 }

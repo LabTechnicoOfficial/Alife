@@ -10,12 +10,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alifew.alife.R;
-import com.alifew.alife.model.cupon.Package_response;
 import com.alifew.alife.model.refer.ReferPackageResponse;
 
 import java.util.List;
 
-public class ShopReferPackageAdapter extends RecyclerView.Adapter<ShopReferPackageAdapter.Viewholder>{
+public class ShopReferPackageAdapter extends RecyclerView.Adapter<ShopReferPackageAdapter.ViewHolder> {
     private List<ReferPackageResponse> referPackageList;
 
     public ShopReferPackageAdapter(List<ReferPackageResponse> referPackageList) {
@@ -24,17 +23,17 @@ public class ShopReferPackageAdapter extends RecyclerView.Adapter<ShopReferPacka
 
     @NonNull
     @Override
-    public ShopReferPackageAdapter.Viewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new Viewholder(LayoutInflater.from(parent.getContext()).inflate(R.layout.shop_refer_package_card, parent, false));
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.shop_refer_package_card, parent, false));
 
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ShopReferPackageAdapter.Viewholder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ReferPackageResponse response = referPackageList.get(position);
         holder.packageNameText.setText(response.title);
         holder.sellAmountText.setText(response.minAmount);
-        holder.packageOwnerAmountText.setText(response.userCount);
+//        holder.packageOwnerAmountText.setText(response.userCount);
         holder.winnerText.setText(response.winnerAmount);
         holder.giftText.setText(response.gift);
       /*  if (cupon_available.equals("1")) {
@@ -49,11 +48,28 @@ public class ShopReferPackageAdapter extends RecyclerView.Adapter<ShopReferPacka
         return referPackageList.size();
     }
 
-    public class Viewholder extends RecyclerView.ViewHolder {
+    private OnItemClickListener onItemClickListener;
+    private OnItemDeleteClickListener onItemDeleteClickListener;
+
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+    }
+
+    public interface OnItemDeleteClickListener {
+        void onItemDeleteClick(int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener, OnItemDeleteClickListener onItemDeleteClickListener) {
+        this.onItemClickListener = onItemClickListener;
+        this.onItemDeleteClickListener = onItemDeleteClickListener;
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView packageNameText, sellAmountText, packageOwnerAmountText, winnerText, giftText, packageHistory;
         ImageView deleteButton;
-        public Viewholder(@NonNull View itemView) {
+
+        public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             packageNameText = itemView.findViewById(R.id.packageNameTextID);
@@ -62,6 +78,25 @@ public class ShopReferPackageAdapter extends RecyclerView.Adapter<ShopReferPacka
             winnerText = itemView.findViewById(R.id.winnerTextID);
             giftText = itemView.findViewById(R.id.giftTextID);
             packageHistory = itemView.findViewById(R.id.packageHistoryId);
+
+            deleteButton.setOnClickListener(v -> {
+                if (onItemDeleteClickListener != null) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        onItemDeleteClickListener.onItemDeleteClick(position);
+                    }
+                }
+            });
+
+
+            itemView.setOnClickListener(v -> {
+                if (onItemClickListener != null) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        onItemClickListener.onItemClick(position);
+                    }
+                }
+            });
         }
     }
 }
