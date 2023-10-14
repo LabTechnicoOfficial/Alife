@@ -33,7 +33,7 @@ public class ShopReferPackageAdapter extends RecyclerView.Adapter<ShopReferPacka
         ReferPackageResponse response = referPackageList.get(position);
         holder.packageNameText.setText(response.title);
         holder.sellAmountText.setText(response.minAmount);
-//        holder.packageOwnerAmountText.setText(response.userCount);
+        holder.packageOwnerAmountText.setText(String.valueOf(response.userCount));
         holder.winnerText.setText(response.winnerAmount);
         holder.giftText.setText(response.gift);
       /*  if (cupon_available.equals("1")) {
@@ -78,6 +78,7 @@ public class ShopReferPackageAdapter extends RecyclerView.Adapter<ShopReferPacka
             winnerText = itemView.findViewById(R.id.winnerTextID);
             giftText = itemView.findViewById(R.id.giftTextID);
             packageHistory = itemView.findViewById(R.id.packageHistoryId);
+            packageOwnerAmountText = itemView.findViewById(R.id.packageOwnerAmountTextID);
 
             deleteButton.setOnClickListener(v -> {
                 if (onItemDeleteClickListener != null) {

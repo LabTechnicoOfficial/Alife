@@ -155,6 +155,8 @@ public class ShopReferPackageFragment extends Fragment implements ShopReferPacka
     }
 
     private void load_data() {
+
+
         binding.progressBar.setVisibility(View.VISIBLE);
         shopReferViewModel.getReferPackageList(referID).observe(getViewLifecycleOwner(), referPackageResponses -> {
             binding.progressBar.setVisibility(View.GONE);
@@ -188,7 +190,7 @@ public class ShopReferPackageFragment extends Fragment implements ShopReferPacka
                 R.anim.fade_out,  // exit
                 R.anim.fade_in,   // popEnter
                 R.anim.slide_out  // popExit
-        ).replace(R.id.frame_container, new ShopReferPackageCustomerList(response.id)).addToBackStack(null).commit();
+        ).replace(R.id.frame_container, new ShopReferPackageCustomerListFragment(response.id)).addToBackStack(null).commit();
     }
 
     @Override

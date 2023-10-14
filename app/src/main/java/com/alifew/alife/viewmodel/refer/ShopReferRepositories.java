@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.alifew.alife.API.ApiUtilize;
 import com.alifew.alife.model.CommonResponse;
 import com.alifew.alife.model.refer.ReferApi;
+import com.alifew.alife.model.refer.ReferPackageCustomerResponse;
 import com.alifew.alife.model.refer.ReferPackageResponse;
 import com.alifew.alife.model.refer.ReferResponse;
 
@@ -22,6 +23,7 @@ public class ShopReferRepositories {
     private ReferApi referApi;
     MutableLiveData<List<ReferResponse>> referList;
     MutableLiveData<List<ReferPackageResponse>> referPackageList;
+    MutableLiveData<List<ReferPackageCustomerResponse>> customerList;
     MutableLiveData<CommonResponse> commonResponse;
 
     public ShopReferRepositories() {
@@ -29,6 +31,7 @@ public class ShopReferRepositories {
         referList = new MutableLiveData<>();
         commonResponse = new MutableLiveData<>();
         referPackageList = new MutableLiveData<>();
+        customerList = new MutableLiveData<>();
     }
 
     public synchronized static ShopReferRepositories getInstance() {
@@ -149,5 +152,24 @@ public class ShopReferRepositories {
             }
         });
         return commonResponse;
+    }
+
+    public MutableLiveData<List<ReferPackageCustomerResponse>> getReferPackageCustomer(String shopID, String packageID) {
+        Call<List<ReferPackageCustomerResponse>> call = referApi.getReferPackageCustomer(shopID, packageID);
+        call.enqueue(new Callback<List<ReferPackageCustomerResponse>>() {
+            @Override
+            public void onResponse(Call<List<ReferPackageCustomerResponse>> call, Response<List<ReferPackageCustomerResponse>> response) {
+                if (response.isSuccessful()) {
+                    customerList.postValue(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<ReferPackageCustomerResponse>> call, Throwable t) {
+
+            }
+        });
+
+        return customerList;
     }
 }

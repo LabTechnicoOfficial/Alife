@@ -26,7 +26,7 @@ public class ReferPackageResponse {
     @SerializedName("winner_amount")
     @Expose
     public String winnerAmount;
-    @SerializedName("user_count")
+    @SerializedName("customer_count")
     @Expose
-    public String userCount;
+    public int userCount;
 }

@@ -43,4 +43,8 @@ public interface ReferApi {
     @FormUrlEncoded
     @POST("refer_package_delete.php")
     Call<CommonResponse> deleteReferPackage(@Field("id") String id);
+
+    @GET("shop_refer_customer_list.php")
+    Call<List<ReferPackageCustomerResponse>> getReferPackageCustomer(@Query("shop_id") String shopID,
+                                                                     @Query("package_id") String packageID);
 }

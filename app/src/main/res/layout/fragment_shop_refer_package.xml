@@ -21,24 +21,33 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/itemView"
+    <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginTop="@dimen/_5sdp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/headerText" />
+        app:layout_constraintTop_toBottomOf="@id/headerText">
 
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="@dimen/_20sdp"
-        android:layout_height="@dimen/_20sdp"
-        android:indeterminateTint="@color/default_color"
-        android:visibility="gone"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/itemView" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/itemView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_20sdp"
+            android:indeterminateTint="@color/default_color"
+            android:visibility="gone"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/itemView" />
+
+    </LinearLayout>
 
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
