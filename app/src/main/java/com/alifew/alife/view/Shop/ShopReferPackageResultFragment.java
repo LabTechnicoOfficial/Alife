@@ -13,18 +13,20 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.alifew.alife.R;
 import com.alifew.alife.adapter.refer.ShopReferCustomerResultAdapter;
 import com.alifew.alife.databinding.FragmentShopReferPackageCustomerListBinding;
 import com.alifew.alife.databinding.FragmentShopReferPackageResultBinding;
+import com.alifew.alife.model.CommonResponse;
 import com.alifew.alife.model.refer.ReferResultCustomerResponse;
 import com.alifew.alife.session.SessionManagement;
 import com.alifew.alife.viewmodel.refer.ShopReferViewModel;
 
 import java.util.List;
 
-public class ShopReferPackageResultFragment extends Fragment {
+public class ShopReferPackageResultFragment extends Fragment implements ShopReferCustomerResultAdapter.OnItemDeleteListener {
     FragmentShopReferPackageResultBinding binding;
     SessionManagement sessionManagement;
     int shopID;
@@ -60,6 +62,7 @@ public class ShopReferPackageResultFragment extends Fragment {
                 loader.dismiss();
                 resultCustomerList = referResultCustomerResponse.customerList;
                 adapter = new ShopReferCustomerResultAdapter(resultCustomerList);
+                adapter.setOnItemClickListener(ShopReferPackageResultFragment.this::OnItemDeleteClick);
                 binding.itemView.setAdapter(adapter);
             }
         });
@@ -80,5 +83,26 @@ public class ShopReferPackageResultFragment extends Fragment {
         loader.setContentView(R.layout.loader);
         loader.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         loader.setCancelable(false);
+    }
+
+    @Override
+    public void OnItemDeleteClick(int position) {
+        ReferResultCustomerResponse.Customer response = resultCustomerList.get(position);
+        loader.show();
+
+        shopReferViewModel.deleteReferCustomerResult(response.id).observe(getViewLifecycleOwner(), new Observer<CommonResponse>() {
+            @Override
+            public void onChanged(CommonResponse commonResponse) {
+                loader.dismiss();
+                Toast.makeText(getActivity(), commonResponse.message, Toast.LENGTH_SHORT).show();
+
+                if(commonResponse.message.equals("deleted successfully")){
+                    load_data();
+                }
+
+
+            }
+        });
+
     }
 }

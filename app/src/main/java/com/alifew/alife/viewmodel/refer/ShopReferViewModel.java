@@ -51,4 +51,8 @@ public class ShopReferViewModel extends ViewModel {
         return ShopReferRepositories.getInstance().getResultCustomerList(referPackageID);
     }
 
+    public LiveData<CommonResponse> deleteReferCustomerResult(String id){
+        return ShopReferRepositories.getInstance().deleteReferCustomerResult(id);
+    }
+
 }

@@ -3,6 +3,7 @@ package com.alifew.alife.adapter.refer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -43,9 +44,20 @@ public class ShopReferCustomerResultAdapter extends RecyclerView.Adapter<ShopRef
         return resultCustomerList.size();
     }
 
+    private OnItemDeleteListener onItemDeleteListener;
+
+    public interface OnItemDeleteListener {
+        void OnItemDeleteClick(int position);
+    }
+
+    public void setOnItemClickListener(OnItemDeleteListener onItemClickListener) {
+        this.onItemDeleteListener = onItemClickListener;
+    }
+
     public class Viewholder extends RecyclerView.ViewHolder {
 
         TextView positionText, pointsText, statusText, phoneText, giftNameText;
+        ImageView deleteButton;
 
         public Viewholder(@NonNull View itemView) {
             super(itemView);
@@ -55,6 +67,16 @@ public class ShopReferCustomerResultAdapter extends RecyclerView.Adapter<ShopRef
             pointsText = itemView.findViewById(R.id.pointsText);
             statusText = itemView.findViewById(R.id.statusText);
             phoneText = itemView.findViewById(R.id.phoneText);
+            deleteButton = itemView.findViewById(R.id.deleteButton);
+
+            deleteButton.setOnClickListener(v -> {
+                if (onItemDeleteListener != null) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        onItemDeleteListener.OnItemDeleteClick(position);
+                    }
+                }
+            });
         }
     }
 }

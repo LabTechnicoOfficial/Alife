@@ -216,4 +216,23 @@ public class ShopReferRepositories {
 
         return referResultCustomerResponse;
     }
+
+    public MutableLiveData<CommonResponse> deleteReferCustomerResult(String id) {
+        Call<CommonResponse> call = referApi.deleteReferCustomerResult(id);
+        call.enqueue(new Callback<CommonResponse>() {
+            @Override
+            public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
+                if (response.isSuccessful()) {
+                    commonResponse.postValue(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CommonResponse> call, Throwable t) {
+
+            }
+        });
+
+        return commonResponse;
+    }
 }
