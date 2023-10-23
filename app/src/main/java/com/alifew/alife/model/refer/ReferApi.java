@@ -57,4 +57,8 @@ public interface ReferApi {
                                               @Field("point") String points,
                                               @Field("position") String position,
                                               @Field("gift_name") String giftName);
+
+
+    @GET("get_refer_point_gift_customer_list.php")
+    Call<ReferResultCustomerResponse> getResultCustomerList(@Query("refer_package_id") String referPackageID);
 }

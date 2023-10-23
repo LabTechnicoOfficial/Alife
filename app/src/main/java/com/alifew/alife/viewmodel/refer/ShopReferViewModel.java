@@ -8,6 +8,7 @@ import com.alifew.alife.model.cupon.add_response;
 import com.alifew.alife.model.refer.ReferPackageCustomerResponse;
 import com.alifew.alife.model.refer.ReferPackageResponse;
 import com.alifew.alife.model.refer.ReferResponse;
+import com.alifew.alife.model.refer.ReferResultCustomerResponse;
 
 import java.util.List;
 
@@ -44,6 +45,10 @@ public class ShopReferViewModel extends ViewModel {
 
     public LiveData<CommonResponse> addCustomerReferGift(String referPackageID,int shopID, String phone, String points, String position, String giftName){
         return ShopReferRepositories.getInstance().addCustomerReferGift(referPackageID, String.valueOf(shopID),phone, points, position, giftName);
+    }
+
+    public LiveData<ReferResultCustomerResponse> getResultCustomerList(String referPackageID){
+        return ShopReferRepositories.getInstance().getResultCustomerList(referPackageID);
     }
 
 }

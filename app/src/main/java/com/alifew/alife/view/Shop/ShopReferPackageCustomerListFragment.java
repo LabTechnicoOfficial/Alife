@@ -74,7 +74,7 @@ public class ShopReferPackageCustomerListFragment extends Fragment implements Sh
 
     private void load_data() {
         loader.show();
-        //  Toast.makeText(getActivity(), String.valueOf(shopID)+" p:"+ packageID, Toast.LENGTH_SHORT).show();
+//          Toast.makeText(getActivity(), String.valueOf(shopID)+" p:"+ packageID, Toast.LENGTH_SHORT).show();
         shopReferViewModel.getReferPackageCustomer(String.valueOf(shopID), packageID).observe(getViewLifecycleOwner(), referPackageCustomerResponses -> {
             loader.dismiss();
             customerList = referPackageCustomerResponses;

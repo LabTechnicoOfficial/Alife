@@ -80,7 +80,7 @@ public class Shop_coupon_packages_details_fragment extends Fragment {
                 TextInputEditText packageNameText = updatePackageAlert.findViewById(R.id.packageNameTextID);
                 TextInputEditText packageAmountText = updatePackageAlert.findViewById(R.id.packageAmountTextID);
                 TextInputEditText winnerAmountText = updatePackageAlert.findViewById(R.id.winnerAmountTextID);
-                TextInputEditText giftNameText = updatePackageAlert.findViewById(R.id.giftNameTextID);
+                TextInputEditText giftNameText = updatePackageAlert.findViewById(R.id.giftNameText);
 
                 TextInputLayout packageNameError = updatePackageAlert.findViewById(R.id.packageNameErrorID);
                 TextInputLayout packageAmountError = updatePackageAlert.findViewById(R.id.packageAmountErrorID);

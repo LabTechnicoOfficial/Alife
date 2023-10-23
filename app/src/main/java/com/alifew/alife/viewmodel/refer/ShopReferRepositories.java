@@ -11,6 +11,7 @@ import com.alifew.alife.model.refer.ReferApi;
 import com.alifew.alife.model.refer.ReferPackageCustomerResponse;
 import com.alifew.alife.model.refer.ReferPackageResponse;
 import com.alifew.alife.model.refer.ReferResponse;
+import com.alifew.alife.model.refer.ReferResultCustomerResponse;
 
 import java.util.List;
 
@@ -24,6 +25,7 @@ public class ShopReferRepositories {
     MutableLiveData<List<ReferResponse>> referList;
     MutableLiveData<List<ReferPackageResponse>> referPackageList;
     MutableLiveData<List<ReferPackageCustomerResponse>> customerList;
+    MutableLiveData<ReferResultCustomerResponse> referResultCustomerResponse;
     MutableLiveData<CommonResponse> commonResponse;
 
     public ShopReferRepositories() {
@@ -32,6 +34,7 @@ public class ShopReferRepositories {
         commonResponse = new MutableLiveData<>();
         referPackageList = new MutableLiveData<>();
         customerList = new MutableLiveData<>();
+        referResultCustomerResponse = new MutableLiveData<>();
     }
 
     public synchronized static ShopReferRepositories getInstance() {
@@ -173,9 +176,9 @@ public class ShopReferRepositories {
         return customerList;
     }
 
-    public MutableLiveData<CommonResponse> addCustomerReferGift(String referPackageID,String shopID, String phone, String points, String position, String giftName) {
+    public MutableLiveData<CommonResponse> addCustomerReferGift(String referPackageID, String shopID, String phone, String points, String position, String giftName) {
 
-        Call<CommonResponse> call = referApi.addCustomerReferGift(referPackageID,shopID, phone, points, position, giftName);
+        Call<CommonResponse> call = referApi.addCustomerReferGift(referPackageID, shopID, phone, points, position, giftName);
         call.enqueue(new Callback<CommonResponse>() {
             @Override
             public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
@@ -193,5 +196,24 @@ public class ShopReferRepositories {
         });
 
         return commonResponse;
+    }
+
+    public MutableLiveData<ReferResultCustomerResponse> getResultCustomerList(String referPackageID) {
+        Call<ReferResultCustomerResponse> call = referApi.getResultCustomerList(referPackageID);
+        call.enqueue(new Callback<ReferResultCustomerResponse>() {
+            @Override
+            public void onResponse(Call<ReferResultCustomerResponse> call, Response<ReferResultCustomerResponse> response) {
+                if (response.isSuccessful()) {
+                    referResultCustomerResponse.postValue(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ReferResultCustomerResponse> call, Throwable t) {
+
+            }
+        });
+
+        return referResultCustomerResponse;
     }
 }

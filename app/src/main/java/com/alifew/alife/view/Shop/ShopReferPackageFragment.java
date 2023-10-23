@@ -89,7 +89,7 @@ public class ShopReferPackageFragment extends Fragment implements ShopReferPacka
         TextInputEditText packageNameText = addPackageAlert.findViewById(R.id.packageNameTextID);
         TextInputEditText packageAmountText = addPackageAlert.findViewById(R.id.packageAmountTextID);
         TextInputEditText winnerAmountText = addPackageAlert.findViewById(R.id.winnerAmountTextID);
-        TextInputEditText giftNameText = addPackageAlert.findViewById(R.id.giftNameTextID);
+        TextInputEditText giftNameText = addPackageAlert.findViewById(R.id.giftNameText);
 
         TextInputLayout packageNameError = addPackageAlert.findViewById(R.id.packageNameErrorID);
         TextInputLayout packageAmountError = addPackageAlert.findViewById(R.id.packageAmountErrorID);
