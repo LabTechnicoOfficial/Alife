@@ -61,6 +61,14 @@ public class ShopReferPackageCustomerListFragment extends Fragment implements Sh
 
         load_data();
 
+        binding.resultButton.setOnClickListener(v -> {
+            getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in,  // enter
+                    R.anim.fade_out,  // exit
+                    R.anim.fade_in,   // popEnter
+                    R.anim.slide_out  // popExit
+            ).replace(R.id.frame_container, new ShopReferPackageResultFragment(packageID)).addToBackStack(null).commit();
+        });
+
         return view;
     }
 
@@ -71,7 +79,7 @@ public class ShopReferPackageCustomerListFragment extends Fragment implements Sh
             loader.dismiss();
             customerList = referPackageCustomerResponses;
             adapter = new ShopReferPackageCustomerAdapter(customerList);
-            adapter.setOnItemClickListener(ShopReferPackageCustomerListFragment.this::onAddIconClick);
+            adapter.setOnItemClickListener(ShopReferPackageCustomerListFragment.this);
             binding.itemView.setAdapter(adapter);
 
         });

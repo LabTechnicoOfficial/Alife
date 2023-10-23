@@ -99,4 +99,5 @@
     <string name="time_remaining">সময় বাকি</string>
     <string name="min_point">সর্বনিম্ন পয়েন্ট</string>
     <string name="position">স্থান</string>
+    <string name="result">ফলাফল</string>
 </resources>
