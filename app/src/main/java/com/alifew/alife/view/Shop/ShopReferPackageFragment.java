@@ -83,8 +83,8 @@ public class ShopReferPackageFragment extends Fragment implements ShopReferPacka
         wlp.height = android.view.WindowManager.LayoutParams.WRAP_CONTENT;
         window.setAttributes(wlp);
 
-        ImageView closeButton = addPackageAlert.findViewById(R.id.closeButtonID);
-        AppCompatButton addButton = addPackageAlert.findViewById(R.id.addButtonID);
+        ImageView closeButton = addPackageAlert.findViewById(R.id.closeButton);
+        AppCompatButton addButton = addPackageAlert.findViewById(R.id.addButton);
 
         TextInputEditText packageNameText = addPackageAlert.findViewById(R.id.packageNameTextID);
         TextInputEditText packageAmountText = addPackageAlert.findViewById(R.id.packageAmountTextID);

@@ -100,7 +100,7 @@
                 android:padding="10dp">
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/nameErrorID"
+                    android:id="@+id/nameError"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -110,7 +110,7 @@
                     card_view:endIconMode="clear_text">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/nameTextID"
+                        android:id="@+id/nameText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="text"

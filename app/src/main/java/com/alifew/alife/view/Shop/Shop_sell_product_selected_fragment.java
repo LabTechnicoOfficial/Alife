@@ -706,7 +706,7 @@ public class Shop_sell_product_selected_fragment extends Fragment implements Sho
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.shop_sell_product_selected_fragment, container, false);
 
-        addButton = (AppCompatButton) view.findViewById(R.id.addButtonID);
+        addButton = (AppCompatButton) view.findViewById(R.id.addButton);
         productNameText = (TextView) view.findViewById(R.id.productNameID);
         productUnitText = (TextView) view.findViewById(R.id.productUnitID);
         stock = (TextView) view.findViewById(R.id.stockAmountID);

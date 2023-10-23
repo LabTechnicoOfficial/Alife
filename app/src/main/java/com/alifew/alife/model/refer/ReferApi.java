@@ -47,4 +47,14 @@ public interface ReferApi {
     @GET("shop_refer_customer_list.php")
     Call<List<ReferPackageCustomerResponse>> getReferPackageCustomer(@Query("shop_id") String shopID,
                                                                      @Query("package_id") String packageID);
+
+
+    @FormUrlEncoded
+    @POST("add_refer_point_gift_customer.php")
+    Call<CommonResponse> addCustomerReferGift(@Field("refer_package_id") String referPackageID,
+                                              @Field("shop_id") String shopID,
+                                              @Field("phone") String phone,
+                                              @Field("point") String points,
+                                              @Field("position") String position,
+                                              @Field("gift_name") String giftName);
 }

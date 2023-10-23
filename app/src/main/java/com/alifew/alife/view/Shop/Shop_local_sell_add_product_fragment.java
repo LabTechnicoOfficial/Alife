@@ -155,7 +155,7 @@ public class Shop_local_sell_add_product_fragment extends Fragment implements Lo
                 wlp.height = android.view.WindowManager.LayoutParams.WRAP_CONTENT;
                 window.setAttributes(wlp);
 
-                ImageView closeButton = dialog.findViewById(R.id.closeButtonID);
+                ImageView closeButton = dialog.findViewById(R.id.closeButton);
                 closeButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -298,7 +298,7 @@ public class Shop_local_sell_add_product_fragment extends Fragment implements Lo
         productsView.setHasFixedSize(true);
         productsView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        addButton = view.findViewById(R.id.addButtonID);
+        addButton = view.findViewById(R.id.addButton);
     }
 
     private String imgToString(Bitmap bitmap) {
@@ -396,7 +396,7 @@ public class Shop_local_sell_add_product_fragment extends Fragment implements Lo
         wlp.height = android.view.WindowManager.LayoutParams.WRAP_CONTENT;
         window.setAttributes(wlp);
 
-        ImageView closeButton = dialog.findViewById(R.id.closeButtonID);
+        ImageView closeButton = dialog.findViewById(R.id.closeButton);
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

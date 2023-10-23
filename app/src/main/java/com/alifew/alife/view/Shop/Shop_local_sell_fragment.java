@@ -876,7 +876,7 @@ public class Shop_local_sell_fragment extends Fragment implements Shop_local_sel
         wlp.height = WindowManager.LayoutParams.MATCH_PARENT;
         window.setAttributes(wlp);
 
-        ImageView closeButton = memoAlert.findViewById(R.id.closeButtonID);
+        ImageView closeButton = memoAlert.findViewById(R.id.closeButton);
         LinearLayout mainLayout = memoAlert.findViewById(R.id.mainLayout);
         TextView shopNameText = memoAlert.findViewById(R.id.nameText);
         TextView productDetailsTextPDF = memoAlert.findViewById(R.id.productDetailsTextID);

@@ -777,7 +777,7 @@ public class Operator_sell_selected_product_list_fragment extends Fragment imple
         selectCustomerAlert.show();
         customerView = (RecyclerView) selectCustomerAlert.findViewById(R.id.customersViewID);
         addUnregisteredCustomer = (ExtendedFloatingActionButton) selectCustomerAlert.findViewById(R.id.addCustomerID);
-        ImageView closeButton = (ImageView) selectCustomerAlert.findViewById(R.id.closeButtonID);
+        ImageView closeButton = (ImageView) selectCustomerAlert.findViewById(R.id.closeButton);
         EditText searchBox = (EditText) selectCustomerAlert.findViewById(R.id.searchEditText);
 
         layoutManager2 = new LinearLayoutManager(getContext());
@@ -862,11 +862,11 @@ public class Operator_sell_selected_product_list_fragment extends Fragment imple
         ImageView closeButton = (ImageView) alert.findViewById(R.id.closeID);
         TextView doneButton = (TextView) alert.findViewById(R.id.doneButtonID);
 
-        TextInputEditText nameText = (TextInputEditText) alert.findViewById(R.id.nameTextID);
+        TextInputEditText nameText = (TextInputEditText) alert.findViewById(R.id.nameText);
         TextInputEditText phoneText = (TextInputEditText) alert.findViewById(R.id.contactText);
         TextInputEditText locationText = (TextInputEditText) alert.findViewById(R.id.locationTextID);
 
-        TextInputLayout nameError = (TextInputLayout) alert.findViewById(R.id.nameErrorID);
+        TextInputLayout nameError = (TextInputLayout) alert.findViewById(R.id.nameError);
         TextInputLayout phoneError = (TextInputLayout) alert.findViewById(R.id.phoneErrorID);
         TextInputLayout locationError = (TextInputLayout) alert.findViewById(R.id.locationErrorID);
 

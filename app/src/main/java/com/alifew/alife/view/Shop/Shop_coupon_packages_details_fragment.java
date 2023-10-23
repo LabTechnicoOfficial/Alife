@@ -9,13 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
-import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -77,7 +75,7 @@ public class Shop_coupon_packages_details_fragment extends Fragment {
                 updatePackageAlert.setCancelable(false);
                 updatePackageAlert.show();
 
-                ImageView closeButton = updatePackageAlert.findViewById(R.id.closeButtonID);
+                ImageView closeButton = updatePackageAlert.findViewById(R.id.closeButton);
                 AppCompatButton updateButton = updatePackageAlert.findViewById(R.id.updateButtonID);
                 TextInputEditText packageNameText = updatePackageAlert.findViewById(R.id.packageNameTextID);
                 TextInputEditText packageAmountText = updatePackageAlert.findViewById(R.id.packageAmountTextID);

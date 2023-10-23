@@ -1361,7 +1361,7 @@ public class Shop_products_add_fragment extends Fragment {
                 surfaceView = barCodeAlert.findViewById(R.id.surface_view);
                 barcodeText = barCodeAlert.findViewById(R.id.barcode_text);
                 ok = barCodeAlert.findViewById(R.id.ok);
-                ImageView close = barCodeAlert.findViewById(R.id.closeButtonID);
+                ImageView close = barCodeAlert.findViewById(R.id.closeButton);
                 close.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

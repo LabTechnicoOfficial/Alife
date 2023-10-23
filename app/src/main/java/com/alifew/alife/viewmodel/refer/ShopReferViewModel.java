@@ -42,4 +42,8 @@ public class ShopReferViewModel extends ViewModel {
         return ShopReferRepositories.getInstance().getReferPackageCustomer(shopID, packageID);
     }
 
+    public LiveData<CommonResponse> addCustomerReferGift(String referPackageID,int shopID, String phone, String points, String position, String giftName){
+        return ShopReferRepositories.getInstance().addCustomerReferGift(referPackageID, String.valueOf(shopID),phone, points, position, giftName);
+    }
+
 }

@@ -365,7 +365,7 @@ public class Product_details_fragment<SharedViewModel> extends Fragment implemen
                 unitError = (TextInputLayout) alert.findViewById(R.id.unitErrorID);
                 discountError = (TextInputLayout) alert.findViewById(R.id.discountErrorID);
                 amountError = (TextInputLayout) alert.findViewById(R.id.amountErrorID);
-                productText = (TextInputEditText) alert.findViewById(R.id.nameTextID);
+                productText = (TextInputEditText) alert.findViewById(R.id.nameText);
 
                 priceText = (TextInputEditText) alert.findViewById(R.id.priceTextID);
                 unitText = (TextInputEditText) alert.findViewById(R.id.unitTextID);

@@ -87,7 +87,7 @@ public class Shop_local_page_details_fragment extends Fragment implements Shop_l
                 alert.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 alert.show();
                 alert.setCancelable(false);
-                EditText name = (EditText) alert.findViewById(R.id.nameTextID);
+                EditText name = (EditText) alert.findViewById(R.id.nameText);
                 EditText amount = (EditText) alert.findViewById(R.id.amountText);
                 EditText price = (EditText) alert.findViewById(R.id.priceTextID);
                 TextView total_price = (TextView) alert.findViewById(R.id.totalPriceID);
@@ -96,7 +96,7 @@ public class Shop_local_page_details_fragment extends Fragment implements Shop_l
                 TextInputEditText titleText = (TextInputEditText) alert.findViewById(R.id.titleText);
                 TextInputLayout titleError = (TextInputLayout) alert.findViewById(R.id.titleErrorID);
 
-                ImageView add = (ImageView) alert.findViewById(R.id.addButtonID);
+                ImageView add = (ImageView) alert.findViewById(R.id.addButton);
                 AppCompatButton saveButton = (AppCompatButton) alert.findViewById(R.id.saveButtonID);
                 TextView totalAmount = (TextView) alert.findViewById(R.id.totalAmountID);
                 TextView totalPrice = (TextView) alert.findViewById(R.id.wholePriceID);
@@ -229,7 +229,7 @@ public class Shop_local_page_details_fragment extends Fragment implements Shop_l
                     public void onClick(View v) {
 
                         View dynamicView = LayoutInflater.from(getActivity()).inflate(R.layout.add_title_details_daynamic_layout, null, false);
-                        NAME = (EditText) dynamicView.findViewById(R.id.nameTextID);
+                        NAME = (EditText) dynamicView.findViewById(R.id.nameText);
                         AMOUNT = (EditText) dynamicView.findViewById(R.id.amountText);
                         PRICE = (EditText) dynamicView.findViewById(R.id.priceTextID);
                         TOTAL_PRICE = (TextView) dynamicView.findViewById(R.id.totalPriceID);
@@ -380,7 +380,7 @@ public class Shop_local_page_details_fragment extends Fragment implements Shop_l
                         } else {
                             if (item_length > 0) {
                                 View single_Layout = layout.getChildAt(item_length - 1);
-                                EditText name_text = (EditText) single_Layout.findViewById(R.id.nameTextID);
+                                EditText name_text = (EditText) single_Layout.findViewById(R.id.nameText);
                                 EditText amount_text = (EditText) single_Layout.findViewById(R.id.amountText);
                                 EditText price_text = (EditText) single_Layout.findViewById(R.id.priceTextID);
                                 if (name_text.getText().toString().trim().isEmpty() || amount_text.getText().toString().trim().isEmpty() || price_text.getText().toString().trim().isEmpty()) {
@@ -388,7 +388,7 @@ public class Shop_local_page_details_fragment extends Fragment implements Shop_l
                                 } else {
                                     for (int i = item_length; i > 0; i--) {
                                         single_Layout = layout.getChildAt(i - 1);
-                                        name_text = (EditText) single_Layout.findViewById(R.id.nameTextID);
+                                        name_text = (EditText) single_Layout.findViewById(R.id.nameText);
                                         amount_text = (EditText) single_Layout.findViewById(R.id.amountText);
                                         price_text = (EditText) single_Layout.findViewById(R.id.priceTextID);
                                         TextView total_price = (TextView) single_Layout.findViewById(R.id.totalPriceID);
@@ -398,7 +398,7 @@ public class Shop_local_page_details_fragment extends Fragment implements Shop_l
                                         PRICE.setText(price_text.getText().toString().trim());
                                         TOTAL_PRICE.setText(total_price.getText().toString().trim());
 
-                                        NAME = (EditText) dynamicView.findViewById(R.id.nameTextID);
+                                        NAME = (EditText) dynamicView.findViewById(R.id.nameText);
                                         AMOUNT = (EditText) dynamicView.findViewById(R.id.amountText);
                                         PRICE = (EditText) dynamicView.findViewById(R.id.priceTextID);
                                         TOTAL_PRICE = (TextView) dynamicView.findViewById(R.id.totalPriceID);     // layout.addView(single_Layout,i);
@@ -455,7 +455,7 @@ public class Shop_local_page_details_fragment extends Fragment implements Shop_l
 
                             for (int i = 0; i < item_length; i++) {
                                 View single_layout = layout.getChildAt(i);
-                                EditText name_text = (EditText) single_layout.findViewById(R.id.nameTextID);
+                                EditText name_text = (EditText) single_layout.findViewById(R.id.nameText);
                                 EditText amount_text = (EditText) single_layout.findViewById(R.id.amountText);
                                 EditText price_text = (EditText) single_layout.findViewById(R.id.priceTextID);
                                 if (!price_text.getText().toString().trim().isEmpty() && !amount_text.getText().toString().trim().isEmpty() && !name_text.getText().toString().trim().isEmpty()) {
@@ -574,7 +574,7 @@ public class Shop_local_page_details_fragment extends Fragment implements Shop_l
 
         //Toast.makeText(getActivity(), title_id, Toast.LENGTH_LONG).show();
 
-        addButton = (ExtendedFloatingActionButton) view.findViewById(R.id.addButtonID);
+        addButton = (ExtendedFloatingActionButton) view.findViewById(R.id.addButton);
         TOTAL_PRICE = (TextView) view.findViewById(R.id.totalPriceID);
         recyclerView = (RecyclerView) view.findViewById(R.id.itemView);
 

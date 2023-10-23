@@ -3,6 +3,7 @@ package com.alifew.alife.adapter.refer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -30,7 +31,7 @@ public class ShopReferPackageCustomerAdapter extends RecyclerView.Adapter<ShopRe
     public void onBindViewHolder(@NonNull ShopReferPackageCustomerAdapter.ViewHolder holder, int position) {
 
         ReferPackageCustomerResponse response = customerList.get(position);
-        holder.positionText.setText(String.valueOf(position+1));
+        holder.positionText.setText(String.valueOf(position + 1));
         holder.phoneText.setText(response.referPhone);
         holder.pointsText.setText(String.valueOf(response.referPoints));
     }
@@ -40,15 +41,37 @@ public class ShopReferPackageCustomerAdapter extends RecyclerView.Adapter<ShopRe
         return customerList.size();
     }
 
+    private OnAddIconClickListener onAddIconClickListener;
+
+    public interface OnAddIconClickListener {
+        void onAddIconClick(int position);
+    }
+
+    public void setOnItemClickListener(OnAddIconClickListener onAddIconClickListener) {
+        this.onAddIconClickListener = onAddIconClickListener;
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView positionText, phoneText, pointsText;
+        ImageView addIcon;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             positionText = itemView.findViewById(R.id.positionText);
             phoneText = itemView.findViewById(R.id.phoneText);
             pointsText = itemView.findViewById(R.id.pointsText);
+            addIcon = itemView.findViewById(R.id.addIcon);
+
+            addIcon.setOnClickListener(v -> {
+                if (onAddIconClickListener != null) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        onAddIconClickListener.onAddIconClick(position);
+                    }
+                }
+            });
 
         }
     }

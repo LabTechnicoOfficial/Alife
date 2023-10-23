@@ -81,7 +81,7 @@
                 android:gravity="right">
 
                 <ImageView
-                    android:id="@+id/addButtonID"
+                    android:id="@+id/addButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:clickable="true"
@@ -161,7 +161,7 @@
                 android:weightSum="5">
 
                 <EditText
-                    android:id="@+id/nameTextID"
+                    android:id="@+id/nameText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

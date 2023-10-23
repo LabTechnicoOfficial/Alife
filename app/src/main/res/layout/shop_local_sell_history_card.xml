@@ -31,7 +31,7 @@
 
 
         <TextView
-            android:id="@+id/nameTextID"
+            android:id="@+id/nameText"
             android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:gravity="center"

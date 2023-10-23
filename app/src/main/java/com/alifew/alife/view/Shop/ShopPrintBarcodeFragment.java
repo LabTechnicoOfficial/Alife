@@ -25,7 +25,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
 
 import android.os.Environment;
 import android.os.Handler;
@@ -53,7 +52,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alifew.alife.DB.AppDatabase;
-import com.alifew.alife.DB.InsertProductThread;
 import com.alifew.alife.DB.dao.ProductDao;
 import com.alifew.alife.DB.entity.Products;
 import com.alifew.alife.PrintActivity;
@@ -205,7 +203,7 @@ public class ShopPrintBarcodeFragment extends Fragment implements Shop_product_b
 
         AppCompatButton okButton = barCodeAlert.findViewById(R.id.ok);
         AppCompatButton reScanButton = barCodeAlert.findViewById(R.id.reScanButton);
-        ImageView closeButton = barCodeAlert.findViewById(R.id.closeButtonID);
+        ImageView closeButton = barCodeAlert.findViewById(R.id.closeButton);
         barcodeText = barCodeAlert.findViewById(R.id.barcode_text);
         surfaceView = barCodeAlert.findViewById(R.id.surface_view);
         okButton.setOnClickListener(new View.OnClickListener() {

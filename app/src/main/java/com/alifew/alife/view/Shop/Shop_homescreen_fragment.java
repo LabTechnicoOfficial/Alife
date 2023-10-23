@@ -349,7 +349,7 @@ public class Shop_homescreen_fragment extends Fragment implements Instruction_ad
 
                 AppCompatButton okButton = barCodeAlert.findViewById(R.id.ok);
                 AppCompatButton reScanButton = barCodeAlert.findViewById(R.id.reScanButton);
-                ImageView closeButton = barCodeAlert.findViewById(R.id.closeButtonID);
+                ImageView closeButton = barCodeAlert.findViewById(R.id.closeButton);
                 barcodeText = barCodeAlert.findViewById(R.id.barcode_text);
                 surfaceView = barCodeAlert.findViewById(R.id.surface_view);
                 okButton.setOnClickListener(new View.OnClickListener() {

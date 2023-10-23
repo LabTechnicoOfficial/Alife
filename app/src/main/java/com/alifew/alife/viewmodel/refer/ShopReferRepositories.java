@@ -172,4 +172,26 @@ public class ShopReferRepositories {
 
         return customerList;
     }
+
+    public MutableLiveData<CommonResponse> addCustomerReferGift(String referPackageID,String shopID, String phone, String points, String position, String giftName) {
+
+        Call<CommonResponse> call = referApi.addCustomerReferGift(referPackageID,shopID, phone, points, position, giftName);
+        call.enqueue(new Callback<CommonResponse>() {
+            @Override
+            public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
+                if (response.isSuccessful()) {
+                    commonResponse.postValue(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CommonResponse> call, Throwable t) {
+                CommonResponse commonResponse1 = new CommonResponse();
+                commonResponse1.message = t.getMessage();
+                commonResponse.postValue(commonResponse1);
+            }
+        });
+
+        return commonResponse;
+    }
 }

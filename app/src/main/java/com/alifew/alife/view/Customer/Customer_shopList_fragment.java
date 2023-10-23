@@ -76,7 +76,6 @@ import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
 import com.google.android.material.button.MaterialButtonToggleGroup;
-import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
@@ -715,7 +714,7 @@ public class Customer_shopList_fragment extends Fragment implements Customer_all
 
         AppCompatButton okButton = barCodeAlert.findViewById(R.id.ok);
         AppCompatButton reScanButton = barCodeAlert.findViewById(R.id.reScanButton);
-        ImageView closeButton = barCodeAlert.findViewById(R.id.closeButtonID);
+        ImageView closeButton = barCodeAlert.findViewById(R.id.closeButton);
         barcodeText = barCodeAlert.findViewById(R.id.barcode_text);
         surfaceView = barCodeAlert.findViewById(R.id.surface_view);
         okButton.setOnClickListener(new View.OnClickListener() {

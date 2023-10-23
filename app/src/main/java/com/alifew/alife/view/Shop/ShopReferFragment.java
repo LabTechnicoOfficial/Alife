@@ -121,11 +121,11 @@ public class ShopReferFragment extends Fragment implements ShopReferAdapter.OnIt
         wlp.height = android.view.WindowManager.LayoutParams.WRAP_CONTENT;
         window.setAttributes(wlp);
 
-        ImageView closeButton = addReferDialog.findViewById(R.id.closeButtonID);
-        AppCompatButton addButton = addReferDialog.findViewById(R.id.addButtonID);
+        ImageView closeButton = addReferDialog.findViewById(R.id.closeButton);
+        AppCompatButton addButton = addReferDialog.findViewById(R.id.addButton);
         TextView creationDateText = addReferDialog.findViewById(R.id.creationDateTextID);
         TextView endDateText = addReferDialog.findViewById(R.id.dateTextID);
-        TextInputEditText nameText = addReferDialog.findViewById(R.id.nameTextID);
+        TextInputEditText nameText = addReferDialog.findViewById(R.id.nameText);
         TextInputEditText descriptionText = addReferDialog.findViewById(R.id.descriptionTextID);
         durationText = addReferDialog.findViewById(R.id.durationTextID);
 

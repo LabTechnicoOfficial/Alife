@@ -68,7 +68,7 @@ public class Shop_local_page_fragment extends Fragment implements Shop_local_pag
 
                 TextInputLayout titleError = (TextInputLayout) alert.findViewById(R.id.titleErrorID);
                 TextInputEditText titleText = (TextInputEditText) alert.findViewById(R.id.titleText);
-                AppCompatButton addButton = (AppCompatButton) alert.findViewById(R.id.addButtonID);
+                AppCompatButton addButton = (AppCompatButton) alert.findViewById(R.id.addButton);
                 ImageView closeButton = (ImageView) alert.findViewById(R.id.closeID);
 
 
@@ -146,7 +146,7 @@ public class Shop_local_page_fragment extends Fragment implements Shop_local_pag
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.shop_local_page_fragment, container, false);
 
-        addButton = (ExtendedFloatingActionButton) view.findViewById(R.id.addButtonID);
+        addButton = (ExtendedFloatingActionButton) view.findViewById(R.id.addButton);
         recyclerView = (RecyclerView) view.findViewById(R.id.itemView);
 
         recyclerView.setHasFixedSize(true);

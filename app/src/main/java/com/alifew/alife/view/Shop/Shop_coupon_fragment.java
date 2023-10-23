@@ -97,11 +97,11 @@ public class Shop_coupon_fragment extends Fragment implements Shop_coupon_adapte
                 wlp.height = android.view.WindowManager.LayoutParams.WRAP_CONTENT;
                 window.setAttributes(wlp);
 
-                ImageView closeButton = addCouponAlert.findViewById(R.id.closeButtonID);
-                AppCompatButton addButton = addCouponAlert.findViewById(R.id.addButtonID);
+                ImageView closeButton = addCouponAlert.findViewById(R.id.closeButton);
+                AppCompatButton addButton = addCouponAlert.findViewById(R.id.addButton);
                 TextView creationDateText = addCouponAlert.findViewById(R.id.creationDateTextID);
                 TextView endDateText = addCouponAlert.findViewById(R.id.dateTextID);
-                TextInputEditText nameText = addCouponAlert.findViewById(R.id.nameTextID);
+                TextInputEditText nameText = addCouponAlert.findViewById(R.id.nameText);
                 TextInputEditText descriptionText = addCouponAlert.findViewById(R.id.descriptionTextID);
                 durationText = addCouponAlert.findViewById(R.id.durationTextID);
 

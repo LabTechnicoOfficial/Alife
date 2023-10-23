@@ -560,7 +560,7 @@ public class Shop_local_sell_barcode_product_selected_fragment extends Fragment 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_shop_local_sell_barcode_product_selected_fragment, container, false);
-        addButton = (AppCompatButton) view.findViewById(R.id.addButtonID);
+        addButton = (AppCompatButton) view.findViewById(R.id.addButton);
         productNameText = (TextView) view.findViewById(R.id.productNameID);
         productUnitText = (TextView) view.findViewById(R.id.productUnitID);
         stock = (TextView) view.findViewById(R.id.stockAmountID);

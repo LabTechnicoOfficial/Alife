@@ -74,7 +74,7 @@ public class Shop_offer_allProducts_fragment extends Fragment implements Shop_of
                 TextInputEditText priceText = addOfferAlert.findViewById(R.id.priceTextID);
                 TextInputEditText offerText = addOfferAlert.findViewById(R.id.offerTextID);
 
-                AppCompatButton addButton = addOfferAlert.findViewById(R.id.addButtonID);
+                AppCompatButton addButton = addOfferAlert.findViewById(R.id.addButton);
 
                 addButton.setOnClickListener(new View.OnClickListener() {
                     @Override

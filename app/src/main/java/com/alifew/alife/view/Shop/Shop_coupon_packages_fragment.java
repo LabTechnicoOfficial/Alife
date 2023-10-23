@@ -31,8 +31,6 @@ import com.alifew.alife.model.cupon.add_response;
 import com.alifew.alife.model.cupon.CustomerFor_cupon_response;
 import com.alifew.alife.model.cupon.edit_delete_response;
 import com.alifew.alife.model.cupon.Package_response;
-import com.alifew.alife.model.shop_profile_response;
-import com.alifew.alife.viewmodel.SessionManagment_registration;
 import com.alifew.alife.viewmodel.Shop_profile;
 import com.alifew.alife.viewmodel.cuponViewmodel.CouponPackageViewModel;
 import com.alifew.alife.viewmodel.cuponViewmodel.Edit_delete_cupon_package;
@@ -40,9 +38,6 @@ import com.google.android.material.floatingactionbutton.ExtendedFloatingActionBu
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 public class Shop_coupon_packages_fragment extends Fragment implements Shop_coupon_package_adapter.onItemClickListener, Shop_coupon_package_adapter.onItemDeleteListener {
@@ -94,8 +89,8 @@ public class Shop_coupon_packages_fragment extends Fragment implements Shop_coup
                 wlp.height = android.view.WindowManager.LayoutParams.WRAP_CONTENT;
                 window.setAttributes(wlp);
 
-                ImageView closeButton = addPackageAlert.findViewById(R.id.closeButtonID);
-                AppCompatButton addButton = addPackageAlert.findViewById(R.id.addButtonID);
+                ImageView closeButton = addPackageAlert.findViewById(R.id.closeButton);
+                AppCompatButton addButton = addPackageAlert.findViewById(R.id.addButton);
 
                 TextInputEditText packageNameText = addPackageAlert.findViewById(R.id.packageNameTextID);
                 TextInputEditText packageAmountText = addPackageAlert.findViewById(R.id.packageAmountTextID);
