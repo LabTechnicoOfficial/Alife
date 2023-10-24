@@ -1,5 +1,6 @@
 package com.alifew.alife.view.Shop;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -110,6 +111,7 @@ public class ShopReferPackageResultFragment extends Fragment implements ShopRefe
 
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void OnStatusClick(int position) {
 
