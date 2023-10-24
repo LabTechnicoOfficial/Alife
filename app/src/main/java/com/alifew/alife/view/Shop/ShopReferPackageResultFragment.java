@@ -10,9 +10,13 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alifew.alife.R;
@@ -26,7 +30,7 @@ import com.alifew.alife.viewmodel.refer.ShopReferViewModel;
 
 import java.util.List;
 
-public class ShopReferPackageResultFragment extends Fragment implements ShopReferCustomerResultAdapter.OnItemDeleteListener {
+public class ShopReferPackageResultFragment extends Fragment implements ShopReferCustomerResultAdapter.OnItemDeleteListener, ShopReferCustomerResultAdapter.OnStatusButtonClick {
     FragmentShopReferPackageResultBinding binding;
     SessionManagement sessionManagement;
     int shopID;
@@ -62,7 +66,7 @@ public class ShopReferPackageResultFragment extends Fragment implements ShopRefe
                 loader.dismiss();
                 resultCustomerList = referResultCustomerResponse.customerList;
                 adapter = new ShopReferCustomerResultAdapter(resultCustomerList);
-                adapter.setOnItemClickListener(ShopReferPackageResultFragment.this::OnItemDeleteClick);
+                adapter.setOnItemClickListener(ShopReferPackageResultFragment.this::OnItemDeleteClick, ShopReferPackageResultFragment.this::OnStatusClick);
                 binding.itemView.setAdapter(adapter);
             }
         });
@@ -96,7 +100,7 @@ public class ShopReferPackageResultFragment extends Fragment implements ShopRefe
                 loader.dismiss();
                 Toast.makeText(getActivity(), commonResponse.message, Toast.LENGTH_SHORT).show();
 
-                if(commonResponse.message.equals("deleted successfully")){
+                if (commonResponse.message.equals("deleted successfully")) {
                     load_data();
                 }
 
@@ -104,5 +108,34 @@ public class ShopReferPackageResultFragment extends Fragment implements ShopRefe
             }
         });
 
+    }
+
+    @Override
+    public void OnStatusClick(int position) {
+
+        Dialog alertDialog = new Dialog(getActivity());
+        alertDialog.setContentView(R.layout.confirm_alert);
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        alertDialog.setCancelable(false);
+        alertDialog.show();
+
+        Window window = alertDialog.getWindow();
+        WindowManager.LayoutParams wlp = window.getAttributes();
+        wlp.gravity = Gravity.CENTER;
+        wlp.width = android.view.WindowManager.LayoutParams.MATCH_PARENT;
+        wlp.height = android.view.WindowManager.LayoutParams.WRAP_CONTENT;
+        window.setAttributes(wlp);
+
+        TextView yesButton = alertDialog.findViewById(R.id.yesButton);
+        TextView noButton = alertDialog.findViewById(R.id.noButton);
+        TextView titleText = alertDialog.findViewById(R.id.titleText);
+
+        titleText.setText("Are you sure about changing status?");
+
+        yesButton.setOnClickListener(v -> {
+
+        });
+
+        noButton.setOnClickListener(v -> alertDialog.cancel());
     }
 }

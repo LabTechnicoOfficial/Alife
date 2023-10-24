@@ -268,7 +268,7 @@ public class ShopReferFragment extends Fragment implements ShopReferAdapter.OnIt
         String referID = response.id;
 
         Dialog deleteAlert = new Dialog(getActivity());
-        deleteAlert.setContentView(R.layout.delete_alert);
+        deleteAlert.setContentView(R.layout.confirm_alert);
         deleteAlert.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         deleteAlert.setCancelable(false);
         deleteAlert.show();

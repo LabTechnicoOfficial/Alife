@@ -178,7 +178,7 @@ public class Shop_offer_allProducts_fragment extends Fragment implements Shop_of
         get_shop_all_product_offer_response offer = offerList.get(position);
         String offer_id = offer.getId();
         Dialog alert = new Dialog(getActivity());
-        alert.setContentView(R.layout.delete_alert);
+        alert.setContentView(R.layout.confirm_alert);
         alert.show();
 
         TextView yesButton = alert.findViewById(R.id.yesButton);

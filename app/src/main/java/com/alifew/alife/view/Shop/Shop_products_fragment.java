@@ -1923,7 +1923,7 @@ public class Shop_products_fragment<SharedViewModel> extends Fragment implements
     public void OnItemDelete(int position) {
         String response_product_id = data.get(position).getProduct_id();
         Dialog alert = new Dialog(getActivity());
-        alert.setContentView(R.layout.delete_alert);
+        alert.setContentView(R.layout.confirm_alert);
         alert.show();
 
         TextView yesButton = alert.findViewById(R.id.yesButton);

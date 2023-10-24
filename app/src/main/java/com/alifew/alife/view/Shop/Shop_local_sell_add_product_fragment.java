@@ -338,7 +338,7 @@ public class Shop_local_sell_add_product_fragment extends Fragment implements Lo
 
 
         Dialog alertDialog = new Dialog(getActivity());
-        alertDialog.setContentView(R.layout.delete_alert);
+        alertDialog.setContentView(R.layout.confirm_alert);
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         alertDialog.setCancelable(false);
         alertDialog.show();

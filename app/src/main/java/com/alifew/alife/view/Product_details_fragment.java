@@ -288,7 +288,7 @@ public class Product_details_fragment<SharedViewModel> extends Fragment implemen
             @Override
             public void onClick(View v) {
                 Dialog alert = new Dialog(getActivity());
-                alert.setContentView(R.layout.delete_alert);
+                alert.setContentView(R.layout.confirm_alert);
                 alert.show();
 
                 TextView yesButton = alert.findViewById(R.id.yesButton);
@@ -1330,7 +1330,7 @@ public class Product_details_fragment<SharedViewModel> extends Fragment implemen
         String type_count_id = clickItem.getId();
 
         Dialog alert = new Dialog(getActivity());
-        alert.setContentView(R.layout.delete_alert);
+        alert.setContentView(R.layout.confirm_alert);
         alert.show();
 
         TextView yesButton = alert.findViewById(R.id.yesButton);
@@ -1731,7 +1731,7 @@ public class Product_details_fragment<SharedViewModel> extends Fragment implemen
         String offer_id = offer.getId();
 
         Dialog alert = new Dialog(getActivity());
-        alert.setContentView(R.layout.delete_alert);
+        alert.setContentView(R.layout.confirm_alert);
         alert.show();
 
         TextView yesButton = alert.findViewById(R.id.yesButton);

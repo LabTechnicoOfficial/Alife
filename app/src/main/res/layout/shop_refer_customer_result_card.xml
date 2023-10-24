@@ -13,6 +13,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+
+        <ImageView
+            android:id="@+id/statusButton"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:src="@drawable/check_icon"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
         <TextView
             android:id="@+id/positionText"
             android:layout_width="@dimen/_30sdp"
@@ -24,7 +38,7 @@
             android:textSize="@dimen/_14sdp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/statusButton"
             app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
@@ -35,7 +49,7 @@
             android:padding="@dimen/_5sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/positionText"
-            app:layout_constraintRight_toLeftOf="@id/pointsLayout"
+            app:layout_constraintRight_toLeftOf="@id/deleteButton"
             app:layout_constraintTop_toTopOf="parent">
 
 
@@ -98,48 +112,45 @@
                     android:textSize="@dimen/_10sdp" />
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="@dimen/_80sdp"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/deleteButton"
+                app:layout_constraintTop_toTopOf="parent">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/points"
+                    android:textColor="@color/grey"
+                    android:textSize="@dimen/_10sdp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/_5sdp"
+                    android:text=":"
+                    android:textColor="@color/grey"
+                    android:textSize="@dimen/_10sdp" />
+
+                <TextView
+                    android:id="@+id/pointsText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="240"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_10sdp"
+                    android:textStyle="bold" />
+
+
+            </LinearLayout>
 
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/pointsLayout"
-            android:layout_width="@dimen/_80sdp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:padding="@dimen/_2sdp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toLeftOf="@id/deleteButton"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <TextView
-                android:id="@+id/statusText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:letterSpacing=".1"
-                android:textAllCaps="true"
-                android:textColor="@color/green"
-                android:textSize="@dimen/_10sdp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/pointsText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="240"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_12sdp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/points"
-                android:textColor="@color/grey"
-                android:textSize="@dimen/_10sdp" />
-
-
-        </LinearLayout>
 
         <ImageView
             android:id="@+id/deleteButton"

@@ -400,7 +400,7 @@ public class Shop_coupon_fragment extends Fragment implements Shop_coupon_adapte
         String couponID = response.getId();
 
         Dialog deleteAlert = new Dialog(getActivity());
-        deleteAlert.setContentView(R.layout.delete_alert);
+        deleteAlert.setContentView(R.layout.confirm_alert);
         deleteAlert.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         deleteAlert.setCancelable(false);
         deleteAlert.show();

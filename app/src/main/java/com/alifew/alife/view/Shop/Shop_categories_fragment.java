@@ -404,7 +404,7 @@ public class Shop_categories_fragment<SharedViewModel> extends Fragment implemen
         String category_product = clickItem.getTotal_product();
 
         Dialog alert = new Dialog(getActivity());
-        alert.setContentView(R.layout.delete_alert);
+        alert.setContentView(R.layout.confirm_alert);
         if (Integer.parseInt(category_product) == 0) {
 
             alert.show();

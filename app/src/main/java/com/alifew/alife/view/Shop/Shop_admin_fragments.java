@@ -163,7 +163,7 @@ public class Shop_admin_fragments extends Fragment implements Shop_admin_adapter
         String agent_id = admin.getAgent_id();
 
         alertCustom = new Dialog(getActivity());
-        alertCustom.setContentView(R.layout.delete_alert);
+        alertCustom.setContentView(R.layout.confirm_alert);
         alertCustom.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         alertCustom.show();
         TextView yesButton = (TextView) alertCustom.findViewById(R.id.yesButton);

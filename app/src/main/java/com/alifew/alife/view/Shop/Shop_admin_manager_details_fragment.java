@@ -40,7 +40,6 @@ import com.alifew.alife.viewmodel.Remove_manager_assistant;
 import com.alifew.alife.viewmodel.Remove_shop_admin_category;
 import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -301,7 +300,7 @@ public class Shop_admin_manager_details_fragment extends Fragment implements Sho
         String category_id = category.getCatagory01y_id();
 
         alertCustom = new Dialog(getActivity());
-        alertCustom.setContentView(R.layout.delete_alert);
+        alertCustom.setContentView(R.layout.confirm_alert);
         alertCustom.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         alertCustom.show();
         TextView yesButton = (TextView) alertCustom.findViewById(R.id.yesButton);
@@ -336,7 +335,7 @@ public class Shop_admin_manager_details_fragment extends Fragment implements Sho
         fetch_shop_admin_response assistant = assistantList.get(position);
         String assistant_id = assistant.getAgent_id();
         alertCustom = new Dialog(getActivity());
-        alertCustom.setContentView(R.layout.delete_alert);
+        alertCustom.setContentView(R.layout.confirm_alert);
         alertCustom.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         alertCustom.show();
         TextView yesButton = (TextView) alertCustom.findViewById(R.id.yesButton);
