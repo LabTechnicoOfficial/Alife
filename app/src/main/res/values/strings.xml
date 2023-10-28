@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ALife</string>
+    <string name="app_name">ALife World</string>
     <string name="signin">Sign In</string>
     <string name="registration">Registration</string>
     <string name="shopkeeper">Shopkeeper</string>
