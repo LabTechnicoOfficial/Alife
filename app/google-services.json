@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:678338540390:android:8c25d17597094af0c5cea7",
+        "mobilesdk_app_id": "1:678338540390:android:789bfd50c125c25dc5cea7",
         "android_client_info": {
-          "package_name": "com.alifew.alife"
+          "package_name": "com.alifew.alifeworld"
         }
       },
       "oauth_client": [],
