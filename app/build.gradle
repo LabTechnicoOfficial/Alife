@@ -9,7 +9,7 @@ android {
     buildToolsVersion "30.0.3"
 
     defaultConfig {
-        applicationId "com.alifew.alife"
+        applicationId "com.alifew.alifeworld"
         minSdkVersion 21
         targetSdkVersion 33
         versionCode 1
@@ -26,7 +26,7 @@ android {
 
             applicationVariants.all { variant ->
                 variant.outputs.all {
-                    outputFileName = "Alife.apk"
+                    outputFileName = "Alife World.apk"
                 }
             }
         }

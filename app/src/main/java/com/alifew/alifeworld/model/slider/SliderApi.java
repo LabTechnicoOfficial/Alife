@@ -1,0 +1,33 @@
+package com.alifew.alifeworld.model.slider;
+
+import com.alifew.alifeworld.model.CommonResponse;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
+import retrofit2.http.POST;
+import retrofit2.http.Query;
+
+public interface SliderApi {
+    @GET("get_shop_banner.php")
+    Call<List<SliderResponse>> getSliderList(@Query("id") String id);
+
+    @FormUrlEncoded
+    @POST("add_shop_banner.php")
+    Call<CommonResponse> uploadSlider(@Field("shop_id") String shopID,
+                                      @Field("image") String image);
+
+    @FormUrlEncoded
+    @POST("update_shop_banner_status.php")
+    Call<CommonResponse> updateSliderStatus(@Field("shop_id") String shopID,
+                                            @Field("banner_id") String bannerID,
+                                            @Field("status") String status);
+
+    @GET("get_customer_slider_list.php")
+    Call<List<Customer_slider_response>> getSliderByLatLong(@Query("latitude") String latitude,
+                                                            @Query("longitude") String longitude);
+
+}

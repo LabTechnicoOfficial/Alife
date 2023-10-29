@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.alifew.alife">
+    package="com.alifew.alifeworld">
 
 
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
@@ -54,15 +54,15 @@
         tools:node="merge"
         tools:targetApi="m">
         <activity
-            android:name=".PrintActivity"
+            android:name="com.alifew.alifeworld.PrintActivity"
             android:exported="false" />
         <activity
-            android:name=".view.LoginActivity"
+            android:name="com.alifew.alifeworld.view.LoginActivity"
             android:exported="false">
 
         </activity>
         <activity
-            android:name=".view.SplashActivity"
+            android:name="com.alifew.alifeworld.view.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -76,35 +76,35 @@
             android:exported="false"
             android:theme="@style/Dexter.Internal.Theme.Transparent" />
         <activity
-            android:name=".view.ForgotPassword.Forgot_password_activity"
+            android:name="com.alifew.alifeworld.view.ForgotPassword.Forgot_password_activity"
             android:exported="false" />
         <activity
-            android:name=".view.OTP.Otp_validation_activity"
+            android:name="com.alifew.alifeworld.view.OTP.Otp_validation_activity"
             android:exported="false" />
         <activity
-            android:name=".view.Operator.Operator_main_activity"
+            android:name="com.alifew.alifeworld.view.Operator.Operator_main_activity"
             android:exported="false" />
         <activity
-            android:name=".view.Customer.Customer_main_activity"
+            android:name="com.alifew.alifeworld.view.Customer.Customer_main_activity"
             android:exported="false" />
         <activity
-            android:name=".view.Shop.Shop_main_activity"
+            android:name="com.alifew.alifeworld.view.Shop.Shop_main_activity"
             android:exported="false" />
         <activity
-            android:name=".view.Registration.Register_activity"
+            android:name="com.alifew.alifeworld.view.Registration.Register_activity"
             android:exported="false" />
         <activity
-            android:name=".view.MainActivity"
+            android:name="com.alifew.alifeworld.view.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".view.Registration.Shop_register_activity"
+            android:name="com.alifew.alifeworld.view.Registration.Shop_register_activity"
             android:exported="false" />
         <activity
             android:name="com.google.android.play.core.common.PlayCoreDialogWrapperActivity"
             android:exported="false" />
 
         <receiver
-            android:name=".view.OTP.OTP_Receiver"
+            android:name="com.alifew.alifeworld.view.OTP.OTP_Receiver"
             android:exported="true"
             android:permission="android.permission.BROADCAST_SMS">
             <intent-filter>
@@ -125,7 +125,7 @@
             android:value="@integer/google_play_services_version" />
 
         <service
-            android:name=".Firebase.MyFirebaseMessagingService"
+            android:name="com.alifew.alifeworld.Firebase.MyFirebaseMessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
@@ -144,7 +144,7 @@
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.alifew.alife.provider"
+            android:authorities="com.alifew.alifeworld.provider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
