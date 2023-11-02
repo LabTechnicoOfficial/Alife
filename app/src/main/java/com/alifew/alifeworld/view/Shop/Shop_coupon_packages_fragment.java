@@ -70,7 +70,6 @@ public class Shop_coupon_packages_fragment extends Fragment implements Shop_coup
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        main();
         package_data();
 
         addPackageButton.setOnClickListener(new View.OnClickListener() {
@@ -171,9 +170,6 @@ public class Shop_coupon_packages_fragment extends Fragment implements Shop_coup
         });
     }
 
-    private void main() {
-
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -216,9 +212,9 @@ public class Shop_coupon_packages_fragment extends Fragment implements Shop_coup
         loader.setContentView(R.layout.loader);
         loader.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         loader.setCancelable(false);
-        if (cupon_available.equals("0")) {
+        /*if (cupon_available.equals("0")) {
             addPackageButton.setVisibility(View.GONE);
-        }
+        }*/
         return view;
     }
 

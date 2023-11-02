@@ -160,10 +160,6 @@ public class Shop_coupon_packages_details_fragment extends Fragment {
         customersView.setHasFixedSize(true);
         customersView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        if (cupon_available.equals("0")) {
-            editButton.setVisibility(View.GONE);
-            notificationSend.setVisibility(View.GONE);
-        }
         notificationSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -200,6 +196,11 @@ public class Shop_coupon_packages_details_fragment extends Fragment {
                 packageCustomerList = customerForCuponResponses;
                 adapter = new Shop_coupon_package_details_customer_list_adapter(packageCustomerList);
                 customersView.setAdapter(adapter);
+
+
+                if (packageCustomerList.isEmpty()){
+                    notificationSend.setVisibility(View.GONE);
+                }
             }
         });
     }
