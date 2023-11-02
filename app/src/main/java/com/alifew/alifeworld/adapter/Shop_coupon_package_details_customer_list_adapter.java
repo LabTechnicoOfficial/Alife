@@ -3,6 +3,7 @@ package com.alifew.alifeworld.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -43,8 +44,19 @@ public class Shop_coupon_package_details_customer_list_adapter extends RecyclerV
         return packageCustomerList.size();
     }
 
+    private OnAddIconClickListener onAddIconClickListener;
+
+    public interface OnAddIconClickListener {
+        public void onAddClick(int position);
+    }
+
+    public void setOnItemClickListener(OnAddIconClickListener onItemClickListener) {
+        this.onAddIconClickListener = onItemClickListener;
+    }
+
     public class AppViewHolder extends RecyclerView.ViewHolder {
         TextView phoneText, sellAmountText, positionText, pointsText;
+        ImageView addButton;
 
         public AppViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -53,6 +65,16 @@ public class Shop_coupon_package_details_customer_list_adapter extends RecyclerV
             sellAmountText = itemView.findViewById(R.id.sellAmountTextID);
             positionText = itemView.findViewById(R.id.positionText);
             pointsText = itemView.findViewById(R.id.pointsText);
+            addButton = itemView.findViewById(R.id.addButton);
+
+            addButton.setOnClickListener(v -> {
+                if (onAddIconClickListener != null) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        onAddIconClickListener.onAddClick(position);
+                    }
+                }
+            });
         }
     }
 }

@@ -3,6 +3,7 @@ package com.alifew.alifeworld.viewmodel.cuponViewmodel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.alifew.alifeworld.model.CommonResponse;
 import com.alifew.alifeworld.model.cupon.CustomerFor_cupon_response;
 import com.alifew.alifeworld.model.cupon.add_response;
 import com.alifew.alifeworld.model.cupon.cupon_repositories;
@@ -27,5 +28,9 @@ public class CouponViewModel extends ViewModel {
 
     public LiveData<List<CustomerFor_cupon_response>> getCustomerListForCoupon(String shopID, String packageID) {
         return cupon_repositories.getInstance().getCustomerListForCoupon(shopID, packageID);
+    }
+
+    public LiveData<CommonResponse> addCustomerReferGift(String packageID, String customerPhone, String sellAmount, String points, int shopID, String pos, String giftName) {
+        return cupon_repositories.getInstance().addCustomerReferGift(packageID, customerPhone, sellAmount, points, shopID, pos, giftName);
     }
 }

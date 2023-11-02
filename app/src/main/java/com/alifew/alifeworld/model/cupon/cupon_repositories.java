@@ -1,8 +1,10 @@
 package com.alifew.alifeworld.model.cupon;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.alifew.alifeworld.API.ApiUtilize;
+import com.alifew.alifeworld.model.CommonResponse;
 
 import java.util.List;
 
@@ -16,6 +18,7 @@ public class cupon_repositories {
     private MutableLiveData<notify_response> data2;
 
     private MutableLiveData<List<CustomerFor_cupon_response>> customerList;
+    private MutableLiveData<CommonResponse> commonResponse;
     private cupon_api api;
     private static cupon_repositories cupon_repositories;
 
@@ -25,7 +28,7 @@ public class cupon_repositories {
         add_response = new MutableLiveData<>();
         api = ApiUtilize.cupon_response();
         customerList = new MutableLiveData<>();
-
+        commonResponse = new MutableLiveData<>();
     }
 
     public synchronized static cupon_repositories getInstance() {
@@ -108,5 +111,25 @@ public class cupon_repositories {
         });
 
         return customerList;
+    }
+
+    public MutableLiveData<CommonResponse> addCustomerReferGift(String packageID, String customerPhone, String sellAmount, String points, int shopID, String pos, String giftName) {
+
+        Call<CommonResponse> call = api.addCustomerReferGift(packageID, customerPhone, sellAmount, points, shopID, pos, giftName);
+        call.enqueue(new Callback<CommonResponse>() {
+            @Override
+            public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
+                if (response.isSuccessful()){
+                    commonResponse.postValue(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CommonResponse> call, Throwable t) {
+
+            }
+        });
+
+        return commonResponse;
     }
 }

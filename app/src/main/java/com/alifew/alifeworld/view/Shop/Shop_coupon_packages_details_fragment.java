@@ -5,9 +5,14 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +27,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.alifew.alifeworld.R;
 import com.alifew.alifeworld.adapter.Shop_coupon_package_details_customer_list_adapter;
+import com.alifew.alifeworld.model.CommonResponse;
 import com.alifew.alifeworld.model.cupon.CustomerFor_cupon_response;
 import com.alifew.alifeworld.model.cupon.edit_delete_response;
 import com.alifew.alifeworld.model.cupon.notify_response;
@@ -35,7 +41,7 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.List;
 
-public class Shop_coupon_packages_details_fragment extends Fragment {
+public class Shop_coupon_packages_details_fragment extends Fragment implements Shop_coupon_package_details_customer_list_adapter.OnAddIconClickListener {
 
     RecyclerView customersView;
     ExtendedFloatingActionButton editButton;
@@ -135,7 +141,6 @@ public class Shop_coupon_packages_details_fragment extends Fragment {
     }
 
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -190,22 +195,80 @@ public class Shop_coupon_packages_details_fragment extends Fragment {
     }
 
     private void loadCustomerList() {
-        couponViewModel.getCustomerListForCoupon(String.valueOf(shopID), packageID).observe(getViewLifecycleOwner(), new Observer<List<CustomerFor_cupon_response>>() {
-            @Override
-            public void onChanged(List<CustomerFor_cupon_response> customerForCuponResponses) {
-                packageCustomerList = customerForCuponResponses;
-                adapter = new Shop_coupon_package_details_customer_list_adapter(packageCustomerList);
-                customersView.setAdapter(adapter);
+        couponViewModel.getCustomerListForCoupon(String.valueOf(shopID), packageID).observe(getViewLifecycleOwner(), customerForCuponResponses -> {
+            packageCustomerList = customerForCuponResponses;
+            adapter = new Shop_coupon_package_details_customer_list_adapter(packageCustomerList);
+            adapter.setOnItemClickListener(Shop_coupon_packages_details_fragment.this::onAddClick);
+            customersView.setAdapter(adapter);
 
-
-                if (packageCustomerList.isEmpty()){
-                    notificationSend.setVisibility(View.GONE);
-                }
+            if (packageCustomerList.isEmpty()) {
+                notificationSend.setVisibility(View.GONE);
             }
         });
     }
 
     public String getEmojiByUnicode(int unicode) {
         return new String(Character.toChars(unicode));
+    }
+
+    @Override
+    public void onAddClick(int position) {
+        CustomerFor_cupon_response response = packageCustomerList.get(position);
+        String pos = String.valueOf(position + 1);
+
+        // packageID, response.getCustomer_phone(), response.getSell_amount(), response.points, shopID
+
+        Dialog couponAddGiftAlert = new Dialog(getActivity());
+        couponAddGiftAlert.setContentView(R.layout.coupon_add_gift_alert);
+        couponAddGiftAlert.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        couponAddGiftAlert.setCancelable(false);
+        couponAddGiftAlert.show();
+
+        Window window = couponAddGiftAlert.getWindow();
+        WindowManager.LayoutParams wlp = window.getAttributes();
+        wlp.gravity = Gravity.CENTER;
+        wlp.width = android.view.WindowManager.LayoutParams.MATCH_PARENT;
+        wlp.height = android.view.WindowManager.LayoutParams.WRAP_CONTENT;
+        window.setAttributes(wlp);
+
+        TextView positionText = couponAddGiftAlert.findViewById(R.id.positionText);
+        TextView phoneText = couponAddGiftAlert.findViewById(R.id.phoneText);
+        TextView pointsText = couponAddGiftAlert.findViewById(R.id.pointsText);
+        TextView amountText = couponAddGiftAlert.findViewById(R.id.amountText);
+        EditText nameText = couponAddGiftAlert.findViewById(R.id.nameText);
+        ImageView closeButton = couponAddGiftAlert.findViewById(R.id.closeButton);
+        Button submitButton = couponAddGiftAlert.findViewById(R.id.submitButton);
+        closeButton.setOnClickListener(v -> {
+            couponAddGiftAlert.dismiss();
+        });
+
+        positionText.setText(pos);
+        phoneText.setText(response.getCustomer_phone());
+        pointsText.setText(String.valueOf(response.points));
+        amountText.setText(String.valueOf(response.getSell_amount()));
+
+
+        submitButton.setOnClickListener(v -> {
+            if (TextUtils.isEmpty(nameText.getText().toString().trim())) {
+                Toast.makeText(getActivity(), "empty gift name", Toast.LENGTH_SHORT).show();
+            } else {
+
+                loader.show();
+                couponViewModel.addCustomerReferGift(packageID, response.getCustomer_phone(), response.getSell_amount(), response.points, shopID, pos, nameText.getText().toString().trim()).observe(getViewLifecycleOwner(), new Observer<CommonResponse>() {
+                    @Override
+                    public void onChanged(CommonResponse commonResponse) {
+                        loader.dismiss();
+
+                        Toast.makeText(getActivity(), commonResponse.message, Toast.LENGTH_SHORT).show();
+
+                        if (commonResponse.message.equals("success")) {
+                            couponAddGiftAlert.dismiss();
+                        }
+                    }
+                });
+            }
+        });
+
+
     }
 }

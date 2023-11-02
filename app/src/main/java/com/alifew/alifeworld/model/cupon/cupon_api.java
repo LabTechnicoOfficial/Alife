@@ -1,5 +1,7 @@
 package com.alifew.alifeworld.model.cupon;
 
+import com.alifew.alifeworld.model.CommonResponse;
+
 import java.util.List;
 
 import retrofit2.Call;
@@ -10,10 +12,26 @@ import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 public interface cupon_api {
+
+    @FormUrlEncoded
+    @POST("add_cupon_package_customer_list.php")
+     Call<CommonResponse> addCustomerReferGift(@Field("pkg_id") String packageID,
+                                               @Field("phone") String customerPhone,
+                                               @Field("amount") String sellAmount,
+                                               @Field("point") String points,
+                                               @Field("shop_id") int shopID,
+                                               @Field("position") String pos,
+                                               @Field("gift_menu") String giftName);
+
     // add cupon api
     @FormUrlEncoded
     @POST("cupon/add_cupon.php")
-    Call<add_response> add_cupon(@Field("shop_id") String shop_id, @Field("cupon_name") String cupon_name, @Field("time_range") String time_range, @Field("create_date") String create_date, @Field("end_date") String end_date, @Field("description") String description);
+    Call<add_response> add_cupon(@Field("shop_id") String shop_id,
+                                 @Field("cupon_name") String cupon_name,
+                                 @Field("time_range") String time_range,
+                                 @Field("create_date") String create_date,
+                                 @Field("end_date") String end_date,
+                                 @Field("description") String description);
 
     // fetch cupon api
 
