@@ -172,4 +172,23 @@ public class cupon_repositories {
 
         return commonResponse;
     }
+
+    public MutableLiveData<CommonResponse> updateCouponPackageCustomerResultItemStatus(String id, String status) {
+        Call<CommonResponse> call = api.updateCouponPackageCustomerResultItemStatus(id, status);
+        call.enqueue(new Callback<CommonResponse>() {
+            @Override
+            public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
+                if (response.isSuccessful()) {
+                    commonResponse.postValue(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CommonResponse> call, Throwable t) {
+
+            }
+        });
+
+        return commonResponse;
+    }
 }

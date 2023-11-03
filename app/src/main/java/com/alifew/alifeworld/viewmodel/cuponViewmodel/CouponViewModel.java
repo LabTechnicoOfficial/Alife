@@ -43,4 +43,8 @@ public class CouponViewModel extends ViewModel {
     public LiveData<CommonResponse> deleteCouponPackageCustomerResultItem(String id) {
         return cupon_repositories.getInstance().deleteCouponPackageCustomerResultItem(id);
     }
+
+    public LiveData<CommonResponse> updateCouponPackageCustomerResultItemStatus(String id, String status) {
+        return cupon_repositories.getInstance().updateCouponPackageCustomerResultItemStatus(id, status);
+    }
 }

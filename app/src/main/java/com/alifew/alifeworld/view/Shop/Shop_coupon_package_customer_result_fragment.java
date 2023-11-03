@@ -88,6 +88,45 @@ public class Shop_coupon_package_customer_result_fragment extends Fragment imple
     @Override
     public void onStatusClick(int position) {
         ShopCouponCustomerResponse.Customer response = customerList.get(position);
+
+        Dialog alertDialog = new Dialog(getActivity());
+        alertDialog.setContentView(R.layout.confirm_alert);
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        alertDialog.setCancelable(false);
+        alertDialog.show();
+
+        Window window = alertDialog.getWindow();
+        WindowManager.LayoutParams wlp = window.getAttributes();
+        wlp.gravity = Gravity.CENTER;
+        wlp.width = android.view.WindowManager.LayoutParams.MATCH_PARENT;
+        wlp.height = android.view.WindowManager.LayoutParams.WRAP_CONTENT;
+        window.setAttributes(wlp);
+
+        TextView yesButton = alertDialog.findViewById(R.id.yesButton);
+        TextView noButton = alertDialog.findViewById(R.id.noButton);
+        TextView titleText = alertDialog.findViewById(R.id.titleText);
+
+        titleText.setText("Are you sure about updating this item?");
+
+        yesButton.setOnClickListener(v -> {
+            loader.show();
+            couponViewModel.updateCouponPackageCustomerResultItemStatus(response.id, response.status.equals("pending") ? "done" : "pending").observe(getViewLifecycleOwner(), new Observer<CommonResponse>() {
+                @Override
+                public void onChanged(CommonResponse commonResponse) {
+
+                    loader.dismiss();
+
+                    Toast.makeText(getActivity(), commonResponse.message, Toast.LENGTH_SHORT).show();
+
+                    if(commonResponse.message.toLowerCase().equals("update successfully")){
+                        alertDialog.dismiss();
+                        load_data();
+                    }
+                }
+            });
+        });
+
+        noButton.setOnClickListener(v -> alertDialog.cancel());
     }
 
     @Override
@@ -123,7 +162,7 @@ public class Shop_coupon_package_customer_result_fragment extends Fragment imple
 
                     Toast.makeText(getActivity(), commonResponse.message, Toast.LENGTH_SHORT).show();
 
-                    if(commonResponse.message.equals("deleted successfully")){
+                    if (commonResponse.message.equals("deleted successfully")) {
                         alertDialog.dismiss();
                         load_data();
                     }

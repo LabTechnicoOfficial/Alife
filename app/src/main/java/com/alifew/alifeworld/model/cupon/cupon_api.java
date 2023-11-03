@@ -103,4 +103,9 @@ public interface cupon_api {
     @FormUrlEncoded
     @POST("delete_cupon_package_customer_list.php")
     Call<CommonResponse> deleteCouponPackageCustomerResultItem(@Field("id") String id);
+
+
+    @FormUrlEncoded
+    @POST("update_cupon_package_customer_list.php")
+    Call<CommonResponse> updateCouponPackageCustomerResultItemStatus(@Field("id") String id,@Field("status") String status);
 }
