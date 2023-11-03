@@ -19,6 +19,7 @@ public class cupon_repositories {
 
     private MutableLiveData<List<CustomerFor_cupon_response>> customerList;
     private MutableLiveData<CommonResponse> commonResponse;
+    private MutableLiveData<ShopCouponCustomerResponse> couponCustomerResponse;
     private cupon_api api;
     private static cupon_repositories cupon_repositories;
 
@@ -29,6 +30,7 @@ public class cupon_repositories {
         api = ApiUtilize.cupon_response();
         customerList = new MutableLiveData<>();
         commonResponse = new MutableLiveData<>();
+        couponCustomerResponse = new MutableLiveData<>();
     }
 
     public synchronized static cupon_repositories getInstance() {
@@ -119,7 +121,45 @@ public class cupon_repositories {
         call.enqueue(new Callback<CommonResponse>() {
             @Override
             public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
-                if (response.isSuccessful()){
+                if (response.isSuccessful()) {
+                    commonResponse.postValue(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CommonResponse> call, Throwable t) {
+
+            }
+        });
+
+        return commonResponse;
+    }
+
+    public MutableLiveData<ShopCouponCustomerResponse> getCouponPackageCustomerResultList(String packageID) {
+        Call<ShopCouponCustomerResponse> call = api.getCouponPackageCustomerResultList(packageID);
+        call.enqueue(new Callback<ShopCouponCustomerResponse>() {
+            @Override
+            public void onResponse(Call<ShopCouponCustomerResponse> call, Response<ShopCouponCustomerResponse> response) {
+                if (response.isSuccessful()) {
+                    couponCustomerResponse.postValue(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ShopCouponCustomerResponse> call, Throwable t) {
+
+            }
+        });
+
+        return couponCustomerResponse;
+    }
+
+    public MutableLiveData<CommonResponse> deleteCouponPackageCustomerResultItem(String id) {
+        Call<CommonResponse> call = api.deleteCouponPackageCustomerResultItem(id);
+        call.enqueue(new Callback<CommonResponse>() {
+            @Override
+            public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
+                if (response.isSuccessful()) {
                     commonResponse.postValue(response.body());
                 }
             }

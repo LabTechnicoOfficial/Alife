@@ -17,7 +17,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.alifew.alifeworld.R;
-import com.alifew.alifeworld.adapter.Shop_local_sell_select_product_adapter;
+import com.alifew.alifeworld.adapter.localsell.Shop_local_sell_select_product_adapter;
 import com.alifew.alifeworld.model.local_sell.LocalSell_property;
 import com.alifew.alifeworld.model.local_sell.Get_local_sell_product_response;
 import com.alifew.alifeworld.viewmodel.Local_sell.Get_local_sell;

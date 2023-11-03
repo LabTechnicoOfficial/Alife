@@ -26,7 +26,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alifew.alifeworld.R;
-import com.alifew.alifeworld.adapter.Shop_coupon_package_adapter;
+import com.alifew.alifeworld.adapter.coupon.Shop_coupon_package_adapter;
 import com.alifew.alifeworld.model.cupon.add_response;
 import com.alifew.alifeworld.model.cupon.CustomerFor_cupon_response;
 import com.alifew.alifeworld.model.cupon.edit_delete_response;

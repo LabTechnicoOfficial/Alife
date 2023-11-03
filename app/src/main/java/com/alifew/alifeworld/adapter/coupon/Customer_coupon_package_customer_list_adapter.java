@@ -1,4 +1,4 @@
-package com.alifew.alifeworld.adapter;
+package com.alifew.alifeworld.adapter.coupon;
 
 import android.view.LayoutInflater;
 import android.view.View;

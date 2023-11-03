@@ -95,4 +95,12 @@ public interface cupon_api {
     @GET("cupon/get_customer_list_for_cupon.php")
     Call<List<CustomerFor_cupon_response>> getCustomerListForCoupon(@Query("shop_id") String shopID,
                                                                     @Query("package_id") String packageID);
+
+    @GET("cupon/get_cupon_package_customer_list.php")
+    Call<ShopCouponCustomerResponse> getCouponPackageCustomerResultList(@Query("pkg_id") String packageID);
+
+
+    @FormUrlEncoded
+    @POST("delete_cupon_package_customer_list.php")
+    Call<CommonResponse> deleteCouponPackageCustomerResultItem(@Field("id") String id);
 }

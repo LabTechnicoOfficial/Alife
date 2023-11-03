@@ -1,4 +1,4 @@
-package com.alifew.alifeworld.adapter;
+package com.alifew.alifeworld.adapter.localsell;
 
 import android.view.LayoutInflater;
 import android.view.View;

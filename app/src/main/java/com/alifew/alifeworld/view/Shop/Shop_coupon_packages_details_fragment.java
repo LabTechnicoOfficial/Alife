@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,7 +27,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alifew.alifeworld.R;
-import com.alifew.alifeworld.adapter.Shop_coupon_package_details_customer_list_adapter;
+import com.alifew.alifeworld.adapter.coupon.Shop_coupon_package_details_customer_list_adapter;
 import com.alifew.alifeworld.model.CommonResponse;
 import com.alifew.alifeworld.model.cupon.CustomerFor_cupon_response;
 import com.alifew.alifeworld.model.cupon.edit_delete_response;
@@ -50,7 +51,7 @@ public class Shop_coupon_packages_details_fragment extends Fragment implements S
     private Shop_coupon_package_details_customer_list_adapter adapter;
     Edit_delete_cupon_package edit_delete_cupon_package;
     Dialog loader;
-    TextView notificationSend;
+    TextView notificationSend, resultButton;
     String packageID, packageName, packageSellAmount, cupon_available, cupon_name, package_name, shop_name;
     sendPackageCustomer_notification customer_notification;
     CouponViewModel couponViewModel;
@@ -151,19 +152,15 @@ public class Shop_coupon_packages_details_fragment extends Fragment implements S
 
         loadCustomerList();
 
-        return view;
-    }
+        resultButton.setOnClickListener(v -> {
+            getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(
+                    R.anim.slide_in,  // enter
+                    R.anim.fade_out,  // exit
+                    R.anim.fade_in,   // popEnter
+                    R.anim.slide_out  // popExit
+            ).replace(R.id.frame_container, new Shop_coupon_package_customer_result_fragment(packageID)).addToBackStack(null).commit();
 
-    private void initView(View view) {
-        sessionManagement = new SessionManagement(getActivity());
-        shopID = sessionManagement.getSession();
-        edit_delete_cupon_package = new ViewModelProvider(this).get(Edit_delete_cupon_package.class);
-        customer_notification = new ViewModelProvider(this).get(sendPackageCustomer_notification.class);
-        editButton = (ExtendedFloatingActionButton) view.findViewById(R.id.editButton);
-        notificationSend = (TextView) view.findViewById(R.id.notificationID);
-        customersView = (RecyclerView) view.findViewById(R.id.customersViewID);
-        customersView.setHasFixedSize(true);
-        customersView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        });
 
         notificationSend.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -185,6 +182,24 @@ public class Shop_coupon_packages_details_fragment extends Fragment implements S
                 loader.dismiss();
             }
         });
+
+
+        return view;
+    }
+
+    private void initView(View view) {
+        sessionManagement = new SessionManagement(getActivity());
+        shopID = sessionManagement.getSession();
+        edit_delete_cupon_package = new ViewModelProvider(this).get(Edit_delete_cupon_package.class);
+        customer_notification = new ViewModelProvider(this).get(sendPackageCustomer_notification.class);
+        editButton = (ExtendedFloatingActionButton) view.findViewById(R.id.editButton);
+        notificationSend = (TextView) view.findViewById(R.id.notificationID);
+        customersView = (RecyclerView) view.findViewById(R.id.customersViewID);
+        customersView.setHasFixedSize(true);
+        customersView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        resultButton  = view.findViewById(R.id.resultButton);
+
+        Log.d("dataxx", "initView: "+packageID);
 
         loader = new Dialog(getActivity());
         loader.setContentView(R.layout.loader);

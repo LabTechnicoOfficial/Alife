@@ -18,7 +18,7 @@ import com.alifew.alifeworld.DB.AppDatabase;
 import com.alifew.alifeworld.DB.dao.CustomerDao;
 import com.alifew.alifeworld.DB.entity.Customer;
 import com.alifew.alifeworld.R;
-import com.alifew.alifeworld.adapter.Shop_local_sell_select_customer_adapter;
+import com.alifew.alifeworld.adapter.localsell.Shop_local_sell_select_customer_adapter;
 import com.alifew.alifeworld.model.local_sell.LocalSell_property;
 import com.alifew.alifeworld.model.local_sell.customer_phone_response;
 import com.alifew.alifeworld.session.SessionManagement;

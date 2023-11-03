@@ -154,7 +154,7 @@
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/headerLayout"
+                android:id="@+id/itemLayout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:background="@color/background_color"
@@ -196,7 +196,7 @@
                 android:scrollbars="none"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/headerLayout"
+                app:layout_constraintTop_toBottomOf="@id/itemLayout"
              />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

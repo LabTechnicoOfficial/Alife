@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.alifew.alifeworld.API.ApiUtilize;
 import com.alifew.alifeworld.R;
-import com.alifew.alifeworld.adapter.Customer_coupon_shop_list_adapter;
+import com.alifew.alifeworld.adapter.coupon.Customer_coupon_shop_list_adapter;
 import com.alifew.alifeworld.model.cupon.cuponShop_response;
 import com.alifew.alifeworld.model.cupon.cupon_api;
 import com.alifew.alifeworld.model.cupon.CustomerFor_cupon_response;

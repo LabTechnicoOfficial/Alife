@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.alifew.alifeworld.model.CommonResponse;
 import com.alifew.alifeworld.model.cupon.CustomerFor_cupon_response;
+import com.alifew.alifeworld.model.cupon.ShopCouponCustomerResponse;
 import com.alifew.alifeworld.model.cupon.add_response;
 import com.alifew.alifeworld.model.cupon.cupon_repositories;
 import com.alifew.alifeworld.model.cupon.cupon_response;
@@ -32,5 +33,14 @@ public class CouponViewModel extends ViewModel {
 
     public LiveData<CommonResponse> addCustomerReferGift(String packageID, String customerPhone, String sellAmount, String points, int shopID, String pos, String giftName) {
         return cupon_repositories.getInstance().addCustomerReferGift(packageID, customerPhone, sellAmount, points, shopID, pos, giftName);
+    }
+
+    public LiveData<ShopCouponCustomerResponse> getCouponPackageCustomerResultList(String packageID) {
+        return cupon_repositories.getInstance().getCouponPackageCustomerResultList(packageID);
+    }
+
+
+    public LiveData<CommonResponse> deleteCouponPackageCustomerResultItem(String id) {
+        return cupon_repositories.getInstance().deleteCouponPackageCustomerResultItem(id);
     }
 }

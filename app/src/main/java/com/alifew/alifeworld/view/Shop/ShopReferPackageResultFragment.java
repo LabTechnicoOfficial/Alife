@@ -92,21 +92,46 @@ public class ShopReferPackageResultFragment extends Fragment implements ShopRefe
     @Override
     public void OnItemDeleteClick(int position) {
         ReferResultCustomerResponse.Customer response = resultCustomerList.get(position);
-        loader.show();
 
-        shopReferViewModel.deleteReferCustomerResult(response.id).observe(getViewLifecycleOwner(), new Observer<CommonResponse>() {
-            @Override
-            public void onChanged(CommonResponse commonResponse) {
-                loader.dismiss();
-                Toast.makeText(getActivity(), commonResponse.message, Toast.LENGTH_SHORT).show();
+        Dialog alertDialog = new Dialog(getActivity());
+        alertDialog.setContentView(R.layout.confirm_alert);
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        alertDialog.setCancelable(false);
+        alertDialog.show();
 
-                if (commonResponse.message.equals("deleted successfully")) {
-                    load_data();
+        Window window = alertDialog.getWindow();
+        WindowManager.LayoutParams wlp = window.getAttributes();
+        wlp.gravity = Gravity.CENTER;
+        wlp.width = android.view.WindowManager.LayoutParams.MATCH_PARENT;
+        wlp.height = android.view.WindowManager.LayoutParams.WRAP_CONTENT;
+        window.setAttributes(wlp);
+
+        TextView yesButton = alertDialog.findViewById(R.id.yesButton);
+        TextView noButton = alertDialog.findViewById(R.id.noButton);
+        TextView titleText = alertDialog.findViewById(R.id.titleText);
+
+        titleText.setText("Are you sure about changing status?");
+
+        yesButton.setOnClickListener(v -> {
+            loader.show();
+
+            shopReferViewModel.deleteReferCustomerResult(response.id).observe(getViewLifecycleOwner(), new Observer<CommonResponse>() {
+                @Override
+                public void onChanged(CommonResponse commonResponse) {
+                    loader.dismiss();
+                    Toast.makeText(getActivity(), commonResponse.message, Toast.LENGTH_SHORT).show();
+
+                    if (commonResponse.message.equals("deleted successfully")) {
+                        load_data();
+                    }
+
+
                 }
-
-
-            }
+            });
         });
+
+        noButton.setOnClickListener(v -> alertDialog.cancel());
+
 
     }
 

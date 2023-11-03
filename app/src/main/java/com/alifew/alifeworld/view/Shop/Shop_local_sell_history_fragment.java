@@ -33,7 +33,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alifew.alifeworld.R;
-import com.alifew.alifeworld.adapter.Shop_local_sell_history_adapter;
+import com.alifew.alifeworld.adapter.localsell.Shop_local_sell_history_adapter;
 import com.alifew.alifeworld.adapter.Shop_sell_history_main_adapter;
 import com.alifew.alifeworld.adapter.local_sell_details_image_adapter;
 import com.alifew.alifeworld.model.local_sell.local_sell_history_response;
