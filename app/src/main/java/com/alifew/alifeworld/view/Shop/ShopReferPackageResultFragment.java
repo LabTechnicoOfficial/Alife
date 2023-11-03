@@ -110,7 +110,7 @@ public class ShopReferPackageResultFragment extends Fragment implements ShopRefe
         TextView noButton = alertDialog.findViewById(R.id.noButton);
         TextView titleText = alertDialog.findViewById(R.id.titleText);
 
-        titleText.setText("Are you sure about changing status?");
+        titleText.setText("Are you sure about deleting this item?");
 
         yesButton.setOnClickListener(v -> {
             loader.show();
@@ -122,6 +122,7 @@ public class ShopReferPackageResultFragment extends Fragment implements ShopRefe
                     Toast.makeText(getActivity(), commonResponse.message, Toast.LENGTH_SHORT).show();
 
                     if (commonResponse.message.equals("deleted successfully")) {
+                        alertDialog.dismiss();
                         load_data();
                     }
 
@@ -138,6 +139,7 @@ public class ShopReferPackageResultFragment extends Fragment implements ShopRefe
     @SuppressLint("SetTextI18n")
     @Override
     public void OnStatusClick(int position) {
+        ReferResultCustomerResponse.Customer response = resultCustomerList.get(position);
 
         Dialog alertDialog = new Dialog(getActivity());
         alertDialog.setContentView(R.layout.confirm_alert);
@@ -159,7 +161,22 @@ public class ShopReferPackageResultFragment extends Fragment implements ShopRefe
         titleText.setText("Are you sure about changing status?");
 
         yesButton.setOnClickListener(v -> {
+            loader.show();
 
+            shopReferViewModel.updateReferCustomerResultStatus(response.id, response.status.equals("pending") ? "done": "pending").observe(getViewLifecycleOwner(), new Observer<CommonResponse>() {
+                @Override
+                public void onChanged(CommonResponse commonResponse) {
+                    loader.dismiss();
+                    Toast.makeText(getActivity(), commonResponse.message, Toast.LENGTH_SHORT).show();
+
+                    if (commonResponse.message.toLowerCase().equals("update successfully")) {
+                        alertDialog.dismiss();
+                        load_data();
+                    }
+
+
+                }
+            });
         });
 
         noButton.setOnClickListener(v -> alertDialog.cancel());

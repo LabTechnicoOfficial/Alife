@@ -235,4 +235,23 @@ public class ShopReferRepositories {
 
         return commonResponse;
     }
+
+    public LiveData<CommonResponse> updateReferCustomerResultStatus(String id, String status) {
+        Call<CommonResponse> call = referApi.updateReferCustomerResultStatus(id, status);
+        call.enqueue(new Callback<CommonResponse>() {
+            @Override
+            public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
+                if (response.isSuccessful()) {
+                    commonResponse.postValue(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CommonResponse> call, Throwable t) {
+
+            }
+        });
+
+        return commonResponse;
+    }
 }

@@ -66,4 +66,9 @@ public interface ReferApi {
     @FormUrlEncoded
     @POST("delete_refer_point_gift_customer.php")
     Call<CommonResponse> deleteReferCustomerResult(@Field("id") String id);
+
+
+    @FormUrlEncoded
+    @POST("update_refer_point_gift_customer_list.php")
+    Call<CommonResponse> updateReferCustomerResultStatus(@Field("id") String id,@Field("status") String status);
 }
