@@ -39,7 +39,10 @@ public class Products implements Parcelable {
     @ColumnInfo(name = "type")
     private String type;
 
-    public Products(String productID, String name, String printCheck, String image, String barcode, String stock, String price, String unit, String type) {
+    @ColumnInfo(name = "stock_available")
+    private String stockAvailable;
+
+    public Products(String productID, String name, String printCheck, String image, String barcode, String stock, String price, String unit, String type, String stockAvailable) {
         this.productID = productID;
         this.name = name;
         this.printCheck = printCheck;
@@ -49,7 +52,9 @@ public class Products implements Parcelable {
         this.price = price;
         this.unit = unit;
         this.type = type;
+        this.stockAvailable = stockAvailable;
     }
+
 
     protected Products(Parcel in) {
         id = in.readInt();
@@ -62,6 +67,7 @@ public class Products implements Parcelable {
         price = in.readString();
         unit = in.readString();
         type = in.readString();
+        stockAvailable = in.readString();
     }
 
     public static final Creator<Products> CREATOR = new Creator<Products>() {
@@ -156,6 +162,14 @@ public class Products implements Parcelable {
         this.unit = unit;
     }
 
+    public String getStockAvailable() {
+        return stockAvailable;
+    }
+
+    public void setStockAvailable(String stockAvailable) {
+        this.stockAvailable = stockAvailable;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -173,5 +187,6 @@ public class Products implements Parcelable {
         parcel.writeString(price);
         parcel.writeString(unit);
         parcel.writeString(type);
+        parcel.writeString(stockAvailable);
     }
 }

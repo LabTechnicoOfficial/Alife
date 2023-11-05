@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Shop_product_barcode_print_adapter extends RecyclerView.Adapter<Shop_product_barcode_print_adapter.ViewHolder> {
-    private List<Products> productList = new ArrayList<>();
+    private List<Products> productList;
     List<Products> typeList = new ArrayList<>();
     ProductDao productDao;
 
@@ -36,8 +36,7 @@ public class Shop_product_barcode_print_adapter extends RecyclerView.Adapter<Sho
     @Override
     public Shop_product_barcode_print_adapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.shop_product_barcode_print_card, parent, false);
-        return new ViewHolder(view);
+        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.shop_product_barcode_print_card, parent, false));
     }
 
     @Override

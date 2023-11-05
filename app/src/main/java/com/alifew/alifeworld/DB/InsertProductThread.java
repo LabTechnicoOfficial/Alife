@@ -25,6 +25,6 @@ public class InsertProductThread extends Thread {
     public void run() {
         AppDatabase db = AppDatabase.getDatabase(context);
         ProductDao productDao = db.productDao();
-        productDao.insertProducts(new Products(productID, name, printCheck, image, barcode, stock, price, unit, type));
+        productDao.insertProducts(new Products(productID, name, printCheck, image, barcode, stock, price, unit, type, "0"));
     }
 }

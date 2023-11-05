@@ -63,12 +63,13 @@ import com.google.android.gms.vision.barcode.BarcodeDetector;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Shop_homescreen_fragment extends Fragment implements Instruction_adapter.OnItemClickListener {
     LinearLayout dailyAccountButton, dueListButton, customerListButton;
     LinearLayout sellProductButton, addProductButton, allProductButton;
     LinearLayout dueCustomerButton, businessAccountButton, localPageButton;
-    LinearLayout sellHistoryButton, couponButton, localSellButton;
+    LinearLayout sellHistoryButton, couponButton, localSellButton, stockCheckButton;
     LinearLayout sendNotificationButton, barcodeScanButton, printBarcodeButton;
     private String shop_id;
 
@@ -426,6 +427,14 @@ public class Shop_homescreen_fragment extends Fragment implements Instruction_ad
             }
         });
 
+        stockCheckButton.setOnClickListener(v -> {
+            requireActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in,  // enter
+                    R.anim.fade_out,  // exit
+                    R.anim.fade_in,   // popEnter
+                    R.anim.slide_out  // popExit
+            ).replace(R.id.frame_container, new ShopProductStockCheckFragment()).addToBackStack(null).commit();
+        });
+
         return view;
     }
 
@@ -434,23 +443,23 @@ public class Shop_homescreen_fragment extends Fragment implements Instruction_ad
         instructionView.setHasFixedSize(true);
         instructionView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
 
-        dailyAccountButton =  view.findViewById(R.id.dailyAccountButtonID);
-        dueListButton =  view.findViewById(R.id.dueListButtonID);
-        customerListButton =  view.findViewById(R.id.customerListButtonID);
-        sellProductButton =  view.findViewById(R.id.sellProductsButtonID);
-        addProductButton =  view.findViewById(R.id.addProductsButtonID);
-        allProductButton =  view.findViewById(R.id.allProductsButtonID);
-        dueCustomerButton =  view.findViewById(R.id.duecustomerListButtonID);
-        businessAccountButton =  view.findViewById(R.id.businessAccountButtonID);
-        localPageButton =  view.findViewById(R.id.localPageButtonID);
-        sellHistoryButton =  view.findViewById(R.id.sellHistoryButtonID);
+        dailyAccountButton = view.findViewById(R.id.dailyAccountButtonID);
+        dueListButton = view.findViewById(R.id.dueListButtonID);
+        customerListButton = view.findViewById(R.id.customerListButtonID);
+        sellProductButton = view.findViewById(R.id.sellProductsButtonID);
+        addProductButton = view.findViewById(R.id.addProductsButtonID);
+        allProductButton = view.findViewById(R.id.allProductsButtonID);
+        dueCustomerButton = view.findViewById(R.id.duecustomerListButtonID);
+        businessAccountButton = view.findViewById(R.id.businessAccountButtonID);
+        localPageButton = view.findViewById(R.id.localPageButtonID);
+        sellHistoryButton = view.findViewById(R.id.sellHistoryButtonID);
 
-        couponButton =  view.findViewById(R.id.couponButtonID);
-        localSellButton =  view.findViewById(R.id.localSellButtonID);
-        sendNotificationButton =  view.findViewById(R.id.sendNotificationButtonID);
+        couponButton = view.findViewById(R.id.couponButtonID);
+        localSellButton = view.findViewById(R.id.localSellButtonID);
+        sendNotificationButton = view.findViewById(R.id.sendNotificationButtonID);
         barcodeScanButton = view.findViewById(R.id.barcodeScanButton);
         printBarcodeButton = view.findViewById(R.id.printBarcodeButton);
-
+        stockCheckButton = view.findViewById(R.id.stockCheckButton);
         instructorLayout = view.findViewById(R.id.instructorLayout);
 
 
@@ -481,7 +490,7 @@ public class Shop_homescreen_fragment extends Fragment implements Instruction_ad
                     instructionAdapter = new Instruction_adapter(instructionList);
                     instructionAdapter.setOnClickListener(Shop_homescreen_fragment.this::OnInstructorItemClick);
                     instructionView.setAdapter(instructionAdapter);
-                }else {
+                } else {
                     instructorLayout.setVisibility(View.GONE);
                 }
             }
