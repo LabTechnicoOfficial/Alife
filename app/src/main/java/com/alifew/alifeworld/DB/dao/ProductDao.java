@@ -21,6 +21,9 @@ public interface ProductDao {
     @Query("SELECT * from tblProducts where  name  LIKE '%' || :key || '%' GROUP BY product_id")
     List<Products> getSearchedProductsList(String key);
 
+    @Query("Update tblProducts SET stock_available = stock_available+ :amount WHERE id = :id")
+    void updateProductsStockAvailability(String id, String amount);
+
     @Insert
     void insertProducts(Products products);
 

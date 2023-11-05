@@ -23,11 +23,14 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.alifew.alifeworld.DB.AppDatabase;
 import com.alifew.alifeworld.DB.dao.ProductDao;
 import com.alifew.alifeworld.DB.entity.Products;
 import com.alifew.alifeworld.R;
+import com.alifew.alifeworld.Utils.Constants;
+import com.alifew.alifeworld.Utils.ImageHelper;
 import com.alifew.alifeworld.adapter.stock.ShopProductStockCheckSearchAdapter;
 import com.alifew.alifeworld.databinding.FragmentShopProductStockCheckBinding;
 import com.alifew.alifeworld.model.Get_product_response;
@@ -38,7 +41,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class ShopProductStockCheckFragment extends Fragment {
+public class ShopProductStockCheckFragment extends Fragment implements ShopProductStockCheckSearchAdapter.OnItemClickListener {
 
     FragmentShopProductStockCheckBinding binding;
     ProductDao productDao;
@@ -52,6 +55,11 @@ public class ShopProductStockCheckFragment extends Fragment {
     List<Products> productList = new ArrayList<>();
     ShopProductStockCheckSearchAdapter adapter;
     RecyclerView itemView;
+    Dialog productSearchAlert;
+
+    List<Products> typeList;
+
+    String confirmID;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -64,18 +72,8 @@ public class ShopProductStockCheckFragment extends Fragment {
         loadProducts();
 
         binding.searchEditText.setOnClickListener(v -> {
-            Dialog productSearchAlert = new Dialog(getActivity());
-            productSearchAlert.setContentView(R.layout.search_product_with_type_alert);
-            productSearchAlert.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-            productSearchAlert.setCancelable(false);
-            productSearchAlert.show();
 
-            Window window = productSearchAlert.getWindow();
-            WindowManager.LayoutParams wlp = window.getAttributes();
-            wlp.gravity = Gravity.CENTER;
-            wlp.width = WindowManager.LayoutParams.MATCH_PARENT;
-            wlp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-            window.setAttributes(wlp);
+            productSearchAlert.show();
 
             ImageView closeButton = productSearchAlert.findViewById(R.id.closeButton);
             closeButton.setOnClickListener(v1 -> {
@@ -101,7 +99,6 @@ public class ShopProductStockCheckFragment extends Fragment {
                 @Override
                 public void afterTextChanged(Editable s) {
                     productList = productDao.getSearchedProductsList(s.toString().trim());
-                    //Toast.makeText(getActivity(), String.valueOf(productList.size()), Toast.LENGTH_SHORT).show();
                     setUpAdapter(productList);
                 }
             });
@@ -126,6 +123,20 @@ public class ShopProductStockCheckFragment extends Fragment {
         loader.setContentView(R.layout.loader);
         loader.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         loader.setCancelable(false);
+
+        productSearchAlert = new Dialog(getActivity());
+        productSearchAlert.setContentView(R.layout.search_product_with_type_alert);
+        productSearchAlert.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        productSearchAlert.setCancelable(false);
+
+        Window window = productSearchAlert.getWindow();
+        WindowManager.LayoutParams wlp = window.getAttributes();
+        wlp.gravity = Gravity.CENTER;
+        wlp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        wlp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        window.setAttributes(wlp);
+
+        binding.productDetailsCard.setVisibility(View.GONE);
     }
 
     private void loadProducts() {
@@ -159,6 +170,57 @@ public class ShopProductStockCheckFragment extends Fragment {
 
     private void setUpAdapter(List<Products> productList) {
         adapter = new ShopProductStockCheckSearchAdapter(productList, productDao);
+        adapter.setOnItemClickListener(ShopProductStockCheckFragment.this);
         itemView.setAdapter(adapter);
     }
+
+    @Override
+    public void onItemClick(int position) {
+        Products products = productList.get(position);
+        setDataInProductsDetailsCard(products.getProductID(), products.getName(), products.getPrice(), products.getImage(), products.getStock(), products.getId(), products.getStockAvailable());
+    }
+
+    private void setDataInProductsDetailsCard(String productID, String name, String price, String image, String stock, int id, String stockAvailable) {
+        binding.productDetailsCard.setVisibility(View.VISIBLE);
+        confirmID = String.valueOf(id);
+        productSearchAlert.dismiss();
+        binding.titleText.setText("Title: " + name);
+        binding.priceText.setText("Price: " + price + Constants.TAKA_SYMBOL);
+        binding.stockFoundText.setText("Stock Found: " + stockAvailable);
+        ImageHelper.imageLoader(getActivity(), binding.productImage, image);
+        binding.stockText.setText("Stock: " + stock);
+
+        typeList = productDao.getProductsTypes(productID);
+
+        if (typeList.size() > 1) {
+            binding.stockText.setVisibility(View.GONE);
+            binding.typeLayout.setVisibility(View.VISIBLE);
+            binding.stockFoundEditText.setVisibility(View.GONE);
+            binding.stockFoundText.setVisibility(View.GONE);
+            confirmID = "";
+        } else {
+            binding.stockText.setVisibility(View.VISIBLE);
+            binding.stockFoundText.setVisibility(View.VISIBLE);
+            binding.stockFoundEditText.setVisibility(View.VISIBLE);
+            binding.typeLayout.setVisibility(View.GONE);
+        }
+
+        binding.confirmButton.setOnClickListener(v -> {
+
+            if (confirmID.isEmpty()) {
+                Toast.makeText(getActivity(), confirmID, Toast.LENGTH_SHORT).show();
+            } else {
+                //Toast.makeText(getActivity(), confirmID, Toast.LENGTH_SHORT).show();
+                Double stockAmount = Double.parseDouble(binding.stockFoundEditText.getText().toString().trim());
+                if (stockAmount > (Double.parseDouble(stock) - Double.parseDouble(stockAvailable))) {
+                    Toast.makeText(getActivity(), "input value can't be larger than stock", Toast.LENGTH_SHORT).show();
+                } else {
+                    productDao.updateProductsStockAvailability(confirmID, String.valueOf(stockAmount));
+                    binding.productDetailsCard.setVisibility(View.GONE);
+                }
+            }
+        });
+    }
+
+
 }

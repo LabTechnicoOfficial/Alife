@@ -74,11 +74,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/transparent_color"
+                        android:clickable="true"
                         android:drawableStart="@drawable/search_icon"
                         android:drawablePadding="@dimen/_10sdp"
-                        android:focusable="false"
                         android:editable="false"
-                        android:clickable="true"
+                        android:focusable="false"
                         android:hint="Search"
                         android:textCursorDrawable="@drawable/cursor_color" />
                 </LinearLayout>
@@ -104,6 +104,7 @@
 
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/productDetailsCard"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:elevation="5dp"
@@ -136,30 +137,159 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
 
-            <TextView
-                android:id="@+id/titleText"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/contentLayout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:text="Product Details"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_10sdp"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/headerText" />
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/headerText">
 
-            <TextView
-                android:id="@+id/priceText"
+                <ImageView
+                    android:id="@+id/productImage"
+                    android:layout_width="@dimen/_60sdp"
+                    android:layout_height="@dimen/_60sdp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <TextView
+                    android:id="@+id/titleText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_5sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:text="Product Details"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_10sdp"
+                    app:layout_constraintBottom_toTopOf="@id/priceText"
+                    app:layout_constraintLeft_toRightOf="@id/productImage"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/priceText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_5sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:text="Price"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_10sdp"
+                    app:layout_constraintBottom_toTopOf="@id/stockText"
+                    app:layout_constraintLeft_toRightOf="@id/productImage"
+                    app:layout_constraintTop_toBottomOf="@id/titleText" />
+
+                <TextView
+                    android:id="@+id/stockText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_5sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:text="Stock"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_10sdp"
+                    app:layout_constraintBottom_toTopOf="@id/stockFoundEditText"
+                    app:layout_constraintLeft_toRightOf="@id/productImage"
+                    app:layout_constraintTop_toBottomOf="@id/priceText" />
+
+                <TextView
+                    android:id="@+id/stockFoundText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_5sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:text="Stock"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_10sdp"
+                    app:layout_constraintBottom_toTopOf="@id/stockFoundEditText"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/priceText" />
+
+
+                <EditText
+                    android:id="@+id/stockFoundEditText"
+                    android:layout_width="@dimen/_100sdp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_5sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:background="@drawable/border_shape"
+                    android:gravity="end"
+                    android:hint="Stock Found"
+                    android:padding="@dimen/_5sdp"
+                    android:text="1"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_10sdp"
+                    app:layout_constraintLeft_toRightOf="@id/productImage"
+                    app:layout_constraintTop_toBottomOf="@id/stockText" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <LinearLayout
+                android:id="@+id/typeLayout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:text="Price"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_10sdp"
+                android:orientation="vertical"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/titleText" />
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/contentLayout">
 
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_15sdp"
+                    android:layout_marginRight="@dimen/_15sdp"
+                    android:padding="5dp">
+
+                    <TextView
+                        android:id="@+id/typeText"
+                        android:layout_width="@dimen/_80sdp"
+                        android:layout_height="wrap_content"
+                        android:text="Type"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_11sdp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/stockTypeText"
+                        android:layout_width="@dimen/_80sdp"
+                        android:layout_height="wrap_content"
+                        android:text="Stock"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_11sdp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toRightOf="@id/typeText"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <CheckBox
+                        android:id="@+id/checkBox"
+                        android:layout_width="26dp"
+                        android:layout_height="20dp"
+                        android:buttonTint="@color/default_color"
+                        android:scaleX="0.70"
+                        android:scaleY="0.70"
+                        android:visibility="invisible"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/typeItemView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="none" />
+
+            </LinearLayout>
 
             <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/confirmButton"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/_30sdp"
                 android:layout_marginTop="@dimen/_5sdp"
@@ -174,7 +304,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/priceText" />
+                app:layout_constraintTop_toBottomOf="@id/typeLayout" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

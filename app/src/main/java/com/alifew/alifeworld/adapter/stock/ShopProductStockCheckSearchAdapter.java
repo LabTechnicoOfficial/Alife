@@ -16,6 +16,7 @@ import com.alifew.alifeworld.DB.dao.ProductDao;
 import com.alifew.alifeworld.DB.entity.Products;
 import com.alifew.alifeworld.R;
 import com.alifew.alifeworld.adapter.Barcode.Shop_product_type_view_adapter;
+import com.alifew.alifeworld.adapter.Sub_shop_adapter;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
@@ -43,7 +44,7 @@ public class ShopProductStockCheckSearchAdapter extends RecyclerView.Adapter<Sho
         Products response = productList.get(position);
 
 
-        holder.titleText.setText(response.getName()+ " "+response.getProductID());
+        holder.titleText.setText(response.getName());
         Glide.with(holder.itemView.getContext())
                 .load(response.getImage())
                 .centerCrop()
@@ -56,15 +57,22 @@ public class ShopProductStockCheckSearchAdapter extends RecyclerView.Adapter<Sho
 
         typeList = productDao.getProductsTypes(response.getProductID());
 
-        if (typeList.size() > 1) {
-            holder.typeLayout.setVisibility(View.VISIBLE);
-            Shop_product_type_view_adapter typeAdapter = new Shop_product_type_view_adapter(typeList, productDao);
-            // typeAdapter.setOnClickListener(Shop_product_barcode_print_adapter.this::onCheckBoxClick);
-            holder.typeView.setAdapter(typeAdapter);
 
+        if (typeList.size() > 1) {
+            holder.typeText.setVisibility(View.VISIBLE);
+            holder.typeText.setText("Types: ");
+            for (int i = 0; i < typeList.size(); i++) {
+                holder.typeText.append(typeList.get(i).getName());
+
+                if (i != typeList.size() - 1) {
+                    holder.typeText.append(", ");
+                }
+            }
         } else {
-            holder.typeLayout.setVisibility(View.GONE);
+            holder.typeText.setVisibility(View.GONE);
         }
+
+
     }
 
     @Override
@@ -72,13 +80,21 @@ public class ShopProductStockCheckSearchAdapter extends RecyclerView.Adapter<Sho
         return productList.size();
     }
 
+    private OnItemClickListener onItemClickListener;
+
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         ImageView productImage;
-        TextView titleText, typeText, priceText, markAllButton;
+        TextView titleText, typeText, priceText;
 
-        LinearLayout typeLayout;
-        RecyclerView typeView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -87,10 +103,16 @@ public class ShopProductStockCheckSearchAdapter extends RecyclerView.Adapter<Sho
             titleText = itemView.findViewById(R.id.titleText);
             typeText = itemView.findViewById(R.id.typeText);
             priceText = itemView.findViewById(R.id.priceText);
-            typeLayout = itemView.findViewById(R.id.typeLayout);
-            typeView = itemView.findViewById(R.id.typeView);
-            typeView.setHasFixedSize(true);
-            typeView.setLayoutManager(new LinearLayoutManager(itemView.getContext()));
+
+            itemView.setOnClickListener(v -> {
+                if (onItemClickListener != null) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        onItemClickListener.onItemClick(position);
+                    }
+                }
+            });
+
         }
     }
 }
