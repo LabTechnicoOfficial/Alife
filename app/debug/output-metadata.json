@@ -4,7 +4,7 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "com.alifew.alife",
+  "applicationId": "com.alifew.alifeworld",
   "variantName": "debug",
   "elements": [
     {
@@ -12,7 +12,7 @@
       "filters": [],
       "versionCode": 1,
       "versionName": "1.01",
-      "outputFile": "Alife.apk"
+      "outputFile": "Alife World.apk"
     }
   ]
 }

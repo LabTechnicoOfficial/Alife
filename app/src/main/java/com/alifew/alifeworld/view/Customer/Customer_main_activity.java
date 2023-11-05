@@ -282,8 +282,8 @@ public class Customer_main_activity extends AppCompatActivity implements Navigat
                     Window window = sessionOutAlert.getWindow();
                     WindowManager.LayoutParams wlp = window.getAttributes();
                     wlp.gravity = Gravity.CENTER;
-                    wlp.width = android.view.WindowManager.LayoutParams.MATCH_PARENT;
-                    wlp.height = android.view.WindowManager.LayoutParams.WRAP_CONTENT;
+                    wlp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+                    wlp.height = WindowManager.LayoutParams.WRAP_CONTENT;
                     window.setAttributes(wlp);
 
                     TextView okButton = sessionOutAlert.findViewById(R.id.okButton);
