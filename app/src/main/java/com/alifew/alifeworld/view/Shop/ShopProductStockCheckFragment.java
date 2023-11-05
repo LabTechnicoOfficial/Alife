@@ -106,6 +106,10 @@ public class ShopProductStockCheckFragment extends Fragment implements ShopProdu
             get_products();
         });
 
+        binding.printButton.setOnClickListener(v -> {
+
+        });
+
         return view;
     }
 
@@ -211,12 +215,19 @@ public class ShopProductStockCheckFragment extends Fragment implements ShopProdu
                 Toast.makeText(getActivity(), confirmID, Toast.LENGTH_SHORT).show();
             } else {
                 //Toast.makeText(getActivity(), confirmID, Toast.LENGTH_SHORT).show();
-                Double stockAmount = Double.parseDouble(binding.stockFoundEditText.getText().toString().trim());
-                if (stockAmount > (Double.parseDouble(stock) - Double.parseDouble(stockAvailable))) {
-                    Toast.makeText(getActivity(), "input value can't be larger than stock", Toast.LENGTH_SHORT).show();
+
+                if (binding.stockFoundEditText.getText().toString().trim().isEmpty()) {
+                    Toast.makeText(getActivity(), "empty field", Toast.LENGTH_SHORT).show();
                 } else {
-                    productDao.updateProductsStockAvailability(confirmID, String.valueOf(stockAmount));
-                    binding.productDetailsCard.setVisibility(View.GONE);
+                    Double stockAmount = Double.parseDouble(binding.stockFoundEditText.getText().toString().trim());
+                    if (stockAmount > (Double.parseDouble(stock) - Double.parseDouble(stockAvailable))) {
+                        Toast.makeText(getActivity(), "input value can't be larger than stock", Toast.LENGTH_SHORT).show();
+                    } else {
+                        productDao.updateProductsStockAvailability(confirmID, String.valueOf(stockAmount));
+                        binding.productDetailsCard.setVisibility(View.GONE);
+                        binding.stockFoundEditText.setText("");
+                    }
+
                 }
             }
         });
