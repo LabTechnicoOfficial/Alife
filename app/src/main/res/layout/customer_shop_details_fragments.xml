@@ -336,7 +336,7 @@
             android:text="@string/products"
             android:textAllCaps="false"
             android:textColor="@color/white"
-            app:icon="@drawable/products_icon"
+            app:icon="@drawable/add_button"
             app:iconTint="@color/white" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

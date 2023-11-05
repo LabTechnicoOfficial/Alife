@@ -406,7 +406,7 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginBottom="5dp"
-                android:src="@drawable/barcode"
+                android:src="@drawable/barcode_scan"
                 app:tint="@color/default_color" />
 
             <TextView
@@ -464,12 +464,41 @@
                 android:layout_height="40dp"
                 android:layout_marginBottom="5dp"
                 android:src="@drawable/ic_refer"
-                app:tint="@color/default_color"/>
+                app:tint="@color/default_color" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/refer"
+                android:textAllCaps="false"
+                android:textColor="@color/black" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/stockCheckButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_margin="5dp"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="5dp">
+
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginBottom="5dp"
+                android:src="@drawable/ic_product_search"
+                app:tint="@color/default_color" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/product_checkout"
                 android:textAllCaps="false"
                 android:textColor="@color/black" />
 
@@ -481,14 +510,14 @@
         android:id="@+id/instructorLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_5sdp"
         android:background="@color/white"
         android:orientation="vertical"
         android:padding="10dp"
-        android:layout_marginTop="@dimen/_5sdp"
+        android:visibility="gone"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/gridLayout"
-        android:visibility="gone">
+        app:layout_constraintTop_toBottomOf="@id/gridLayout">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/instructionView"
