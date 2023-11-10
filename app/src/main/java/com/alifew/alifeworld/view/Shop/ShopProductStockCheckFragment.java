@@ -32,9 +32,11 @@ import com.alifew.alifeworld.R;
 import com.alifew.alifeworld.Utils.Constants;
 import com.alifew.alifeworld.Utils.ImageHelper;
 import com.alifew.alifeworld.adapter.stock.ShopProductStockCheckSearchAdapter;
+import com.alifew.alifeworld.adapter.stock.ShopProductStockCheckTypeAdapter;
 import com.alifew.alifeworld.databinding.FragmentShopProductStockCheckBinding;
 import com.alifew.alifeworld.model.Get_product_response;
 import com.alifew.alifeworld.session.SessionManagement;
+import com.alifew.alifeworld.view.MainActivity;
 import com.alifew.alifeworld.viewmodel.Get_all_shop_product;
 
 import java.util.ArrayList;
@@ -60,6 +62,7 @@ public class ShopProductStockCheckFragment extends Fragment implements ShopProdu
     List<Products> typeList;
 
     String confirmID;
+    ShopProductStockCheckTypeAdapter shopProductStockCheckTypeAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -141,6 +144,9 @@ public class ShopProductStockCheckFragment extends Fragment implements ShopProdu
         window.setAttributes(wlp);
 
         binding.productDetailsCard.setVisibility(View.GONE);
+
+        binding.typeItemView.setHasFixedSize(true);
+        binding.typeItemView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 
     private void loadProducts() {
@@ -202,6 +208,10 @@ public class ShopProductStockCheckFragment extends Fragment implements ShopProdu
             binding.stockFoundEditText.setVisibility(View.GONE);
             binding.stockFoundText.setVisibility(View.GONE);
             confirmID = "";
+
+            shopProductStockCheckTypeAdapter = new ShopProductStockCheckTypeAdapter(typeList , ShopProductStockCheckFragment.this);
+            binding.typeItemView.setAdapter(shopProductStockCheckTypeAdapter);
+
         } else {
             binding.stockText.setVisibility(View.VISIBLE);
             binding.stockFoundText.setVisibility(View.VISIBLE);
@@ -212,7 +222,21 @@ public class ShopProductStockCheckFragment extends Fragment implements ShopProdu
         binding.confirmButton.setOnClickListener(v -> {
 
             if (confirmID.isEmpty()) {
-                Toast.makeText(getActivity(), confirmID, Toast.LENGTH_SHORT).show();
+
+                for (int i = 0; i < typeList.size(); i++) {
+                    //Toast.makeText(getActivity(), String.valueOf(typeList.get(i).getStockAvailable()), Toast.LENGTH_SHORT).show();
+
+                    Double stockAmount = Double.parseDouble(typeList.get(i).getStockAvailable());
+                    if (stockAmount > (Double.parseDouble(typeList.get(i).getStock()) - Double.parseDouble(typeList.get(i).getStockAvailable()))) {
+                        Toast.makeText(getActivity(), typeList.get(i).getType()+" value can't be larger than stock", Toast.LENGTH_SHORT).show();
+                        //return;
+                    } else {
+                        productDao.updateProductsStockAvailability(String.valueOf(typeList.get(i).id), String.valueOf(stockAmount));
+                        binding.productDetailsCard.setVisibility(View.GONE);
+                        binding.stockFoundEditText.setText("");
+                    }
+
+                }
             } else {
                 //Toast.makeText(getActivity(), confirmID, Toast.LENGTH_SHORT).show();
 
@@ -231,6 +255,18 @@ public class ShopProductStockCheckFragment extends Fragment implements ShopProdu
                 }
             }
         });
+    }
+
+    public void updateTypeItemValue(int position, String availableItem) {
+
+        /*for(Products item : typeList) {
+            if (String.valueOf(position).equals(item.getStockItemID())){
+                item.setStockItemQuantityAvailable(qty);
+            }
+        }*/
+        Products products = typeList.get(position);
+        products.setStockAvailable(availableItem);
+        typeList.set(position, products);
     }
 
 
