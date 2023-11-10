@@ -37,7 +37,7 @@ public class ShopPrintProductStockAdapter extends RecyclerView.Adapter<ShopPrint
     @Override
     public void onBindViewHolder(@NonNull ShopPrintProductStockAdapter.ViewHolder holder, int position) {
         Products products = productsList.get(position);
-        holder.titleText.setText(products.getName() + " " + products.getProductID());
+        holder.titleText.setText(products.getName());
 
         List<Products> typeList = productDao.getProductsTypes(products.getProductID());
 
