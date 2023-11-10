@@ -37,7 +37,7 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PrintActivity extends AppCompatActivity {
+public class BarCodePrintActivity extends AppCompatActivity {
 
     ImageView closeButton;
     List<Products> markedProductList;
@@ -81,7 +81,7 @@ public class PrintActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 int item = Integer.parseInt(parent.getItemAtPosition(position).toString());
-                barCodeView.setLayoutManager(new GridLayoutManager(PrintActivity.this, item));
+                barCodeView.setLayoutManager(new GridLayoutManager(BarCodePrintActivity.this, item));
                 Barcode_view_adapter barcodeViewAdapter = new Barcode_view_adapter(markedProductList, sessionManagement.getSaveShopName(), item);
                 barCodeView.setAdapter(barcodeViewAdapter);
             }

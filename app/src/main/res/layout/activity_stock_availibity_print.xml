@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".BarCodePrintActivity">
+    tools:context=".StockAvailibityPrintActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/topLayout"
@@ -22,60 +22,30 @@
             android:clickable="true"
             android:foreground="?android:attr/selectableItemBackground"
             android:src="@drawable/baseline_close_24"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/printButton"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_25sdp"
+            android:layout_margin="5dp"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:src="@drawable/pdf_50px"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/red" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     <LinearLayout
-        android:id="@+id/dropdownLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/topLayout">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:text="Choose Column" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/border_shape">
-
-            <Spinner
-                android:id="@+id/itemSpinner"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp" />
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <ImageView
-        android:id="@+id/printButton"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_margin="5dp"
-        android:clickable="true"
-        android:foreground="?android:attr/selectableItemBackground"
-        android:src="@drawable/pdf_50px"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/topLayout"
-        app:tint="@color/red" />
-
-    <LinearLayout
         android:id="@+id/barCodeLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
         android:background="@color/white"
         android:gravity="center_horizontal"
         android:paddingTop="10dp"
@@ -83,14 +53,15 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/dropdownLayout">
+        app:layout_constraintTop_toBottomOf="@id/topLayout">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/barCodeView"
-            android:layout_width="wrap_content"
+            android:id="@+id/itemView"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:scrollbars="none"
-            android:background="@color/white"/>
+            android:background="@color/white"
+            android:scrollbars="none" />
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

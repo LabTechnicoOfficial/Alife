@@ -2,6 +2,7 @@ package com.alifew.alifeworld.view.Shop;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -29,6 +30,7 @@ import com.alifew.alifeworld.DB.AppDatabase;
 import com.alifew.alifeworld.DB.dao.ProductDao;
 import com.alifew.alifeworld.DB.entity.Products;
 import com.alifew.alifeworld.R;
+import com.alifew.alifeworld.StockAvailibityPrintActivity;
 import com.alifew.alifeworld.Utils.Constants;
 import com.alifew.alifeworld.Utils.ImageHelper;
 import com.alifew.alifeworld.adapter.stock.ShopProductStockCheckSearchAdapter;
@@ -110,7 +112,7 @@ public class ShopProductStockCheckFragment extends Fragment implements ShopProdu
         });
 
         binding.printButton.setOnClickListener(v -> {
-
+            getActivity().startActivity(new Intent(getActivity(), StockAvailibityPrintActivity.class));
         });
 
         return view;
@@ -209,7 +211,7 @@ public class ShopProductStockCheckFragment extends Fragment implements ShopProdu
             binding.stockFoundText.setVisibility(View.GONE);
             confirmID = "";
 
-            shopProductStockCheckTypeAdapter = new ShopProductStockCheckTypeAdapter(typeList , ShopProductStockCheckFragment.this);
+            shopProductStockCheckTypeAdapter = new ShopProductStockCheckTypeAdapter(typeList, ShopProductStockCheckFragment.this);
             binding.typeItemView.setAdapter(shopProductStockCheckTypeAdapter);
 
         } else {
@@ -228,7 +230,7 @@ public class ShopProductStockCheckFragment extends Fragment implements ShopProdu
 
                     Double stockAmount = Double.parseDouble(typeList.get(i).getStockAvailable());
                     if (stockAmount > (Double.parseDouble(typeList.get(i).getStock()) - Double.parseDouble(typeList.get(i).getStockAvailable()))) {
-                        Toast.makeText(getActivity(), typeList.get(i).getType()+" value can't be larger than stock", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), typeList.get(i).getType() + " value can't be larger than stock", Toast.LENGTH_SHORT).show();
                         //return;
                     } else {
                         productDao.updateProductsStockAvailability(String.valueOf(typeList.get(i).id), String.valueOf(stockAmount));

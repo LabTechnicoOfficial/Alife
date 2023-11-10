@@ -54,7 +54,7 @@ import android.widget.Toast;
 import com.alifew.alifeworld.DB.AppDatabase;
 import com.alifew.alifeworld.DB.dao.ProductDao;
 import com.alifew.alifeworld.DB.entity.Products;
-import com.alifew.alifeworld.PrintActivity;
+import com.alifew.alifeworld.BarCodePrintActivity;
 import com.alifew.alifeworld.R;
 import com.alifew.alifeworld.Utils.Helpers;
 import com.alifew.alifeworld.adapter.Barcode.Barcode_view_adapter;
@@ -124,7 +124,7 @@ public class ShopPrintBarcodeFragment extends Fragment implements Shop_product_b
 //                //Toast.makeText(getActivity(), String.valueOf(markedProductList.size()), Toast.LENGTH_SHORT).show();
                 if (markedProductList.size() > 0) {
                     // barCodeGeneratePrint(markedProductList);
-                    Intent intent = new Intent(getActivity(), PrintActivity.class);
+                    Intent intent = new Intent(getActivity(), BarCodePrintActivity.class);
                     intent.putParcelableArrayListExtra(
                             "BARCODELIST", (ArrayList<? extends Parcelable>) markedProductList);
                     getActivity().startActivity(intent);
