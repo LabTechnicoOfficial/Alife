@@ -1,12 +1,16 @@
 package com.alifew.alifeworld.view.Shop;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -16,14 +20,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.SparseArray;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alifew.alifeworld.DB.AppDatabase;
@@ -33,14 +41,21 @@ import com.alifew.alifeworld.R;
 import com.alifew.alifeworld.StockAvailibityPrintActivity;
 import com.alifew.alifeworld.Utils.Constants;
 import com.alifew.alifeworld.Utils.ImageHelper;
+import com.alifew.alifeworld.adapter.stock.ShopPrintProductStockAdapter;
 import com.alifew.alifeworld.adapter.stock.ShopProductStockCheckSearchAdapter;
 import com.alifew.alifeworld.adapter.stock.ShopProductStockCheckTypeAdapter;
 import com.alifew.alifeworld.databinding.FragmentShopProductStockCheckBinding;
+import com.alifew.alifeworld.model.Fetch_product_detail_by_bar_code_response;
 import com.alifew.alifeworld.model.Get_product_response;
 import com.alifew.alifeworld.session.SessionManagement;
 import com.alifew.alifeworld.view.MainActivity;
 import com.alifew.alifeworld.viewmodel.Get_all_shop_product;
+import com.google.android.gms.vision.CameraSource;
+import com.google.android.gms.vision.Detector;
+import com.google.android.gms.vision.barcode.Barcode;
+import com.google.android.gms.vision.barcode.BarcodeDetector;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,6 +80,13 @@ public class ShopProductStockCheckFragment extends Fragment implements ShopProdu
 
     String confirmID;
     ShopProductStockCheckTypeAdapter shopProductStockCheckTypeAdapter;
+
+    TextView barcodeText;
+    SurfaceView surfaceView;
+    BarcodeDetector barcodeDetector;
+    String barcodeData;
+    private CameraSource cameraSource;
+    private static final int REQUEST_CAMERA_PERMISSION = 201;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -115,7 +137,149 @@ public class ShopProductStockCheckFragment extends Fragment implements ShopProdu
             getActivity().startActivity(new Intent(getActivity(), StockAvailibityPrintActivity.class));
         });
 
+        binding.barCodeButton.setOnClickListener(v -> {
+            Dialog barCodeAlert = new Dialog(getActivity());
+            barCodeAlert.setContentView(R.layout.barcode_scan_alert);
+            barCodeAlert.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            barCodeAlert.setCancelable(false);
+            barCodeAlert.show();
+
+            Window window = barCodeAlert.getWindow();
+            WindowManager.LayoutParams wlp = window.getAttributes();
+            wlp.gravity = Gravity.CENTER;
+            wlp.width = android.view.WindowManager.LayoutParams.MATCH_PARENT;
+            wlp.height = android.view.WindowManager.LayoutParams.WRAP_CONTENT;
+            window.setAttributes(wlp);
+
+            AppCompatButton okButton = barCodeAlert.findViewById(R.id.ok);
+            AppCompatButton reScanButton = barCodeAlert.findViewById(R.id.reScanButton);
+            ImageView closeButton = barCodeAlert.findViewById(R.id.closeButton);
+            barcodeText = barCodeAlert.findViewById(R.id.barcode_text);
+            surfaceView = barCodeAlert.findViewById(R.id.surface_view);
+            okButton.setOnClickListener(view1 -> {
+
+                if (barcodeData.isEmpty()) {
+                    Toast.makeText(getActivity(), "no barcode detected", Toast.LENGTH_SHORT).show();
+                } else {
+
+                    getActivity().runOnUiThread(() -> {
+                        //loader.show();
+                        List<Products> productsListByBarCode = productDao.getProductsByBarCode(barcodeData);
+                        if (productsListByBarCode.isEmpty()) {
+                            Toast.makeText(getActivity(), "no products found", Toast.LENGTH_SHORT).show();
+                        } else {
+                            //  Toast.makeText(getActivity(), String.valueOf(productsListByBarCode.size()), Toast.LENGTH_SHORT).show();
+                            Products products = productDao.getProductsByBarCode(barcodeData).get(0);
+                            setDataInProductsDetailsCard(products.getProductID(), products.getName(), products.getPrice(), products.getImage(), products.getStock(), products.getId(), products.getStockAvailable());
+                            barCodeAlert.dismiss();
+                        }
+
+
+                    });
+
+                }
+
+
+            });
+
+            reScanButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    initialiseDetectorsAndSources();
+                }
+            });
+
+            closeButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    barCodeAlert.dismiss();
+                }
+            });
+
+            initialiseDetectorsAndSources();
+        });
+
         return view;
+    }
+
+    private void initialiseDetectorsAndSources() {
+        barcodeData = "";
+        barcodeText.setText(barcodeData);
+
+        barcodeDetector = new BarcodeDetector.Builder(getActivity())
+                .setBarcodeFormats(Barcode.ALL_FORMATS)
+                .build();
+
+        cameraSource = new CameraSource.Builder(getActivity(), barcodeDetector)
+                .setRequestedPreviewSize(1080, 1080)
+                .setAutoFocusEnabled(true) //you should add this feature
+                .build();
+
+        surfaceView.getHolder().addCallback(new SurfaceHolder.Callback() {
+            @SuppressLint("MissingPermission")
+            @Override
+            public void surfaceCreated(SurfaceHolder holder) {
+                try {
+                    if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                        cameraSource.start(surfaceView.getHolder());
+                    } else {
+                        ActivityCompat.requestPermissions(getActivity(), new
+                                String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
+                    }
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+
+            @Override
+            public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+            }
+
+            @Override
+            public void surfaceDestroyed(SurfaceHolder holder) {
+                cameraSource.stop();
+            }
+        });
+
+
+        barcodeDetector.setProcessor(new Detector.Processor<Barcode>() {
+            @Override
+            public void release() {
+                // Toast.makeText(getActivity(), "To prevent memory leaks barcode scanner has been stopped", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void receiveDetections(Detector.Detections<Barcode> detections) {
+                final SparseArray<Barcode> barcodes = detections.getDetectedItems();
+                if (barcodes.size() != 0) {
+
+
+                    barcodeText.post(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            if (barcodes.valueAt(0).email != null) {
+                                barcodeText.removeCallbacks(null);
+                                barcodeData = barcodes.valueAt(0).email.address;
+                                barcodeText.setText(barcodeData);
+                                // toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP, 150);
+                                // barcodeDetector.release();
+                            } else {
+
+                                barcodeData = barcodes.valueAt(0).displayValue;
+                                barcodeText.setText(barcodeData);
+                                // toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP, 150);
+
+                            }
+                        }
+                    });
+
+                }
+            }
+        });
     }
 
     private void initView(View view) {
