@@ -98,7 +98,7 @@ public class ShopReferAdapter extends RecyclerView.Adapter<ShopReferAdapter.View
 
         public Viewholder(@NonNull View itemView) {
             super(itemView);
-            nameText = itemView.findViewById(R.id.nameText);
+            nameText = itemView.findViewById(R.id.shopNameText);
             durationText = itemView.findViewById(R.id.durationText);
             createdTimeText = itemView.findViewById(R.id.createdTimeText);
             endTimeText = itemView.findViewById(R.id.endTimeText);

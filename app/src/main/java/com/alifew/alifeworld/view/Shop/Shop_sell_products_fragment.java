@@ -32,10 +32,10 @@ import com.alifew.alifeworld.Custom_Type.ProductSell;
 import com.alifew.alifeworld.R;
 import com.alifew.alifeworld.adapter.Sell_product_adapter;
 import com.alifew.alifeworld.model.Get_product_response;
-import com.alifew.alifeworld.model.shop_profile_response;
+import com.alifew.alifeworld.model.Shop_profile_response;
 import com.alifew.alifeworld.viewmodel.Get_all_shop_product;
 import com.alifew.alifeworld.viewmodel.Get_product;
-import com.alifew.alifeworld.viewmodel.Shop_profile;
+import com.alifew.alifeworld.viewmodel.ShopProfileViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -321,10 +321,10 @@ public class Shop_sell_products_fragment extends Fragment implements Sell_produc
         Get_product_response product = data.get(position);
         String productID = product.getProduct_id();
         if (Double.parseDouble(product.getStock_amount()) > 0) {
-            Shop_profile shop_profile = new ViewModelProvider(getActivity()).get(Shop_profile.class);
-            shop_profile.getData(shop_id).observe(getViewLifecycleOwner(), new Observer<shop_profile_response>() {
+            ShopProfileViewModel shop_profile = new ViewModelProvider(getActivity()).get(ShopProfileViewModel.class);
+            shop_profile.getData(shop_id).observe(getViewLifecycleOwner(), new Observer<Shop_profile_response>() {
                 @Override
-                public void onChanged(shop_profile_response shop_profile_response) {
+                public void onChanged(Shop_profile_response shop_profile_response) {
                     // product_discount_all = shop_profile_response.getAll_discount();
                     //allDiscountText.setText(shop_profile_response.getAll_discount());
                     //get_product();

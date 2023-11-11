@@ -62,7 +62,7 @@ import com.alifew.alifeworld.model.get_product_offer_response;
 import com.alifew.alifeworld.model.Get_product_response;
 import com.alifew.alifeworld.model.get_product_type_response;
 import com.alifew.alifeworld.model.get_shop_products_summary_response;
-import com.alifew.alifeworld.model.shop_profile_response;
+import com.alifew.alifeworld.model.Shop_profile_response;
 import com.alifew.alifeworld.view.Product_details_fragment;
 import com.alifew.alifeworld.viewmodel.Add_product;
 import com.alifew.alifeworld.viewmodel.Add_product_offer;
@@ -73,7 +73,7 @@ import com.alifew.alifeworld.viewmodel.Get_product;
 import com.alifew.alifeworld.viewmodel.Get_product_offer;
 import com.alifew.alifeworld.viewmodel.Get_product_type;
 import com.alifew.alifeworld.viewmodel.Shop_products_summary;
-import com.alifew.alifeworld.viewmodel.Shop_profile;
+import com.alifew.alifeworld.viewmodel.ShopProfileViewModel;
 import com.alifew.alifeworld.viewmodel.Update_product_status;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -147,7 +147,7 @@ public class Shop_products_fragment<SharedViewModel> extends Fragment implements
     private int total_product;
     Double totalProfit, totalDiscount, totalSelling_price, total_stock;
 
-    Shop_profile shop_profile;
+    ShopProfileViewModel shop_profile;
     Shop_products_summary products_summary;
     ProgressBar progressBar;
     NestedScrollView nestedScrollView, gridNestedScrollView;
@@ -1619,10 +1619,10 @@ public class Shop_products_fragment<SharedViewModel> extends Fragment implements
     }
 
     private void get_all_product_discount() {
-        shop_profile = new ViewModelProvider(getActivity()).get(Shop_profile.class);
-        shop_profile.getData(id1).observe(getViewLifecycleOwner(), new Observer<shop_profile_response>() {
+        shop_profile = new ViewModelProvider(getActivity()).get(ShopProfileViewModel.class);
+        shop_profile.getData(id1).observe(getViewLifecycleOwner(), new Observer<Shop_profile_response>() {
             @Override
-            public void onChanged(shop_profile_response shop_profile_response) {
+            public void onChanged(Shop_profile_response shop_profile_response) {
 
                 // product_discount_all = shop_profile_response.getAll_discount();
                 allDiscountText.setText(shop_profile_response.getAll_discount());

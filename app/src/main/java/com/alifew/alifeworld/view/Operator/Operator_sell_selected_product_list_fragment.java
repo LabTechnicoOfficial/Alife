@@ -58,7 +58,7 @@ import com.alifew.alifeworld.model.Get_product_response;
 import com.alifew.alifeworld.model.get_product_type_response;
 import com.alifew.alifeworld.model.push_notification_response;
 import com.alifew.alifeworld.model.shop_due_customer_response;
-import com.alifew.alifeworld.model.shop_profile_response;
+import com.alifew.alifeworld.model.Shop_profile_response;
 import com.alifew.alifeworld.model.update_product_stock_by_sell_response;
 import com.alifew.alifeworld.model.update_product_type_by_sell_response;
 import com.alifew.alifeworld.view.Shop.Shop_homescreen_fragment;
@@ -71,7 +71,7 @@ import com.alifew.alifeworld.viewmodel.Product_sell;
 import com.alifew.alifeworld.viewmodel.Product_sell_payment;
 import com.alifew.alifeworld.viewmodel.Push_notification;
 import com.alifew.alifeworld.viewmodel.ShopCustomerViewModel;
-import com.alifew.alifeworld.viewmodel.Shop_profile;
+import com.alifew.alifeworld.viewmodel.ShopProfileViewModel;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -88,7 +88,7 @@ import java.util.Locale;
 public class Operator_sell_selected_product_list_fragment extends Fragment implements Selected_sell_product_list_adapter.OnItemAddListener, Selected_sell_product_list_adapter.OnItemMinusListener, Selected_sell_product_list_adapter.OnItemRemoveListener, Sell_product_adapter.OnItemClickListener, Shop_registered_customer_adapter.OnItemClickListener, Shop_sell_type_select_adapter.OnItemSelectListener, Shop_sell_type_select_adapter.OnItemAddListener, Shop_sell_type_select_adapter.OnItemMinusListener, Shop_sellamount_inc_dec_adapter.addListener, Shop_sellamount_inc_dec_adapter.minusListener {
 
     String product_discount_all;
-    Shop_profile shop_profile;
+    ShopProfileViewModel shop_profile;
     Push_notification push_notification;
     String selected_product_unit_price;
     int product_sell_cart_position;
@@ -344,10 +344,10 @@ public class Operator_sell_selected_product_list_fragment extends Fragment imple
     }
 
     private void get_all_product_discount() {
-        shop_profile = new ViewModelProvider(getActivity()).get(Shop_profile.class);
-        shop_profile.getData(shop_id).observe(getViewLifecycleOwner(), new Observer<shop_profile_response>() {
+        shop_profile = new ViewModelProvider(getActivity()).get(ShopProfileViewModel.class);
+        shop_profile.getData(shop_id).observe(getViewLifecycleOwner(), new Observer<Shop_profile_response>() {
             @Override
-            public void onChanged(shop_profile_response shop_profile_response) {
+            public void onChanged(Shop_profile_response shop_profile_response) {
                 // product_discount_all = shop_profile_response.getAll_discount();
                 allDiscountText.setText(shop_profile_response.getAll_discount());
             }
@@ -862,7 +862,7 @@ public class Operator_sell_selected_product_list_fragment extends Fragment imple
         ImageView closeButton = (ImageView) alert.findViewById(R.id.closeID);
         TextView doneButton = (TextView) alert.findViewById(R.id.doneButtonID);
 
-        TextInputEditText nameText = (TextInputEditText) alert.findViewById(R.id.nameText);
+        TextInputEditText nameText = (TextInputEditText) alert.findViewById(R.id.shopNameText);
         TextInputEditText phoneText = (TextInputEditText) alert.findViewById(R.id.contactText);
         TextInputEditText locationText = (TextInputEditText) alert.findViewById(R.id.locationTextID);
 

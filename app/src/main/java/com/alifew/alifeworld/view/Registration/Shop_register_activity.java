@@ -83,7 +83,7 @@ public class Shop_register_activity extends AppCompatActivity implements View.On
 
         backButton = (ImageView) findViewById(R.id.backButton);
         profileImage = (ImageView) findViewById(R.id.profile_imageID);
-        shopName = (TextInputEditText) findViewById(R.id.nameText);
+        shopName = (TextInputEditText) findViewById(R.id.shopNameText);
         ownerName = (TextInputEditText) findViewById(R.id.ownerNameTextID);
         location = (TextInputEditText) findViewById(R.id.locationTextID);
         phone = (TextInputEditText) findViewById(R.id.contactText);

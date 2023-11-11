@@ -51,7 +51,7 @@ public class Shop_barcode_type_adapter extends RecyclerView.Adapter<Shop_barcode
         public Viewholder(@NonNull View itemView) {
             super(itemView);
 
-            nameText = itemView.findViewById(R.id.nameText);
+            nameText = itemView.findViewById(R.id.shopNameText);
             amountText = itemView.findViewById(R.id.amountText);
         }
     }

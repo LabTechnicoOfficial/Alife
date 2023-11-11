@@ -69,7 +69,7 @@ import com.alifew.alifeworld.viewmodel.Add_product_type;
 import com.alifew.alifeworld.viewmodel.Category_add;
 import com.alifew.alifeworld.viewmodel.Get_product;
 import com.alifew.alifeworld.viewmodel.Shop_products_summary;
-import com.alifew.alifeworld.viewmodel.Shop_profile;
+import com.alifew.alifeworld.viewmodel.ShopProfileViewModel;
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.barcode.Barcode;
@@ -144,7 +144,7 @@ public class Shop_products_add_fragment extends Fragment {
     private int total_product;
     Double totalProfit, totalDiscount, totalSelling_price, total_stock;
 
-    Shop_profile shop_profile;
+    ShopProfileViewModel shop_profile;
     Shop_products_summary products_summary;
     ProgressBar progressBar;
     NestedScrollView nestedScrollView, gridNestedScrollView;

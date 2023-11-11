@@ -64,7 +64,7 @@ public class Shop_local_sell_history_adapter extends RecyclerView.Adapter<Shop_l
 
             dateText = itemView.findViewById(R.id.dateTextID);
             customerContactText = itemView.findViewById(R.id.customerContactTextID);
-            nameText = itemView.findViewById(R.id.nameText);
+            nameText = itemView.findViewById(R.id.shopNameText);
             sellPriceText = itemView.findViewById(R.id.sellPriceTextID);
             buyPriceText = itemView.findViewById(R.id.buyPriceTextID);
             profitText = itemView.findViewById(R.id.profitTextID);

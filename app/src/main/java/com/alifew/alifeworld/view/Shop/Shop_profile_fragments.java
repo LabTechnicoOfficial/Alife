@@ -44,10 +44,10 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.alifew.alifeworld.Utils.ImageHelper;
 import com.bumptech.glide.Glide;
 import com.alifew.alifeworld.R;
-import com.alifew.alifeworld.model.shop_profile_response;
+import com.alifew.alifeworld.model.Shop_profile_response;
 import com.alifew.alifeworld.model.update_shop_response;
 import com.alifew.alifeworld.session.SessionManagement;
-import com.alifew.alifeworld.viewmodel.Shop_profile;
+import com.alifew.alifeworld.viewmodel.ShopProfileViewModel;
 import com.alifew.alifeworld.viewmodel.Update_shop;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -66,7 +66,7 @@ public class Shop_profile_fragments extends Fragment {
     SwipeRefreshLayout refresh;
     ImageView shop_image, edit_Button, closeButton, shopImageEdit, printButton;
     TextView shop_ID, shop_name, shop_owner, shop_location, shop_contact, save_changesButton;
-    Shop_profile shop_profile;
+    ShopProfileViewModel shop_profile;
     TextInputEditText shopNameEdit, ownerNameEdit, locationEdit;
     int check = 0, final_check = 0;
     private static final int PICK_IMAGE_REQUEST = 1, CAMERA_REQUEST = 1;
@@ -86,10 +86,10 @@ public class Shop_profile_fragments extends Fragment {
 
         SessionManagement sessionManagement = new SessionManagement(getActivity());
         userId = sessionManagement.getSession();
-        shop_profile = new ViewModelProvider(getActivity()).get(Shop_profile.class);
-        shop_profile.getData(String.valueOf(userId)).observe(getViewLifecycleOwner(), new Observer<shop_profile_response>() {
+        shop_profile = new ViewModelProvider(getActivity()).get(ShopProfileViewModel.class);
+        shop_profile.getData(String.valueOf(userId)).observe(getViewLifecycleOwner(), new Observer<Shop_profile_response>() {
             @Override
-            public void onChanged(shop_profile_response shop_profile_response) {
+            public void onChanged(Shop_profile_response shop_profile_response) {
                 image = shop_profile_response.getStore01e_image();
 
                 Glide.with(getActivity()).load(shop_profile_response.getStore01e_image()).into(shop_image);

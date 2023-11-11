@@ -99,7 +99,7 @@ public class Customer_profile_fragments extends Fragment {
                 alert.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
                 closeButton = (ImageView) alert.findViewById(R.id.closeID);
-                nameText = (TextInputEditText) alert.findViewById(R.id.nameText);
+                nameText = (TextInputEditText) alert.findViewById(R.id.shopNameText);
                 nameError = (TextInputLayout) alert.findViewById(R.id.nameError);
                 locationText = (TextInputEditText) alert.findViewById(R.id.locationTextID);
                 locationError = (TextInputLayout) alert.findViewById(R.id.locationErrorID);

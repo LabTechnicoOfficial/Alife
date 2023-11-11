@@ -14,7 +14,7 @@ import retrofit2.Response;
 public class shop_profile_repositories {
     String id;
     shop_profile_api shop_profile;
-    MutableLiveData<shop_profile_response> data;
+    MutableLiveData<Shop_profile_response> data;
     private static shop_profile_repositories shop_profile_repositories;
 
     protected void onSaveInstanceState(@NonNull Bundle outState) {
@@ -35,21 +35,21 @@ public class shop_profile_repositories {
     }
 
     public @NonNull
-    MutableLiveData<shop_profile_response> getdata(@NonNull String id) {
+    MutableLiveData<Shop_profile_response> getdata(@NonNull String id) {
 
-        Call<shop_profile_response> call = shop_profile.getdata(id);
-        call.enqueue(new Callback<shop_profile_response>() {
+        Call<Shop_profile_response> call = shop_profile.getdata(id);
+        call.enqueue(new Callback<Shop_profile_response>() {
             @Override
-            public void onResponse(Call<shop_profile_response> call, Response<shop_profile_response> response) {
+            public void onResponse(Call<Shop_profile_response> call, Response<Shop_profile_response> response) {
                 if (response.isSuccessful()) {
-                    shop_profile_response showresponse = response.body();
+                    Shop_profile_response showresponse = response.body();
                     data.postValue(showresponse);
                 }
 
             }
 
             @Override
-            public void onFailure(Call<shop_profile_response> call, Throwable t) {
+            public void onFailure(Call<Shop_profile_response> call, Throwable t) {
                 //Toast.makeText(Shop_details_repositories.this,"something error.Try again",Toast.LENGTH_SHORT).show();
 
                 // idMessage.setValue(t.getMessage());

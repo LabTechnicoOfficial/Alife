@@ -52,7 +52,7 @@ import com.alifew.alifeworld.model.get_product_type_response;
 import com.alifew.alifeworld.model.get_shop_products_summary_response;
 import com.alifew.alifeworld.model.push_notification_response;
 import com.alifew.alifeworld.model.set_all_discount_response;
-import com.alifew.alifeworld.model.shop_profile_response;
+import com.alifew.alifeworld.model.Shop_profile_response;
 import com.alifew.alifeworld.view.Product_details_fragment;
 import com.alifew.alifeworld.viewmodel.Delete_category;
 import com.alifew.alifeworld.viewmodel.Get_all_shop_product;
@@ -61,7 +61,7 @@ import com.alifew.alifeworld.viewmodel.Get_product_type;
 import com.alifew.alifeworld.viewmodel.Push_notification;
 import com.alifew.alifeworld.viewmodel.Set_all_discount;
 import com.alifew.alifeworld.viewmodel.Shop_products_summary;
-import com.alifew.alifeworld.viewmodel.Shop_profile;
+import com.alifew.alifeworld.viewmodel.ShopProfileViewModel;
 import com.alifew.alifeworld.viewmodel.Update_product_status;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -113,7 +113,7 @@ public class Shop_all_products_fragment extends Fragment implements get_product_
     TextView all_profit, all_product, all_selling_price, allDiscountText;
     private int total_product;
     Double totalProfit, totalDiscount, totalSelling_price;
-    Shop_profile shop_profile;
+    ShopProfileViewModel shop_profile;
     Dialog loaderDialog;
 
     ProgressBar progressBar;
@@ -363,10 +363,10 @@ public class Shop_all_products_fragment extends Fragment implements get_product_
     }
 
     private void get_all_product_discount() {
-        shop_profile = new ViewModelProvider(getActivity()).get(Shop_profile.class);
-        shop_profile.getData(shop_id).observe(getViewLifecycleOwner(), new Observer<shop_profile_response>() {
+        shop_profile = new ViewModelProvider(getActivity()).get(ShopProfileViewModel.class);
+        shop_profile.getData(shop_id).observe(getViewLifecycleOwner(), new Observer<Shop_profile_response>() {
             @Override
-            public void onChanged(shop_profile_response shop_profile_response) {
+            public void onChanged(Shop_profile_response shop_profile_response) {
                 allDiscountText.setText(shop_profile_response.getAll_discount());
                 if (span == 2) {
                     layoutmanager = new GridLayoutManager(getActivity(), 2, LinearLayoutManager.VERTICAL, false);

@@ -120,7 +120,7 @@ public class ShopReferPackageCustomerListFragment extends Fragment implements Sh
         TextView positionText = referAddGiftAlert.findViewById(R.id.positionText);
         TextView phoneText = referAddGiftAlert.findViewById(R.id.phoneText);
         TextView pointsText = referAddGiftAlert.findViewById(R.id.pointsText);
-        EditText nameText = referAddGiftAlert.findViewById(R.id.nameText);
+        EditText nameText = referAddGiftAlert.findViewById(R.id.shopNameText);
         ImageView closeButton = referAddGiftAlert.findViewById(R.id.closeButton);
         Button submitButton = referAddGiftAlert.findViewById(R.id.submitButton);
         closeButton.setOnClickListener(v -> {

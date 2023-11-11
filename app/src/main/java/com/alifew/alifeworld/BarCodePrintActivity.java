@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.alifew.alifeworld.DB.entity.Products;
 import com.alifew.alifeworld.Utils.Helpers;
+import com.alifew.alifeworld.Utils.PDFHelper;
 import com.alifew.alifeworld.adapter.Barcode.Barcode_view_adapter;
 import com.alifew.alifeworld.session.SessionManagement;
 import com.itextpdf.text.Document;
@@ -99,9 +100,10 @@ public class BarCodePrintActivity extends AppCompatActivity {
 
                 // Helpers.createPDF(barCodeLayout, getApplicationContext(), "bar");
 
-                 createPDF(barCodeLayout, barCodeView.getWidth(), barCodeView.getHeight());
+                createPDF(barCodeLayout, barCodeView.getWidth(), barCodeView.getHeight());
 
                 //createPDF2(barCodeLayout);
+               // PDFHelper.generatePDF(barCodeView, getApplicationContext());
             }
         });
 
@@ -221,10 +223,10 @@ public class BarCodePrintActivity extends AppCompatActivity {
             // Close the Document
             document.close();
 
-            Log.d("dataxx", "filepath: "+pdfFile.getPath().toString());
+            Log.d("dataxx", "filepath: " + pdfFile.getPath().toString());
             Helpers.openPdf(pdfFile.getPath().toString(), getApplicationContext());
         } catch (Exception e) {
-            Log.d("datax", "createPDF2: "+e.getMessage());
+            Log.d("datax", "createPDF2: " + e.getMessage());
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }

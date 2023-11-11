@@ -250,7 +250,7 @@ public class Shop_coupon_packages_details_fragment extends Fragment implements S
         TextView phoneText = couponAddGiftAlert.findViewById(R.id.phoneText);
         TextView pointsText = couponAddGiftAlert.findViewById(R.id.pointsText);
         TextView amountText = couponAddGiftAlert.findViewById(R.id.amountText);
-        EditText nameText = couponAddGiftAlert.findViewById(R.id.nameText);
+        EditText nameText = couponAddGiftAlert.findViewById(R.id.shopNameText);
         ImageView closeButton = couponAddGiftAlert.findViewById(R.id.closeButton);
         Button submitButton = couponAddGiftAlert.findViewById(R.id.submitButton);
         closeButton.setOnClickListener(v -> {

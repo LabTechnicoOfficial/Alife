@@ -257,7 +257,7 @@ public class Shop_customer_list_fragments extends Fragment implements get_shop_c
 
                 ImageView closeButton = (ImageView) customCustomerAlert.findViewById(R.id.closeID);
                 customerImage = (CircularImageView) customCustomerAlert.findViewById(R.id.customerImageID);
-                TextInputEditText customerNameText = (TextInputEditText) customCustomerAlert.findViewById(R.id.nameText);
+                TextInputEditText customerNameText = (TextInputEditText) customCustomerAlert.findViewById(R.id.shopNameText);
                 TextInputEditText contactText = (TextInputEditText) customCustomerAlert.findViewById(R.id.contactText);
                 TextInputEditText locationText = (TextInputEditText) customCustomerAlert.findViewById(R.id.locationTextID);
 

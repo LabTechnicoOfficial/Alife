@@ -75,7 +75,7 @@ import com.alifew.alifeworld.model.local_sell.add_local_sell_image_response;
 import com.alifew.alifeworld.model.local_sell.Get_local_sell_product_response;
 import com.alifew.alifeworld.model.points.Shop_local_sell_point_response;
 import com.alifew.alifeworld.model.shop_due_customer_response;
-import com.alifew.alifeworld.model.shop_profile_response;
+import com.alifew.alifeworld.model.Shop_profile_response;
 import com.alifew.alifeworld.session.SessionManagement;
 import com.alifew.alifeworld.viewmodel.Customer_exist_check;
 import com.alifew.alifeworld.viewmodel.Customer_registration;
@@ -86,7 +86,7 @@ import com.alifew.alifeworld.viewmodel.Product_sell_payment;
 import com.alifew.alifeworld.viewmodel.Push_notification;
 import com.alifew.alifeworld.viewmodel.ShopCustomerViewModel;
 import com.alifew.alifeworld.viewmodel.ShopLocalSellPointsViewModel;
-import com.alifew.alifeworld.viewmodel.Shop_profile;
+import com.alifew.alifeworld.viewmodel.ShopProfileViewModel;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -137,7 +137,7 @@ public class Shop_local_sell_fragment extends Fragment implements Shop_local_sel
 
     private List<Get_local_sell_product_response> searchProductList = new ArrayList<>();
 
-    Shop_profile shop_profile;
+    ShopProfileViewModel shop_profile;
     Bitmap bitmapPDF;
     LinearLayout historyButton;
     RecyclerView imageRecyclerView, productView, contactView;
@@ -509,7 +509,7 @@ public class Shop_local_sell_fragment extends Fragment implements Shop_local_sel
         buyPriceText = view.findViewById(R.id.buyPriceTextID);
         profitText = view.findViewById(R.id.profitTextID);
         phoneText = view.findViewById(R.id.contactText);
-        nameText = view.findViewById(R.id.nameText);
+        nameText = view.findViewById(R.id.shopNameText);
         selectImage = view.findViewById(R.id.selectImageId);
         listImage = view.findViewById(R.id.listImageId);
 
@@ -878,7 +878,7 @@ public class Shop_local_sell_fragment extends Fragment implements Shop_local_sel
 
         ImageView closeButton = memoAlert.findViewById(R.id.closeButton);
         LinearLayout mainLayout = memoAlert.findViewById(R.id.mainLayout);
-        TextView shopNameText = memoAlert.findViewById(R.id.nameText);
+        TextView shopNameText = memoAlert.findViewById(R.id.shopNameText);
         TextView productDetailsTextPDF = memoAlert.findViewById(R.id.productDetailsTextID);
         TextView totalPriceTextPDF = memoAlert.findViewById(R.id.totalPriceTextID);
         TextView paidPriceTextPDF = memoAlert.findViewById(R.id.paidPriceTextID);
@@ -889,10 +889,10 @@ public class Shop_local_sell_fragment extends Fragment implements Shop_local_sel
         String currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
         dateText.setText(currentDate);
 
-        shop_profile = new ViewModelProvider(getActivity()).get(Shop_profile.class);
-        shop_profile.getData(String.valueOf(shopID)).observe(getViewLifecycleOwner(), new Observer<shop_profile_response>() {
+        shop_profile = new ViewModelProvider(getActivity()).get(ShopProfileViewModel.class);
+        shop_profile.getData(String.valueOf(shopID)).observe(getViewLifecycleOwner(), new Observer<Shop_profile_response>() {
             @Override
-            public void onChanged(shop_profile_response shop_profile_response) {
+            public void onChanged(Shop_profile_response shop_profile_response) {
                 shopNameText.setText(shop_profile_response.getStore01e_name());
             }
         });

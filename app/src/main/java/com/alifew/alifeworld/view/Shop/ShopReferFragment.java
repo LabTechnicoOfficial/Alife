@@ -125,7 +125,7 @@ public class ShopReferFragment extends Fragment implements ShopReferAdapter.OnIt
         AppCompatButton addButton = addReferDialog.findViewById(R.id.addButton);
         TextView creationDateText = addReferDialog.findViewById(R.id.creationDateTextID);
         TextView endDateText = addReferDialog.findViewById(R.id.dateTextID);
-        TextInputEditText nameText = addReferDialog.findViewById(R.id.nameText);
+        TextInputEditText nameText = addReferDialog.findViewById(R.id.shopNameText);
         TextInputEditText descriptionText = addReferDialog.findViewById(R.id.descriptionTextID);
         durationText = addReferDialog.findViewById(R.id.durationTextID);
 

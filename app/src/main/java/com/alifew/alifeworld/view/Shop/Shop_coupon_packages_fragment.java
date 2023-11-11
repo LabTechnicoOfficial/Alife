@@ -31,7 +31,7 @@ import com.alifew.alifeworld.model.cupon.add_response;
 import com.alifew.alifeworld.model.cupon.CustomerFor_cupon_response;
 import com.alifew.alifeworld.model.cupon.edit_delete_response;
 import com.alifew.alifeworld.model.cupon.Package_response;
-import com.alifew.alifeworld.viewmodel.Shop_profile;
+import com.alifew.alifeworld.viewmodel.ShopProfileViewModel;
 import com.alifew.alifeworld.viewmodel.cuponViewmodel.CouponPackageViewModel;
 import com.alifew.alifeworld.viewmodel.cuponViewmodel.Edit_delete_cupon_package;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
@@ -56,7 +56,7 @@ public class Shop_coupon_packages_fragment extends Fragment implements Shop_coup
     private String cupon_available;
     String cupon_name;
     Dialog loader;
-    Shop_profile shop_profile;
+    ShopProfileViewModel shop_profile;
 
     public Shop_coupon_packages_fragment(String shopID, String couponID, List<CustomerFor_cupon_response> customerList, String cupon_available, String cupon_name) {
         this.shopID = shopID;
@@ -175,7 +175,7 @@ public class Shop_coupon_packages_fragment extends Fragment implements Shop_coup
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.shop_coupon_packages_fragment, container, false);
-        shop_profile = new ViewModelProvider(this).get(Shop_profile.class);
+        shop_profile = new ViewModelProvider(this).get(ShopProfileViewModel.class);
         edit_delete_cupon_package = new ViewModelProvider(this).get(Edit_delete_cupon_package.class);
         couponPackageViewModel = new ViewModelProvider(this).get(CouponPackageViewModel.class);
         addPackageButton = (ExtendedFloatingActionButton) view.findViewById(R.id.addPackageButtonID);

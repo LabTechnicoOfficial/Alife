@@ -92,7 +92,7 @@ public class Shop_registration_fragment extends Fragment implements View.OnClick
 
 
         profileImage = (ImageView) view.findViewById(R.id.profile_imageID);
-        shopName = (TextInputEditText) view.findViewById(R.id.nameText);
+        shopName = (TextInputEditText) view.findViewById(R.id.shopNameText);
         phone = (TextInputEditText) view.findViewById(R.id.contactText);
         password = (TextInputEditText) view.findViewById(R.id.passwordText);
         repassword = (TextInputEditText) view.findViewById(R.id.rePasswordText);

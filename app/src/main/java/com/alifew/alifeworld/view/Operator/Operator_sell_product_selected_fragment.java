@@ -40,11 +40,11 @@ import com.alifew.alifeworld.model.get_all_product_offer_response;
 import com.alifew.alifeworld.model.get_product_offer_response;
 import com.alifew.alifeworld.model.Get_product_response;
 import com.alifew.alifeworld.model.get_product_type_response;
-import com.alifew.alifeworld.model.shop_profile_response;
+import com.alifew.alifeworld.model.Shop_profile_response;
 import com.alifew.alifeworld.viewmodel.Get_product;
 import com.alifew.alifeworld.viewmodel.Get_product_offer;
 import com.alifew.alifeworld.viewmodel.Get_product_type;
-import com.alifew.alifeworld.viewmodel.Shop_profile;
+import com.alifew.alifeworld.viewmodel.ShopProfileViewModel;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -90,7 +90,7 @@ public class Operator_sell_product_selected_fragment extends Fragment implements
     RecyclerView typeView;
     private Shop_sell_type_select_adapter type_adapter;
     ImageView decButton, incButton;
-    Shop_profile shop_profile;
+    ShopProfileViewModel shop_profile;
     String product_discount_all = "9";
     List<get_all_product_offer_response> offer_all;
     int x;
@@ -128,10 +128,10 @@ public class Operator_sell_product_selected_fragment extends Fragment implements
     }
 
     private void get_all_product_discount() {
-        shop_profile = new ViewModelProvider(getActivity()).get(Shop_profile.class);
-        shop_profile.getData(shop_id).observe(getViewLifecycleOwner(), new Observer<shop_profile_response>() {
+        shop_profile = new ViewModelProvider(getActivity()).get(ShopProfileViewModel.class);
+        shop_profile.getData(shop_id).observe(getViewLifecycleOwner(), new Observer<Shop_profile_response>() {
             @Override
-            public void onChanged(shop_profile_response shop_profile_response) {
+            public void onChanged(Shop_profile_response shop_profile_response) {
                 //product_discount_all = shop_profile_response.getAll_discount();
                 all_discount.setText(shop_profile_response.getAll_discount());
                 get_product();

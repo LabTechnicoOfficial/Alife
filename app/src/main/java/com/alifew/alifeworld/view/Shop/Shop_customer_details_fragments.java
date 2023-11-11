@@ -66,7 +66,7 @@ import com.alifew.alifeworld.model.image;
 import com.alifew.alifeworld.model.local_sell.get_local_sell_details_response;
 import com.alifew.alifeworld.model.normal_sell_details_response;
 import com.alifew.alifeworld.model.push_notification_response;
-import com.alifew.alifeworld.model.shop_profile_response;
+import com.alifew.alifeworld.model.Shop_profile_response;
 import com.alifew.alifeworld.model.systemetic_sell_details_response;
 import com.alifew.alifeworld.viewmodel.AddMessagetoHistory;
 import com.alifew.alifeworld.viewmodel.Get_shop_customer_due_list;
@@ -77,7 +77,7 @@ import com.alifew.alifeworld.viewmodel.Product_sell;
 import com.alifew.alifeworld.viewmodel.Product_sell_payment;
 import com.alifew.alifeworld.viewmodel.Push_notification;
 import com.alifew.alifeworld.viewmodel.Sell_details;
-import com.alifew.alifeworld.viewmodel.Shop_profile;
+import com.alifew.alifeworld.viewmodel.ShopProfileViewModel;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -129,7 +129,7 @@ public class Shop_customer_details_fragments extends Fragment implements shop_cu
     Product_sell product_sell;
     Normal_sell normal_sell;
     Get_local_sell get_local_sell;
-    Shop_profile shop_profile;
+    ShopProfileViewModel shop_profile;
     OTP otp;
     AddMessagetoHistory addMessagetoHistory;
     Product_sell_payment product_sell_payment;
@@ -638,7 +638,7 @@ public class Shop_customer_details_fragments extends Fragment implements shop_cu
 
       //  ImageView closeButton = successDialog.findViewById(R.id.closeButtonID);
         LinearLayout mainLayout = successDialog.findViewById(R.id.mainLayout);
-        TextView shopNameText = successDialog.findViewById(R.id.nameText);
+        TextView shopNameText = successDialog.findViewById(R.id.shopNameText);
         TextView productDetailsTextPDF = successDialog.findViewById(R.id.productDetailsTextID);
         TextView totalPriceTextPDF = successDialog.findViewById(R.id.totalPriceTextID);
         TextView paidPriceTextPDF = successDialog.findViewById(R.id.paidPriceTextID);
@@ -649,10 +649,10 @@ public class Shop_customer_details_fragments extends Fragment implements shop_cu
         String currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
         dateText.setText(currentDate);
 
-        shop_profile = new ViewModelProvider(getActivity()).get(Shop_profile.class);
-        shop_profile.getData(String.valueOf(shop_id)).observe(getViewLifecycleOwner(), new Observer<shop_profile_response>() {
+        shop_profile = new ViewModelProvider(getActivity()).get(ShopProfileViewModel.class);
+        shop_profile.getData(String.valueOf(shop_id)).observe(getViewLifecycleOwner(), new Observer<Shop_profile_response>() {
             @Override
-            public void onChanged(shop_profile_response shop_profile_response) {
+            public void onChanged(Shop_profile_response shop_profile_response) {
                 shopNameText.setText(shop_profile_response.getStore01e_name());
             }
         });

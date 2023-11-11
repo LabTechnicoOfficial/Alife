@@ -101,7 +101,7 @@ public class Shop_coupon_fragment extends Fragment implements Shop_coupon_adapte
                 AppCompatButton addButton = addCouponAlert.findViewById(R.id.addButton);
                 TextView creationDateText = addCouponAlert.findViewById(R.id.creationDateTextID);
                 TextView endDateText = addCouponAlert.findViewById(R.id.dateTextID);
-                TextInputEditText nameText = addCouponAlert.findViewById(R.id.nameText);
+                TextInputEditText nameText = addCouponAlert.findViewById(R.id.shopNameText);
                 TextInputEditText descriptionText = addCouponAlert.findViewById(R.id.descriptionTextID);
                 durationText = addCouponAlert.findViewById(R.id.durationTextID);
 

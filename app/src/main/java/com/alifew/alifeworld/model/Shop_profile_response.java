@@ -2,7 +2,7 @@ package com.alifew.alifeworld.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class shop_profile_response {
+public class Shop_profile_response {
     @SerializedName("store01e_id")
     private String store01e_id;
     @SerializedName("store01e_name")

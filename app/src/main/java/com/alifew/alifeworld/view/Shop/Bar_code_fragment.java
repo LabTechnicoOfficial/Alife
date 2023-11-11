@@ -27,7 +27,7 @@ import com.alifew.alifeworld.Custom_Type.ProductSell;
 import com.alifew.alifeworld.R;
 import com.alifew.alifeworld.model.local_sell.get_product_by_bar_code_response;
 import com.alifew.alifeworld.viewmodel.Local_sell.Get_local_sell;
-import com.alifew.alifeworld.viewmodel.Shop_profile;
+import com.alifew.alifeworld.viewmodel.ShopProfileViewModel;
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.barcode.Barcode;
@@ -93,7 +93,7 @@ public class Bar_code_fragment extends Fragment {
                             //Toast.makeText(getActivity(), get_product_by_bar_code_response.getProduct_id(), Toast.LENGTH_SHORT).show();
                             if (!get_product_by_bar_code_response.getProduct_id().equals("0")) {
                                 if (Double.parseDouble(get_product_by_bar_code_response.getStock_amount()) > 0) {
-                                    Shop_profile shop_profile = new ViewModelProvider(getActivity()).get(Shop_profile.class);
+                                    ShopProfileViewModel shop_profile = new ViewModelProvider(getActivity()).get(ShopProfileViewModel.class);
 
                                     // product_discount_all = shop_profile_response.getAll_discount();
                                     //allDiscountText.setText(shop_profile_response.getAll_discount());

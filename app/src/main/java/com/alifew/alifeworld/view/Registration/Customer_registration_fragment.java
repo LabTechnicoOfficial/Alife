@@ -79,7 +79,7 @@ public class Customer_registration_fragment extends Fragment {
 
         addimage = (ImageView) view.findViewById(R.id.profileImage);
 
-        cusName = (TextInputEditText) view.findViewById(R.id.nameText);
+        cusName = (TextInputEditText) view.findViewById(R.id.shopNameText);
         address = (TextInputEditText) view.findViewById(R.id.addressText);
         phone = (TextInputEditText) view.findViewById(R.id.contactText);
         password = (TextInputEditText) view.findViewById(R.id.passwordText);

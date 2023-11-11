@@ -60,7 +60,7 @@ import com.alifew.alifeworld.model.get_product_offer_response;
 import com.alifew.alifeworld.model.Get_product_response;
 import com.alifew.alifeworld.model.get_product_type_response;
 import com.alifew.alifeworld.model.get_shop_products_summary_response;
-import com.alifew.alifeworld.model.shop_profile_response;
+import com.alifew.alifeworld.model.Shop_profile_response;
 import com.alifew.alifeworld.view.Product_details_fragment;
 import com.alifew.alifeworld.viewmodel.Add_product;
 import com.alifew.alifeworld.viewmodel.Add_product_offer;
@@ -70,7 +70,7 @@ import com.alifew.alifeworld.viewmodel.Get_product;
 import com.alifew.alifeworld.viewmodel.Get_product_offer;
 import com.alifew.alifeworld.viewmodel.Get_product_type;
 import com.alifew.alifeworld.viewmodel.Shop_products_summary;
-import com.alifew.alifeworld.viewmodel.Shop_profile;
+import com.alifew.alifeworld.viewmodel.ShopProfileViewModel;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -89,7 +89,7 @@ import static com.alifew.alifeworld.R.layout.operator_product_fragment;
 public class Operator_product_fragment<SharedViewModel> extends Fragment implements Operator_product_grid_adapter.OnItemClickListener, Operator_product_gridOff_adapter.OnItemClickListener, Operator_product_gridOff_adapter.OnItemTypeListener, Operator_product_gridOff_adapter.OnItemOfferListener {
     String product_id;
     String product_discount_all;
-    Shop_profile shop_profile;
+    ShopProfileViewModel shop_profile;
     String operator_id, operator_access;
     List<Product_type> typeList;
     List<Product_offer> offer_list;
@@ -1514,10 +1514,10 @@ public class Operator_product_fragment<SharedViewModel> extends Fragment impleme
     }
 
     private void get_all_product_discount() {
-        shop_profile = new ViewModelProvider(getActivity()).get(Shop_profile.class);
-        shop_profile.getData(id1).observe(getViewLifecycleOwner(), new Observer<shop_profile_response>() {
+        shop_profile = new ViewModelProvider(getActivity()).get(ShopProfileViewModel.class);
+        shop_profile.getData(id1).observe(getViewLifecycleOwner(), new Observer<Shop_profile_response>() {
             @Override
-            public void onChanged(shop_profile_response shop_profile_response) {
+            public void onChanged(Shop_profile_response shop_profile_response) {
                 //product_discount_all=shop_profile_response.getAll_discount();
                 allDiscountText.setText(shop_profile_response.getAll_discount());
                 if (span == 2) {

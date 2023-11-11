@@ -32,6 +32,7 @@
     <string name="account_of_life">Account of Life</string>
     <string name="warning">WARNING!!</string>
     <string name="your_session_has_been_out_please_login_again">Your session has been out, please login again.</string>
+    <string name="powered_by_text"><![CDATA[Powered By <b>ALife World</b>]]></string>
 
 
 </resources>

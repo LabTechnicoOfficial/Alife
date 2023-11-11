@@ -20,9 +20,9 @@ import android.widget.TextView;
 import com.alifew.alifeworld.R;
 import com.alifew.alifeworld.adapter.Customer.Customer_product_adapter;
 import com.alifew.alifeworld.model.Get_product_response;
-import com.alifew.alifeworld.model.shop_profile_response;
+import com.alifew.alifeworld.model.Shop_profile_response;
 import com.alifew.alifeworld.viewmodel.Get_product;
-import com.alifew.alifeworld.viewmodel.Shop_profile;
+import com.alifew.alifeworld.viewmodel.ShopProfileViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +35,7 @@ public class Customer_products_fragment extends Fragment {
     Get_product getProduct;
     private List<Get_product_response> productList;
     Customer_product_adapter adapter;
-    private Shop_profile shop_profile;
+    private ShopProfileViewModel shop_profile;
     ProgressBar progressBar;
     int page=1,limit=10,end=0;
 
@@ -52,20 +52,20 @@ public class Customer_products_fragment extends Fragment {
     }
 
     private void all_discount() {
-        shop_profile = new ViewModelProvider(getActivity()).get(Shop_profile.class);
-        shop_profile.getData(shopID).observe(getViewLifecycleOwner(), new Observer<shop_profile_response>() {
+        shop_profile = new ViewModelProvider(getActivity()).get(ShopProfileViewModel.class);
+        shop_profile.getData(shopID).observe(getViewLifecycleOwner(), new Observer<Shop_profile_response>() {
             @Override
-            public void onChanged(shop_profile_response shop_profile_response) {
+            public void onChanged(Shop_profile_response shop_profile_response) {
                 allDiscountText.setText(shop_profile_response.getAll_discount() + "%");
             }
         });
     }
 
     private void main() {
-        shop_profile = new ViewModelProvider(getActivity()).get(Shop_profile.class);
-        shop_profile.getData(shopID).observe(getViewLifecycleOwner(), new Observer<shop_profile_response>() {
+        shop_profile = new ViewModelProvider(getActivity()).get(ShopProfileViewModel.class);
+        shop_profile.getData(shopID).observe(getViewLifecycleOwner(), new Observer<Shop_profile_response>() {
             @Override
-            public void onChanged(shop_profile_response shop_profile_response) {
+            public void onChanged(Shop_profile_response shop_profile_response) {
                 allDiscountText.setText(shop_profile_response.getAll_discount() + "%");
                 productList = new ArrayList<>();
                 adapter = new Customer_product_adapter(productList);
