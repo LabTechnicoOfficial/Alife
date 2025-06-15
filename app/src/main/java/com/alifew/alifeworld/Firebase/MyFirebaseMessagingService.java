@@ -15,6 +15,8 @@ import com.alifew.alifeworld.view.MainActivity;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import java.util.Objects;
+
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     @Override
@@ -33,7 +35,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         String channelId = Constants.NOTIFICATION_ID;
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, channelId)
                 .setSmallIcon(R.drawable.bell_icon)
-                .setContentTitle(remoteMessage.getNotification().getTitle())
+                .setContentTitle(Objects.requireNonNull(remoteMessage.getNotification()).getTitle())
                 .setContentText(remoteMessage.getNotification().getBody())
                 .setAutoCancel(true)
                 .setContentIntent(pendingIntent);

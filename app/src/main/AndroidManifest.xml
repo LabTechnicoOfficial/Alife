@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+
+    <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -12,10 +14,13 @@
         tools:ignore="ScopedStorage" />
     <uses-permission
         android:name="android.permission.READ_EXTERNAL_STORAGE"
-        android:maxSdkVersion="32" />
-    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO"
+        android:maxSdkVersion="32"
         tools:ignore="SelectedPhotoAccess" />
-    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"
+    <uses-permission
+        android:name="android.permission.READ_MEDIA_VIDEO"
+        tools:ignore="SelectedPhotoAccess" />
+    <uses-permission
+        android:name="android.permission.READ_MEDIA_IMAGES"
         tools:ignore="SelectedPhotoAccess" />
 
     <queries>
@@ -39,13 +44,15 @@
         android:debuggable="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:preserveLegacyExternalStorage="true"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Alife"
         android:usesCleartextTraffic="true"
         tools:ignore="HardcodedDebugMode"
         tools:node="merge"
-        tools:targetApi="33" >
+        tools:targetApi="34">
         <activity
             android:name=".StockAvailibityPrintActivity"
             android:exported="false" />
@@ -54,11 +61,10 @@
             android:exported="false" />
         <activity
             android:name=".view.LoginActivity"
-            android:exported="false" >
-        </activity>
+            android:exported="false" />
         <activity
             android:name=".view.SplashActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -100,7 +106,7 @@
         <receiver
             android:name=".view.OTP.OTP_Receiver"
             android:exported="true"
-            android:permission="android.permission.BROADCAST_SMS" >
+            android:permission="android.permission.BROADCAST_SMS">
             <intent-filter>
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
@@ -120,7 +126,8 @@
 
         <service
             android:name=".Firebase.MyFirebaseMessagingService"
-            android:exported="false" >
+            android:exported="false"
+            android:foregroundServiceType="remoteMessaging">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
@@ -140,11 +147,16 @@
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.alifew.alifeworld.provider"
             android:exported="false"
-            android:grantUriPermissions="true" >
+            android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
+        <meta-data
+            android:name="firebase_sessions_enabled"
+            android:value="false" />
+
     </application>
 
 </manifest>
