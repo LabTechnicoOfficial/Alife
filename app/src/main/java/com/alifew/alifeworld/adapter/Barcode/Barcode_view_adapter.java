@@ -44,7 +44,7 @@ public class Barcode_view_adapter extends RecyclerView.Adapter<Barcode_view_adap
         Products response = markedProductList.get(position);
 
         holder.titleText.setText(response.getName());
-        holder.barcodeImage.setImageBitmap(Helpers.barCodeGenerator(holder.itemView.getContext(), response.getBarcode()));
+        holder.barcodeImage.setImageBitmap(Helpers.barCodeGenerator(response.getBarcode()));
         holder.barcodeText.setText(response.getBarcode());
         holder.barcodeImage.getLayoutParams().height = 220/divider;
 

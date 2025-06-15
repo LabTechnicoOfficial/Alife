@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Build;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 
 import com.alifew.alifeworld.R;
@@ -15,6 +16,14 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
+
+    @Override
+    public void onNewToken(@NonNull String token) {
+        super.onNewToken(token);
+
+        //need to do work here
+    }
+
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);

@@ -12,7 +12,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.text.Html;
 import android.util.Log;
 import android.util.LruCache;
 import android.view.View;
@@ -26,9 +25,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.alifew.alifeworld.BuildConfig;
 import com.alifew.alifeworld.R;
-import com.gkemon.XMLtoPDF.PdfGeneratorListener;
-import com.gkemon.XMLtoPDF.model.FailureResponse;
-import com.gkemon.XMLtoPDF.model.SuccessResponse;
 import com.google.zxing.BarcodeFormat;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 
@@ -44,7 +40,7 @@ public class Helpers {
 
         @SuppressLint("SimpleDateFormat") String timeStamp = new SimpleDateFormat("yyMMddHHmmss").format(Calendar.getInstance().getTime());
 
-        if (text.length() > 0) {
+        if (!text.isEmpty()) {
             text = text.substring(0, 2).toLowerCase(Locale.ROOT) + "al";
             return text + timeStamp;
         } else {
@@ -54,7 +50,7 @@ public class Helpers {
 
     }
 
-    public static Bitmap barCodeGenerator(Context context, String barCode) {
+    public static Bitmap barCodeGenerator( String barCode) {
         //write code here
         Bitmap bitmap = null;
         try {
@@ -67,54 +63,6 @@ public class Helpers {
         }
         return bitmap;
     }
-
-    public static void createPDF(View view, Context context, String fileName) {
-
-        GeneratePDF.getBuilder()
-                .setContext(context)
-                .fromViewSource()
-                .fromView(view)
-                .setFileName(generateFileName(fileName))
-                .setFolderName("Alife")
-                .openPDFafterGeneration(true)
-                .build(new PdfGeneratorListener() {
-                    @Override
-                    public void onFailure(FailureResponse failureResponse) {
-                        super.onFailure(failureResponse);
-                        Log.d("dataxx", "onFailure: " + failureResponse.getErrorMessage());
-                    }
-
-                    @Override
-                    public void showLog(String log) {
-                        super.showLog(log);
-
-                        Log.d("dataxx", "showLog: " + log);
-                    }
-
-                    @Override
-                    public void onStartPDFGeneration() {
-                        /*When PDF generation begins to start*/
-                    }
-
-                    @Override
-                    public void onFinishPDFGeneration() {
-                        /*When PDF generation is finished*/
-                    }
-
-                    @Override
-                    public void onSuccess(SuccessResponse response) {
-                        super.onSuccess(response);
-
-                        Log.d("dataxx", "onSuccesPATH: " + response.getPath() + " ab: " + response.getFile().getAbsolutePath());
-                        Toast.makeText(context, context.getResources().getString(R.string.file_save) + Html.fromHtml(" \n<b>" + response.getPath() + "<b>"), Toast.LENGTH_SHORT).show();
-
-                        //openPdf(response.getPath(), context);
-
-                    }
-                });
-
-    }
-
 
     @SuppressLint("SimpleDateFormat")
     public static String generateFileName(String fileName) {

@@ -2,7 +2,6 @@ package com.alifew.alifeworld.view.Customer;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,7 +22,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.alifew.alifeworld.R;
 import com.alifew.alifeworld.adapter.Instruction_adapter;
-import com.alifew.alifeworld.adapter.Slider.CustomerSliderViewAdapter;
 import com.alifew.alifeworld.model.slider.Customer_slider_response;
 import com.alifew.alifeworld.model.user_instruction_response;
 import com.alifew.alifeworld.viewmodel.EarningViewModel;
@@ -40,9 +38,9 @@ import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
-import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
+/*import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
 import com.smarteist.autoimageslider.SliderAnimations;
-import com.smarteist.autoimageslider.SliderView;
+import com.smarteist.autoimageslider.SliderView;*/
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,7 +61,7 @@ public class Customer_homescreen_fragment extends Fragment implements Instructio
 
     List<Customer_slider_response.Slider> bannerList;
 
-    SliderView imageSliderView;
+    //SliderView imageSliderView;
     SessionManagement sessionManagement;
     CardView sliderCard;
 
@@ -147,7 +145,7 @@ public class Customer_homescreen_fragment extends Fragment implements Instructio
     private void initView(View view) {
         sessionManagement = new SessionManagement(getActivity());
         sliderViewModel = new ViewModelProvider(getActivity()).get(SliderViewModel.class);
-        imageSliderView = view.findViewById(R.id.imageSliderView);
+        //imageSliderView = view.findViewById(R.id.imageSliderView);
         sliderCard = view.findViewById(R.id.sliderCard);
 
         dueListButton = view.findViewById(R.id.dueListButtonID);
@@ -275,7 +273,7 @@ public class Customer_homescreen_fragment extends Fragment implements Instructio
                     sliderCard.setVisibility(View.GONE);
                 }
 
-                CustomerSliderViewAdapter sliderViewAdapter = new CustomerSliderViewAdapter(bannerList);
+           /*     CustomerSliderViewAdapter sliderViewAdapter = new CustomerSliderViewAdapter(bannerList);
                 imageSliderView.setSliderAdapter(sliderViewAdapter);
                 imageSliderView.setIndicatorAnimation(IndicatorAnimationType.WORM);
                 imageSliderView.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
@@ -283,7 +281,7 @@ public class Customer_homescreen_fragment extends Fragment implements Instructio
                 imageSliderView.setIndicatorSelectedColor(Color.WHITE);
                 imageSliderView.setIndicatorUnselectedColor(Color.GRAY);
                 imageSliderView.setScrollTimeInSec(3);
-                imageSliderView.startAutoCycle();
+                imageSliderView.startAutoCycle();*/
             }
         });
     }

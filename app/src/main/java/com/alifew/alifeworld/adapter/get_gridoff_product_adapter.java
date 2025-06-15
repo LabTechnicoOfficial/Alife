@@ -166,7 +166,7 @@ public class get_gridoff_product_adapter extends RecyclerView.Adapter<get_gridof
             @Override
             public void onClick(View view) {
                 //Toast.makeText(holder.itemView.getContext(), product.getCode(), Toast.LENGTH_SHORT).show();
-                Helpers.barCodeGenerator(holder.itemView.getContext(), product.getCode());
+                Helpers.barCodeGenerator(product.getCode());
             }
         });
 

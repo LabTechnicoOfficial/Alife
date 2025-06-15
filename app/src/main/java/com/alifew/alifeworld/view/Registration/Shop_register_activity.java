@@ -36,8 +36,6 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Random;
 
-import cc.cloudist.acplibrary.ACProgressConstant;
-import cc.cloudist.acplibrary.ACProgressFlower;
 
 public class Shop_register_activity extends AppCompatActivity implements View.OnClickListener {
     Shop_registration shop_registration;
@@ -51,7 +49,7 @@ public class Shop_register_activity extends AppCompatActivity implements View.On
     private Bitmap bitmap;
     Button registerButton;
     ImageView backButton, profileImage;
-    ACProgressFlower dialog;
+
     TextInputEditText shopName, ownerName, location, phone, password, repassword;
     TextInputLayout shopNameError, ownerNameError, locationError, phoneError, passwordError, repasswordError;
     OTP otp;
@@ -72,14 +70,8 @@ public class Shop_register_activity extends AppCompatActivity implements View.On
 
         shop_registration = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(Shop_registration.class);
 
-        dialog = new ACProgressFlower.Builder(this)
-                .direction(ACProgressConstant.DIRECT_CLOCKWISE)
-                .themeColor(Color.WHITE)
-                .fadeColor(Color.DKGRAY)
-                .build();
 
-        /*Bundle extras = getIntent().getExtras();
-        type = extras.getString("key");*/
+
 
         backButton = (ImageView) findViewById(R.id.backButton);
         profileImage = (ImageView) findViewById(R.id.profile_imageID);
@@ -106,7 +98,7 @@ public class Shop_register_activity extends AppCompatActivity implements View.On
         toggleButton.addOnButtonCheckedListener(new MaterialButtonToggleGroup.OnButtonCheckedListener() {
             @Override
             public void onButtonChecked(MaterialButtonToggleGroup group, int checkedId, boolean isChecked) {
-                dialog.show();
+
                 if (group.getCheckedButtonId() == R.id.customerID) {
                     startActivity(new Intent(Shop_register_activity.this, Register_activity.class));
                 }
@@ -128,7 +120,6 @@ public class Shop_register_activity extends AppCompatActivity implements View.On
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.backButton) {
-            dialog.show();
             Intent intent = new Intent(this, Register_activity.class);
             startActivity(intent);
         } else if (v.getId() == R.id.registrationButton) {

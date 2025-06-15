@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_margin="@dimen/_10sdp">
 
-        <com.smarteist.autoimageslider.SliderView
+    <!--    <com.smarteist.autoimageslider.SliderView
             android:id="@+id/imageSliderView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -34,7 +34,7 @@
             app:sliderIndicatorSelectedColor="#5A5A5A"
             app:sliderIndicatorUnselectedColor="#FFF"
             app:sliderScrollTimeInSec="1"
-            app:sliderStartAutoCycle="true" />
+            app:sliderStartAutoCycle="true" />-->
 
     </androidx.cardview.widget.CardView>
 

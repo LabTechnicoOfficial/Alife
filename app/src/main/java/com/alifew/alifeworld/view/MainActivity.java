@@ -3,7 +3,6 @@ package com.alifew.alifeworld.view;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -13,14 +12,12 @@ import com.alifew.alifeworld.view.Customer.Customer_main_activity;
 import com.alifew.alifeworld.view.Shop.Shop_main_activity;
 import com.alifew.alifeworld.session.SessionManagement;
 
-import cc.cloudist.acplibrary.ACProgressConstant;
-import cc.cloudist.acplibrary.ACProgressFlower;
+
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     Button shopkeeperClick, customerClick;
     String buttonClick;
-    ACProgressFlower dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,15 +38,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setContentView(R.layout.activity_main);
             try {
                 this.getSupportActionBar().hide();
-            } catch (Exception e) {
+            } catch (Exception ignored) {
 
             }
 
-            dialog = new ACProgressFlower.Builder(this)
-                    .direction(ACProgressConstant.DIRECT_CLOCKWISE)
-                    .themeColor(Color.WHITE)
-                    .fadeColor(Color.DKGRAY)
-                    .build();
 
             shopkeeperClick = (Button) findViewById(R.id.shopkeeperID);
             customerClick = (Button) findViewById(R.id.customerID);
@@ -63,14 +55,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         if (v.getId() == R.id.shopkeeperID) {
             buttonClick = "shopkeeper";
-            dialog.show();
+
             Intent intent = new Intent(this, LoginActivity.class);
             intent.putExtra("key", buttonClick);
             startActivity(intent);
 
         } else if (v.getId() == R.id.customerID) {
             buttonClick = "customer";
-            dialog.show();
             Intent intent = new Intent(this, LoginActivity.class);
             intent.putExtra("key", buttonClick);
             startActivity(intent);
