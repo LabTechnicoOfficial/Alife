@@ -775,6 +775,8 @@ public class Shop_local_sell_fragment extends Fragment implements Shop_local_sel
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 Helpers.hideSoftKeyboard(getActivity());
+
+               // Log.d("dataxx", "onItemClick: "+customerList.get(position).getCustomerName().toString());
             }
         });
 

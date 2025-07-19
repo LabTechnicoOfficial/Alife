@@ -219,154 +219,6 @@ public class Shop_sell_selected_product_list_fragment extends Fragment implement
         this.section = section;
     }
 
-   /* private void all_offer_spinner() {
-        allOfferSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position > 0) {
-                    double count_amount = 0.0;
-                    double count_price = 0.0;
-                    for (int i = 0; i < productsList.size(); i++) {
-                        if (productsList.get(i).getOffer_type().equals("whole")) {
-                            count_amount += Double.parseDouble(productsList.get(i).getAmount());
-                            count_price += Double.parseDouble(productsList.get(i).getPrice());
-                        }
-                    }
-                    if (count_amount >= Double.parseDouble(offer_all.get(position - 1).getMinimum_amount()) && count_price >= Double.parseDouble(offer_all.get(position - 1).getMinimum_price())) {
-                        for (int i = 0; i < productsList.size(); i++) {
-                            if (productsList.get(i).getOffer_type().equals("whole")) {
-                                Double amount = Double.parseDouble(productsList.get(i).getAmount());
-                                Double percentage = Double.parseDouble(product_offers_price[position]);
-                                Double price_value = amount * (Double.parseDouble(productsList.get(i).getUnit_price()) - (Double.parseDouble(productsList.get(i).getUnit_price()) * (percentage / 100)));
-                                minimum_offer_amount = offer_all.get(position - 1).getMinimum_amount();
-                                minimum_offer_pricee = offer_all.get(position - 1).getMinimum_price();
-                                offer_percentage = product_offers_price[position];
-                                productsList.get(i).setPrice(String.valueOf(price_value));
-                                Product_sell_offer product_sell_offer = new Product_sell_offer("whole", minimum_offer_amount, minimum_offer_pricee, offer_percentage);
-                                productsList.get(i).setSell_offer(product_sell_offer);
-                                // productSell.setSell_offer(product_sell_offer);
-
-
-                            }
-                            if(i==productsList.size()-1)
-                            {
-                                show_product_cart();
-                            }
-                        }
-                    }
-
-                }
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-    }
-
-    private void select_all_offer() {
-        get_product_offer = new ViewModelProvider(getActivity()).get(Get_product_offer.class);
-        get_product_offer.get_all_data(shop_id).observe(getViewLifecycleOwner(), new Observer<List<get_all_product_offer_response>>() {
-            @Override
-            public void onChanged(List<get_all_product_offer_response> get_all_product_offer_responses) {
-                offer_all = get_all_product_offer_responses;
-                if (offer_all.size() > 0) {
-                    getOfferMainLayout.setVisibility(View.VISIBLE);
-                    product_offers = new String[offer_all.size() + 1];
-                    product_offers_price = new String[offer_all.size() + 1];
-                    product_offers[0] = "Select offer";
-                    for (int i = 0; i < offer_all.size(); i++) {
-                        // Double price_value = Double.parseDouble(offers.get(i).getAmount()) * (Double.parseDouble(productPrice) - (Double.parseDouble(productPrice) * (Double.parseDouble(offers.get(i).getPrice()) / 100)));
-                        product_offers[i + 1] = offer_all.get(i).getMinimum_amount() + productUnit + "+          " + offer_all.get(i).getMinimum_price() + "taka+" + "       " + offer_all.get(i).getOffer_percentage() + "%";
-
-                        // product_offers[i + 1] = offers.get(i).getAmount() + " " + productUnit + "          " + String.valueOf(Double.parseDouble(offers.get(i).getAmount()) * (Double.parseDouble(productPrice_with_discount) - (Double.parseDouble(productPrice_with_discount) * (Double.parseDouble(offers.get(i).getPrice()) / 100)))) + " taka";
-                        product_offers_price[i + 1] = offer_all.get(i).getOffer_percentage();
-                    }
-                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, product_offers);
-                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                   allOfferSpinner.setAdapter(adapter);
-                    all_offer_spinner();
-                }
-            }
-        });
-    }
-
-    public void get_product_type_count(String productId, ProductSell product, Double amount) {
-        get_product_type = new ViewModelProvider(getActivity()).get(Get_product_type.class);
-        get_product_type.getdata(productId).observe(getViewLifecycleOwner(), new Observer<List<get_product_type_response>>() {
-            @Override
-            public void onChanged(List<get_product_type_response> get_product_type_responses) {
-                for (int i = 0; i < get_product_type_responses.size(); i++) {
-                    if (product.getType_id().equals(get_product_type_responses.get(i).getId())) {
-                        if (amount < Double.parseDouble(get_product_type_responses.get(i).getCount())) {
-                            product.setAmount(String.valueOf(Double.parseDouble(product.getAmount()) + 1));
-                            product.setPrice(String.valueOf(Double.parseDouble(product.getAmount()) * Double.parseDouble(product.getUnit_price())));
-                            adapter.notifyDataSetChanged();
-                            double total_price = 0.0;
-                            for (int j = 0; j < productsList.size(); j++) {
-                                total_price += Double.parseDouble(productsList.get(j).getPrice());
-                            }
-                            // price.setText(String.valueOf(total_price));
-                            price.setText(String.valueOf(new DecimalFormat("##.##").format(total_price)));
-                            reducePrice.setText("0");
-                            finalPrice.setText(String.valueOf(new DecimalFormat("##.##").format(total_price)));
-
-                        } else {
-                            Toast.makeText(getActivity(), "amount overflow", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                }
-            }
-        });
-    }
-
-    public void get_product_stock(String productId, ProductSell product, Double amount) {
-        stock = 0.0;
-        get_product = new ViewModelProvider(getActivity()).get(Get_product.class);
-        get_product.getsingle_product(productId).observe(getViewLifecycleOwner(), new Observer<get_product_response>() {
-            @Override
-            public void onChanged(get_product_response get_product_response) {
-                stock = Double.parseDouble(get_product_response.getStock_amount());
-                if (stock <= amount) {
-                    Toast.makeText(getActivity(), "amount overflow", Toast.LENGTH_SHORT).show();
-                } else {
-                    // if (product.getType_id().equals("0")) {
-                    product.setAmount(String.valueOf(Double.parseDouble(product.getAmount()) + 1));
-                    double temp_price = 0.0;
-                    if (!product.getSell_offer().getOffer_type().equals("none")) {
-
-                        temp_price = Double.parseDouble(product.getUnit_price()) - (Double.parseDouble(product.getUnit_price()) * Double.parseDouble(product.getSell_offer().getOffer_percentage()) / 100);
-                    } else {
-                        temp_price = Double.parseDouble(product.getUnit_price());
-
-                    }
-                    product.setPrice(String.valueOf(Double.parseDouble(product.getAmount()) * temp_price));
-                    adapter.notifyDataSetChanged();
-                    double total_price = 0.0;
-                    for (int i = 0; i < productsList.size(); i++) {
-                        total_price += Double.parseDouble(productsList.get(i).getPrice());
-                    }
-                    //    price.setText(String.valueOf(total_price));
-                    price.setText(String.valueOf(new DecimalFormat("##.##").format(total_price)));
-                    reducePrice.setText("0");
-                    finalPrice.setText(String.valueOf(new DecimalFormat("##.##").format(total_price)));
-                   /* } else {
-                        type_amount_check = 0.0;
-                        for (int i = 0; i < productsList.size(); i++) {
-                            if (product.getType_id().equals(productsList.get(i).getType_id())) {
-                                type_amount_check += Double.parseDouble(product.getAmount());
-                            }
-                        }
-                        get_product_type_count(productId, product, type_amount_check);
-
-
-                }
-            }
-        });
-
-    }*/
 
     public void checkConnection() {
         ConnectivityManager manager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -508,7 +360,7 @@ public class Shop_sell_selected_product_list_fragment extends Fragment implement
     }
 
     private void show_product_cart() {
-        if (productsList.size() != 0) {
+        if (!productsList.isEmpty()) {
             List<productSell_temp> productSell_tempList = new ArrayList<>();
             for (int i = 0; i < productsList.size(); i++) {
                 productSell_temp temp = new productSell_temp();
@@ -516,18 +368,18 @@ public class Shop_sell_selected_product_list_fragment extends Fragment implement
                 temp.setAmount(productsList.get(i).getAmount());
                 temp.setPrice(productsList.get(i).getPrice());
                 temp.setProduct_image(productsList.get(i).getProduct_image());
-                String s = "";
-                if (productsList.get(i).getTypeList().size() > 0) {
+                StringBuilder s = new StringBuilder();
+                if (!productsList.get(i).getTypeList().isEmpty()) {
 
                     for (int j = 0; j < productsList.get(i).getTypeList().size(); j++) {
-                        if (!s.equals("")) {
-                            s = s + " ";
+                        if (s.length() > 0) {
+                            s.append(" ");
                         }
-                        s = s + productsList.get(i).getTypeList().get(j).getType_name() + "(" + productsList.get(i).getTypeList().get(j).getType_amount() + ")";
+                        s.append(productsList.get(i).getTypeList().get(j).getType_name()).append("(").append(productsList.get(i).getTypeList().get(j).getType_amount()).append(")");
 
                     }
                 }
-                temp.setType_name(s);
+                temp.setType_name(s.toString());
                 productSell_tempList.add(temp);
             }
             noProductsAvailableText.setVisibility(View.GONE);
@@ -544,10 +396,10 @@ public class Shop_sell_selected_product_list_fragment extends Fragment implement
                 TotalBuyPrice += Double.parseDouble(productsList.get(i).getBuy_price());
             }
             Totalprofit = TotalPrice - TotalBuyPrice;
-            price.setText(String.valueOf(new DecimalFormat("##.##").format(TotalPrice)));
-            offer_discount.setText(String.valueOf(new DecimalFormat("##.##").format(TotalPrice * (Double.parseDouble(offer_percentage) / 100))) + "(" + offer_percentage + "%)");
+            price.setText(new DecimalFormat("##.##").format(TotalPrice));
+            offer_discount.setText(new DecimalFormat("##.##").format(TotalPrice * (Double.parseDouble(offer_percentage) / 100)) + "(" + offer_percentage + "%)");
             TotalPrice = TotalPrice - TotalPrice * (Double.parseDouble(offer_percentage) / 100);
-            finalPrice.setText(String.valueOf(new DecimalFormat("##.##").format(TotalPrice)));
+            finalPrice.setText(new DecimalFormat("##.##").format(TotalPrice));
             profitText.setText(new DecimalFormat("##.##").format(Totalprofit));
 
 
@@ -1838,7 +1690,7 @@ public class Shop_sell_selected_product_list_fragment extends Fragment implement
             public void onClick(View v) {
 
                 if (getOfferState == 0) {
-                    if (offerType.size() > 0) {
+                    if (!offerType.isEmpty()) {
 
                         offerMainLayout.setVisibility(View.VISIBLE);
                         noOffersText.setVisibility(View.GONE);
@@ -1851,7 +1703,7 @@ public class Shop_sell_selected_product_list_fragment extends Fragment implement
                     arrowUp.setVisibility(View.VISIBLE);
                     getOfferState = 1;
                 } else if (getOfferState == 1) {
-                    if (offerType.size() > 0) {
+                    if (!offerType.isEmpty()) {
                         offerMainLayout.setVisibility(View.GONE);
 
 

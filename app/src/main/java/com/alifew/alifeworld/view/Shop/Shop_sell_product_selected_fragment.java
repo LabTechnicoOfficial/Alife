@@ -153,7 +153,7 @@ public class Shop_sell_product_selected_fragment extends Fragment implements Sho
 
                     }
                     if (amount >= Double.parseDouble(minimum_offer_amount) && total_price >= Double.parseDouble(minimum_offer_pricee)) {
-                        if ((offer_check == 1&& offerType.size()>0)||offerType.size()==0) {
+                        if ((offer_check == 1 && offerType.size() > 0) || offerType.size() == 0) {
                             next();
                         } else {
                             Toast.makeText(getActivity(), "Select Offer", Toast.LENGTH_SHORT).show();
@@ -198,10 +198,10 @@ public class Shop_sell_product_selected_fragment extends Fragment implements Sho
                         }
                         if (offer_product_satisfication == false) {
                             Toast.makeText(getActivity(), "Select Offer Correctly to add this product", Toast.LENGTH_SHORT).show();
-                        } else if (offer_check == 0&& offerType.size()>0) {
+                        } else if (offer_check == 0 && offerType.size() > 0) {
                             Toast.makeText(getActivity(), "Set Offer", Toast.LENGTH_SHORT).show();
                         } else {
-                            if (types.size() > 0) {
+                            if (!types.isEmpty()) {
                                 ProductSell productSell = new ProductSell();
                                 //productSell.setOffer_type(offer_type);
 
@@ -293,6 +293,7 @@ public class Shop_sell_product_selected_fragment extends Fragment implements Sho
         // get_all_product_discount();
         //product_amount.setText("0");
         price.setText("0");
+
         offers = new ArrayList<>();
         offer_all = new ArrayList<>();
         offerType = new ArrayList<>();
@@ -301,8 +302,8 @@ public class Shop_sell_product_selected_fragment extends Fragment implements Sho
             @Override
             public void onChanged(List<get_product_offer_response> get_product_offer_responses) {
                 offers = get_product_offer_responses;
-                offerType.add("ডিসকাউন্ট"+ product_discount+"%");
-                if (offers.size() > 0) {
+                offerType.add("ডিসকাউন্ট" + product_discount + "%");
+                if (!offers.isEmpty()) {
                     offerType.add("এই পন্যের অফার");
 
                 }
@@ -310,15 +311,14 @@ public class Shop_sell_product_selected_fragment extends Fragment implements Sho
                     @Override
                     public void onChanged(List<get_all_product_offer_response> get_all_product_offer_responses) {
                         offer_all = get_all_product_offer_responses;
-                        if (offer_all.size() > 0) {
+                        if (!offer_all.isEmpty()) {
 
                             offerType.add("সকল পন্যের অফার");
 
                         }
 
 
-
-                        if (offerType.size() > 0) {
+                        if (!offerType.isEmpty()) {
                             ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, offerType);
                             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             offerTypeSpinner.setAdapter(adapter);
@@ -356,7 +356,11 @@ public class Shop_sell_product_selected_fragment extends Fragment implements Sho
         //get_all_product_discount();
 
         //product_amount.setText("0");
-        price.setText("0");
+        if (product_amount.getText().toString().isEmpty()) {
+            price.setText("0");
+        } else {
+            price.setText(String.valueOf(Double.parseDouble(product_unit_price) * Double.parseDouble(product_amount.getText().toString().trim())));
+        }
         fragmentManager = getFragmentManager();
         get_product();
 
@@ -572,7 +576,7 @@ public class Shop_sell_product_selected_fragment extends Fragment implements Sho
                 } else {
                     product_discount = product_discount_all;
                 }
-                allDiscountText.setText("Discount :"+ product_discount+"%");
+                allDiscountText.setText("Discount :" + product_discount + "%");
 
 
            /*  if (Double.parseDouble(allDiscountText.getText().toString().trim()) > discount) {
@@ -923,7 +927,7 @@ public class Shop_sell_product_selected_fragment extends Fragment implements Sho
             public void onChanged(List<Get_product_response> get_product_responses) {
                 for (int i = 0; i < get_product_responses.size(); i++) {
                     String brand_code = get_product_responses.get(i).getBrand() + get_product_responses.get(i).getCode();
-                    if ((get_product_responses.get(i).getProduct_id().contains(value)||get_product_responses.get(i).getProduct_name().toLowerCase().contains(value.toLowerCase())) || (get_product_responses.get(i).getBrand().toLowerCase().contains(value.toLowerCase())) || (brand_code.toLowerCase().contains(value.toLowerCase()))) {
+                    if ((get_product_responses.get(i).getProduct_id().contains(value) || get_product_responses.get(i).getProduct_name().toLowerCase().contains(value.toLowerCase())) || (get_product_responses.get(i).getBrand().toLowerCase().contains(value.toLowerCase())) || (brand_code.toLowerCase().contains(value.toLowerCase()))) {
                         data.add(get_product_responses.get(i));
                     }
                 }
@@ -1051,7 +1055,6 @@ public class Shop_sell_product_selected_fragment extends Fragment implements Sho
                         offerSpinnerLayout.setVisibility(View.GONE);
 
 
-
                     } else {
                         if (offerType.get(1).equals("সকল পন্যের অফার")) {
 
@@ -1119,7 +1122,7 @@ public class Shop_sell_product_selected_fragment extends Fragment implements Sho
                 R.anim.fade_out,  // exit
                 R.anim.fade_in,   // popEnter
                 R.anim.slide_out  // popExit
-        ).replace(R.id.frame_container, new Shop_sell_selected_product_list_fragment(shop_id, productSellList, minimum_offer_amount, minimum_offer_pricee, offer_percentage, offer_type,1)).addToBackStack(null).commit();
+        ).replace(R.id.frame_container, new Shop_sell_selected_product_list_fragment(shop_id, productSellList, minimum_offer_amount, minimum_offer_pricee, offer_percentage, offer_type, 1)).addToBackStack(null).commit();
     }
 
 
