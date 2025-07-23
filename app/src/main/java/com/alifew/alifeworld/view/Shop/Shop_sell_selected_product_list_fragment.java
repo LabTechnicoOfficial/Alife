@@ -119,7 +119,7 @@ public class Shop_sell_selected_product_list_fragment extends Fragment implement
     LinearLayoutManager layoutManager, layoutManager1, layoutManager2;
     AppCompatButton sellButton;
     LinearLayout addMoreButton, showCartLayout, customerDetailsLayout;
-    LinearLayout dueLayout, customerIDLayout;
+    LinearLayout dueLayout;
     AppCompatButton addCustomerButton;
     TextView dueText, profitText;
     Bitmap bitmapPDF;
@@ -142,7 +142,7 @@ public class Shop_sell_selected_product_list_fragment extends Fragment implement
     ExtendedFloatingActionButton addUnregisteredCustomer;
     private ShopCustomerViewModel get_customer;
 
-    TextView customerName, customerLocation, customerPhone, customerID;
+    TextView customerName, customerLocation, customerPhone;
     TextView price, showDate, noProductsAvailableText;
 
     TextInputEditText paidText, priceLessText;
@@ -529,7 +529,6 @@ public class Shop_sell_selected_product_list_fragment extends Fragment implement
         addCustomerButton = (AppCompatButton) view.findViewById(R.id.addCustomerID);
 
         customerImage = (CircularImageView) view.findViewById(R.id.customerImageID);
-        customerID = (TextView) view.findViewById(R.id.customerid_ID);
         customerName = (TextView) view.findViewById(R.id.customerNameID);
         customerPhone = (TextView) view.findViewById(R.id.customerPhoneID);
         customerLocation = (TextView) view.findViewById(R.id.customerLocationID);
@@ -543,7 +542,6 @@ public class Shop_sell_selected_product_list_fragment extends Fragment implement
         showCartLayout = (LinearLayout) view.findViewById(R.id.showCartID);
         addMoreButton = (LinearLayout) view.findViewById(R.id.addMoreID);
         customerDetailsLayout = (LinearLayout) view.findViewById(R.id.customerDetailsLayoutID);
-        customerIDLayout = (LinearLayout) view.findViewById(R.id.customerIDLayoutID);
         dueLayout = (LinearLayout) view.findViewById(R.id.dueLayoutID);
 
         dueText = (TextView) view.findViewById(R.id.dueTextID);
@@ -1275,12 +1273,7 @@ public class Shop_sell_selected_product_list_fragment extends Fragment implement
             customerImage.setVisibility(View.GONE);
         }
 
-        if (!customer_id.equals("0")) {
-            customerID.setVisibility(View.VISIBLE);
-            customerID.setText(customer_id);
-        } else {
-            customerIDLayout.setVisibility(View.GONE);
-        }
+
         customerName.setText(customer_name);
         customerPhone.setText(customer_phone);
         customerLocation.setText(customer_location);
