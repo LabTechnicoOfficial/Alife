@@ -85,7 +85,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
-                android:hint="সর্বনিম্ন বিক্রয় মুল্য"
+                android:hint="সর্বনিম্ন পয়েন্ট"
                 app:boxStrokeColor="@color/black"
                 app:endIconMode="clear_text"
                 app:hintTextColor="@color/black">

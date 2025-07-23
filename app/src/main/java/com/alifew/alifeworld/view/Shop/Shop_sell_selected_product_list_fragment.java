@@ -839,7 +839,7 @@ public class Shop_sell_selected_product_list_fragment extends Fragment implement
         addCustomerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (productsList.size() != 0) {
+                if (!productsList.isEmpty()) {
                     selectProduct();
                 } else {
                     Toast.makeText(getActivity(), "No Product Selected", Toast.LENGTH_SHORT).show();

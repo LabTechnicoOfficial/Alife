@@ -24,6 +24,10 @@ public class Package_response {
     @SerializedName(("inPackage"))
     private Boolean inPackage;
 
+    @SerializedName("minimum_package_point")
+    private String minimum_package_point;
+
+
     public Boolean getInPackage() {
         return inPackage;
     }
@@ -94,5 +98,13 @@ public class Package_response {
 
     public void setCustomerCount(String customerCount) {
         this.customerCount = customerCount;
+    }
+
+    public String getMinimum_package_point() {
+        return minimum_package_point;
+    }
+
+    public void setMinimum_package_point(String minimum_package_point) {
+        this.minimum_package_point = minimum_package_point;
     }
 }

@@ -37,7 +37,7 @@ public class Shop_coupon_package_adapter extends RecyclerView.Adapter<Shop_coupo
 
         Package_response response = packagesList.get(position);
         holder.packageNameText.setText(response.getPackage_name());
-        holder.sellAmountText.setText(response.getPackageSellAmount());
+        holder.sellAmountText.setText(response.getMinimum_package_point());
         holder.packageOwnerAmountText.setText(response.getCustomerCount());
         holder.winnerText.setText(response.getWinner());
         holder.giftText.setText(response.getGift());

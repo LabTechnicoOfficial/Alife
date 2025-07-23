@@ -62,7 +62,6 @@ import com.alifew.alifeworld.model.image;
 import com.alifew.alifeworld.model.normal_sell_details_response;
 import com.alifew.alifeworld.model.systemetic_sell_details_response;
 import com.alifew.alifeworld.model.unfollow_customer_shop_response;
-import com.alifew.alifeworld.session.SessionManagement;
 import com.alifew.alifeworld.viewmodel.Accept_cancle_shop_join_request;
 import com.alifew.alifeworld.viewmodel.Customer_shopList;
 import com.alifew.alifeworld.viewmodel.Fetch_shop;
@@ -81,6 +80,7 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static com.alifew.alifeworld.R.layout.customer_shop_list_fragment;
 
@@ -98,7 +98,6 @@ public class Customer_shopList_fragment extends Fragment implements Customer_all
     List<customer_shopList_response> data;
     List<fetch_shop_response> data_all;
     List<get_customer_all_due_details_response> dueList;
-    List<get_customer_all_due_details_response> convertList;
     MaterialButtonToggleGroup toggleButton;
     List<fetch_shop_response> shop_request;
     Fetch_shop_join_request fetch_shop_join_request;
@@ -120,9 +119,16 @@ public class Customer_shopList_fragment extends Fragment implements Customer_all
     List<image> imageList;
     Normal_sell_details_image_adapter image_show_adapter;
 
-    ProgressBar yourShopProgressBar, allShopProgressBar, requestProgressBar, showDetailsProgressBar;
-    NestedScrollView yourShopNestedScrollView, allShopNestedScrollView, requestNestedScrollView, showDetailsNestedScrollView;
-    int page1 = 1, page2 = 1, page3 = 1, limit = 10, limit2 = 20, end1 = 0, end2 = 0;
+    ProgressBar yourShopProgressBar;
+    ProgressBar showDetailsProgressBar;
+    NestedScrollView yourShopNestedScrollView;
+    NestedScrollView showDetailsNestedScrollView;
+    int page1 = 1;
+    int page2 = 1;
+    int limit = 10;
+    int limit2 = 20;
+    int end1 = 0;
+    int end2 = 0;
     int select_type;
 
     TextView barcodeText;
@@ -133,7 +139,6 @@ public class Customer_shopList_fragment extends Fragment implements Customer_all
     private static final int REQUEST_CAMERA_PERMISSION = 201;
 
     Get_product getProductViewModel;
-    SessionManagement sessionManagement;
 
     public Customer_shopList_fragment(String customer_id) {
         this.customer_id = customer_id;
@@ -141,20 +146,17 @@ public class Customer_shopList_fragment extends Fragment implements Customer_all
 
     public void notifi() {
 
-        fetch_shop_join_request.getData(customer_id).observe(getViewLifecycleOwner(), new Observer<List<fetch_shop_response>>() {
-            @Override
-            public void onChanged(List<fetch_shop_response> fetch_shop_responses) {
-                shop_request = fetch_shop_responses;
+        fetch_shop_join_request.getData(customer_id).observe(getViewLifecycleOwner(), fetch_shop_responses -> {
+            shop_request = fetch_shop_responses;
 
-                request_adapter = new Shop_join_request_adapter(shop_request);
-                request_adapter.OnClickListener(Customer_shopList_fragment.this::OnItemAccept, Customer_shopList_fragment.this::OnItemCancel);
-                requestShopView.setAdapter(request_adapter);
-                if (shop_request.size() > 0) {
-                    requestValueLayout.setVisibility(View.VISIBLE);
-                    requestValue.setText(String.valueOf(shop_request.size()));
-                } else {
-                    requestValueLayout.setVisibility(View.INVISIBLE);
-                }
+            request_adapter = new Shop_join_request_adapter(shop_request);
+            request_adapter.OnClickListener(Customer_shopList_fragment.this, Customer_shopList_fragment.this);
+            requestShopView.setAdapter(request_adapter);
+            if (!shop_request.isEmpty()) {
+                requestValueLayout.setVisibility(View.VISIBLE);
+                requestValue.setText(String.valueOf(shop_request.size()));
+            } else {
+                requestValueLayout.setVisibility(View.INVISIBLE);
             }
         });
     }
@@ -167,8 +169,8 @@ public class Customer_shopList_fragment extends Fragment implements Customer_all
         data = new ArrayList<>();
         data_all = new ArrayList<>();
         shop_request = new ArrayList<>();
-        fetch_shop_join_request = new ViewModelProvider(getActivity()).get(Fetch_shop_join_request.class);
-        accept_Cancel_shop_join_request = new ViewModelProvider(getActivity()).get(Accept_cancle_shop_join_request.class);
+        fetch_shop_join_request = new ViewModelProvider(requireActivity()).get(Fetch_shop_join_request.class);
+        accept_Cancel_shop_join_request = new ViewModelProvider(requireActivity()).get(Accept_cancle_shop_join_request.class);
         main();
 
     }
@@ -178,25 +180,23 @@ public class Customer_shopList_fragment extends Fragment implements Customer_all
         own_shop();
 
 
-        toggleButton.addOnButtonCheckedListener(new MaterialButtonToggleGroup.OnButtonCheckedListener() {
-            @Override
-            public void onButtonChecked(MaterialButtonToggleGroup group, int checkedId, boolean isChecked) {
-                if (group.getCheckedButtonId() == R.id.yourShopID) {
-                    allShopLayout.setVisibility(View.GONE);
-                    yourShopLayout.setVisibility(View.VISIBLE);
-                    own_shop();
-                    notifi();
+        toggleButton.addOnButtonCheckedListener((group, checkedId, isChecked) -> {
+            if (group.getCheckedButtonId() == R.id.yourShopID) {
+                allShopLayout.setVisibility(View.GONE);
+                yourShopLayout.setVisibility(View.VISIBLE);
+                own_shop();
+                notifi();
 
-                } else if (group.getCheckedButtonId() == R.id.allShopID) {
-                    yourShopLayout.setVisibility(View.GONE);
-                    allShopLayout.setVisibility(View.VISIBLE);
-                    all_shop();
-                    notifi();
-                }
+            } else if (group.getCheckedButtonId() == R.id.allShopID) {
+                yourShopLayout.setVisibility(View.GONE);
+                allShopLayout.setVisibility(View.VISIBLE);
+                all_shop();
+                notifi();
             }
         });
 
         customerRequestButton.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onClick(View v) {
 
@@ -227,30 +227,30 @@ public class Customer_shopList_fragment extends Fragment implements Customer_all
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(customer_shop_list_fragment, container, false);
 
-        yourShoplistRecyclerview = (RecyclerView) view.findViewById(R.id.YourShopViewID);
-        allShopRecyclerView = (RecyclerView) view.findViewById(R.id.AllShopViewID);
-        requestShopView = (RecyclerView) view.findViewById(R.id.requestShopViewID);
-        showDetailsView = (RecyclerView) view.findViewById(R.id.showDetailsViewID);
+        yourShoplistRecyclerview = view.findViewById(R.id.YourShopViewID);
+        allShopRecyclerView = view.findViewById(R.id.AllShopViewID);
+        requestShopView = view.findViewById(R.id.requestShopViewID);
+        showDetailsView = view.findViewById(R.id.showDetailsViewID);
 
-        yourShopLayout = (LinearLayout) view.findViewById(R.id.yourShopLayoutID);
-        allShopLayout = (LinearLayout) view.findViewById(R.id.AllShopLayoutID);
-        defaultLayout = (LinearLayout) view.findViewById(R.id.defaultLayoutID);
-        requestLayout = (LinearLayout) view.findViewById(R.id.requestLayoutID);
-        requestValueLayout = (LinearLayout) view.findViewById(R.id.requestValueLayoutID);
-        showDetailsLayout = (LinearLayout) view.findViewById(R.id.showDetailsID);
-        notShowDetails = (LinearLayout) view.findViewById(R.id.notShowDetailsID);
-        detailsLayout = (HorizontalScrollView) view.findViewById(R.id.detailsLayoutID);
+        yourShopLayout = view.findViewById(R.id.yourShopLayoutID);
+        allShopLayout = view.findViewById(R.id.AllShopLayoutID);
+        defaultLayout = view.findViewById(R.id.defaultLayoutID);
+        requestLayout = view.findViewById(R.id.requestLayoutID);
+        requestValueLayout = view.findViewById(R.id.requestValueLayoutID);
+        showDetailsLayout = view.findViewById(R.id.showDetailsID);
+        notShowDetails = view.findViewById(R.id.notShowDetailsID);
+        detailsLayout = view.findViewById(R.id.detailsLayoutID);
 
-        toggleButton = (MaterialButtonToggleGroup) view.findViewById(R.id.toggleGroupID);
-        search = (EditText) view.findViewById(R.id.searchEditText);
-        all_search = (EditText) view.findViewById(R.id.AllShopSearchID);
-        customerRequestButton = (ImageView) view.findViewById(R.id.customerRequestButtonID);
-        requestValue = (TextView) view.findViewById(R.id.requestValueID);
-        title = (TextView) view.findViewById(R.id.one);
-        totalDueText = (TextView) view.findViewById(R.id.totalDueID);
+        toggleButton = view.findViewById(R.id.toggleGroupID);
+        search = view.findViewById(R.id.searchEditText);
+        all_search = view.findViewById(R.id.AllShopSearchID);
+        customerRequestButton = view.findViewById(R.id.customerRequestButtonID);
+        requestValue =  view.findViewById(R.id.requestValueID);
+        title =  view.findViewById(R.id.one);
+        totalDueText =  view.findViewById(R.id.totalDueID);
 
-        downImage = (ImageView) view.findViewById(R.id.downImageID);
-        upImage = (ImageView) view.findViewById(R.id.upImageID);
+        downImage =  view.findViewById(R.id.downImageID);
+        upImage =  view.findViewById(R.id.upImageID);
 
         yourShoplistRecyclerview.setHasFixedSize(true);
         allShopRecyclerView.setHasFixedSize(true);
@@ -268,59 +268,53 @@ public class Customer_shopList_fragment extends Fragment implements Customer_all
 
         getProductViewModel = new ViewModelProvider(this).get(Get_product.class);
 
-        showDetailsLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (state == true) {
-                    downImage.setVisibility(View.GONE);
-                    upImage.setVisibility(View.VISIBLE);
-                    notShowDetails.setVisibility(View.GONE);
-                    detailsLayout.setVisibility(View.VISIBLE);
-                    dueList = new ArrayList<>();
-                    page2 = 1;
-                    end2 = 0;
-                    duelistadapter = new Customer_shop_all_due_list_adapter(dueList);
-                    duelistadapter.SetOnClickListener(Customer_shopList_fragment.this::OnDueLick);
-                    showDetailsView.setAdapter(duelistadapter);
-                    due_details(page2, limit2);
-                    state = false;
-                } else if (state == false) {
-                    upImage.setVisibility(View.GONE);
-                    detailsLayout.setVisibility(View.GONE);
-                    downImage.setVisibility(View.VISIBLE);
-                    notShowDetails.setVisibility(View.VISIBLE);
+        showDetailsLayout.setOnClickListener(v -> {
+            if (state) {
+                downImage.setVisibility(View.GONE);
+                upImage.setVisibility(View.VISIBLE);
+                notShowDetails.setVisibility(View.GONE);
+                detailsLayout.setVisibility(View.VISIBLE);
+                dueList = new ArrayList<>();
+                page2 = 1;
+                end2 = 0;
+                duelistadapter = new Customer_shop_all_due_list_adapter(dueList);
+                duelistadapter.SetOnClickListener(Customer_shopList_fragment.this);
+                showDetailsView.setAdapter(duelistadapter);
+                due_details(page2, limit2);
+                state = false;
+            } else {
+                upImage.setVisibility(View.GONE);
+                detailsLayout.setVisibility(View.GONE);
+                downImage.setVisibility(View.VISIBLE);
+                notShowDetails.setVisibility(View.VISIBLE);
 
-                    state = true;
-                }
+                state = true;
             }
         });
 
-        yourShopProgressBar = (ProgressBar) view.findViewById(R.id.YourShopProgressBarID);
+        yourShopProgressBar =  view.findViewById(R.id.YourShopProgressBarID);
 
-        showDetailsProgressBar = (ProgressBar) view.findViewById(R.id.showDetailsProgressBarID);
+        showDetailsProgressBar =  view.findViewById(R.id.showDetailsProgressBarID);
 
-        yourShopNestedScrollView = (NestedScrollView) view.findViewById(R.id.YourShopNestedRecyclerViewID);
-        showDetailsNestedScrollView = (NestedScrollView) view.findViewById(R.id.showDetailsNestedRecyclerViewID);
+        yourShopNestedScrollView =  view.findViewById(R.id.YourShopNestedRecyclerViewID);
+        showDetailsNestedScrollView =  view.findViewById(R.id.showDetailsNestedRecyclerViewID);
 
-        yourShopNestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
-            @Override
-            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                // yourShopProgressBar.setVisibility(View.VISIBLE);
-                if (scrollY == v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight()) {
-                    if (end1 == 0) {
-                        yourShopProgressBar.setVisibility(View.VISIBLE);
-                        page1++;
-                        filter(page1, limit);
-                    }
-
+        yourShopNestedScrollView.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+            // yourShopProgressBar.setVisibility(View.VISIBLE);
+            if (scrollY == v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight()) {
+                if (end1 == 0) {
+                    yourShopProgressBar.setVisibility(View.VISIBLE);
+                    page1++;
+                    filter(page1, limit);
                 }
+
             }
         });
 
 
         showDetailsNestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
-            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+            public void onScrollChange(@NonNull NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
                 //showDetailsProgressBar.setVisibility(View.VISIBLE);
                 if (scrollY == v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight()) {
                     if (end2 == 0) {
@@ -339,37 +333,27 @@ public class Customer_shopList_fragment extends Fragment implements Customer_all
 
     private void due_details(int page, int limit) {
 
-        customer_shopList = new ViewModelProvider(getActivity()).get(Customer_shopList.class);
-        customer_shopList.getDue_details(customer_id, page, limit).observe(getViewLifecycleOwner(), new Observer<List<get_customer_all_due_details_response>>() {
-            @Override
-            public void onChanged(List<get_customer_all_due_details_response> get_customer_all_due_details_responses) {
-                showDetailsProgressBar.setVisibility(View.GONE);
-                for (int i = 0; i < get_customer_all_due_details_responses.size(); i++) {
-                    dueList.add(get_customer_all_due_details_responses.get(i));
-                }
-                if (get_customer_all_due_details_responses.size() < limit) {
-                    end2 = 1;
-                }
-                if (dueList.size() > 0) {
-                    for (int i = 0; i < dueList.size(); i++) {
-                        convertList.add(i, dueList.get(dueList.size() - 1 - i));
-                    }
-                }
-                duelistadapter = new Customer_shop_all_due_list_adapter(dueList);
-                duelistadapter.SetOnClickListener(Customer_shopList_fragment.this::OnDueLick);
-                showDetailsView.setAdapter(duelistadapter);
+        customer_shopList = new ViewModelProvider(requireActivity()).get(Customer_shopList.class);
+        customer_shopList.getDue_details(customer_id, page, limit).observe(getViewLifecycleOwner(), get_customer_all_due_details_responses -> {
+            showDetailsProgressBar.setVisibility(View.GONE);
+            dueList.addAll(get_customer_all_due_details_responses);
+            if (get_customer_all_due_details_responses.size() < limit) {
+                end2 = 1;
             }
+            duelistadapter = new Customer_shop_all_due_list_adapter(dueList);
+            duelistadapter.SetOnClickListener(Customer_shopList_fragment.this);
+            showDetailsView.setAdapter(duelistadapter);
         });
     }
 
     public void checkConnection() {
-        ConnectivityManager manager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager manager = (ConnectivityManager) requireActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo info = manager.getActiveNetworkInfo();
 
-        Dialog networkAlert = new Dialog(getActivity());
+        Dialog networkAlert = new Dialog(requireActivity());
         networkAlert.setContentView(R.layout.network_alert);
-        networkAlert.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        TextView connectButton = (TextView) networkAlert.findViewById(R.id.connectButtonID);
+        Objects.requireNonNull(networkAlert.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        TextView connectButton =  networkAlert.findViewById(R.id.connectButtonID);
         if (info == null) {
             networkAlert.show();
             connectButton.setOnClickListener(new View.OnClickListener() {
@@ -385,74 +369,63 @@ public class Customer_shopList_fragment extends Fragment implements Customer_all
     }
 
     public void shop_request() {
-        fetch_shop_join_request.getData(customer_id).observe(getViewLifecycleOwner(), new Observer<List<fetch_shop_response>>() {
-            @Override
-            public void onChanged(List<fetch_shop_response> fetch_shop_responses) {
-                shop_request = fetch_shop_responses;
-                request_adapter = new Shop_join_request_adapter(shop_request);
-                request_adapter.OnClickListener(Customer_shopList_fragment.this::OnItemAccept, Customer_shopList_fragment.this::OnItemCancel);
-                requestShopView.setAdapter(request_adapter);
+        fetch_shop_join_request.getData(customer_id).observe(getViewLifecycleOwner(), fetch_shop_responses -> {
+            shop_request = fetch_shop_responses;
+            request_adapter = new Shop_join_request_adapter(shop_request);
+            request_adapter.OnClickListener(Customer_shopList_fragment.this, Customer_shopList_fragment.this);
+            requestShopView.setAdapter(request_adapter);
 
-                if (shop_request.size() > 0) {
-                    requestValueLayout.setVisibility(View.VISIBLE);
-                    requestValue.setText(String.valueOf(shop_request.size()));
-                }
+            if (!shop_request.isEmpty()) {
+                requestValueLayout.setVisibility(View.VISIBLE);
+                requestValue.setText(String.valueOf(shop_request.size()));
             }
         });
 
     }
 
     public void refreshFragment() {
-        getActivity().getSupportFragmentManager().beginTransaction().detach(this).commitAllowingStateLoss();
-        getActivity().getSupportFragmentManager().beginTransaction().attach(this).commitAllowingStateLoss();
+        requireActivity().getSupportFragmentManager().beginTransaction().detach(this).commitAllowingStateLoss();
+        requireActivity().getSupportFragmentManager().beginTransaction().attach(this).commitAllowingStateLoss();
         //adapter.notifyDataSetChanged();
     }
 
     private void filter(int page, int limit) {
         customer_shopList = new ViewModelProvider(getActivity()).get(Customer_shopList.class);
-        customer_shopList.getData(customer_id, page, limit).observe(getViewLifecycleOwner(), new Observer<List<customer_shopList_response>>() {
-            @Override
-            public void onChanged(List<customer_shopList_response> customer_shopList_responses) {
-                yourShopProgressBar.setVisibility(View.GONE);
-                //data = customer_shopList_responses;
-                for (int i = 0; i < customer_shopList_responses.size(); i++) {
-                    data.add(customer_shopList_responses.get(i));
-                }
-                if (customer_shopList_responses.size() < limit) {
-                    end1 = 1;
-                }
-                total_due = 0.0;
-                for (int i = 0; i < data.size(); i++) {
-                    total_due += Double.parseDouble(data.get(i).getTotal_due());
-                }
-                totalDueText.setText(String.valueOf(new DecimalFormat("##.##").format(total_due)));
-                adapter = new Customer_shopList_adapter(data);
-                adapter.setOnClickListener(Customer_shopList_fragment.this::OnItemUnfollow, Customer_shopList_fragment.this::OnItemClick, Customer_shopList_fragment.this::OnBarCodeScanClick);
-                yourShoplistRecyclerview.setAdapter(adapter);
+        customer_shopList.getData(customer_id, page, limit).observe(getViewLifecycleOwner(), customer_shopList_responses -> {
+            yourShopProgressBar.setVisibility(View.GONE);
+            //data = customer_shopList_responses;
+            data.addAll(customer_shopList_responses);
+            if (customer_shopList_responses.size() < limit) {
+                end1 = 1;
             }
+            total_due = 0.0;
+            for (int i = 0; i < data.size(); i++) {
+                total_due += Double.parseDouble(data.get(i).getTotal_due());
+            }
+            totalDueText.setText(String.valueOf(new DecimalFormat("##.##").format(total_due)));
+            adapter = new Customer_shopList_adapter(data);
+            adapter.setOnClickListener(Customer_shopList_fragment.this, Customer_shopList_fragment.this, Customer_shopList_fragment.this);
+            yourShoplistRecyclerview.setAdapter(adapter);
         });
 
     }
 
     private void filter_all() {
-        fetch_shop = new ViewModelProvider(getActivity()).get(Fetch_shop.class);
-        fetch_shop.getData().observe(getViewLifecycleOwner(), new Observer<List<fetch_shop_response>>() {
-            @Override
-            public void onChanged(List<fetch_shop_response> fetch_shop_responses) {
-                data_all = fetch_shop_responses;
-                for (int i = 0; i < data_all.size(); i++) {
-                    for (int j = 0; j < data.size(); j++) {
-                        if (data.get(j).getStore01e_id().equals(data_all.get(i).getStore01e_id())) {
-                            data_all.remove(i);
-                            i--;
-                            break;
-                        }
+        fetch_shop = new ViewModelProvider(requireActivity()).get(Fetch_shop.class);
+        fetch_shop.getData().observe(getViewLifecycleOwner(), fetch_shop_responses -> {
+            data_all = fetch_shop_responses;
+            for (int i = 0; i < data_all.size(); i++) {
+                for (int j = 0; j < data.size(); j++) {
+                    if (data.get(j).getStore01e_id().equals(data_all.get(i).getStore01e_id())) {
+                        data_all.remove(i);
+                        i--;
+                        break;
                     }
                 }
-                adapter_all = new Customer_allShop_adapter(data_all);
-                adapter_all.setOnClickListener(Customer_shopList_fragment.this::OnItemFollow);
-                allShopRecyclerView.setAdapter(adapter_all);
             }
+            adapter_all = new Customer_allShop_adapter(data_all);
+            adapter_all.setOnClickListener(Customer_shopList_fragment.this);
+            allShopRecyclerView.setAdapter(adapter_all);
         });
     }
 
@@ -462,7 +435,7 @@ public class Customer_shopList_fragment extends Fragment implements Customer_all
         select_type = 1;
         data = new ArrayList<>();
         adapter = new Customer_shopList_adapter(data);
-        adapter.setOnClickListener(Customer_shopList_fragment.this::OnItemUnfollow, Customer_shopList_fragment.this::OnItemClick, Customer_shopList_fragment.this::OnBarCodeScanClick);
+        adapter.setOnClickListener(Customer_shopList_fragment.this, Customer_shopList_fragment.this, Customer_shopList_fragment.this);
         yourShoplistRecyclerview.setAdapter(adapter);
         filter(page1, limit);
         search.addTextChangedListener(new TextWatcher() {
@@ -479,7 +452,7 @@ public class Customer_shopList_fragment extends Fragment implements Customer_all
                         //adapter.getFilter().filter(search.getText());
                         data = new ArrayList<>();
                         adapter = new Customer_shopList_adapter(data);
-                        adapter.setOnClickListener(Customer_shopList_fragment.this::OnItemUnfollow, Customer_shopList_fragment.this::OnItemClick, Customer_shopList_fragment.this::OnBarCodeScanClick);
+                        adapter.setOnClickListener(Customer_shopList_fragment.this, Customer_shopList_fragment.this, Customer_shopList_fragment.this);
                         yourShoplistRecyclerview.setAdapter(adapter);
                         get_search_shop(search.getText().toString().trim());
                     } catch (Exception e) {
@@ -490,7 +463,7 @@ public class Customer_shopList_fragment extends Fragment implements Customer_all
                     select_type = 1;
                     data = new ArrayList<>();
                     adapter = new Customer_shopList_adapter(data);
-                    adapter.setOnClickListener(Customer_shopList_fragment.this::OnItemUnfollow, Customer_shopList_fragment.this::OnItemClick, Customer_shopList_fragment.this::OnBarCodeScanClick);
+                    adapter.setOnClickListener(Customer_shopList_fragment.this, Customer_shopList_fragment.this, Customer_shopList_fragment.this);
                     yourShoplistRecyclerview.setAdapter(adapter);
                     filter(page1, limit);
                 }
@@ -505,15 +478,12 @@ public class Customer_shopList_fragment extends Fragment implements Customer_all
     }
 
     private void get_search_shop(String value) {
-        customer_shopList = new ViewModelProvider(getActivity()).get(Customer_shopList.class);
-        customer_shopList.getSearchData(customer_id, value).observe(getViewLifecycleOwner(), new Observer<List<customer_shopList_response>>() {
-            @Override
-            public void onChanged(List<customer_shopList_response> customer_shopList_responses) {
-                data = customer_shopList_responses;
-                adapter = new Customer_shopList_adapter(data);
-                adapter.setOnClickListener(Customer_shopList_fragment.this::OnItemUnfollow, Customer_shopList_fragment.this::OnItemClick, Customer_shopList_fragment.this::OnBarCodeScanClick);
-                yourShoplistRecyclerview.setAdapter(adapter);
-            }
+        customer_shopList = new ViewModelProvider(requireActivity()).get(Customer_shopList.class);
+        customer_shopList.getSearchData(customer_id, value).observe(getViewLifecycleOwner(), customer_shopList_responses -> {
+            data = customer_shopList_responses;
+            adapter = new Customer_shopList_adapter(data);
+            adapter.setOnClickListener(Customer_shopList_fragment.this, Customer_shopList_fragment.this, Customer_shopList_fragment.this);
+            yourShoplistRecyclerview.setAdapter(adapter);
         });
     }
 
@@ -644,7 +614,7 @@ public class Customer_shopList_fragment extends Fragment implements Customer_all
             RecyclerView recyclerView = (RecyclerView) alertCustom.findViewById(R.id.productViewID);
             recyclerView.setHasFixedSize(true);
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-            ImageView closeButton = (ImageView) alertCustom.findViewById(R.id.closeID);
+            ImageView closeButton =  alertCustom.findViewById(R.id.closeID);
 
             sell_details = new ViewModelProvider(getActivity()).get(Sell_details.class);
             sell_details.systemetic_sell_details(sell_id).observe(getViewLifecycleOwner(), new Observer<List<systemetic_sell_details_response>>() {
@@ -662,20 +632,20 @@ public class Customer_shopList_fragment extends Fragment implements Customer_all
             });
         } else {
             //Toast.makeText(getActivity(), sell_type, Toast.LENGTH_SHORT).show();
-            Dialog alertCustom = new Dialog(getActivity());
+            Dialog alertCustom = new Dialog(requireActivity());
             alertCustom.setContentView(R.layout.normal_sell_details_alert);
-            alertCustom.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            Objects.requireNonNull(alertCustom.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             alertCustom.setCancelable(false);
             alertCustom.show();
 
-            TextView descriptionText = (TextView) alertCustom.findViewById(R.id.descriptionTextID);
+            TextView descriptionText =  alertCustom.findViewById(R.id.descriptionTextID);
             RecyclerView multipleImages = (RecyclerView) alertCustom.findViewById(R.id.multipleImageViewID);
-            ImageView closeButton = (ImageView) alertCustom.findViewById(R.id.closeID);
+            ImageView closeButton =  alertCustom.findViewById(R.id.closeID);
 
             multipleImages.setHasFixedSize(true);
             multipleImages.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
 
-            sell_details = new ViewModelProvider(getActivity()).get(Sell_details.class);
+            sell_details = new ViewModelProvider(requireActivity()).get(Sell_details.class);
             sell_details.normal_sell_details(sell_id).observe(getViewLifecycleOwner(), new Observer<normal_sell_details_response>() {
                 @Override
                 public void onChanged(normal_sell_details_response normal_sell_details_response) {
@@ -685,12 +655,7 @@ public class Customer_shopList_fragment extends Fragment implements Customer_all
                     multipleImages.setAdapter(image_show_adapter);
                 }
             });
-            closeButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    alertCustom.dismiss();
-                }
-            });
+            closeButton.setOnClickListener(v -> alertCustom.dismiss());
         }
     }
 
@@ -699,9 +664,9 @@ public class Customer_shopList_fragment extends Fragment implements Customer_all
         customer_shopList_response response = data.get(position);
         String shop_id = response.getStore01e_id();
 
-        Dialog barCodeAlert = new Dialog(getActivity());
+        Dialog barCodeAlert = new Dialog(requireActivity());
         barCodeAlert.setContentView(R.layout.barcode_scan_alert);
-        barCodeAlert.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        Objects.requireNonNull(barCodeAlert.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         barCodeAlert.setCancelable(false);
         barCodeAlert.show();
 
@@ -765,13 +730,9 @@ public class Customer_shopList_fragment extends Fragment implements Customer_all
         barcodeData = "";
         barcodeText.setText(barcodeData);
 
-        barcodeDetector = new BarcodeDetector.Builder(getActivity())
-                .setBarcodeFormats(Barcode.ALL_FORMATS)
-                .build();
+        barcodeDetector = new BarcodeDetector.Builder(getActivity()).setBarcodeFormats(Barcode.ALL_FORMATS).build();
 
-        cameraSource = new CameraSource.Builder(getActivity(), barcodeDetector)
-                .setRequestedPreviewSize(1080, 1080)
-                .setAutoFocusEnabled(true) //you should add this feature
+        cameraSource = new CameraSource.Builder(getActivity(), barcodeDetector).setRequestedPreviewSize(1080, 1080).setAutoFocusEnabled(true) //you should add this feature
                 .build();
 
         surfaceView.getHolder().addCallback(new SurfaceHolder.Callback() {
@@ -782,8 +743,7 @@ public class Customer_shopList_fragment extends Fragment implements Customer_all
                     if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
                         cameraSource.start(surfaceView.getHolder());
                     } else {
-                        ActivityCompat.requestPermissions(getActivity(), new
-                                String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
+                        ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
                     }
 
                 } catch (IOException e) {
@@ -865,7 +825,7 @@ public class Customer_shopList_fragment extends Fragment implements Customer_all
         });
 
 
-        ImageHelper.imageLoader(getActivity(),  productImage, response.productImage);
+        ImageHelper.imageLoader(getActivity(), productImage, response.productImage);
 
         TextView titleText = productDetailsAlert.findViewById(R.id.titleText);
         TextView categoryTitleText = productDetailsAlert.findViewById(R.id.categoryTitleText);

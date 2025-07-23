@@ -41,7 +41,7 @@ public interface cupon_api {
     // add cupon package api
     @FormUrlEncoded
     @POST("cupon/add_package.php")
-    Call<add_response> add_package(@Field("cupon_id") String cupon_id, @Field("package_name") String package_name, @Field("packageSellAmount") String packageSellAmount, @Field("winner") String winner, @Field("gift") String gift);
+    Call<add_response> add_package(@Field("cupon_id") String cupon_id, @Field("package_name") String package_name, @Field("minimum_package_point") String minimum_package_point, @Field("winner") String winner, @Field("gift") String gift);
 
     //fetch cupon package
 

@@ -37,7 +37,6 @@ public class Shop_registered_customer_adapter extends  RecyclerView.Adapter<Shop
         shop_due_customer_response customer=customerList.get(position);
 
         ImageHelper.imageLoader(holder.itemView.getContext(),  holder.customerImage, customer.getCustomer_image());
-        holder.customerID.setText(customer.getCustomer_id());
         holder.customerName.setText(customer.getCustomer_name());
         holder.customerLocation.setText(customer.getCustomer_address());
 
@@ -58,12 +57,11 @@ public class Shop_registered_customer_adapter extends  RecyclerView.Adapter<Shop
 
     public class AppViewholder extends RecyclerView.ViewHolder {
         CircularImageView customerImage;
-        TextView customerName, customerID, customerLocation;
+        TextView customerName, customerLocation;
         public AppViewholder(@NonNull View itemView) {
             super(itemView);
             customerImage = (CircularImageView) itemView.findViewById(R.id.customerImageID);
             customerName = (TextView) itemView.findViewById(R.id.customerNameID);
-            customerID = (TextView) itemView.findViewById(R.id.customerid_ID);
             customerLocation = (TextView) itemView.findViewById(R.id.customerLocationID);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

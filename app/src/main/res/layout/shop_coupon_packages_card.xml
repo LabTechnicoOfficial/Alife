@@ -57,7 +57,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="সর্বনিম্ন বিক্রয় মুল্য"
+                    android:text="সর্বনিম্ন পয়েন্ট"
                     android:textSize="@dimen/_12sdp"
                     android:textColor="@color/black" />
 

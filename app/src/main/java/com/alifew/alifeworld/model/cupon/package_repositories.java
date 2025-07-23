@@ -28,8 +28,8 @@ public class package_repositories {
         return package_repositories;
     }
 
-    public MutableLiveData<add_response> add_package(String cupon_id, String package_name, String packageSell_amount, String winner, String gift) {
-        Call<add_response> call = api.add_package(cupon_id, package_name, packageSell_amount, winner, gift);
+    public MutableLiveData<add_response> add_package(String cupon_id, String package_name, String minimum_package_point, String winner, String gift) {
+        Call<add_response> call = api.add_package(cupon_id, package_name, minimum_package_point, winner, gift);
         call.enqueue(new Callback<com.alifew.alifeworld.model.cupon.add_response>() {
             @Override
             public void onResponse(Call<com.alifew.alifeworld.model.cupon.add_response> call, Response<com.alifew.alifeworld.model.cupon.add_response> response) {
