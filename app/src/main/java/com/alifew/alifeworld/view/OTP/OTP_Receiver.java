@@ -27,7 +27,6 @@ public class OTP_Receiver extends BroadcastReceiver {
             String msg = sms.getMessageBody();
             String numbers;
             numbers=msg.replaceAll("[^0-9]", "");
-            int l=numbers.length();
 
             code1.setText(String.valueOf(numbers.charAt(0)));
             code2.setText(String.valueOf(numbers.charAt(1)));

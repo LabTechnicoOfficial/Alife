@@ -17,6 +17,16 @@ public class get_shop_customer_due_list_response {
     String date;
     @SerializedName("total_due")
     String total_due;
+    @SerializedName("time")
+    public String time;
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
 
     public String getTotal_due() {
         return total_due;

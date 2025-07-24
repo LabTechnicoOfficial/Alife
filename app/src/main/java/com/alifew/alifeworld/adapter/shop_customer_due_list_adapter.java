@@ -57,6 +57,8 @@ public class shop_customer_due_list_adapter extends RecyclerView.Adapter<shop_cu
         holder.paidPriceText.setText(new DecimalFormat("##.##").format(paidPrice));
         holder.dateText.setTextColor(R.color.black);
         holder.dateText.setText(transcation.getDate());
+        holder.timeText.setTextColor(R.color.black);
+        holder.timeText.setText(transcation.time);
 
         Double totalDuePrice = Double.parseDouble(transcation.getTotal_due());
         if (totalDuePrice >= 0.0) {
@@ -86,7 +88,7 @@ public class shop_customer_due_list_adapter extends RecyclerView.Adapter<shop_cu
     }
 
     public class AppViewholder extends RecyclerView.ViewHolder {
-        TextView dueText, dateText, typeText, totalPriceText, paidPriceText, totalDueText;
+        TextView dueText, dateText, timeText, totalPriceText, paidPriceText, totalDueText;
 
         public AppViewholder(@NonNull View itemView) {
             super(itemView);
@@ -96,6 +98,7 @@ public class shop_customer_due_list_adapter extends RecyclerView.Adapter<shop_cu
             totalPriceText = (TextView) itemView.findViewById(R.id.totalPriceID);
             paidPriceText = (TextView) itemView.findViewById(R.id.paidPriceID);
             totalDueText = (TextView) itemView.findViewById(R.id.totalDueTextID);
+            timeText = itemView.findViewById(R.id.timeID);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
