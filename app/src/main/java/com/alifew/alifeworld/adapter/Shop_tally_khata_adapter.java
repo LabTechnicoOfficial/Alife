@@ -43,7 +43,12 @@ public class Shop_tally_khata_adapter extends RecyclerView.Adapter<Shop_tally_kh
             due = Double.parseDouble(tali.getDue());
         if (tali.getTransaction_type().equals("due_pay")) {
             //holder.defaultLayout.setVisibility(View.INVISIBLE);
-            holder.customerName.setText(tali.customer_name);
+            if (tali.customer_name.isEmpty()) {
+                holder.customerName.setText(tali.customer_phone);
+            } else {
+                holder.customerName.setText(tali.customer_name);
+            }
+
             //holder.pay_due.setText(tali.getDue_pay());
             holder.paymentMethodText.setText(tali.getPayment_system());
             holder.dateText.setText(tali.getDate());
@@ -60,7 +65,7 @@ public class Shop_tally_khata_adapter extends RecyclerView.Adapter<Shop_tally_kh
         } else {
             //holder.payDueLayout.setVisibility(View.INVISIBLE);
             if (tali.getTransaction_type().equals("non_registered_pay")) {
-                holder.customerName.setText(tali.getCustomer_name() + "(Non Registered)");
+                holder.customerName.setText(tali.customer_name + "(Non Registered)");
                 holder.sellPrice.setText(tali.getSell_price());
                 holder.dateText.setText(tali.getDate());
                 if (due >= 0.0) {
@@ -76,7 +81,12 @@ public class Shop_tally_khata_adapter extends RecyclerView.Adapter<Shop_tally_kh
                 holder.paidPrice.setText(tali.getNon_registered_pay());
                 holder.paymentMethodText.setText(tali.getPayment_system());
             } else {
-                holder.customerName.setText(tali.getCustomer_name());
+                if (tali.customer_name.isEmpty()) {
+                    holder.customerName.setText(tali.customer_phone);
+                } else {
+                    holder.customerName.setText(tali.customer_name);
+                }
+
                 holder.sellPrice.setText(tali.getSell_price());
                 holder.dateText.setText(tali.getDate());
                 if (due >= 0.0) {
@@ -110,7 +120,7 @@ public class Shop_tally_khata_adapter extends RecyclerView.Adapter<Shop_tally_kh
     }
 
     public class AppViewholder extends RecyclerView.ViewHolder {
-        TextView customerName, sellPrice, paidPrice, duePrice, dateText,  paymentMethodText;
+        TextView customerName, sellPrice, paidPrice, duePrice, dateText, paymentMethodText;
         LinearLayout defaultLayout, payDueLayout;
 
         public AppViewholder(@NonNull View itemView) {
