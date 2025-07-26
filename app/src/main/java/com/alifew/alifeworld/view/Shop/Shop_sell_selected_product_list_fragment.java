@@ -2,19 +2,24 @@ package com.alifew.alifeworld.view.Shop;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.pdf.PdfDocument;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.core.content.FileProvider;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -23,6 +28,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Environment;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -101,10 +107,8 @@ import java.util.List;
 import java.util.Locale;
 
 public class Shop_sell_selected_product_list_fragment extends Fragment implements Selected_sell_product_list_adapter.OnItemAddListener, Selected_sell_product_list_adapter.OnItemMinusListener, Selected_sell_product_list_adapter.OnItemRemoveListener, Sell_product_adapter.OnItemClickListener, Shop_registered_customer_adapter.OnItemClickListener, Shop_sell_type_select_adapter.OnItemSelectListener, Shop_sell_type_select_adapter.OnItemAddListener, Shop_sell_type_select_adapter.OnItemMinusListener, Shop_sellamount_inc_dec_adapter.addListener, Shop_sellamount_inc_dec_adapter.minusListener {
-    String product_discount_all;
     ShopProfileViewModel shop_profile;
     Push_notification push_notification;
-    String selected_product_unit_price;
     int product_sell_cart_position;
     private List<ProductSell> productsList;
     private List<ProductSel_type> productSel_types;
@@ -122,14 +126,10 @@ public class Shop_sell_selected_product_list_fragment extends Fragment implement
     LinearLayout dueLayout;
     AppCompatButton addCustomerButton;
     TextView dueText, profitText;
-    Bitmap bitmapPDF;
-    //Double paidAmount = 0.0;
     private FragmentManager fragmentManager;
     Get_product get_product;
     Get_product_type get_product_type;
     String shop_id, customer_id, customer_image, customer_name, customer_phone, customer_location;
-    private Double stock;
-    private Double type_amount_check;
     Dialog showCartAlert, addMoreAlert, selectCustomerAlert, addAmountAlert;
     private RecyclerView all_productView;
     private Sell_product_adapter adapter_more_product_add;
@@ -146,19 +146,17 @@ public class Shop_sell_selected_product_list_fragment extends Fragment implement
     TextView price, showDate, noProductsAvailableText;
 
     TextInputEditText paidText, priceLessText;
-    TextInputLayout paidError, dueError;
+    TextInputLayout paidError;
 
     Spinner paymentMethodSpinner;
-    private String paymentMethod[];// = {"Select Method", "Cash", "bKash", "Rocket", "Nagad"};
+    private String paymentMethod[];
     List<payment_method_response> methods;
     Payment_method payment_method;
     String paymentSystem;
-    // start for add more product
-    String productID, productName, productUnit, productPrice, productImage, product_buy_price;
+    String productID, productUnit, productPrice, productImage, product_buy_price;
     TextView productNameText, productUnitText, stock_amount, sell_price, product_amount;
     Get_product_offer get_product_offer;
     List<get_product_type_response> types;
-    private String product_types[];
     List<get_product_offer_response> offers;
     private String product_offers[];
     private String product_offers_price[];
@@ -172,7 +170,6 @@ public class Shop_sell_selected_product_list_fragment extends Fragment implement
     ImageView arrowDown, arrowUp;
     AppCompatButton nextButton;
     private int type_check = 0, offer_check = 0;
-    private Double type_amount = 0.0;
     int x;
     RecyclerView typeView;
 
@@ -208,6 +205,8 @@ public class Shop_sell_selected_product_list_fragment extends Fragment implement
     private double TotalBuyPrice;
     private double Totalprofit;
     int section;
+    Dialog successAlert;
+
 
     public Shop_sell_selected_product_list_fragment(String shop_id, List<ProductSell> productsList, String minimum_offer_amount, String minimum_offer_pricee, String offer_percentage, String offer_type, int section) {
         this.shop_id = shop_id;
@@ -294,14 +293,13 @@ public class Shop_sell_selected_product_list_fragment extends Fragment implement
         sellButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ConnectivityManager manager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+                ConnectivityManager manager = (ConnectivityManager) requireActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
                 NetworkInfo info = manager.getActiveNetworkInfo();
 
                 if (info == null) {
                     Toast.makeText(getActivity(), "Connection error", Toast.LENGTH_SHORT).show();
                 } else {
-                    if (productsList.size() > 0) {
-                        //finale_productList_check();
+                    if (!productsList.isEmpty()) {
                         if (paymentSystem.equals("Select Method")) {
                             Toast.makeText(getActivity(), "Select a method", Toast.LENGTH_SHORT).show();
                         } else {
@@ -310,42 +308,12 @@ public class Shop_sell_selected_product_list_fragment extends Fragment implement
                     }
                 }
 
-                // Toast.makeText(getActivity(), "Hello", Toast.LENGTH_LONG).show();
             }
         });
-        int check_offer_spinner = 0;
+
         show_product_cart();
-        /*for (int i = 0; i < productsList.size(); i++) {
-            if (productsList.get(i).getOffer_type().equals("whole")) {
-                check_offer_spinner = 1;
-                break;
-            }
-        }*/
-        // Log.d("check: ",productsList.get(0).getOffer_type());
 
-        //reduce price scope
-       /* reducePrice.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (reducePrice.getText().toString().trim().isEmpty()) {
-                    reducePrice.setText("0");
-                    finalPrice.setText(String.valueOf(new DecimalFormat("##.##").format(TotalPrice)));
-                } else {
-                    finalPrice.setText(String.valueOf(new DecimalFormat("##.##").format(TotalPrice - Double.parseDouble(reducePrice.getText().toString().trim()))));
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });*/
-        //end reduce price scope
     }
 
     private void get_all_product_discount() {
@@ -555,6 +523,7 @@ public class Shop_sell_selected_product_list_fragment extends Fragment implement
         productView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         checkBox = (CheckBox) view.findViewById(R.id.checkBoxID);
+
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -603,8 +572,8 @@ public class Shop_sell_selected_product_list_fragment extends Fragment implement
         addAmountAlert.setCancelable(false);
 
         //add more product alert
-
-
+        successAlert = new Dialog(getActivity());
+        successAlert.setContentView(R.layout.sell_success_alert);
         //start for add more product component declear
         productNameText = (TextView) addAmountAlert.findViewById(R.id.productNameID);
         productUnitText = (TextView) addAmountAlert.findViewById(R.id.productUnitID);
@@ -687,17 +656,6 @@ public class Shop_sell_selected_product_list_fragment extends Fragment implement
                     checkBox.setChecked(true);
                     sellButton.setEnabled(true);
                     sellButton.setBackgroundTintList(getActivity().getResources().getColorStateList(R.color.pink));
-
-
-                    Double less_price = 0.0;
-                    if (!priceLessText.getText().toString().trim().isEmpty()) {
-                        less_price = Double.parseDouble(priceLessText.getText().toString().trim());
-
-                    }
-                    /*Double paidAmount = Double.parseDouble(paidText.getText().toString().trim());
-                    Double finalAmount = Double.parseDouble(finalPrice.getText().toString().trim());
-                    dueText.setText(String.valueOf(new DecimalFormat("##.##").format(finalAmount - paidAmount - less_price)));
-               */
                 }
 
             }
@@ -1357,10 +1315,6 @@ public class Shop_sell_selected_product_list_fragment extends Fragment implement
             total_price = 0.0;
             if (!priceLessText.getText().toString().trim().isEmpty()) {
                 total_price = Double.parseDouble(finalPrice.getText().toString().trim()) - Double.parseDouble(priceLessText.getText().toString().trim());
-           /* for (int i = 0; i < productsList.size(); i++) {
-                total_buy_price += Double.parseDouble(productsList.get(i).getBuy_price());
-                total_price += Double.parseDouble(productsList.get(i).getPrice());
-            }*/
             } else {
                 total_price = Double.parseDouble(finalPrice.getText().toString().trim());
             }
@@ -1368,13 +1322,12 @@ public class Shop_sell_selected_product_list_fragment extends Fragment implement
                 total_buy_price += Double.parseDouble(productsList.get(i).getBuy_price());
 
             }
-            // total_price = Double.parseDouble(finalPrice.getText().toString().trim());
             loader.show();
             double price_less_rate = total_price / Double.parseDouble(finalPrice.getText().toString().trim());
 
             Double duePrice = total_price - total_buy_price;
 
-            product_sell.sell(shop_id, customer_id, customer_name, customer_phone, String.valueOf(total_price), String.valueOf(total_buy_price), String.valueOf(duePrice), "0","systemetic","", showDate.getText().toString().trim(), true).observe(getViewLifecycleOwner(), new Observer<add_product_sell_response>() {
+            product_sell.sell(shop_id, customer_id, customer_name, customer_phone, String.valueOf(total_price), String.valueOf(total_buy_price), String.valueOf(duePrice), "0", "systemetic", "", showDate.getText().toString().trim(), true).observe(getViewLifecycleOwner(), new Observer<add_product_sell_response>() {
                 @Override
                 public void onChanged(add_product_sell_response add_product_sell_response) {
 
@@ -1384,18 +1337,6 @@ public class Shop_sell_selected_product_list_fragment extends Fragment implement
                             Double priceSell = Double.parseDouble(productsList.get(i).getPrice()) * price_less_rate;
                             // send_sell_details(add_product_sell_response.getSell_id(), productsList.get(i).getProduct_id(),productsList.get(i).getProduct_name(),productsList.get(i).getProduct_image(), productsList.get(i).getTypeList(), productsList.get(i).getAmount(), productsList.get(i).getPrice(), productsList.get(i).getBuy_price(), i);
                             send_sell_details(add_product_sell_response.getSell_id(), productsList.get(i).getProduct_id(), productsList.get(i).getProduct_name(), productsList.get(i).getProduct_image(), productsList.get(i).getTypeList(), productsList.get(i).getAmount(), String.valueOf(priceSell), productsList.get(i).getBuy_price(), i);
-
-                          /*  if (customer_id.equals("0")) {
-                                sell_payment_due(add_product_sell_response.getSell_id(), shop_id, customer_id, "non_registered_pay", paidText.getText().toString().trim(), paymentSystem);
-                            } else {
-                                sell_payment_case(add_product_sell_response.getSell_id(), paymentSystem, paidText.getText().toString().trim());
-
-                                double due_price = total_price - Double.parseDouble(paidText.getText().toString().trim());
-                                if (due_price >= 1.0) {
-                                    sell_payment_due(add_product_sell_response.getSell_id(), shop_id, customer_id, "due", String.valueOf(due_price), "");
-                                }
-                            }*/
-
 
                         }
                         if (customer_id.equals("0")) {
@@ -1512,137 +1453,163 @@ public class Shop_sell_selected_product_list_fragment extends Fragment implement
     }
 
     private void success_alert_funtion() {
-        Dialog successAlert;
-        successAlert = new Dialog(getActivity());
-        successAlert.setContentView(R.layout.sell_success_alert);
-        successAlert.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        successAlert.show();
+        // Create and configure the dialog
+
         successAlert.setCancelable(false);
+
+        // Configure window attributes
         Window window = successAlert.getWindow();
-        WindowManager.LayoutParams wlp = window.getAttributes();
+        if (window != null) {
+            window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            WindowManager.LayoutParams wlp = window.getAttributes();
+            wlp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+            wlp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+            wlp.gravity = Gravity.CENTER;
+            wlp.dimAmount = 0.7f; // Dim background
+            window.setAttributes(wlp);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        }
 
-        wlp.gravity = Gravity.CENTER;
-        wlp.width = WindowManager.LayoutParams.MATCH_PARENT;
-        wlp.height = WindowManager.LayoutParams.MATCH_PARENT;
-        window.setAttributes(wlp);
-        TextView shopNameText = (TextView) successAlert.findViewById(R.id.shopNameText);
-        TextView customerName = (TextView) successAlert.findViewById(R.id.customerNameID);
-        TextView customerPhone = (TextView) successAlert.findViewById(R.id.customerPhoneID);
-        TextView subtotal = (TextView) successAlert.findViewById(R.id.subtotalPriceID);
-        TextView specialdiscount = (TextView) successAlert.findViewById(R.id.specialdiscountID);
-        TextView discount = (TextView) successAlert.findViewById(R.id.discountID);
-        TextView totalPrice = (TextView) successAlert.findViewById(R.id.totalPriceID);
-        TextView paidprice = (TextView) successAlert.findViewById(R.id.paidID);
-        TextView dueprice = (TextView) successAlert.findViewById(R.id.dueID);
-        TextView paymentMethodText = (TextView) successAlert.findViewById(R.id.paymentMethodID);
-        TextView dateText = (TextView) successAlert.findViewById(R.id.dateTextID);
+        // Initialize views
+        TextView shopNameText = successAlert.findViewById(R.id.shopNameText);
+        TextView customerName = successAlert.findViewById(R.id.customerNameID);
+        TextView customerPhone = successAlert.findViewById(R.id.customerPhoneID);
+        TextView subtotal = successAlert.findViewById(R.id.subtotalPriceID);
+        TextView specialdiscount = successAlert.findViewById(R.id.specialdiscountID);
+        TextView discount = successAlert.findViewById(R.id.discountID);
+        TextView totalPrice = successAlert.findViewById(R.id.totalPriceID);
+        TextView paidprice = successAlert.findViewById(R.id.paidID);
+        TextView dueprice = successAlert.findViewById(R.id.dueID);
+        TextView paymentMethodText = successAlert.findViewById(R.id.paymentMethodID);
+        TextView dateText = successAlert.findViewById(R.id.dateTextID);
+        AppCompatButton savePDFButton = successAlert.findViewById(R.id.savePDFButtonID);
+        AppCompatButton goToHomeButton = successAlert.findViewById(R.id.goToHomeButtonID);
+        RecyclerView productsView = successAlert.findViewById(R.id.productsViewID);
+
+        // Set current date
         String currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
-        LinearLayout savePDFButton = (LinearLayout) successAlert.findViewById(R.id.savePDFButtonID);
-        LinearLayout mainLayout = (LinearLayout) successAlert.findViewById(R.id.mainLayout);
-        shop_profile = new ViewModelProvider(getActivity()).get(ShopProfileViewModel.class);
-        shop_profile.getData(String.valueOf(shop_id)).observe(getViewLifecycleOwner(), new Observer<Shop_profile_response>() {
-            @Override
-            public void onChanged(Shop_profile_response shop_profile_response) {
-                shopNameText.setText(shop_profile_response.getStore01e_name());
-            }
-        });
-
         dateText.setText(currentDate);
+
+        // Set customer data
         customerName.setText(customer_name);
         customerPhone.setText(customer_phone);
+
+        // Set price information
         subtotal.setText(price.getText().toString().trim());
         discount.setText(offer_discount.getText().toString().trim());
         specialdiscount.setText(priceLessText.getText().toString().trim());
         paidprice.setText(paidText.getText().toString().trim());
-        double due_price = total_price - Double.parseDouble(paidText.getText().toString().trim());
-        dueprice.setText(String.valueOf(new DecimalFormat("##.##").format(due_price)));
-        paymentMethodText.setText(paymentSystem);
 
+        // Calculate and set due price
+        double due_price = total_price - Double.parseDouble(paidText.getText().toString().trim());
+        dueprice.setText(new DecimalFormat("##.##").format(due_price));
+
+        // Set payment method and total price
+        paymentMethodText.setText(paymentSystem);
         totalPrice.setText(String.valueOf(total_price));
 
-        RecyclerView productsView = (RecyclerView) successAlert.findViewById(R.id.productsViewID);
+        // Set up shop profile data
+        shop_profile = new ViewModelProvider(requireActivity()).get(ShopProfileViewModel.class);
+        shop_profile.getData(String.valueOf(shop_id)).observe(getViewLifecycleOwner(), shop_profile_response -> {
+            if (shop_profile_response != null) {
+                shopNameText.setText(shop_profile_response.getStore01e_name());
+            }
+        });
 
+        // Configure RecyclerView
         productsView.setHasFixedSize(true);
-        productsView.setLayoutManager(new LinearLayoutManager(getContext()));
-        success_Adapter = new Sell_success_adapter(productsList);
-        productsView.setAdapter(success_Adapter);
+        productsView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        productsView.setAdapter(new Sell_success_adapter(productsList));
 
-        savePDFButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                bitmapPDF = LoadBitmap(mainLayout, mainLayout.getWidth(), mainLayout.getHeight());
-
-                createPDF();
-            }
+        // Set up button click listeners
+        savePDFButton.setOnClickListener(v -> {
+            //bitmapPDF = LoadBitmap(mainLayout, mainLayout.getWidth(), mainLayout.getHeight());
+            createPDF();
         });
-        AppCompatButton goToHomeButton = (AppCompatButton) successAlert.findViewById(R.id.goToHomeButtonID);
-        goToHomeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                successAlert.dismiss();
-                List<ProductSell> productSellList = new ArrayList<>();
-                fragmentManager.beginTransaction().replace(R.id.frame_container, new Shop_sellcategoriesORproducts_fragment(shop_id, productSellList)).commit();
 
-
-            }
+        goToHomeButton.setOnClickListener(v -> {
+            successAlert.dismiss();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.frame_container,
+                            new Shop_sellcategoriesORproducts_fragment(shop_id, new ArrayList<>()))
+                    .commit();
         });
+
+        // Show the dialog
+        successAlert.show();
     }
 
+
     private void createPDF() {
-        WindowManager windowManager = (WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE);
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        float width = displayMetrics.widthPixels;
-        float height = displayMetrics.heightPixels;
+        float widthInInches = 8.27f;  // A4 width in inches
+        float heightInInches = 11.69f; // A4 height in inches
 
-        int convertWidth = (int) width, convertHeight = (int) height;
+// Get screen density (default is 160dpi for mdpi)
+        DisplayMetrics displayMetrics = requireActivity().getResources().getDisplayMetrics();
+        int densityDpi = displayMetrics.densityDpi;
 
+// Calculate pixel dimensions
+        int a4WidthPx = (int) (widthInInches * densityDpi);
+        int a4HeightPx = (int) (heightInInches * densityDpi);
+        // Create a new PDF document
         PdfDocument pdfDocument = new PdfDocument();
-        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(convertWidth, convertHeight, 1).create();
-        PdfDocument.Page page = pdfDocument.startPage(pageInfo);
 
+        // Get the view dimensions
+        LinearLayout mainLayout = successAlert.findViewById(R.id.mainLayout);
+        int viewWidth = mainLayout.getWidth();
+        int viewHeight = mainLayout.getHeight();
+
+        // Create a page with the same dimensions as the view
+        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(viewWidth, viewHeight+100, 1).create();
+        PdfDocument.Page page = pdfDocument.startPage(pageInfo);
         Canvas canvas = page.getCanvas();
 
-        Paint paint = new Paint();
-        canvas.drawPaint(paint);
-
-        bitmapPDF = Bitmap.createScaledBitmap(bitmapPDF, convertWidth, convertHeight, true);
-        canvas.drawBitmap(bitmapPDF, 0, 0, null);
+        // Draw the view hierarchy directly to the PDF canvas
+        mainLayout.draw(canvas);
         pdfDocument.finishPage(page);
 
-        //targetPDF
+        // Generate output file path
+        String currentDate = new SimpleDateFormat("ddMMyy", Locale.getDefault()).format(new Date());
+        String currentTime = new SimpleDateFormat("HHmmss", Locale.getDefault()).format(new Date());
+        String fileName = "Alife_Invoice_" + currentDate + "_" + currentTime + ".pdf";
 
-        String currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
-        String currentTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
-
-        String targetPDF = "/sdcard/Download/" + "Alife" + currentDate + currentTime + ".pdf";
-        File file;
-        file = new File(targetPDF);
-
+        // Save the PDF document
         try {
+            File downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+            File file = new File(downloadsDir, fileName);
+
             pdfDocument.writeTo(new FileOutputStream(file));
-            Toast.makeText(getActivity(), "Successfully saved at Download", Toast.LENGTH_SHORT).show();
-            //openPDF();
+            Toast.makeText(getActivity(), "PDF saved to Downloads", Toast.LENGTH_SHORT).show();
+
+            // Optionally open the PDF
+            openPDF(file);
         } catch (Exception e) {
-            e.printStackTrace();
-            Log.d("errorxx", e.getMessage());
-
+            Toast.makeText(getActivity(), "Error saving PDF: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Log.e("PDF_CREATION", "Error saving PDF", e);
+        } finally {
             pdfDocument.close();
-
-            Toast.makeText(getActivity(), "Successfully saved at Download", Toast.LENGTH_SHORT).show();
-
-            // openPDF();
         }
     }
 
-    private Bitmap LoadBitmap(View v, int width, int height) {
-        Bitmap bitmapPDF = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
 
-        Canvas canvas = new Canvas(bitmapPDF);
-        v.draw(canvas);
+    private void openPDF(File pdfFile) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        Uri uri = FileProvider.getUriForFile(requireContext(),
+                requireContext().getPackageName() + ".provider",
+                pdfFile);
 
-        return bitmapPDF;
+        intent.setDataAndType(uri, "application/pdf");
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+        try {
+            startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(getActivity(),
+                    "No PDF viewer installed",
+                    Toast.LENGTH_SHORT).show();
+        }
     }
+
 
     public void sell_payment_case(String sell_id, String payment_method, String payment_amount) {
         product_sell_payment.get_cash(sell_id, payment_method, payment_amount, showDate.getText().toString().trim()).observe(getViewLifecycleOwner(), new Observer<add_sell_payment_cash_response>() {

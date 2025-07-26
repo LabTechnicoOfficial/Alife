@@ -92,7 +92,7 @@ public class CustomerAdapter extends ArrayAdapter<Customer> {
         @Override
         public CharSequence convertResultToString(Object resultValue) {
             Customer user = (Customer) resultValue;
-            fragment.nameText.setText(user.getCustomerName());
+            //fragment.nameText.setText(user.getCustomerName());
             return user.getPhone();
         }
     };

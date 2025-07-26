@@ -144,7 +144,7 @@ public class Shop_sell_product_selected_fragment extends Fragment implements Sho
             public void onClick(View v) {
                 int check = 0, break_check = 0;
                 //  if (!TextUtils.isEmpty(price.getText().toString().trim())) {
-                if (productSellList.size() > 0) {
+                if (!productSellList.isEmpty()) {
                     double amount = 0.0;
                     double total_price = 0.0;
                     for (int i = 0; i < productSellList.size(); i++) {
@@ -153,7 +153,7 @@ public class Shop_sell_product_selected_fragment extends Fragment implements Sho
 
                     }
                     if (amount >= Double.parseDouble(minimum_offer_amount) && total_price >= Double.parseDouble(minimum_offer_pricee)) {
-                        if ((offer_check == 1 && offerType.size() > 0) || offerType.size() == 0) {
+                        if (offer_check == 1 || offerType.isEmpty()) {
                             next();
                         } else {
                             Toast.makeText(getActivity(), "Select Offer", Toast.LENGTH_SHORT).show();
@@ -756,105 +756,6 @@ public class Shop_sell_product_selected_fragment extends Fragment implements Sho
         addMoreAlert.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         addMoreAlert.setCancelable(false);
 
-        /*decButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Double amount = Double.parseDouble(product_amount.getText().toString().trim());
-                if (amount > 0.0) {
-                    amount -= 1.0;
-                    product_amount.setText(String.valueOf(amount));
-                    Double price_value = amount * Double.parseDouble(product_unit_price);
-                    price.setText(String.valueOf(new DecimalFormat("##.##").format(price_value)));
-                }
-            }
-        });*/
-
-        /*incButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Double amount = Double.parseDouble(product_amount.getText().toString().trim());
-                amount += 1.0;
-                if (amount <= Double.parseDouble(stock.getText().toString().trim())) {
-                    product_amount.setText(String.valueOf(amount));
-                    Double price_value = amount * Double.parseDouble(product_unit_price);
-                    price.setText(String.valueOf(new DecimalFormat("##.##").format(price_value)));
-                }
-            }
-        });*/
-
-        /* get_all_product_discount();
-        offers = new ArrayList<>();
-        offer_all = new ArrayList<>();
-        offerType = new ArrayList<>();
-        get_product_offer = new ViewModelProvider(getActivity()).get(Get_product_offer.class);
-        get_product_offer.getdata(productID).observe(getViewLifecycleOwner(), new Observer<List<get_product_offer_response>>() {
-            @Override
-            public void onChanged(List<get_product_offer_response> get_product_offer_responses) {
-                offers = get_product_offer_responses;
-                if (offers.size() > 0) {
-                    offerType.add("Offer on  selected product");
-
-                }
-                get_product_offer.get_all_data(shop_id).observe(getViewLifecycleOwner(), new Observer<List<get_all_product_offer_response>>() {
-                    @Override
-                    public void onChanged(List<get_all_product_offer_response> get_all_product_offer_responses) {
-                        offer_all = get_all_product_offer_responses;
-                        if (offer_all.size() > 0) {
-
-                            offerType.add("Offer on whole product");
-
-                        }
-                        if (offerType.size() > 0) {
-                            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, offerType);
-                            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                            offerTypeSpinner.setAdapter(adapter);
-                            show_offer_type_spinner();
-                        } else {
-                            offerTypeSpinner.setVisibility(View.GONE);
-                        }
-                    }
-                });
-            }
-        });
-
-
-        fragmentManager = getFragmentManager();
-        get_product();
-
-        getOfferLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if (getOfferState == 0) {
-                    if (offerType.size() > 0) {
-
-                        offerMainLayout.setVisibility(View.VISIBLE);
-                        noOffersText.setVisibility(View.GONE);
-
-                    } else {
-                        offerMainLayout.setVisibility(View.GONE);
-                        noOffersText.setVisibility(View.VISIBLE);
-                    }
-                    arrowDown.setVisibility(View.GONE);
-                    arrowUp.setVisibility(View.VISIBLE);
-                    getOfferState = 1;
-                } else if (getOfferState == 1) {
-                    if (offerType.size() > 0) {
-                        offerMainLayout.setVisibility(View.GONE);
-
-
-                    } else {
-                        noOffersText.setVisibility(View.GONE);
-                    }
-                    arrowUp.setVisibility(View.GONE);
-                    arrowDown.setVisibility(View.VISIBLE);
-
-                    getOfferState = 0;
-                }
-            }
-
-        });*/
-
         addMoreButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -946,7 +847,6 @@ public class Shop_sell_product_selected_fragment extends Fragment implements Sho
         ImageView closeButton = (ImageView) addMoreAlert.findViewById(R.id.crossID);
         all_productView = (RecyclerView) addMoreAlert.findViewById(R.id.productsViewID);
         searchBar = (EditText) addMoreAlert.findViewById(R.id.searchEditText);
-        // allDiscountText = (TextView) addMoreAlert.findViewById(R.id.allDiscountID);
 
         all_productView.setHasFixedSize(true);
         all_productView.setLayoutManager(new LinearLayoutManager(getContext()));

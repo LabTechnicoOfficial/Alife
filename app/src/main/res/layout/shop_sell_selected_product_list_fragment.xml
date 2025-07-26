@@ -190,42 +190,6 @@
                     android:background="@color/black"
                     android:layout_marginVertical="5dp"/>
 
-                <LinearLayout
-                    android:id="@+id/layout2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:paddingHorizontal="5dp"
-                    android:background="@color/white"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/price"
-                        android:textColor="@color/black"
-                        android:textSize="16sp" />
-
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="end|center_vertical">
-
-                        <TextView
-                            android:id="@+id/priceID"
-                            android:layout_width="80dp"
-                            android:layout_height="wrap_content"
-                            android:gravity="end"
-                            android:text="120"
-                            android:textColor="@color/black"
-                            android:textSize="16sp" />
-
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -240,21 +204,21 @@
                         android:layout_height="wrap_content"
                         android:text="@string/offer"
                         android:textColor="@color/black"
-                        android:textSize="16sp" />
+                        android:textSize="18sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="/"
                         android:textColor="@color/black"
-                        android:textSize="16sp" />
+                        android:textSize="18sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/discount"
                         android:textColor="@color/black"
-                        android:textSize="16sp" />
+                        android:textSize="18sp" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -268,7 +232,7 @@
                             android:gravity="end"
                             android:text="15"
                             android:textColor="@color/black"
-                            android:textSize="16sp" />
+                            android:textSize="18sp" />
 
                     </LinearLayout>
 
@@ -287,7 +251,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/final_price"
                         android:textColor="@color/black"
-                        android:textSize="16sp" />
+                        android:textSize="18sp" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -301,7 +265,7 @@
                             android:gravity="end"
                             android:text="250"
                             android:textColor="@color/black"
-                            android:textSize="16sp" />
+                            android:textSize="18sp" />
 
                     </LinearLayout>
 
@@ -319,7 +283,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/profit"
                         android:textColor="@color/black"
-                        android:textSize="16sp" />
+                        android:textSize="18sp" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -332,7 +296,43 @@
                             android:layout_height="wrap_content"
                             android:gravity="end"
                             android:textColor="@color/black"
-                            android:textSize="16sp" />
+                            android:textSize="18sp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layout2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="5dp"
+                    android:background="@color/white"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/price"
+                        android:textColor="@color/black"
+                        android:textSize="18sp" />
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="end|center_vertical">
+
+                        <TextView
+                            android:id="@+id/priceID"
+                            android:layout_width="80dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="end"
+                            android:text="120"
+                            android:textColor="@color/black"
+                            android:textSize="18sp" />
+
 
                     </LinearLayout>
 

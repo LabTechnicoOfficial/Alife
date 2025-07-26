@@ -3,20 +3,19 @@ package com.alifew.alifeworld.Custom_Type;
 import java.util.List;
 
 public class ProductSell {
-   // private String offer_type;
+    // private String offer_type;
     private String product_id;
     private String product_name;
     private String product_image;
     private String type_id;
     private String type_name;
-  private String discount;
+    private String discount;
     private String amount;
     private String price;
     private String buy_price;
     private String unit_price;
     private String unit_price_with_discount;
     private List<ProductSel_type> typeList;
-   // private Product_sell_offer sell_offer;
 
     public String getDiscount() {
         return discount;
@@ -33,14 +32,6 @@ public class ProductSell {
     public void setUnit_price_with_discount(String unit_price_with_discount) {
         this.unit_price_with_discount = unit_price_with_discount;
     }
-
-   /* public String getOffer_type() {
-        return offer_type;
-    }
-
-    public void setOffer_type(String offer_type) {
-        this.offer_type = offer_type;
-    }*/
 
     public String getProduct_id() {
         return product_id;

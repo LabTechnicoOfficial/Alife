@@ -6,6 +6,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -19,6 +20,7 @@ import android.graphics.pdf.PdfDocument;
 import android.net.Uri;
 import android.os.Bundle;
 
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -44,6 +46,7 @@ import android.widget.Toast;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
@@ -100,6 +103,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 public class Shop_local_sell_fragment extends Fragment implements Shop_local_sell_select_product_adapter.OnItemClickListener {
 
@@ -168,8 +172,10 @@ public class Shop_local_sell_fragment extends Fragment implements Shop_local_sel
     LocalSellProductsDao localSellProductsDao;
     AppCompatButton calculateButton;
     CheckBox dueCheckBox;
+    Dialog memoAlert;
 
     List<Shop_local_sell_point_response> shopReferPointRulesList = new ArrayList<>();
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -487,6 +493,7 @@ public class Shop_local_sell_fragment extends Fragment implements Shop_local_sel
 
     @SuppressLint("SetTextI18n")
     private void initView(View view) {
+
         calculateButton = view.findViewById(R.id.calculateButton);
         AppDatabase db = AppDatabase.getDatabase(getActivity());
         customerDao = db.customerDao();
@@ -546,6 +553,11 @@ public class Shop_local_sell_fragment extends Fragment implements Shop_local_sel
 
         contactDialog = new Dialog(getActivity());
         contactDialog.setContentView(R.layout.local_sell_phone_alert);
+        contactDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        contactDialog.setCancelable(false);
+
+        memoAlert = new Dialog(getActivity());
+        memoAlert.setContentView(R.layout.sell_success_pdf_alert);
         contactDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         contactDialog.setCancelable(false);
 
@@ -763,21 +775,20 @@ public class Shop_local_sell_fragment extends Fragment implements Shop_local_sel
             @Override
             public void afterTextChanged(Editable editable) {
                 if (!editable.toString().isEmpty()) {
-                    //Toast.makeText(getActivity(), editable.toString(), Toast.LENGTH_SHORT).show();
                     customerList = customerDao.getAllCustomer(editable.toString().trim());
-                    CustomerAdapter customerAdapter = new CustomerAdapter(getActivity(), customerList, Shop_local_sell_fragment.this);
+                    CustomerAdapter customerAdapter = new CustomerAdapter(requireActivity(), customerList, Shop_local_sell_fragment.this);
                     customerSearchEditText.setAdapter(customerAdapter);
                 }
             }
         });
 
-        customerSearchEditText.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                Helpers.hideSoftKeyboard(getActivity());
+        customerSearchEditText.setOnItemClickListener((adapterView, view, position, l) -> {
+            Helpers.hideSoftKeyboard(requireActivity());
 
-               // Log.d("dataxx", "onItemClick: "+customerList.get(position).getCustomerName().toString());
-            }
+            //Customer selectedCustomer = (Customer) adapterView.getItemAtPosition(position);
+
+
+            //Log.d("dataxx", "onItemClick: "+selectedCustomer.getPhone());
         });
 
 
@@ -864,10 +875,6 @@ public class Shop_local_sell_fragment extends Fragment implements Shop_local_sel
     }
 
     private void convert_pdf() {
-        Dialog memoAlert = new Dialog(getActivity());
-        memoAlert.setContentView(R.layout.sell_success_pdf_alert);
-        memoAlert.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        memoAlert.setCancelable(false);
         memoAlert.show();
 
         Window window = memoAlert.getWindow();
@@ -902,7 +909,7 @@ public class Shop_local_sell_fragment extends Fragment implements Shop_local_sel
         productDetailsTextPDF.setText(productDetailsText.getText().toString().trim());
         totalPriceTextPDF.setText(productPriceText.getText().toString().trim());
         paidPriceTextPDF.setText(paidPriceText.getText().toString().trim());
-        phoneTextPDF.setText(phoneText.getText().toString().trim());
+        phoneTextPDF.setText(customerSearchEditText.getText().toString().trim());
 
         savePDFButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -922,49 +929,72 @@ public class Shop_local_sell_fragment extends Fragment implements Shop_local_sel
     }
 
     private void createPDF() {
-        WindowManager windowManager = (WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE);
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        float width = displayMetrics.widthPixels;
-        float height = displayMetrics.heightPixels;
+        float widthInInches = 8.27f;  // A4 width in inches
+        float heightInInches = 11.69f; // A4 height in inches
 
-        int convertWidth = (int) width, convertHeight = (int) height;
+// Get screen density (default is 160dpi for mdpi)
+        DisplayMetrics displayMetrics = requireActivity().getResources().getDisplayMetrics();
+        int densityDpi = displayMetrics.densityDpi;
 
+// Calculate pixel dimensions
+        int a4WidthPx = (int) (widthInInches * densityDpi);
+        int a4HeightPx = (int) (heightInInches * densityDpi);
+        // Create a new PDF document
         PdfDocument pdfDocument = new PdfDocument();
-        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(convertWidth, convertHeight, 1).create();
-        PdfDocument.Page page = pdfDocument.startPage(pageInfo);
 
+        // Get the view dimensions
+        LinearLayout mainLayout = memoAlert.findViewById(R.id.mainLayout);
+        int viewWidth = mainLayout.getWidth();
+        int viewHeight = mainLayout.getHeight();
+
+        // Create a page with the same dimensions as the view
+        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(viewWidth, viewHeight + 100, 1).create();
+        PdfDocument.Page page = pdfDocument.startPage(pageInfo);
         Canvas canvas = page.getCanvas();
 
-        Paint paint = new Paint();
-        canvas.drawPaint(paint);
-
-        bitmapPDF = Bitmap.createScaledBitmap(bitmapPDF, convertWidth, convertHeight, true);
-        canvas.drawBitmap(bitmapPDF, 0, 0, null);
+        // Draw the view hierarchy directly to the PDF canvas
+        mainLayout.draw(canvas);
         pdfDocument.finishPage(page);
 
-        //targetPDF
+        // Generate output file path
+        String currentDate = new SimpleDateFormat("ddMMyy", Locale.getDefault()).format(new Date());
+        String currentTime = new SimpleDateFormat("HHmmss", Locale.getDefault()).format(new Date());
+        String fileName = "Alife_Invoice_" + currentDate + "_" + currentTime + ".pdf";
 
-        String currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
-        String currentTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
+        // Save the PDF document
+        try {
+            File downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+            File file = new File(downloadsDir, fileName);
 
-        String targetPDF = "/sdcard/Download/" + "Alife" + currentDate + currentTime + ".pdf";
-        File file;
-        file = new File(targetPDF);
+            pdfDocument.writeTo(new FileOutputStream(file));
+            Toast.makeText(getActivity(), "PDF saved to Downloads", Toast.LENGTH_SHORT).show();
+
+            // Optionally open the PDF
+            openPDF(file);
+        } catch (Exception e) {
+            Toast.makeText(getActivity(), "Error saving PDF: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Log.e("PDF_CREATION", "Error saving PDF", e);
+        } finally {
+            pdfDocument.close();
+        }
+    }
+
+
+    private void openPDF(File pdfFile) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        Uri uri = FileProvider.getUriForFile(requireContext(),
+                requireContext().getPackageName() + ".provider",
+                pdfFile);
+
+        intent.setDataAndType(uri, "application/pdf");
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
         try {
-            pdfDocument.writeTo(new FileOutputStream(file));
-            Toast.makeText(getActivity(), "Successfully saved at Documents", Toast.LENGTH_SHORT).show();
-            //openPDF();
-        } catch (Exception e) {
-            e.printStackTrace();
-            Log.d("errorxx", e.getMessage());
-
-            pdfDocument.close();
-
-            Toast.makeText(getActivity(), "Successfully saved at Documents", Toast.LENGTH_SHORT).show();
-
-            // openPDF();
+            startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(getActivity(),
+                    "No PDF viewer installed",
+                    Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -979,7 +1009,7 @@ public class Shop_local_sell_fragment extends Fragment implements Shop_local_sel
 
     private void sell(String productDetails, String productPrice, String paidPrice, String phone) {
 
-      //  Toast.makeText(getActivity(), String.valueOf(dueCheckBox.isChecked()), Toast.LENGTH_SHORT).show();
+        //  Toast.makeText(getActivity(), String.valueOf(dueCheckBox.isChecked()), Toast.LENGTH_SHORT).show();
 
         product_sell = new ViewModelProvider(getActivity()).get(Product_sell.class);
         product_sell_payment = new ViewModelProvider(getActivity()).get(Product_sell_payment.class);
@@ -1091,7 +1121,7 @@ public class Shop_local_sell_fragment extends Fragment implements Shop_local_sel
         duePrice = 0.0;
         productPrice = 0.0;
         buyPrice = 0.0;
-        setPointText(sellPoint,referPoint, productPriceText.getText().toString().trim());
+        setPointText(sellPoint, referPoint, productPriceText.getText().toString().trim());
         customerSearchEditText.setText("");
         productsAutoCompleteText.setText("");
 
@@ -1164,37 +1194,37 @@ public class Shop_local_sell_fragment extends Fragment implements Shop_local_sel
     private void pointsCalculation(Double productPrice) {
 
 
-       getActivity().runOnUiThread(new Runnable() {
-           @Override
-           public void run() {
-               if (productPrice >= Double.parseDouble(shopSellPointRulesList.get(shopSellPointRulesList.size() - 1).amount)) {
-                   sellPoint = Double.parseDouble(shopSellPointRulesList.get(shopSellPointRulesList.size() - 1).points);
-               } else {
-                   for (int i = 0; i < shopSellPointRulesList.size() - 1; i++) {
-                       if (productPrice >= Double.parseDouble(shopSellPointRulesList.get(i).amount)
-                               && productPrice < Double.parseDouble(shopSellPointRulesList.get(i + 1).amount)) {
-                           sellPoint = Double.parseDouble(shopSellPointRulesList.get(i).points);
-                       }
-                   }
-               }
-           }
-       });
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (productPrice >= Double.parseDouble(shopSellPointRulesList.get(shopSellPointRulesList.size() - 1).amount)) {
+                    sellPoint = Double.parseDouble(shopSellPointRulesList.get(shopSellPointRulesList.size() - 1).points);
+                } else {
+                    for (int i = 0; i < shopSellPointRulesList.size() - 1; i++) {
+                        if (productPrice >= Double.parseDouble(shopSellPointRulesList.get(i).amount)
+                                && productPrice < Double.parseDouble(shopSellPointRulesList.get(i + 1).amount)) {
+                            sellPoint = Double.parseDouble(shopSellPointRulesList.get(i).points);
+                        }
+                    }
+                }
+            }
+        });
 
-       getActivity().runOnUiThread(new Runnable() {
-           @Override
-           public void run() {
-               if (productPrice >= Double.parseDouble(shopReferPointRulesList.get(shopReferPointRulesList.size() - 1).amount)) {
-                   referPoint = Double.parseDouble(shopReferPointRulesList.get(shopReferPointRulesList.size() - 1).points);
-               } else {
-                   for (int i = 0; i < shopReferPointRulesList.size() - 1; i++) {
-                       if (productPrice >= Double.parseDouble(shopReferPointRulesList.get(i).amount)
-                               && productPrice < Double.parseDouble(shopReferPointRulesList.get(i + 1).amount)) {
-                           referPoint = Double.parseDouble(shopReferPointRulesList.get(i).points);
-                       }
-                   }
-               }
-           }
-       });
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (productPrice >= Double.parseDouble(shopReferPointRulesList.get(shopReferPointRulesList.size() - 1).amount)) {
+                    referPoint = Double.parseDouble(shopReferPointRulesList.get(shopReferPointRulesList.size() - 1).points);
+                } else {
+                    for (int i = 0; i < shopReferPointRulesList.size() - 1; i++) {
+                        if (productPrice >= Double.parseDouble(shopReferPointRulesList.get(i).amount)
+                                && productPrice < Double.parseDouble(shopReferPointRulesList.get(i + 1).amount)) {
+                            referPoint = Double.parseDouble(shopReferPointRulesList.get(i).points);
+                        }
+                    }
+                }
+            }
+        });
 
         //shopReferPointRulesList
 
@@ -1206,8 +1236,8 @@ public class Shop_local_sell_fragment extends Fragment implements Shop_local_sel
     private void setPointText(Double sellPoint, Double referPoint, String productPrice) {
         if (!productPrice.isEmpty()) {
             pointsText.setVisibility(View.VISIBLE);
-            pointsText.setText("** " + productPrice + " " + getActivity().getResources().getString(R.string.point_text1) + " " + String.valueOf(sellPoint) + " " + getActivity().getResources().getString(R.string.point_text2)+ " "+
-                    getActivity().getResources().getString(R.string.and)+" "+getActivity().getResources().getString(R.string.refer_user)+" "+String.valueOf(referPoint)+" " + getActivity().getResources().getString(R.string.point_text2));
+            pointsText.setText("** " + productPrice + " " + getActivity().getResources().getString(R.string.point_text1) + " " + String.valueOf(sellPoint) + " " + getActivity().getResources().getString(R.string.point_text2) + " " +
+                    getActivity().getResources().getString(R.string.and) + " " + getActivity().getResources().getString(R.string.refer_user) + " " + String.valueOf(referPoint) + " " + getActivity().getResources().getString(R.string.point_text2));
 
         } else {
             pointsText.setVisibility(View.GONE);

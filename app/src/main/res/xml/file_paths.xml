@@ -1,10 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--<paths xmlns:android="http://schemas.android.com/apk/res/android">-->
+<!--    <files-path name="files" path="." />-->
+<!--    <external-files-path name="external_files" path="." />-->
+<!--    <external-path name="external_files" path="." />-->
+<!--    <cache-path name="cached_files" path="." />-->
+<!--    <external-cache-path name="cached_files" path="." />-->
+<!--    <root-path name="root" path="." />-->
+<!--    <files-path name="name" path="files/" />-->
+<!--    <external-path name="external_files" path="." />-->
+<!--    <external-files-path name="downloads" path="Download" />-->
+<!--</paths>-->
+
 <paths xmlns:android="http://schemas.android.com/apk/res/android">
-    <files-path name="files" path="." />
-    <external-files-path name="external_files" path="." />
-    <external-path name="external_files" path="." />
-    <cache-path name="cached_files" path="." />
-    <external-cache-path name="cached_files" path="." />
-    <root-path name="root" path="." />
-    <files-path name="name" path="files/" />
+    <!-- For files in internal storage -->
+    <files-path name="internal_files" path="." />
+
+    <!-- For files in external storage (app-specific) -->
+    <external-files-path name="external_app_files" path="." />
+
+    <!-- For files in public Downloads directory -->
+    <external-path name="downloads" path="Download" />
+
+    <!-- For cache files -->
+    <cache-path name="internal_cache" path="." />
+    <external-cache-path name="external_cache" path="." />
 </paths>

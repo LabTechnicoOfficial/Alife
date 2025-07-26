@@ -28,30 +28,32 @@ public class Sell_success_adapter extends RecyclerView.Adapter<Sell_success_adap
         View view = layoutInflater.inflate(R.layout.success_product_list_card, parent, false);
         return new Sell_success_adapter.AppViewholder(view);
     }
+
     @Override
     public void onBindViewHolder(@NonNull Sell_success_adapter.AppViewholder holder, int position) {
-        ProductSell product=productList.get(position);
+        ProductSell product = productList.get(position);
         holder.product_name.setText(product.getProduct_name());
         holder.product_amount.setText(product.getAmount());
         holder.product_price.setText(product.getPrice());
 
 
     }
+
     @Override
     public int getItemCount() {
         return productList.size();
     }
+
     public class AppViewholder extends RecyclerView.ViewHolder {
 
-        TextView product_name,product_amount,product_price;
+        TextView product_name, product_amount, product_price;
 
         public AppViewholder(@NonNull View itemView) {
             super(itemView);
 
-          product_name= (TextView) itemView.findViewById(R.id.productNameID);
-          product_amount=(TextView)itemView.findViewById(R.id.productAmountID);
-          product_price=(TextView)itemView.findViewById(R.id.productPriceID);
-
+            product_name = (TextView) itemView.findViewById(R.id.productNameID);
+            product_amount = (TextView) itemView.findViewById(R.id.productAmountID);
+            product_price = (TextView) itemView.findViewById(R.id.productPriceID);
 
 
         }

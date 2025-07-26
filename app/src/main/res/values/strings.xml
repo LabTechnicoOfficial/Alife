@@ -33,6 +33,11 @@
     <string name="warning">WARNING!!</string>
     <string name="your_session_has_been_out_please_login_again">Your session has been out, please login again.</string>
     <string name="powered_by_text"><![CDATA[Powered By <b>ALife World</b>]]></string>
+    <string name="go_to_home">Go To Home</string>
+    <string name="close">Close</string>
+    <string name="save">Save</string>
+    <string name="download">Download</string>
+    <string name="items">Items</string>
 
 
 </resources>
