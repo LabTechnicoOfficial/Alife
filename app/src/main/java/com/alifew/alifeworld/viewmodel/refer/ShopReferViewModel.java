@@ -26,8 +26,8 @@ public class ShopReferViewModel extends ViewModel {
     }
 
 
-    public LiveData<CommonResponse> addReferPackage(int shopID, String referID, String name, String packageAmount, String winnerAmount, String giftName) {
-        return ShopReferRepositories.getInstance().addReferPackage(shopID, referID, name, packageAmount, winnerAmount, giftName);
+    public LiveData<CommonResponse> addReferPackage(int shopID, String referID, String name, String minReferPackagePoint, String winnerAmount, String giftName) {
+        return ShopReferRepositories.getInstance().addReferPackage(shopID, referID, name, minReferPackagePoint, winnerAmount, giftName);
     }
 
     public LiveData<List<ReferPackageResponse>> getReferPackageList(String referID) {

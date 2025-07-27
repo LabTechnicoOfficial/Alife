@@ -33,6 +33,7 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 public class ShopReferPackageFragment extends Fragment implements ShopReferPackageAdapter.OnItemClickListener, ShopReferPackageAdapter.OnItemDeleteClickListener {
@@ -101,48 +102,45 @@ public class ShopReferPackageFragment extends Fragment implements ShopReferPacka
 
         packageAmountError.setHint(getString(R.string.min_point));
 
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String packageName = packageNameText.getText().toString().trim();
-                String packageAmount = packageAmountText.getText().toString().trim();
-                String winnerAmount = winnerAmountText.getText().toString().trim();
-                String giftName = giftNameText.getText().toString().trim();
+        addButton.setOnClickListener(v -> {
+            String packageName = packageNameText.getText().toString().trim();
+            String minReferPackagePoint = packageAmountText.getText().toString().trim();
+            String winnerAmount = winnerAmountText.getText().toString().trim();
+            String giftName = giftNameText.getText().toString().trim();
 
 
-                packageAmountError.setErrorEnabled(false);
-                packageNameError.setErrorEnabled(false);
-                if (TextUtils.isEmpty(packageName) || TextUtils.isEmpty(packageAmount) || TextUtils.isEmpty(winnerAmount) || TextUtils.isEmpty(giftName)) {
-                    if (TextUtils.isEmpty(packageName)) {
-                        packageNameError.setError(" ");
-                    }
-                    if (TextUtils.isEmpty(packageAmount)) {
-                        packageAmountError.setError(" ");
-                    }
-                    if (TextUtils.isEmpty(winnerAmount)) {
-                        winnerAmountError.setError(" ");
-                    }
-                    if (TextUtils.isEmpty(giftName)) {
-                        giftNameError.setError(" ");
-                    }
-                } else {
-                    loader.show();
-                    shopReferViewModel.addReferPackage(shopID, referID, packageName, packageAmount, winnerAmount, giftName).observe(getViewLifecycleOwner(), new Observer<CommonResponse>() {
-                        @Override
-                        public void onChanged(CommonResponse commonResponse) {
-                            loader.dismiss();
-                            String message = commonResponse.message;
-
-                            if (message.equals("success")) {
-                                addPackageAlert.dismiss();
-                                Toast.makeText(getActivity(), "package added", Toast.LENGTH_SHORT).show();
-                                load_data();
-                            } else {
-                                Toast.makeText(getActivity(), "Something went wrong", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
+            packageAmountError.setErrorEnabled(false);
+            packageNameError.setErrorEnabled(false);
+            if (TextUtils.isEmpty(packageName) || TextUtils.isEmpty(minReferPackagePoint) || TextUtils.isEmpty(winnerAmount) || TextUtils.isEmpty(giftName)) {
+                if (TextUtils.isEmpty(packageName)) {
+                    packageNameError.setError(" ");
                 }
+                if (TextUtils.isEmpty(minReferPackagePoint)) {
+                    packageAmountError.setError(" ");
+                }
+                if (TextUtils.isEmpty(winnerAmount)) {
+                    winnerAmountError.setError(" ");
+                }
+                if (TextUtils.isEmpty(giftName)) {
+                    giftNameError.setError(" ");
+                }
+            } else {
+                loader.show();
+                shopReferViewModel.addReferPackage(shopID, referID, packageName, minReferPackagePoint, winnerAmount, giftName).observe(getViewLifecycleOwner(), new Observer<CommonResponse>() {
+                    @Override
+                    public void onChanged(CommonResponse commonResponse) {
+                        loader.dismiss();
+                        String message = commonResponse.message;
+
+                        if (message.equals("success")) {
+                            addPackageAlert.dismiss();
+                            Toast.makeText(getActivity(), "package added", Toast.LENGTH_SHORT).show();
+                            load_data();
+                        } else {
+                            Toast.makeText(getActivity(), "Something went wrong", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
             }
         });
 
@@ -162,7 +160,7 @@ public class ShopReferPackageFragment extends Fragment implements ShopReferPacka
             binding.progressBar.setVisibility(View.GONE);
             referPackageList = referPackageResponses;
             ShopReferPackageAdapter adapter = new ShopReferPackageAdapter(referPackageList);
-            adapter.setOnItemClickListener(ShopReferPackageFragment.this::onItemClick, ShopReferPackageFragment.this::onItemDeleteClick);
+            adapter.setOnItemClickListener(ShopReferPackageFragment.this, ShopReferPackageFragment.this);
             binding.itemView.setAdapter(adapter);
         });
     }
@@ -186,11 +184,16 @@ public class ShopReferPackageFragment extends Fragment implements ShopReferPacka
     public void onItemClick(int position) {
         ReferPackageResponse response = referPackageList.get(position);
 
-        getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in,  // enter
-                R.anim.fade_out,  // exit
-                R.anim.fade_in,   // popEnter
-                R.anim.slide_out  // popExit
-        ).replace(R.id.frame_container, new ShopReferPackageCustomerListFragment(response.id)).addToBackStack(null).commit();
+        if (response.userCount > 0) {
+            requireActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in,  // enter
+                    R.anim.fade_out,  // exit
+                    R.anim.fade_in,   // popEnter
+                    R.anim.slide_out  // popExit
+            ).replace(R.id.frame_container, new ShopReferPackageCustomerListFragment(response.id)).addToBackStack(null).commit();
+        } else {
+            Toast.makeText(requireActivity(), "No customer available", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     @Override
@@ -206,7 +209,7 @@ public class ShopReferPackageFragment extends Fragment implements ShopReferPacka
                     load_data();
                 }
 
-                Toast.makeText(getActivity(),commonResponse.message, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), commonResponse.message, Toast.LENGTH_SHORT).show();
             }
         });
     }

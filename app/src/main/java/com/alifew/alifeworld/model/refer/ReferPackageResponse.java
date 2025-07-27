@@ -29,4 +29,7 @@ public class ReferPackageResponse {
     @SerializedName("customer_count")
     @Expose
     public int userCount;
+    @SerializedName("min_refer_package_point")
+    @Expose
+    public String minReferPackagePoint;
 }

@@ -33,7 +33,7 @@ public interface ReferApi {
     Call<CommonResponse> addReferPackage(@Field("shop_id") String shopID,
                                          @Field("refer_id") String referID,
                                          @Field("title") String name,
-                                         @Field("min_amount") String packageAmount,
+                                         @Field("min_refer_package_point") String minReferPackagePoint,
                                          @Field("winner_amount") String winnerAmount,
                                          @Field("gift") String giftName);
 

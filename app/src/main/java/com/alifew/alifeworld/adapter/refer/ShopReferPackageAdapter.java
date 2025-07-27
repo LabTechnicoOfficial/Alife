@@ -15,7 +15,7 @@ import com.alifew.alifeworld.model.refer.ReferPackageResponse;
 import java.util.List;
 
 public class ShopReferPackageAdapter extends RecyclerView.Adapter<ShopReferPackageAdapter.ViewHolder> {
-    private List<ReferPackageResponse> referPackageList;
+    private final List<ReferPackageResponse> referPackageList;
 
     public ShopReferPackageAdapter(List<ReferPackageResponse> referPackageList) {
         this.referPackageList = referPackageList;
@@ -32,7 +32,7 @@ public class ShopReferPackageAdapter extends RecyclerView.Adapter<ShopReferPacka
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ReferPackageResponse response = referPackageList.get(position);
         holder.packageNameText.setText(response.title);
-        holder.sellAmountText.setText(response.minAmount);
+        holder.sellAmountText.setText(response.minReferPackagePoint);
         holder.packageOwnerAmountText.setText(String.valueOf(response.userCount));
         holder.winnerText.setText(response.winnerAmount);
         holder.giftText.setText(response.gift);
