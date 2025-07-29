@@ -40,12 +40,24 @@
             android:layout_marginEnd="5dp"
             android:gravity="center"
             android:weightSum="2"
-            app:checkedButton="@id/shopkeeperID"
+            app:checkedButton="@id/customerID"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/backButton"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:singleSelection="true">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/customerID"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="@color/toggle_button_selector"
+                android:text="@string/customer"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/shopkeeperID"
@@ -59,17 +71,7 @@
                 android:textColor="@color/white"
                 android:textSize="15sp" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/customerID"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:backgroundTint="@color/toggle_button_selector"
-                android:text="@string/customer"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textSize="15sp" />
+
 
 
         </com.google.android.material.button.MaterialButtonToggleGroup>

@@ -62,7 +62,7 @@ public class Shop_coupon_package_details_customer_list_adapter extends RecyclerV
             super(itemView);
 
             phoneText = itemView.findViewById(R.id.phoneText);
-            sellAmountText = itemView.findViewById(R.id.sellAmountTextID);
+            sellAmountText = itemView.findViewById(R.id.minPackagePointTextId);
             positionText = itemView.findViewById(R.id.positionText);
             pointsText = itemView.findViewById(R.id.pointsText);
             addButton = itemView.findViewById(R.id.addButton);

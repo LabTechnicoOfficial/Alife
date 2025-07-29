@@ -73,7 +73,7 @@ public class ShopReferPackageAdapter extends RecyclerView.Adapter<ShopReferPacka
             super(itemView);
 
             packageNameText = itemView.findViewById(R.id.packageNameTextID);
-            sellAmountText = itemView.findViewById(R.id.sellAmountTextID);
+            sellAmountText = itemView.findViewById(R.id.minPackagePointTextId);
             deleteButton = itemView.findViewById(R.id.deleteButton);
             winnerText = itemView.findViewById(R.id.winnerTextID);
             giftText = itemView.findViewById(R.id.giftTextID);

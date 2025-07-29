@@ -59,7 +59,7 @@ public class Customer_coupon_package_customer_list_adapter extends RecyclerView.
             super(itemView);
 
             phoneText = itemView.findViewById(R.id.contactText);
-            sellAmountText = itemView.findViewById(R.id.sellAmountTextID);
+            sellAmountText = itemView.findViewById(R.id.minPackagePointTextId);
             positionText = itemView.findViewById(R.id.positionText);
         }
     }

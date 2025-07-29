@@ -20,28 +20,25 @@ public class Register_activity extends AppCompatActivity implements View.OnClick
         super.onCreate(savedInstanceState);
 
         if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.registration_frame_container, new Shop_registration_fragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.registration_frame_container, new Customer_registration_fragment()).commit();
         }
         setContentView(R.layout.register_activity);
 
-        backButton = (ImageView) findViewById(R.id.backButton);
+        backButton = findViewById(R.id.backButton);
 
         toggleButton = findViewById(R.id.toggleGroup);
 
         backButton.setOnClickListener(this);
 
         //toggle Action
-        toggleButton.addOnButtonCheckedListener(new MaterialButtonToggleGroup.OnButtonCheckedListener() {
-            @Override
-            public void onButtonChecked(MaterialButtonToggleGroup group, int checkedId, boolean isChecked) {
+        toggleButton.addOnButtonCheckedListener((group, checkedId, isChecked) -> {
 
-                if (group.getCheckedButtonId() == R.id.shopkeeperID) {
-                    getSupportFragmentManager().beginTransaction().replace(R.id.registration_frame_container, new Shop_registration_fragment()).commit();
+            if (group.getCheckedButtonId() == R.id.shopkeeperID) {
+                getSupportFragmentManager().beginTransaction().replace(R.id.registration_frame_container, new Shop_registration_fragment()).commit();
 
-                } else if (group.getCheckedButtonId() == R.id.customerID) {
-                    getSupportFragmentManager().beginTransaction().replace(R.id.registration_frame_container, new Customer_registration_fragment()).commit();
+            } else if (group.getCheckedButtonId() == R.id.customerID) {
+                getSupportFragmentManager().beginTransaction().replace(R.id.registration_frame_container, new Customer_registration_fragment()).commit();
 
-                }
             }
         });
     }
@@ -55,8 +52,7 @@ public class Register_activity extends AppCompatActivity implements View.OnClick
 
     @Override
     public void onBackPressed() {
-//        Intent intent = new Intent(this, LoginActivity.class);
-//        startActivity(intent);
+        super.onBackPressed();
         finish();
     }
 

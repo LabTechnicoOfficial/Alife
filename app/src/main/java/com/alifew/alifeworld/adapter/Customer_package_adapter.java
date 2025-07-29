@@ -38,8 +38,8 @@ public class Customer_package_adapter extends RecyclerView.Adapter<Customer_pack
     public void onBindViewHolder(@NonNull AppViewHolder holder, int position) {
         Package_response response = packagesList.get(position);
         holder.packageNameText.setText(response.getPackage_name());
-        holder.packageOwnerAmountText.setText(response.getMaximum_package_owner());
-        holder.sellAmountText.setText(response.getMinimum_package_point());
+        holder.packageOwnerCountText.setText(response.getMaximum_package_owner());
+        holder.minPackagePointText.setText(response.getMinimum_package_point());
         holder.winnerText.setText(response.getWinner());
         holder.giftText.setText(response.getGift());
         if (cupon_available.equals("1")) {
@@ -71,15 +71,15 @@ public class Customer_package_adapter extends RecyclerView.Adapter<Customer_pack
     }
 
     public class AppViewHolder extends RecyclerView.ViewHolder {
-        TextView packageNameText, sellAmountText, packageOwnerAmountText, winnerText, giftText, packageHistory;
+        TextView packageNameText, minPackagePointText, packageOwnerCountText, winnerText, giftText, packageHistory;
         ImageView inPackageIcon;
 
         public AppViewHolder(@NonNull View itemView) {
             super(itemView);
             inPackageIcon = itemView.findViewById(R.id.inPackageIcon);
             packageNameText = itemView.findViewById(R.id.packageNameTextID);
-            sellAmountText = itemView.findViewById(R.id.sellAmountTextID);
-            packageOwnerAmountText = itemView.findViewById(R.id.packageOwnerAmountTextID);
+            minPackagePointText = itemView.findViewById(R.id.minPackagePointTextId);
+            packageOwnerCountText = itemView.findViewById(R.id.packageOwnerAmountTextID);
             winnerText = itemView.findViewById(R.id.winnerTextID);
             giftText = itemView.findViewById(R.id.giftTextID);
             packageHistory = itemView.findViewById(R.id.packageHistoryId);
