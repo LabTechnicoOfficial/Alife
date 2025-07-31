@@ -9,7 +9,8 @@ public class CustomerFor_cupon_response {
     public String customer_phone;
     @SerializedName("sell_amount")
     public String sell_amount;
-
+    @SerializedName("customer_name")
+    public String customerName;
     @SerializedName("points")
     public String points;
 

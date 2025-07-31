@@ -1,5 +1,6 @@
 package com.alifew.alifeworld.adapter.coupon;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,20 +32,20 @@ public class Customer_coupon_package_customer_list_adapter extends RecyclerView.
         return new Customer_coupon_package_customer_list_adapter.AppViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull Customer_coupon_package_customer_list_adapter.AppViewHolder holder, int position) {
         CustomerFor_cupon_response response = customerList.get(position);
 
-        holder.positionText.setText(String.valueOf(position + 1)+".");
+        holder.positionText.setText(position + 1 +".");
 
         if (response.getCustomer_phone().equals(phone)) {
             holder.phoneText.setText("myself");
         } else {
-//            holder.phoneText.setText(response.getCustomer_phone());
-            holder.phoneText.setVisibility(View.INVISIBLE);
+           holder.phoneText.setText(response.customerName);
         }
 
-        holder.sellAmountText.setText(response.getSell_amount());
+        holder.sellAmountText.setText(response.points);
     }
 
     @Override

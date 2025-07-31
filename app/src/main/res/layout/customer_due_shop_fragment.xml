@@ -12,7 +12,6 @@
         android:id="@+id/layout10"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/textview"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -27,7 +26,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="3dp"
+            android:layout_marginEnd="3dp"
             android:text=":"
             android:textColor="@color/black"
             android:textSize="15sp" />
@@ -61,7 +60,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="3dp"
+            android:layout_marginEnd="3dp"
             android:text=":"
             android:textColor="@color/black"
             android:textSize="15sp" />
@@ -89,7 +88,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="3dp"
+            android:layout_marginStart="3dp"
             android:src="@drawable/search_icon" />
 
         <EditText
@@ -97,8 +96,8 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:backgroundTint="@color/black"
-            android:hint="Search"
-                    android:textCursorDrawable="@drawable/cursor_color" />
+            android:hint="@string/search"
+            android:textCursorDrawable="@drawable/cursor_color" />
 
     </LinearLayout>
 

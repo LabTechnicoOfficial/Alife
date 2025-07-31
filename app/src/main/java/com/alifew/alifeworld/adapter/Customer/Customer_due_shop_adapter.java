@@ -44,17 +44,18 @@ public class Customer_due_shop_adapter extends RecyclerView.Adapter<Customer_due
     public void onBindViewHolder(@NonNull Customer_due_shop_adapter.AppViewholder holder, int position) {
         customer_due_shop_list_response shop = due_shop_list.get(position);
 
-        ImageHelper.imageLoader(holder.itemView.getContext(),  holder.shopImage, shop.getShop_image());
+        ImageHelper.imageLoader(holder.itemView.getContext(), holder.shopImage, shop.getShop_image());
         holder.shopNameText.setText(shop.getShop_name());
         holder.contactText.setText(shop.getShop_phone());
+        holder.timerText.setText(shop.last_buying_time);
         Double total_due = Double.parseDouble(shop.getTotal_due());
         if (total_due >= 0.0) {
             holder.totalDueTilte.setTextColor(R.color.black);
             holder.totalDueTilte.setText("মোট বাকিঃ");
             holder.totalDueText.setText(new DecimalFormat("##.##").format(total_due));
         } else if (total_due < 0.0) {
-           total_due = total_due * (-1);
-           holder.totalDueTilte.setTextColor(0xffff0000);
+            total_due = total_due * (-1);
+            holder.totalDueTilte.setTextColor(0xffff0000);
             holder.totalDueTilte.setText("মোট জমাঃ");
             holder.totalDueText.setTextColor(0xffff0000);
             holder.totalDueText.setText(new DecimalFormat("##.##").format(total_due));
@@ -109,7 +110,7 @@ public class Customer_due_shop_adapter extends RecyclerView.Adapter<Customer_due
 
     public class AppViewholder extends RecyclerView.ViewHolder {
         ImageView shopImage;
-        TextView shopNameText, contactText, totalDueText,totalDueTilte;
+        TextView shopNameText, contactText, totalDueText, totalDueTilte, timerText;
 
         public AppViewholder(@NonNull View itemView) {
             super(itemView);
@@ -118,7 +119,8 @@ public class Customer_due_shop_adapter extends RecyclerView.Adapter<Customer_due
             shopNameText = itemView.findViewById(R.id.shopNameID);
             contactText = itemView.findViewById(R.id.contactID);
             totalDueText = itemView.findViewById(R.id.totalDueID);
-            totalDueTilte=itemView.findViewById(R.id.totalDueTilte);
+            totalDueTilte = itemView.findViewById(R.id.totalDueTilte);
+            timerText = itemView.findViewById(R.id.timerText);
             itemView.setOnClickListener(v -> {
 
                 if (listener != null) {

@@ -41,6 +41,7 @@ public class Customer_coupon_shop_coupon_list_fragment extends Fragment implemen
     List<CustomerFor_cupon_response> customerList;
     String customerID;
     String cupon_available;
+
     public Customer_coupon_shop_coupon_list_fragment(String shopID, String customerID) {
         this.shopID = shopID;
         this.customerID = customerID;
@@ -119,36 +120,16 @@ public class Customer_coupon_shop_coupon_list_fragment extends Fragment implemen
             @Override
             public void onChanged(List<CustomerFor_cupon_response> customerFor_cupon_responses) {
                 customerList = customerFor_cupon_responses;
-                Collections.sort(customerList, new Comparator<CustomerFor_cupon_response>() {
-
-                    @Override
-                    public int compare(CustomerFor_cupon_response lhs, CustomerFor_cupon_response rhs) {
-                        // TODO Auto-generated method stub
-
-                        try {
-                            Double v1 = (Double.parseDouble(lhs.getSell_amount()));
-                            Double v3 = (Double.parseDouble(rhs.getSell_amount()));
-                            return v3.compareTo(v1);
-                        } catch (Exception e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-                            return 0;
-                        }
-                    }
-                });
                 try {
                     Date currentDate = myFormat.parse(currentTime);
                     Date targetDate = myFormat.parse(targetdate);
-                    if(currentDate.getTime()>targetDate.getTime())
-                    {
-                        cupon_available="0";
-                    }else
-                    {
-                        cupon_available="1";
+                    if (currentDate.getTime() > targetDate.getTime()) {
+                        cupon_available = "0";
+                    } else {
+                        cupon_available = "1";
                     }
 
-                }catch (Exception e)
-                {
+                } catch (Exception ignored) {
 
                 }
                 //Toast.makeText(getActivity(), couponID, Toast.LENGTH_SHORT).show();
@@ -157,7 +138,7 @@ public class Customer_coupon_shop_coupon_list_fragment extends Fragment implemen
                         R.anim.fade_out,  // exit
                         R.anim.fade_in,   // popEnter
                         R.anim.slide_out  // popExit
-                ).replace(R.id.cus_frame_container, new Customer_coupon_shop_coupon_package_list_fragment(shopID, couponID, customerList, customerID,cupon_available,createDate,endDate)).addToBackStack(null).commit();
+                ).replace(R.id.cus_frame_container, new Customer_coupon_shop_coupon_package_list_fragment(shopID, couponID, customerList, customerID, cupon_available, createDate, endDate)).addToBackStack(null).commit();
 
 
             }
