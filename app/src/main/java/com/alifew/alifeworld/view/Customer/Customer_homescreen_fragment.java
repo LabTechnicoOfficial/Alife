@@ -46,7 +46,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Customer_homescreen_fragment extends Fragment implements Instruction_adapter.OnItemClickListener {
-    LinearLayout dueListButton, shopListButton, dueShopsButton, earnMoneyButton, couponButton;
+    LinearLayout dueListButton, shopListButton, dueShopsButton, earnMoneyButton, couponButton, referButton;
     private String customer_id;
     EarningViewModel earningViewModel;
     FragmentManager fragmentManager;
@@ -95,49 +95,37 @@ public class Customer_homescreen_fragment extends Fragment implements Instructio
         initView(view);
 
 
-        shopListButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fragmentManager.beginTransaction().setCustomAnimations(R.anim.slide_in,  // enter
-                        R.anim.fade_out,  // exit
-                        R.anim.fade_in,   // popEnter
-                        R.anim.slide_out  // popExit
-                ).replace(R.id.cus_frame_container, new Customer_shopList_fragment(customer_id)).addToBackStack(null).commit();
-            }
-        });
+        shopListButton.setOnClickListener(v -> fragmentManager.beginTransaction().setCustomAnimations(R.anim.slide_in,  // enter
+                R.anim.fade_out,  // exit
+                R.anim.fade_in,   // popEnter
+                R.anim.slide_out  // popExit
+        ).replace(R.id.cus_frame_container, new Customer_shopList_fragment(customer_id)).addToBackStack(null).commit());
 
-        dueListButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fragmentManager.beginTransaction().setCustomAnimations(R.anim.slide_in,  // enter
-                        R.anim.fade_out,  // exit
-                        R.anim.fade_in,   // popEnter
-                        R.anim.slide_out  // popExit
-                ).replace(R.id.cus_frame_container, new Customer_due_list_fragment(customer_id)).addToBackStack(null).commit();
-            }
-        });
+        dueListButton.setOnClickListener(v -> fragmentManager.beginTransaction().setCustomAnimations(R.anim.slide_in,  // enter
+                R.anim.fade_out,  // exit
+                R.anim.fade_in,   // popEnter
+                R.anim.slide_out  // popExit
+        ).replace(R.id.cus_frame_container, new Customer_due_list_fragment(customer_id)).addToBackStack(null).commit());
 
-        dueShopsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fragmentManager.beginTransaction().setCustomAnimations(R.anim.slide_in,  // enter
-                        R.anim.fade_out,  // exit
-                        R.anim.fade_in,   // popEnter
-                        R.anim.slide_out  // popExit
-                ).replace(R.id.cus_frame_container, new Customer_due_shop_fragment(customer_id)).addToBackStack(null).commit();
-            }
-        });
+        dueShopsButton.setOnClickListener(v -> fragmentManager.beginTransaction().setCustomAnimations(R.anim.slide_in,  // enter
+                R.anim.fade_out,  // exit
+                R.anim.fade_in,   // popEnter
+                R.anim.slide_out  // popExit
+        ).replace(R.id.cus_frame_container, new Customer_due_shop_fragment(customer_id)).addToBackStack(null).commit());
 
-        couponButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fragmentManager.beginTransaction().setCustomAnimations(R.anim.slide_in,  // enter
-                        R.anim.fade_out,  // exit
-                        R.anim.fade_in,   // popEnter
-                        R.anim.slide_out  // popExit
-                ).replace(R.id.cus_frame_container, new Customer_coupon_fragment(customer_id)).addToBackStack(null).commit();
-            }
-        });
+        couponButton.setOnClickListener(v -> fragmentManager.beginTransaction().setCustomAnimations(R.anim.slide_in,  // enter
+                R.anim.fade_out,  // exit
+                R.anim.fade_in,   // popEnter
+                R.anim.slide_out  // popExit
+        ).replace(R.id.cus_frame_container, new Customer_coupon_fragment(customer_id)).addToBackStack(null).commit());
+
+        referButton.setOnClickListener(v ->
+            fragmentManager.beginTransaction().setCustomAnimations(R.anim.slide_in,  // enter
+                    R.anim.fade_out,  // exit
+                    R.anim.fade_in,   // popEnter
+                    R.anim.slide_out  // popExit
+            ).replace(R.id.cus_frame_container, new Customer_refer_shop_fragment(customer_id)).addToBackStack(null).commit()
+        );
 
         return view;
     }
@@ -166,6 +154,8 @@ public class Customer_homescreen_fragment extends Fragment implements Instructio
         userInstruction = new ViewModelProvider(getActivity()).get(User_instruction.class);
 
         instructionLayout = view.findViewById(R.id.instructorLayout);
+
+        referButton = view.findViewById(R.id.referButtonID);
 
         instructionView = view.findViewById(R.id.instructionView);
         instructionView.setHasFixedSize(true);

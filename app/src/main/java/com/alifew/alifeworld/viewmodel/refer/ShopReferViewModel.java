@@ -4,6 +4,10 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.alifew.alifeworld.model.CommonResponse;
+import com.alifew.alifeworld.model.cupon.ShopResponse;
+import com.alifew.alifeworld.model.refer.CustomerReferPackageCustomer;
+import com.alifew.alifeworld.model.refer.CustomerShopReferPackageResponse;
+import com.alifew.alifeworld.model.refer.CustomerShopReferResponse;
 import com.alifew.alifeworld.model.refer.ReferPackageCustomerResponse;
 import com.alifew.alifeworld.model.refer.ReferPackageResponse;
 import com.alifew.alifeworld.model.refer.ReferResponse;
@@ -42,19 +46,36 @@ public class ShopReferViewModel extends ViewModel {
         return ShopReferRepositories.getInstance().getReferPackageCustomer(shopID, packageID);
     }
 
-    public LiveData<CommonResponse> addCustomerReferGift(String referPackageID,int shopID, String phone, String points, String position, String giftName){
-        return ShopReferRepositories.getInstance().addCustomerReferGift(referPackageID, String.valueOf(shopID),phone, points, position, giftName);
+    public LiveData<CommonResponse> addCustomerReferGift(String referPackageID, int shopID, String phone, String points, String position, String giftName) {
+        return ShopReferRepositories.getInstance().addCustomerReferGift(referPackageID, String.valueOf(shopID), phone, points, position, giftName);
     }
 
-    public LiveData<ReferResultCustomerResponse> getResultCustomerList(String referPackageID){
+    public LiveData<ReferResultCustomerResponse> getResultCustomerList(String referPackageID) {
         return ShopReferRepositories.getInstance().getResultCustomerList(referPackageID);
     }
 
-    public LiveData<CommonResponse> deleteReferCustomerResult(String id){
+    public LiveData<CommonResponse> deleteReferCustomerResult(String id) {
         return ShopReferRepositories.getInstance().deleteReferCustomerResult(id);
     }
 
     public LiveData<CommonResponse> updateReferCustomerResultStatus(String id, String status) {
         return ShopReferRepositories.getInstance().updateReferCustomerResultStatus(id, status);
+    }
+
+    public LiveData<List<ShopResponse>> getReferShopList(int page, int limit) {
+        return ShopReferRepositories.getInstance().getShopList(page, limit);
+    }
+
+    public LiveData<List<CustomerShopReferResponse>> getCustomerShopReferList(String shopID) {
+        return ShopReferRepositories.getInstance().getCustomerShopReferList(shopID);
+    }
+
+
+    public LiveData<List<CustomerShopReferPackageResponse>> getCustomerShopReferPackageList(String shopID, String referID){
+        return ShopReferRepositories.getInstance().getCustomerShopReferPackageList(shopID, referID);
+    }
+
+    public LiveData<List<CustomerReferPackageCustomer>> getCustomerShopReferCustomerList(String shopID, String referID, String packageID){
+        return ShopReferRepositories.getInstance().getCustomerShopReferCustomerList(shopID, referID, packageID);
     }
 }

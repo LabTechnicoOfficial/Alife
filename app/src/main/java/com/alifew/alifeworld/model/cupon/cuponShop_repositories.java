@@ -11,7 +11,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class cuponShop_repositories {
-    private MutableLiveData<List<cuponShop_response>> data;
+    private MutableLiveData<List<ShopResponse>> data;
     private cupon_api api;
     private static cuponShop_repositories cuponShop_repositories;
 
@@ -26,17 +26,17 @@ public class cuponShop_repositories {
         return cuponShop_repositories;
     }
 
-    public MutableLiveData<List<cuponShop_response>> getData(int page,int limit) {
-        Call<List<cuponShop_response>> call = api.fetch_cuponShop(page,limit);
-        call.enqueue(new Callback<List<cuponShop_response>>() {
+    public MutableLiveData<List<ShopResponse>> getData(int page, int limit) {
+        Call<List<ShopResponse>> call = api.fetch_cuponShop(page,limit);
+        call.enqueue(new Callback<>() {
             @Override
-            public void onResponse(Call<List<cuponShop_response>> call, Response<List<cuponShop_response>> response) {
+            public void onResponse(Call<List<ShopResponse>> call, Response<List<ShopResponse>> response) {
                 if (response.isSuccessful())
                     data.postValue(response.body());
             }
 
             @Override
-            public void onFailure(Call<List<cuponShop_response>> call, Throwable throwable) {
+            public void onFailure(Call<List<ShopResponse>> call, Throwable throwable) {
 
             }
         });

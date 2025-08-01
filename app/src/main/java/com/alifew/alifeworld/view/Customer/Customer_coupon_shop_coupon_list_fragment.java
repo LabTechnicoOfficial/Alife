@@ -23,8 +23,6 @@ import com.alifew.alifeworld.viewmodel.cuponViewmodel.CustomerFor_cupon;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -61,9 +59,8 @@ public class Customer_coupon_shop_coupon_list_fragment extends Fragment implemen
                 couponList = new ArrayList<>();
                 couponList = cupon_responses;
                 adapter = new Customer_coupon_adapter(couponList);
-                adapter.setOnClickListener(Customer_coupon_shop_coupon_list_fragment.this::OnItemClick);
+                adapter.setOnClickListener(Customer_coupon_shop_coupon_list_fragment.this);
                 couponView.setAdapter(adapter);
-                // shop_coupon_adapter.setOnClickListener(Shop_coupon_fragment.this::OnItemClick);
             }
         });
     }

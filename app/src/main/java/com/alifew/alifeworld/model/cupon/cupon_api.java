@@ -59,7 +59,7 @@ public interface cupon_api {
 
     // fetch cupon shop
     @GET("cupon/get_cupon_shopList.php")
-    Call<List<cuponShop_response>> fetch_cuponShop(@Query("page") int page, @Query("limit") int limit);
+    Call<List<ShopResponse>> fetch_cuponShop(@Query("page") int page, @Query("limit") int limit);
 
     //delete cupon
     @FormUrlEncoded

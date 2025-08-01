@@ -1,10 +1,6 @@
 package com.alifew.alifeworld.view.Customer;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ProgressBar;
 
 import androidx.annotation.Nullable;
 import androidx.core.widget.NestedScrollView;
@@ -14,28 +10,32 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ProgressBar;
+
 import com.alifew.alifeworld.R;
+import com.alifew.alifeworld.adapter.Customer.Customer_shopList_adapter;
 import com.alifew.alifeworld.adapter.coupon.Customer_coupon_shop_list_adapter;
 import com.alifew.alifeworld.model.cupon.ShopResponse;
-import com.alifew.alifeworld.viewmodel.cuponViewmodel.CuponShopList;
+import com.alifew.alifeworld.viewmodel.refer.ShopReferViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
-public class Customer_coupon_fragment extends Fragment implements Customer_coupon_shop_list_adapter.OnItemClickListener{
+public class Customer_refer_shop_fragment extends Fragment implements Customer_shopList_adapter.OnItemClickListener {
     RecyclerView shopListView;
     NestedScrollView nestedScrollView;
     ProgressBar progressBar;
     int page = 1, limit = 15, end = 0;
     private Customer_coupon_shop_list_adapter adapter;
-    private final List<ShopResponse> shopList = new ArrayList<>();
-    CuponShopList cuponShopListViewModel;
+    private List<ShopResponse> shopList = new ArrayList<>();
     String customerID;
+    ShopReferViewModel viewModel;
 
-
-    public Customer_coupon_fragment(String customerID) {
-        this.customerID = customerID;
+    public Customer_refer_shop_fragment(String customerId) {
+        this.customerID = customerId;
     }
 
     @Override
@@ -44,33 +44,25 @@ public class Customer_coupon_fragment extends Fragment implements Customer_coupo
         shop_list(page,limit);
     }
 
-    private void shop_list(int Page,int Limit) {
-        cuponShopListViewModel.getData(Page,Limit).observe(getViewLifecycleOwner(), new Observer<List<ShopResponse>>() {
-            @Override
-            public void onChanged(List<ShopResponse> shop_respons) {
-                progressBar.setVisibility(View.GONE);
-                shopList.addAll(shop_respons);
-                adapter = new Customer_coupon_shop_list_adapter(shopList);
-                adapter.setOnClickListener(Customer_coupon_fragment.this::OnItemClick);
-                shopListView.setAdapter(adapter);
-                //Toast.makeText(getActivity(), String.valueOf(shopList.size()), Toast.LENGTH_SHORT).show();
-            }
-        });
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.customer_coupon_fragment, container, false);
+        View view = inflater.inflate(R.layout.customer_refer_fragment, container, false);
 
-        cuponShopListViewModel = new ViewModelProvider(this).get(CuponShopList.class);
-
-        shopListView = (RecyclerView) view.findViewById(R.id.shopListViewID);
+        viewModel = new ViewModelProvider(this).get(ShopReferViewModel.class);
+        
+        shopListView = view.findViewById(R.id.shopListViewID);
         shopListView.setHasFixedSize(true);
         shopListView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
 
-        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-        nestedScrollView = (NestedScrollView) view.findViewById(R.id.nestedRecyclerViewID);
+        progressBar = view.findViewById(R.id.progressBar);
+        nestedScrollView = view.findViewById(R.id.nestedRecyclerViewID);
 
         nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
@@ -87,8 +79,18 @@ public class Customer_coupon_fragment extends Fragment implements Customer_coupo
                 }
             }
         });
-
+        
         return view;
+    }
+
+    private void shop_list(int Page,int Limit) {
+        viewModel.getReferShopList(Page,Limit).observe(getViewLifecycleOwner(), (Observer<List<ShopResponse>>) cuponShop_responses -> {
+            progressBar.setVisibility(View.GONE);
+            shopList.addAll(cuponShop_responses);
+            adapter = new Customer_coupon_shop_list_adapter(shopList);
+            adapter.setOnClickListener(Customer_refer_shop_fragment.this::OnItemClick);
+            shopListView.setAdapter(adapter);
+        });
     }
 
     @Override
@@ -96,14 +98,12 @@ public class Customer_coupon_fragment extends Fragment implements Customer_coupo
         ShopResponse response = shopList.get(position);
 
         String shopID = response.getShop_id();
-        //Toast.makeText(getActivity(), shopID, Toast.LENGTH_SHORT).show();
 
         requireActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(
                 R.anim.slide_in,  // enter
                 R.anim.fade_out,  // exit
                 R.anim.fade_in,   // popEnter
                 R.anim.slide_out  // popExit
-        ).replace(R.id.cus_frame_container, new Customer_coupon_shop_coupon_list_fragment(shopID, customerID)).addToBackStack(null).commit();
-
+        ).replace(R.id.cus_frame_container, new Customer_shop_refer_list_fragment(shopID, customerID)).addToBackStack(null).commit();
     }
 }

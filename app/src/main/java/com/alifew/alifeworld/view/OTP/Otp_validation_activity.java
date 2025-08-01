@@ -43,6 +43,7 @@ import com.alifew.alifeworld.viewmodel.Shop_registration;
 import com.alifew.alifeworld.viewmodel.Token_update;
 import com.alifew.alifeworld.viewmodel.User;
 
+import java.util.Objects;
 import java.util.Random;
 
 public class Otp_validation_activity extends AppCompatActivity implements TextWatcher {
@@ -118,12 +119,11 @@ public class Otp_validation_activity extends AppCompatActivity implements TextWa
         editText3.addTextChangedListener(this);
         editText4.addTextChangedListener(this);
         editText5.addTextChangedListener(this);
-        //requestsmspermission();
 
         new OTP_Receiver().setEditText(editText1, editText2, editText3, editText4, editText5);
         loader = new Dialog(Otp_validation_activity.this);
         loader.setContentView(R.layout.loader);
-        loader.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        Objects.requireNonNull(loader.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         loader.setCancelable(false);
 
         deviceToken = sessionManagement.getDeviceToken();

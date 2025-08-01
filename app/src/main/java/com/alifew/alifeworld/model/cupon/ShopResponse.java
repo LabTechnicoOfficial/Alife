@@ -2,15 +2,15 @@ package com.alifew.alifeworld.model.cupon;
 
 import com.google.gson.annotations.SerializedName;
 
-public class cuponShop_response {
+public class ShopResponse {
     @SerializedName("shop_id")
-    private String shop_id;
+    public String shop_id;
     @SerializedName("shop_name")
-    private String shop_name;
+    public String shop_name;
     @SerializedName("shop_phone")
-    private String shop_phone;
+    public String shop_phone;
     @SerializedName("shop_image")
-    private String shop_image;
+    public String shop_image;
 
     public String getShop_id() {
         return shop_id;

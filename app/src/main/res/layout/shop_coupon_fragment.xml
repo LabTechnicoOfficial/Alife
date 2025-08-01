@@ -38,7 +38,7 @@
             app:layout_constraintTop_toBottomOf="@id/headerText">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/couponViewID"
+                android:id="@+id/itemViewID"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:scrollbarStyle="outsideOverlay"

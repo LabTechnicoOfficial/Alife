@@ -6,33 +6,16 @@
     android:orientation="vertical"
     android:padding="@dimen/distance">
 
-    <LinearLayout
+    <TextView
         android:id="@+id/textview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_marginBottom="5dp"
-        android:gravity="center">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="3dp"
-            android:text="@string/coupon"
-            android:textColor="@color/black"
-            android:textSize="@dimen/font_medium"
-            android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/packages"
-            android:textColor="@color/black"
-            android:textSize="@dimen/font_medium"
-            android:textStyle="bold" />
-
-    </LinearLayout>
-
+        android:gravity="center"
+        android:text="@string/refer"
+        android:textColor="@color/black"
+        android:textSize="@dimen/font_medium"
+        android:textStyle="bold" />
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nestedRecyclerViewID"
@@ -46,7 +29,7 @@
             android:orientation="vertical">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/packagesViewID"
+                android:id="@+id/itemViewID"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:scrollbarStyle="outsideOverlay"
@@ -68,5 +51,6 @@
             android:theme="@style/ProgressBarStyle"
             android:visibility="gone" />
     </LinearLayout>
+
 
 </RelativeLayout>

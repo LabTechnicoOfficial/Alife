@@ -1,6 +1,7 @@
 package com.alifew.alifeworld.model.refer;
 
 import com.alifew.alifeworld.model.CommonResponse;
+import com.alifew.alifeworld.model.cupon.ShopResponse;
 
 import java.util.List;
 
@@ -70,5 +71,20 @@ public interface ReferApi {
 
     @FormUrlEncoded
     @POST("update_refer_point_gift_customer_list.php")
-    Call<CommonResponse> updateReferCustomerResultStatus(@Field("id") String id,@Field("status") String status);
+    Call<CommonResponse> updateReferCustomerResultStatus(@Field("id") String id, @Field("status") String status);
+
+    @GET("get_refer_customer_shop_list.php")
+    Call<List<ShopResponse>> getReferShops(@Query("page") int page, @Query("limit") int limit);
+
+    @GET("customer_shop_refer_list.php")
+    Call<List<CustomerShopReferResponse>> getCustomerShopReferList(@Query("shop_id") String shopID);
+
+
+    @GET("get_refer_package_list_for_customer.php")
+    Call<List<CustomerShopReferPackageResponse>> getCustomerShopReferPackageList(@Query("shop_id") String shopID, @Query("refer_id") String refer_id);
+
+    @GET("customer_shop_refer_package_customer_list.php")
+    Call<List<CustomerReferPackageCustomer>> getCustomerShopReferCustomerList(@Query("shop_id") String shopID,
+                                                                              @Query("refer_id") String referID,
+                                                                              @Query("package_id") String packageID);
 }

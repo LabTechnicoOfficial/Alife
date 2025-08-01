@@ -11,15 +11,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.alifew.alifeworld.R;
 import com.alifew.alifeworld.Utils.ImageHelper;
-import com.alifew.alifeworld.model.cupon.cuponShop_response;
+import com.alifew.alifeworld.model.cupon.ShopResponse;
 
 import java.util.List;
 
 public class Customer_coupon_shop_list_adapter extends RecyclerView.Adapter<Customer_coupon_shop_list_adapter.AppViewholder> {
 
-    private List<cuponShop_response> shopList;
+    private List<ShopResponse> shopList;
 
-    public Customer_coupon_shop_list_adapter(List<cuponShop_response> shopList) {
+    public Customer_coupon_shop_list_adapter(List<ShopResponse> shopList) {
 
         this.shopList = shopList;
 
@@ -36,7 +36,7 @@ public class Customer_coupon_shop_list_adapter extends RecyclerView.Adapter<Cust
     @Override
     public void onBindViewHolder(@NonNull AppViewholder holder, int position) {
 
-        cuponShop_response response = shopList.get(position);
+        ShopResponse response = shopList.get(position);
 
         ImageHelper.imageLoader(holder.itemView.getContext(),  holder.shopImage, response.getShop_image());
         holder.shopNameText.setText(response.getShop_name());
