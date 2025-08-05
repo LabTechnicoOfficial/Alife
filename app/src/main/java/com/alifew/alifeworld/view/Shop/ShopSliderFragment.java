@@ -46,6 +46,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 public class ShopSliderFragment extends Fragment implements ShopSliderAdapter.SwitchChangeListener {
@@ -99,25 +100,20 @@ public class ShopSliderFragment extends Fragment implements ShopSliderAdapter.Sw
 
         MaterialButton uploadButton = addSliderAlert.findViewById(R.id.uploadButton);
         ImageView closeButton = addSliderAlert.findViewById(R.id.closeButton);
-        closeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addSliderAlert.dismiss();
-            }
-        });
-        uploadButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        closeButton.setOnClickListener(v -> addSliderAlert.dismiss());
+        uploadButton.setOnClickListener(v -> {
+
+            if (final_check == 1){
                 uploadSliderFunction();
+            }else {
+                Toast.makeText(getActivity(), "No image found", Toast.LENGTH_SHORT).show();
             }
+
         });
 
-        sliderImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA}, IMAGE_REQUEST_CODE);
-                imageSelect();
-            }
+        sliderImageView.setOnClickListener(v -> {
+            ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA}, IMAGE_REQUEST_CODE);
+            imageSelect();
         });
     }
 
@@ -142,23 +138,20 @@ public class ShopSliderFragment extends Fragment implements ShopSliderAdapter.Sw
         final CharSequence[] items = {"Camera", "Gallery", "Cancel"};
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Add Image");
-        builder.setItems(items, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int i) {
-                if (items[i].equals("Camera")) {
-                    check = 1;
-                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    startActivityForResult(intent, CAMERA_REQUEST);
-                } else if (items[i].equals("Gallery")) {
-                    check = 1;
-                    Intent intent = new Intent(new Intent(Intent.ACTION_PICK));
-                    intent.setType("image/*");
+        builder.setItems(items, (dialog, i) -> {
+            if (items[i].equals("Camera")) {
+                check = 1;
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(intent, CAMERA_REQUEST);
+            } else if (items[i].equals("Gallery")) {
+                check = 1;
+                Intent intent = new Intent(new Intent(Intent.ACTION_PICK));
+                intent.setType("image/*");
 
-                    startActivityForResult(Intent.createChooser(intent, "select image"), IMAGE_REQUEST_CODE);
+                startActivityForResult(Intent.createChooser(intent, "select image"), IMAGE_REQUEST_CODE);
 
-                } else if (items[i].equals("Cancel")) {
-                    dialog.dismiss();
-                }
+            } else if (items[i].equals("Cancel")) {
+                dialog.dismiss();
             }
         });
         builder.show();
@@ -166,29 +159,24 @@ public class ShopSliderFragment extends Fragment implements ShopSliderAdapter.Sw
 
     private String imgToString(Bitmap bitmap) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayOutputStream);
         byte[] imgBytes = byteArrayOutputStream.toByteArray();
         return Base64.encodeToString(imgBytes, Base64.DEFAULT);
     }
 
     private void loadSlider() {
-        //loader.show();
-        //Toast.makeText(getActivity(), shopID, Toast.LENGTH_SHORT).show();
-        sliderViewModel.getBannerList(shopID).observe(getViewLifecycleOwner(), new Observer<List<SliderResponse>>() {
-            @Override
-            public void onChanged(List<SliderResponse> sliderResponses) {
-                loader.dismiss();
-                try {
-                    sliderList = new ArrayList<>();
-                    sliderList = sliderResponses;
-                    sliderAdapter = new ShopSliderAdapter(sliderList);
-                    sliderAdapter.setOnClickListener(ShopSliderFragment.this::OnSwitchChange);
-                    sliderView.setAdapter(sliderAdapter);
-                } catch (Exception e) {
-                    Log.d("dataxx", "exception: " + e.getMessage());
-                }
-
+        sliderViewModel.getBannerList(shopID).observe(getViewLifecycleOwner(), sliderResponses -> {
+            loader.dismiss();
+            try {
+                sliderList = new ArrayList<>();
+                sliderList = sliderResponses;
+                sliderAdapter = new ShopSliderAdapter(sliderList);
+                sliderAdapter.setOnClickListener(ShopSliderFragment.this);
+                sliderView.setAdapter(sliderAdapter);
+            } catch (Exception e) {
+                Log.d("dataxx", "exception: " + e.getMessage());
             }
+
         });
 
     }
@@ -198,9 +186,9 @@ public class ShopSliderFragment extends Fragment implements ShopSliderAdapter.Sw
         sliderView.setHasFixedSize(true);
         sliderView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        sliderViewModel = new ViewModelProvider(getActivity()).get(SliderViewModel.class);
+        sliderViewModel = new ViewModelProvider(requireActivity()).get(SliderViewModel.class);
 
-        sessionManagement = new SessionManagement(getActivity());
+        sessionManagement = new SessionManagement(requireActivity());
         shopID = String.valueOf(sessionManagement.getSession());
 
         loader = new Dialog(getActivity());
@@ -224,17 +212,16 @@ public class ShopSliderFragment extends Fragment implements ShopSliderAdapter.Sw
         String status = isChecked ? "active" : "inactive";
         String sliderID = response.id;
 
-        //loader.show();
 
         sliderViewModel.updateBannerStatus(shopID, sliderID, status).observe(getViewLifecycleOwner(), new Observer<CommonResponse>() {
             @Override
             public void onChanged(CommonResponse commonResponse) {
-                //loader.dismiss();
+
                 if (commonResponse.message.equals("edited successfully")) {
                     Toast.makeText(getActivity(), commonResponse.message, Toast.LENGTH_SHORT).show();
                     loadSlider();
                 } else {
-                    Toast.makeText(getActivity(), getActivity().getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), requireActivity().getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -244,35 +231,46 @@ public class ShopSliderFragment extends Fragment implements ShopSliderAdapter.Sw
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK) {
+
+        if (resultCode == Activity.RESULT_OK && data != null) {
+
             if (requestCode == CAMERA_REQUEST) {
                 Bundle bundle = data.getExtras();
-
-                if (check == 1) {
+                if (bundle != null && check == 1) {
                     bitmap = (Bitmap) bundle.get("data");
-                    check = 0;
-                    final_check = 1;
-                    sliderImageView.setImageBitmap(bitmap);
+                    if (bitmap != null) {
+                        check = 0;
+                        final_check = 1;
+                        sliderImageView.setImageBitmap(bitmap);
+                    } else {
+                        Toast.makeText(getActivity(), "Failed to capture image", Toast.LENGTH_SHORT).show();
+                    }
                 }
-
 
             } else if (requestCode == IMAGE_REQUEST_CODE) {
                 filepath = data.getData();
-                try {
-                    InputStream inputStream = getActivity().getContentResolver().openInputStream(filepath);
-
-                    if (check == 1) {
-                        check = 0;
-                        final_check = 1;
+                if (filepath != null && check == 1) {
+                    try {
+                        InputStream inputStream = requireActivity().getContentResolver().openInputStream(filepath);
                         bitmap = BitmapFactory.decodeStream(inputStream);
-                        sliderImageView.setImageBitmap(bitmap);
+                        if (bitmap != null) {
+                            check = 0;
+                            final_check = 1;
+                            sliderImageView.setImageBitmap(bitmap);
+                        } else {
+                            Toast.makeText(getActivity(), "Failed to load image", Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                        Toast.makeText(getActivity(), "Image file not found", Toast.LENGTH_SHORT).show();
                     }
-
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
                 }
             }
-        }
 
+        } else {
+            // Optional: notify user image selection was cancelled
+            Toast.makeText(getActivity(), "No image selected", Toast.LENGTH_SHORT).show();
+        }
     }
+
 }
