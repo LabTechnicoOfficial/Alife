@@ -223,7 +223,7 @@ public class Shop_coupon_fragment extends Fragment implements Shop_coupon_adapte
         couponViewModel = new ViewModelProvider(this).get(CouponViewModel.class);
 
         addCouponButton = (ExtendedFloatingActionButton) view.findViewById(R.id.addCouponButtonID);
-        couponView = (RecyclerView) view.findViewById(R.id.couponViewID);
+        couponView = (RecyclerView) view.findViewById(R.id.itemViewID);
         couponView.setHasFixedSize(true);
         couponView.setLayoutManager(new LinearLayoutManager(getActivity()));
 

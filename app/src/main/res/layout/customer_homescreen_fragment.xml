@@ -8,35 +8,13 @@
     tools:context=".view.Customer.Customer_homescreen_fragment">
 
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/sliderCard"
-        android:layout_width="0dp"
-        android:layout_height="150dp"
-        app:cardCornerRadius="6dp"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/carouselView"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_margin="@dimen/_10sdp">
-
-    <!--    <com.smarteist.autoimageslider.SliderView
-            android:id="@+id/imageSliderView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:sliderAnimationDuration="600"
-            app:sliderAutoCycleDirection="back_and_forth"
-            app:sliderAutoCycleEnabled="true"
-            app:sliderIndicatorAnimationDuration="600"
-            app:sliderIndicatorGravity="center_horizontal|bottom"
-            app:sliderIndicatorMargin="15dp"
-            app:sliderIndicatorOrientation="horizontal"
-            app:sliderIndicatorPadding="3dp"
-            app:sliderIndicatorRadius="2dp"
-            app:sliderIndicatorSelectedColor="#5A5A5A"
-            app:sliderIndicatorUnselectedColor="#FFF"
-            app:sliderScrollTimeInSec="1"
-            app:sliderStartAutoCycle="true" />-->
-
-    </androidx.cardview.widget.CardView>
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <GridLayout
@@ -50,7 +28,7 @@
         android:orientation="horizontal"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/sliderCard">
+        app:layout_constraintTop_toBottomOf="@id/carouselView">
 
         <LinearLayout
             android:id="@+id/dueShopsLayoutID"
@@ -167,7 +145,7 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:src="@drawable/ic_refer"
-                app:tint="@color/default_color"/>
+                app:tint="@color/default_color" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -210,14 +188,14 @@
         android:id="@+id/instructorLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_5sdp"
         android:background="@color/white"
         android:orientation="vertical"
         android:padding="10dp"
-        android:layout_marginTop="@dimen/_5sdp"
+        android:visibility="visible"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/gridLayout"
-        android:visibility="visible">
+        app:layout_constraintTop_toBottomOf="@id/gridLayout">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/instructionView"

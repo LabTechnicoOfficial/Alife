@@ -1,11 +1,16 @@
 package com.alifew.alifeworld.view.Customer;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -18,10 +23,13 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SnapHelper;
 
 import com.alifew.alifeworld.R;
 import com.alifew.alifeworld.adapter.Instruction_adapter;
+import com.alifew.alifeworld.adapter.Slider.CustomerSliderViewAdapter;
 import com.alifew.alifeworld.model.slider.Customer_slider_response;
 import com.alifew.alifeworld.model.user_instruction_response;
 import com.alifew.alifeworld.viewmodel.EarningViewModel;
@@ -34,15 +42,15 @@ import com.google.android.gms.ads.FullScreenContentCallback;
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.admanager.AdManagerAdView;
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
+import com.google.android.material.carousel.CarouselLayoutManager;
 /*import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;*/
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Customer_homescreen_fragment extends Fragment implements Instruction_adapter.OnItemClickListener {
@@ -63,27 +71,24 @@ public class Customer_homescreen_fragment extends Fragment implements Instructio
 
     //SliderView imageSliderView;
     SessionManagement sessionManagement;
-    CardView sliderCard;
+
+    RecyclerView carouselView;
 
     LinearLayout instructionLayout;
     RecyclerView instructionView;
+    private int currentIndex = 0;
+    private final Handler autoScrollHandler = new Handler();
+    private final int AUTO_SCROLL_INTERVAL = 1500;
+    CustomerSliderViewAdapter customerSliderViewAdapter;
 
     @SuppressLint("MissingPermission")
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        MobileAds.initialize(getActivity(), new OnInitializationCompleteListener() {
-            @Override
-            public void onInitializationComplete(InitializationStatus initializationStatus) {
+        MobileAds.initialize(requireActivity(), initializationStatus -> loadAd());
 
-                loadAd();
-            }
-        });
-
-
-        main();
         instruction_func();
-        loadSlider();
+
     }
 
 
@@ -93,7 +98,7 @@ public class Customer_homescreen_fragment extends Fragment implements Instructio
         View view = inflater.inflate(R.layout.customer_homescreen_fragment, container, false);
 
         initView(view);
-
+        loadSlider();
 
         shopListButton.setOnClickListener(v -> fragmentManager.beginTransaction().setCustomAnimations(R.anim.slide_in,  // enter
                 R.anim.fade_out,  // exit
@@ -120,21 +125,20 @@ public class Customer_homescreen_fragment extends Fragment implements Instructio
         ).replace(R.id.cus_frame_container, new Customer_coupon_fragment(customer_id)).addToBackStack(null).commit());
 
         referButton.setOnClickListener(v ->
-            fragmentManager.beginTransaction().setCustomAnimations(R.anim.slide_in,  // enter
-                    R.anim.fade_out,  // exit
-                    R.anim.fade_in,   // popEnter
-                    R.anim.slide_out  // popExit
-            ).replace(R.id.cus_frame_container, new Customer_refer_shop_fragment(customer_id)).addToBackStack(null).commit()
+                fragmentManager.beginTransaction().setCustomAnimations(R.anim.slide_in,  // enter
+                        R.anim.fade_out,  // exit
+                        R.anim.fade_in,   // popEnter
+                        R.anim.slide_out  // popExit
+                ).replace(R.id.cus_frame_container, new Customer_refer_shop_fragment(customer_id)).addToBackStack(null).commit()
         );
 
         return view;
     }
 
     private void initView(View view) {
-        sessionManagement = new SessionManagement(getActivity());
-        sliderViewModel = new ViewModelProvider(getActivity()).get(SliderViewModel.class);
+        sessionManagement = new SessionManagement(requireActivity());
+        sliderViewModel = new ViewModelProvider(requireActivity()).get(SliderViewModel.class);
         //imageSliderView = view.findViewById(R.id.imageSliderView);
-        sliderCard = view.findViewById(R.id.sliderCard);
 
         dueListButton = view.findViewById(R.id.dueListButtonID);
         shopListButton = view.findViewById(R.id.ShopListButtonID);
@@ -151,7 +155,7 @@ public class Customer_homescreen_fragment extends Fragment implements Instructio
 
         customer_id = String.valueOf(sessionManagement.getSession());
 
-        userInstruction = new ViewModelProvider(getActivity()).get(User_instruction.class);
+        userInstruction = new ViewModelProvider(requireActivity()).get(User_instruction.class);
 
         instructionLayout = view.findViewById(R.id.instructorLayout);
 
@@ -161,6 +165,12 @@ public class Customer_homescreen_fragment extends Fragment implements Instructio
         instructionView.setHasFixedSize(true);
         instructionView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
 
+
+        CarouselLayoutManager carouselLayoutManager = new CarouselLayoutManager();
+
+        carouselView = view.findViewById(R.id.carouselView);
+        carouselView.setHasFixedSize(true);
+        carouselView.setLayoutManager(carouselLayoutManager);
     }
 
     private void instruction_func() {
@@ -170,21 +180,18 @@ public class Customer_homescreen_fragment extends Fragment implements Instructio
             @Override
             public void onChanged(List<user_instruction_response> user_instruction_responses) {
 
-                if (user_instruction_responses.size() > 0) {
+                if (!user_instruction_responses.isEmpty()) {
 
                     instructionList = new ArrayList<>();
                     instructionList = user_instruction_responses;
                     instructionAdapter = new Instruction_adapter(instructionList);
-                    instructionAdapter.setOnClickListener(Customer_homescreen_fragment.this::OnInstructorItemClick);
+                    instructionAdapter.setOnClickListener(Customer_homescreen_fragment.this);
                     instructionView.setAdapter(instructionAdapter);
                 }
             }
         });
     }
 
-    private void main() {
-
-    }
 
     @Override
     public void OnInstructorItemClick(int position) {
@@ -197,7 +204,7 @@ public class Customer_homescreen_fragment extends Fragment implements Instructio
 
     private void loadAd() {
         AdRequest adRequest = new AdRequest.Builder().build();
-        InterstitialAd.load(getActivity(), "ca-app-pub-9914022847917901/8396202139", adRequest, new InterstitialAdLoadCallback() {
+        InterstitialAd.load(requireActivity(), "ca-app-pub-9914022847917901/8396202139", adRequest, new InterstitialAdLoadCallback() {
             @Override
             public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
                 // The mInterstitialAd reference will be null until
@@ -217,7 +224,7 @@ public class Customer_homescreen_fragment extends Fragment implements Instructio
                     }
 
                     @Override
-                    public void onAdFailedToShowFullScreenContent(AdError adError) {
+                    public void onAdFailedToShowFullScreenContent(@NonNull AdError adError) {
                         // Called when fullscreen content failed to show.
                         // Make sure to set your reference to null so you don't
                         // show it a second time.
@@ -242,13 +249,11 @@ public class Customer_homescreen_fragment extends Fragment implements Instructio
     }
 
     private void loadSlider() {
-/*
-       Log.d("dataxx", "location: " + sessionManagement.getLatitude() + " " + sessionManagement.getLongitude());
-        String latitude = "23.804808";//sessionManagement.getLatitude();
-        String longitude = "90.373915";//sessionManagement.getLongitude();*/
+
         String latitude = sessionManagement.getLatitude();
         String longitude = sessionManagement.getLongitude();
-        sliderViewModel.getSliderListByLatLong(latitude, longitude).observe(getViewLifecycleOwner(), new Observer<List<Customer_slider_response>>() {
+        sliderViewModel.getSliderListByLatLong(latitude, longitude).observe(getViewLifecycleOwner(), new Observer<>() {
+            @SuppressLint("ClickableViewAccessibility")
             @Override
             public void onChanged(List<Customer_slider_response> customer_slider_responses) {
                 bannerList = new ArrayList<>();
@@ -257,22 +262,64 @@ public class Customer_homescreen_fragment extends Fragment implements Instructio
                     bannerList.addAll(customer_slider_responses.get(i).sliders);
                 }
 
-                if (bannerList.size() > 0) {
-                    sliderCard.setVisibility(View.VISIBLE);
+                if (bannerList.isEmpty()) {
+                    carouselView.setVisibility(GONE);
                 } else {
-                    sliderCard.setVisibility(View.GONE);
+                    carouselView.setVisibility(VISIBLE);
                 }
 
-           /*     CustomerSliderViewAdapter sliderViewAdapter = new CustomerSliderViewAdapter(bannerList);
-                imageSliderView.setSliderAdapter(sliderViewAdapter);
-                imageSliderView.setIndicatorAnimation(IndicatorAnimationType.WORM);
-                imageSliderView.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
-                imageSliderView.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_BACK_AND_FORTH);
-                imageSliderView.setIndicatorSelectedColor(Color.WHITE);
-                imageSliderView.setIndicatorUnselectedColor(Color.GRAY);
-                imageSliderView.setScrollTimeInSec(3);
-                imageSliderView.startAutoCycle();*/
+
+                customerSliderViewAdapter = new CustomerSliderViewAdapter(bannerList);
+                carouselView.setAdapter(customerSliderViewAdapter);
+                SnapHelper snapHelper = new LinearSnapHelper();
+                snapHelper.attachToRecyclerView(carouselView);
+
+                carouselView.setOnTouchListener((v, event) -> {
+                    switch (event.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
+                            stopAutoScroll();
+                            break;
+                        case MotionEvent.ACTION_UP:
+                        case MotionEvent.ACTION_CANCEL:
+                            startAutoScroll();
+                            break;
+                    }
+                    return false;
+                });
+
             }
         });
+
+    }
+
+    private void stopAutoScroll() {
+        autoScrollHandler.removeCallbacks(autoScrollRunnable);
+    }
+
+    private void startAutoScroll() {
+        autoScrollHandler.postDelayed(autoScrollRunnable, AUTO_SCROLL_INTERVAL);
+    }
+
+    final Runnable autoScrollRunnable = new Runnable() {
+        @Override
+        public void run() {
+            if (customerSliderViewAdapter.getItemCount() == 0) return;
+            currentIndex = (currentIndex + 1) % customerSliderViewAdapter.getItemCount();
+            carouselView.smoothScrollToPosition(currentIndex);
+
+            autoScrollHandler.postDelayed(this, AUTO_SCROLL_INTERVAL);
+        }
+    };
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        stopAutoScroll(); // Prevent handler leak
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        startAutoScroll();
     }
 }
