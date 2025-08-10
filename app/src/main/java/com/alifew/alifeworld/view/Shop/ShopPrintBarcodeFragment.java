@@ -449,7 +449,7 @@ public class ShopPrintBarcodeFragment extends Fragment implements Shop_product_b
         productView.setHasFixedSize(true);
         productView.setLayoutManager(new LinearLayoutManager(getActivity()));
         searchEditText = view.findViewById(R.id.searchEditText);
-        shopID = String.valueOf(sessionManagement.getSession());
+        shopID = String.valueOf(sessionManagement.getUserID());
 
         barCodeButton = view.findViewById(R.id.barCodeButton);
 

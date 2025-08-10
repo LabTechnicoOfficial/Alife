@@ -1,7 +1,6 @@
 package com.alifew.alifeworld;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -16,7 +15,6 @@ import android.graphics.pdf.PdfDocument;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
@@ -35,8 +33,6 @@ import com.alifew.alifeworld.session.SessionManagement;
 import com.alifew.alifeworld.viewmodel.ShopProfileViewModel;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Set;
 
@@ -86,7 +82,7 @@ public class StockAvailibityPrintActivity extends AppCompatActivity {
 
         runOnUiThread(() -> {
             loader.show();
-            shop_profile.getData(String.valueOf(sessionManagement.getSession())).observe(this, shopProfileResponse -> {
+            shop_profile.getData(String.valueOf(sessionManagement.getUserID())).observe(this, shopProfileResponse -> {
                 loader.dismiss();
                 shopPrintProductStockAdapter = new ShopPrintProductStockAdapter(productDao.getSearchedProductsList(""), productDao, shopProfileResponse);
                 binding.itemView.setAdapter(shopPrintProductStockAdapter);

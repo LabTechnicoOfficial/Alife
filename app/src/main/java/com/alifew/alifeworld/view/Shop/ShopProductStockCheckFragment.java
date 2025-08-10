@@ -41,14 +41,11 @@ import com.alifew.alifeworld.R;
 import com.alifew.alifeworld.StockAvailibityPrintActivity;
 import com.alifew.alifeworld.Utils.Constants;
 import com.alifew.alifeworld.Utils.ImageHelper;
-import com.alifew.alifeworld.adapter.stock.ShopPrintProductStockAdapter;
 import com.alifew.alifeworld.adapter.stock.ShopProductStockCheckSearchAdapter;
 import com.alifew.alifeworld.adapter.stock.ShopProductStockCheckTypeAdapter;
 import com.alifew.alifeworld.databinding.FragmentShopProductStockCheckBinding;
-import com.alifew.alifeworld.model.Fetch_product_detail_by_bar_code_response;
 import com.alifew.alifeworld.model.Get_product_response;
 import com.alifew.alifeworld.session.SessionManagement;
-import com.alifew.alifeworld.view.MainActivity;
 import com.alifew.alifeworld.viewmodel.Get_all_shop_product;
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
@@ -290,7 +287,7 @@ public class ShopProductStockCheckFragment extends Fragment implements ShopProdu
 
         sessionManagement = new SessionManagement(getActivity());
         getAllShopProduct = new ViewModelProvider(getActivity()).get(Get_all_shop_product.class);
-        shopID = String.valueOf(sessionManagement.getSession());
+        shopID = String.valueOf(sessionManagement.getUserID());
 
         loader = new Dialog(getActivity());
         loader.setContentView(R.layout.loader);

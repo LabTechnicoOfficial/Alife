@@ -218,7 +218,7 @@ public class Shop_coupon_fragment extends Fragment implements Shop_coupon_adapte
 
     private void initView(View view) {
         sessionManagement = new SessionManagement(getActivity());
-        shopID = String.valueOf(sessionManagement.getSession());
+        shopID = String.valueOf(sessionManagement.getUserID());
         edit_delete_cupon_package = new ViewModelProvider(this).get(Edit_delete_cupon_package.class);
         couponViewModel = new ViewModelProvider(this).get(CouponViewModel.class);
 

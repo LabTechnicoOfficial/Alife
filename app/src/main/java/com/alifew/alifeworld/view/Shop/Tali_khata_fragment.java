@@ -466,7 +466,7 @@ public class Tali_khata_fragment extends Fragment implements Shop_tally_khata_ad
         View view = inflater.inflate(R.layout.shop_daily_account_fragment, container, false);
 
         sessionManagement = new SessionManagement(getActivity());
-        shop_id = String.valueOf(sessionManagement.getSession());
+        shop_id = String.valueOf(sessionManagement.getUserID());
 
         totalSellText = (TextView) view.findViewById(R.id.totalSellID);
         totalProfitText = (TextView) view.findViewById(R.id.totalProfitID);

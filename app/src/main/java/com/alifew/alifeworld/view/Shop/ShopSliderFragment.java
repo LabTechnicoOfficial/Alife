@@ -4,7 +4,6 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -46,7 +45,6 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 
 public class ShopSliderFragment extends Fragment implements ShopSliderAdapter.SwitchChangeListener {
@@ -189,7 +187,7 @@ public class ShopSliderFragment extends Fragment implements ShopSliderAdapter.Sw
         sliderViewModel = new ViewModelProvider(requireActivity()).get(SliderViewModel.class);
 
         sessionManagement = new SessionManagement(requireActivity());
-        shopID = String.valueOf(sessionManagement.getSession());
+        shopID = String.valueOf(sessionManagement.getUserID());
 
         loader = new Dialog(getActivity());
         loader.setContentView(R.layout.loader);

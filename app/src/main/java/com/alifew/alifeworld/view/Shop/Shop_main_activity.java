@@ -135,7 +135,7 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
         super.onStart();
 
 
-        user = sessionManagement.getSession();
+        user = sessionManagement.getUserID();
 
         checkForAppUpdate();
 
@@ -209,39 +209,34 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
 
     private void checkMultipleDeviceLogIN() {
         Log.d("dataxx", "token: " + deviceToken);
-        user_deviceToken.getToken(String.valueOf(user), "shop").observe(Shop_main_activity.this, new Observer<getUser_deviceToken_response>() {
-            @Override
-            public void onChanged(getUser_deviceToken_response getUser_deviceToken_response) {
-                if (!getUser_deviceToken_response.getToken().equals(deviceToken)) {
+        user_deviceToken.getToken(String.valueOf(user), "shop").observe(Shop_main_activity.this, getUser_deviceToken_response -> {
+            if (!getUser_deviceToken_response.getToken().equals(deviceToken)) {
+                Dialog sessionOutAlert = new Dialog(Shop_main_activity.this);
+                sessionOutAlert.setContentView(R.layout.session_out_alert);
+                sessionOutAlert.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                sessionOutAlert.setCancelable(false);
+                sessionOutAlert.show();
 
+                Window window = sessionOutAlert.getWindow();
+                WindowManager.LayoutParams wlp = window.getAttributes();
+                wlp.gravity = Gravity.CENTER;
+                wlp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+                wlp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+                window.setAttributes(wlp);
 
-                    Dialog sessionOutAlert = new Dialog(Shop_main_activity.this);
-                    sessionOutAlert.setContentView(R.layout.session_out_alert);
-                    sessionOutAlert.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                    sessionOutAlert.setCancelable(false);
-                    sessionOutAlert.show();
+                TextView okButton = sessionOutAlert.findViewById(R.id.okButton);
 
-                    Window window = sessionOutAlert.getWindow();
-                    WindowManager.LayoutParams wlp = window.getAttributes();
-                    wlp.gravity = Gravity.CENTER;
-                    wlp.width = WindowManager.LayoutParams.WRAP_CONTENT;
-                    wlp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-                    window.setAttributes(wlp);
+                okButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //Toast.makeText(Shop_main_activity.this, "ok", Toast.LENGTH_SHORT).show();
+                        sessionManagement = new SessionManagement(Shop_main_activity.this);
+                        sessionManagement.removeSession();
+                        startActivity(new Intent(Shop_main_activity.this, LoginActivity.class));
+                        finish();
+                    }
+                });
 
-                    TextView okButton = sessionOutAlert.findViewById(R.id.okButton);
-
-                    okButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            //Toast.makeText(Shop_main_activity.this, "ok", Toast.LENGTH_SHORT).show();
-                            sessionManagement = new SessionManagement(Shop_main_activity.this);
-                            sessionManagement.removeSession();
-                            startActivity(new Intent(Shop_main_activity.this, LoginActivity.class));
-                            finish();
-                        }
-                    });
-
-                }
             }
         });
     }
@@ -434,7 +429,7 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
 
         deviceToken = sessionManagement.getDeviceToken();
         //Log.d("dataxx", "mac: " + deviceToken);
-        shop_id = String.valueOf(sessionManagement.getSession());
+        shop_id = String.valueOf(sessionManagement.getUserID());
         type = sessionManagement.getType();
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.nav_view);

@@ -156,7 +156,7 @@ public class Operator_main_activity extends AppCompatActivity implements Navigat
         checkConnection();
 
         SessionManagement sessionManagement = new SessionManagement(Operator_main_activity.this);
-        int userId = sessionManagement.getSession();
+        int userId = sessionManagement.getUserID();
         agent_id = String.valueOf(userId);
         type = sessionManagement.getType();
 

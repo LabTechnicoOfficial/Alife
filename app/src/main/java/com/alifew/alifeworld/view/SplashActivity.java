@@ -84,7 +84,7 @@ public class SplashActivity extends AppCompatActivity implements LocationListene
         sessionManagement = new SessionManagement(SplashActivity.this);
         locationText = findViewById(R.id.locationText);
 
-        userId = sessionManagement.getSession();
+        userId = sessionManagement.getUserID();
         type = sessionManagement.getType();
 
         titleText = findViewById(R.id.titleText);

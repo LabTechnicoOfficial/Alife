@@ -189,7 +189,7 @@ public class Shop_coupon_packages_details_fragment extends Fragment implements S
 
     private void initView(View view) {
         sessionManagement = new SessionManagement(getActivity());
-        shopID = sessionManagement.getSession();
+        shopID = sessionManagement.getUserID();
         edit_delete_cupon_package = new ViewModelProvider(this).get(Edit_delete_cupon_package.class);
         customer_notification = new ViewModelProvider(this).get(sendPackageCustomer_notification.class);
         editButton = (ExtendedFloatingActionButton) view.findViewById(R.id.editButton);

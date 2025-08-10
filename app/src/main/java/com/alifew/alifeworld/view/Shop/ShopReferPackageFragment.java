@@ -33,7 +33,6 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 
 public class ShopReferPackageFragment extends Fragment implements ShopReferPackageAdapter.OnItemClickListener, ShopReferPackageAdapter.OnItemDeleteClickListener {
@@ -167,7 +166,7 @@ public class ShopReferPackageFragment extends Fragment implements ShopReferPacka
 
     private void initView(View view) {
         sessionManagement = new SessionManagement(getActivity());
-        shopID = sessionManagement.getSession();
+        shopID = sessionManagement.getUserID();
         shopReferViewModel = new ViewModelProvider(getActivity()).get(ShopReferViewModel.class);
 
         binding.itemView.setHasFixedSize(true);

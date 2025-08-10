@@ -17,7 +17,6 @@ import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
@@ -50,7 +49,6 @@ import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;*/
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Customer_homescreen_fragment extends Fragment implements Instruction_adapter.OnItemClickListener {
@@ -153,7 +151,7 @@ public class Customer_homescreen_fragment extends Fragment implements Instructio
         mAdManagerAdView = view.findViewById(R.id.adManagerAdView);
 
 
-        customer_id = String.valueOf(sessionManagement.getSession());
+        customer_id = String.valueOf(sessionManagement.getUserID());
 
         userInstruction = new ViewModelProvider(requireActivity()).get(User_instruction.class);
 

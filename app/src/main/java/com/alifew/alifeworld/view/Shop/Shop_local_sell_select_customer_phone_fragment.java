@@ -81,7 +81,7 @@ public class Shop_local_sell_select_customer_phone_fragment extends Fragment imp
     private void initView(View view) {
         sessionManagement = new SessionManagement(getActivity());
         //shop_id = sessionManagement.getSaveShopName()
-        shop_id = String.valueOf(sessionManagement.getSession());
+        shop_id = String.valueOf(sessionManagement.getUserID());
         // Toast.makeText(getActivity(), sessionManagement.getSaveShopName(), Toast.LENGTH_SHORT).show();
         get_local_sell = new ViewModelProvider(this).get(Get_local_sell.class);
         recyclerView = view.findViewById(R.id.itemView);

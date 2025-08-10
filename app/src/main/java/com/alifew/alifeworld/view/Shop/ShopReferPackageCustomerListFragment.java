@@ -87,7 +87,7 @@ public class ShopReferPackageCustomerListFragment extends Fragment implements Sh
 
     private void initView(View view) {
         sessionManagement = new SessionManagement(getActivity());
-        shopID = sessionManagement.getSession();
+        shopID = sessionManagement.getUserID();
         shopReferViewModel = new ViewModelProvider(getActivity()).get(ShopReferViewModel.class);
         binding.itemView.setHasFixedSize(true);
         binding.itemView.setLayoutManager(new LinearLayoutManager(getActivity()));

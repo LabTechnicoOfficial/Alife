@@ -74,7 +74,7 @@ public class Customer_profile_fragments extends Fragment {
         super.onActivityCreated(savedInstanceState);
         checkConnection();
         SessionManagement sessionManagement = new SessionManagement(getActivity());
-        customer_id = sessionManagement.getSession();
+        customer_id = sessionManagement.getUserID();
         customer_profile = new ViewModelProvider(getActivity()).get(Customer_profile.class);
 
         customer_profile.getData(String.valueOf(customer_id)).observe(getViewLifecycleOwner(), new Observer<customer_profile_response>() {

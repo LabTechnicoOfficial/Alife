@@ -35,7 +35,7 @@ public class SessionManagement {
 
     }
 
-    public int getSession() {
+    public int getUserID() {
 
         return sharedpreferences.getInt(SESSION_KEY, -1);
     }

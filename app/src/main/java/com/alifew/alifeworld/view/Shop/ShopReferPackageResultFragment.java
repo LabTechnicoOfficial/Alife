@@ -76,7 +76,7 @@ public class ShopReferPackageResultFragment extends Fragment implements ShopRefe
 
     private void initView(View view) {
         sessionManagement = new SessionManagement(getActivity());
-        shopID = sessionManagement.getSession();
+        shopID = sessionManagement.getUserID();
 
         binding.itemView.setHasFixedSize(true);
         binding.itemView.setLayoutManager(new LinearLayoutManager(getActivity()));

@@ -85,7 +85,7 @@ public class Shop_profile_fragments extends Fragment {
         checkConnection();
 
         SessionManagement sessionManagement = new SessionManagement(getActivity());
-        userId = sessionManagement.getSession();
+        userId = sessionManagement.getUserID();
         shop_profile = new ViewModelProvider(getActivity()).get(ShopProfileViewModel.class);
         shop_profile.getData(String.valueOf(userId)).observe(getViewLifecycleOwner(), new Observer<Shop_profile_response>() {
             @Override

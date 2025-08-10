@@ -7,14 +7,12 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.pdf.PdfDocument;
 import android.net.Uri;
@@ -103,7 +101,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 
 public class Shop_local_sell_fragment extends Fragment implements Shop_local_sell_select_product_adapter.OnItemClickListener {
 
@@ -501,7 +498,7 @@ public class Shop_local_sell_fragment extends Fragment implements Shop_local_sel
         shopCustomerViewModel = new ViewModelProvider(this).get(ShopCustomerViewModel.class);
 
         sessionManagement = new SessionManagement(getActivity());
-        shopID = String.valueOf(sessionManagement.getSession());
+        shopID = String.valueOf(sessionManagement.getUserID());
         pointsCriteriaText = view.findViewById(R.id.pointsCriteriaText);
         duePriceText = view.findViewById(R.id.duePriceText);
         get_local_sell = new ViewModelProvider(this).get(Get_local_sell.class);

@@ -66,7 +66,7 @@ public class Sub_shop_fragment extends Fragment implements Sub_shop_adapter.OnIt
         checkConnection();
         int userId;
         SessionManagement sessionManagement = new SessionManagement(getActivity());
-        userId = sessionManagement.getSession();
+        userId = sessionManagement.getUserID();
         fetch_shop = new ViewModelProvider(getActivity()).get(Fetch_shop.class);
         data = new ArrayList<>();
         fetch_shop.getData().observe(getViewLifecycleOwner(), new Observer<List<fetch_shop_response>>() {

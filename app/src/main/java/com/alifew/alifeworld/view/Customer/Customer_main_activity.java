@@ -96,7 +96,7 @@ public class Customer_main_activity extends AppCompatActivity implements Navigat
         // isInForeground = false;
         super.onStart();
 
-        userId = sessionManagement.getSession();
+        userId = sessionManagement.getUserID();
 
         checkForAppUpdate();
 
@@ -175,7 +175,7 @@ public class Customer_main_activity extends AppCompatActivity implements Navigat
         alertCustom.setContentView(R.layout.loader);
 
         SessionManagement sessionManagement = new SessionManagement(Customer_main_activity.this);
-        int userId = sessionManagement.getSession();
+        int userId = sessionManagement.getUserID();
         customer_id = String.valueOf(userId);
         type = sessionManagement.getType();
 

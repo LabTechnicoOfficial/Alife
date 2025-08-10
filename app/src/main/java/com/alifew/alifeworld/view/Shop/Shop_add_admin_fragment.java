@@ -269,7 +269,7 @@ public class Shop_add_admin_fragment extends Fragment {
 
     public void update_adminList() {
         SessionManagement sessionManagement = new SessionManagement(getActivity());
-        String shop_id = String.valueOf(sessionManagement.getSession());
+        String shop_id = String.valueOf(sessionManagement.getUserID());
         Fetch_shop_adminList fetch_shop_admin = new ViewModelProvider(getActivity()).get(Fetch_shop_adminList.class);
 
         fetch_shop_admin.getData(shop_id).observe(getViewLifecycleOwner(), new Observer<List<fetch_shop_admin_response>>() {

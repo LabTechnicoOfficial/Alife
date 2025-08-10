@@ -120,7 +120,7 @@ public class ShopPointFragment extends Fragment implements Shop_point_adapter.On
 
     private void initView(View view) {
         sessionManagement = new SessionManagement(getActivity());
-        shopID = String.valueOf(sessionManagement.getSession());
+        shopID = String.valueOf(sessionManagement.getUserID());
 
         itemView = view.findViewById(R.id.itemView);
         itemView.setHasFixedSize(true);

@@ -94,7 +94,7 @@ public class ShopReferFragment extends Fragment implements ShopReferAdapter.OnIt
     private void initView(View view) {
         referViewModel = new ViewModelProvider(getActivity()).get(ShopReferViewModel.class);
         sessionManagement = new SessionManagement(getActivity());
-        shopID = sessionManagement.getSession();
+        shopID = sessionManagement.getUserID();
 
         binding.itemView.setHasFixedSize(true);
         binding.itemView.setLayoutManager(new LinearLayoutManager(getActivity()));

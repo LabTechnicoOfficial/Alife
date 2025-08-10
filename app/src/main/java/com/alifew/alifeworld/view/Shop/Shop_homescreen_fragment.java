@@ -59,11 +59,11 @@ import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class Shop_homescreen_fragment extends Fragment implements Instruction_adapter.OnItemClickListener {
     LinearLayout dailyAccountButton, dueListButton, customerListButton;
@@ -130,6 +130,19 @@ public class Shop_homescreen_fragment extends Fragment implements Instruction_ad
                         R.anim.fade_in,   // popEnter
                         R.anim.slide_out  // popExit
                 ).replace(R.id.frame_container, new Shop_local_sell_fragment()).addToBackStack(null).commit();
+                /*FirebaseMessaging.getInstance().deleteToken()
+                        .addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+
+                                FirebaseMessaging.getInstance().getToken()
+                                        .addOnSuccessListener(token -> {
+                                            Log.d("dataxx", "Token New: " + token);
+                                        });
+
+                            } else {
+                                Log.e("dataxx", "Failed to delete token", task.getException());
+                            }
+                        });*/
             }
         });
 
@@ -472,7 +485,7 @@ public class Shop_homescreen_fragment extends Fragment implements Instruction_ad
         fragmentManager = getFragmentManager();
 
         sessionManagement = new SessionManagement(getActivity());
-        shop_id = String.valueOf(sessionManagement.getSession());
+        shop_id = String.valueOf(sessionManagement.getUserID());
 
     }
 

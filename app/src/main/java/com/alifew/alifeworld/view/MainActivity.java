@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SessionManagement sessionManagement = new SessionManagement(MainActivity.this);
-        int userId = sessionManagement.getSession();
+        int userId = sessionManagement.getUserID();
         String type = sessionManagement.getType();
         if (userId != -1) {
             if (type.equals("shopkeeper")) {

@@ -631,7 +631,7 @@ public class Shop_local_sell_history_fragment extends Fragment implements Adapte
 
     private void initView(View view) {
         sessionManagement = new SessionManagement(getActivity());
-        shopID = String.valueOf(sessionManagement.getSession());
+        shopID = String.valueOf(sessionManagement.getUserID());
 
         totalSellPriceText = (TextView) view.findViewById(R.id.totalSellID);
         totalBuyPriceText = (TextView) view.findViewById(R.id.totalBuyID);

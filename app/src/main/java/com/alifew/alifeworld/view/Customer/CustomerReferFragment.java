@@ -77,7 +77,7 @@ public class CustomerReferFragment extends Fragment {
         customer_details = new ViewModelProvider(getActivity()).get(Customer_details.class);
 
         sessionManagement = new SessionManagement(getActivity());
-        userID = String.valueOf(sessionManagement.getSession());
+        userID = String.valueOf(sessionManagement.getUserID());
 
         myReferralCode = view.findViewById(R.id.myReferralCode);
         friendReferralCode = view.findViewById(R.id.friendReferralCode);
