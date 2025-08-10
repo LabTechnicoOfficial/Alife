@@ -22,6 +22,8 @@ import com.alifew.alifeworld.session.SessionManagement;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import java.util.HashMap;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -46,7 +48,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
  @Override
  public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
      super.onMessageReceived(remoteMessage);
-     Log.d("dataxx", "onMessageReceived: "+remoteMessage);
+
+     HashMap map = new HashMap();
+     map.put("title", remoteMessage.getNotification().getTitle());
+     map.put("body", remoteMessage.getNotification().getBody());
+     Log.d("dataxx", "onMessageReceived: "+map);
      // Check if the message contains a notification payload
      if (remoteMessage.getNotification() != null) {
          String title = remoteMessage.getNotification().getTitle();
