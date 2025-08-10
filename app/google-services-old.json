@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "678338540390",
-    "project_id": "alife-e173b",
-    "storage_bucket": "alife-e173b.appspot.com"
+    "project_number": "232485109236",
+    "project_id": "alife-4cd76",
+    "storage_bucket": "alife-4cd76.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:678338540390:android:789bfd50c125c25dc5cea7",
+        "mobilesdk_app_id": "1:232485109236:android:bc53d2a3ff3468afef0da1",
         "android_client_info": {
           "package_name": "com.alifew.alifeworld"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyB2fIet-GWdHAmDVzJTj3X_TACgct8kRuk"
+          "current_key": "AIzaSyAKR8CmysCxy48oULeR6LjnYRlI2RM7Zao"
         }
       ],
       "services": {

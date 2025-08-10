@@ -7,6 +7,7 @@ public class Constants {
 
     public static final String NOTIFICATION_ID = "ALIFEID";
     public static final String NOTIFICATION_CHANNEL= "ALIFE CHANNEL";
+    public static final String NOTIFICATION_DESCRIPTION= "ALIFE CHANNEL";
 
     public static final String TAKA_SYMBOL= "\u09F3";
 }
