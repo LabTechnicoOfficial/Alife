@@ -1174,7 +1174,11 @@ public class Shop_local_sell_fragment extends Fragment implements Shop_local_sel
         productPriceText.setText(String.valueOf(productPrice));
         paidPriceText.setText(String.valueOf(productPrice));
 
-        buyPrice += Double.parseDouble(buy_price);
+        if (buy_price.isEmpty()) {
+            buyPrice += Double.parseDouble("0");
+        } else {
+            buyPrice += Double.parseDouble(buy_price);
+        }
         buyPriceText.setText(String.valueOf(buyPrice));
 
         Double profit = Double.parseDouble(productPriceText.getText().toString().trim()) - Double.parseDouble(buyPriceText.getText().toString().trim());
