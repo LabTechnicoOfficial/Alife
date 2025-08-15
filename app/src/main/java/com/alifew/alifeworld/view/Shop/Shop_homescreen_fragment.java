@@ -345,71 +345,65 @@ public class Shop_homescreen_fragment extends Fragment implements Instruction_ad
             }
         });
 
-        barcodeScanButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Dialog barCodeAlert = new Dialog(getActivity());
-                barCodeAlert.setContentView(R.layout.barcode_scan_alert);
-                barCodeAlert.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                barCodeAlert.setCancelable(false);
-                barCodeAlert.show();
+        barcodeScanButton.setOnClickListener(view2 -> {
+            Dialog barCodeAlert = new Dialog(getActivity());
+            barCodeAlert.setContentView(R.layout.barcode_scan_alert);
+            barCodeAlert.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            barCodeAlert.setCancelable(false);
+            barCodeAlert.show();
 
-                Window window = barCodeAlert.getWindow();
-                WindowManager.LayoutParams wlp = window.getAttributes();
-                wlp.gravity = Gravity.CENTER;
-                wlp.width = android.view.WindowManager.LayoutParams.MATCH_PARENT;
-                wlp.height = android.view.WindowManager.LayoutParams.WRAP_CONTENT;
-                window.setAttributes(wlp);
+            Window window = barCodeAlert.getWindow();
+            WindowManager.LayoutParams wlp = window.getAttributes();
+            wlp.gravity = Gravity.CENTER;
+            wlp.width = WindowManager.LayoutParams.MATCH_PARENT;
+            wlp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+            window.setAttributes(wlp);
 
-                AppCompatButton okButton = barCodeAlert.findViewById(R.id.ok);
-                AppCompatButton reScanButton = barCodeAlert.findViewById(R.id.reScanButton);
-                ImageView closeButton = barCodeAlert.findViewById(R.id.closeButton);
-                barcodeText = barCodeAlert.findViewById(R.id.barcode_text);
-                surfaceView = barCodeAlert.findViewById(R.id.surface_view);
-                okButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
+            AppCompatButton okButton = barCodeAlert.findViewById(R.id.ok);
+            AppCompatButton reScanButton = barCodeAlert.findViewById(R.id.reScanButton);
+            ImageView closeButton = barCodeAlert.findViewById(R.id.closeButton);
+            barcodeText = barCodeAlert.findViewById(R.id.barcode_text);
+            surfaceView = barCodeAlert.findViewById(R.id.surface_view);
+            okButton.setOnClickListener(view1 -> {
 
-                        if (barcodeData.isEmpty()) {
-                            Toast.makeText(getActivity(), "no barcode detected", Toast.LENGTH_SHORT).show();
-                        } else {
-                            getProductViewModel.fetch_product_detail_by_bar_code(shop_id, barcodeData).observe(getViewLifecycleOwner(), new Observer<Fetch_product_detail_by_bar_code_response>() {
+                if (barcodeData.isEmpty()) {
+                    Toast.makeText(getActivity(), "no barcode detected", Toast.LENGTH_SHORT).show();
+                } else {
+                    getProductViewModel.fetch_product_detail_by_bar_code(shop_id, barcodeData).observe(getViewLifecycleOwner(), new Observer<Fetch_product_detail_by_bar_code_response>() {
 
-                                @Override
-                                public void onChanged(Fetch_product_detail_by_bar_code_response response) {
+                        @Override
+                        public void onChanged(Fetch_product_detail_by_bar_code_response response) {
 
-                                    if (response != null) {
-                                        barCodeAlert.dismiss();
-                                        vieProductDetails(response);
-                                    } else {
-                                        Toast.makeText(getActivity(), "কোন পণ্য পাওয়া যাইনি", Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            });
+                            if (response != null) {
+                                barCodeAlert.dismiss();
+                                vieProductDetails(response);
+                            } else {
+                                Toast.makeText(getActivity(), "কোন পণ্য পাওয়া যাইনি", Toast.LENGTH_SHORT).show();
+                            }
                         }
+                    });
+                }
 
 
-                    }
-                });
+            });
 
-                reScanButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        initialiseDetectorsAndSources();
-                    }
-                });
+            reScanButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view2) {
+                    initialiseDetectorsAndSources();
+                }
+            });
 
-                closeButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        barCodeAlert.dismiss();
-                    }
-                });
+            closeButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view2) {
+                    barCodeAlert.dismiss();
+                }
+            });
 
-                initialiseDetectorsAndSources();
+            initialiseDetectorsAndSources();
 
 
-            }
         });
 
 
@@ -496,9 +490,8 @@ public class Shop_homescreen_fragment extends Fragment implements Instruction_ad
             @Override
             public void onChanged(List<user_instruction_response> user_instruction_responses) {
 
-                if (user_instruction_responses.size() > 0) {
+                if (!user_instruction_responses.isEmpty()) {
                     instructorLayout.setVisibility(View.VISIBLE);
-                    instructionList = new ArrayList<>();
                     instructionList = user_instruction_responses;
                     instructionAdapter = new Instruction_adapter(instructionList);
                     instructionAdapter.setOnClickListener(Shop_homescreen_fragment.this::OnInstructorItemClick);
@@ -515,6 +508,7 @@ public class Shop_homescreen_fragment extends Fragment implements Instruction_ad
 
     }
 
+    @SuppressLint("SetTextI18n")
     private void vieProductDetails(Fetch_product_detail_by_bar_code_response response) {
         Dialog productDetailsAlert = new Dialog(getActivity());
         productDetailsAlert.setContentView(R.layout.product_details_from_bar_code);

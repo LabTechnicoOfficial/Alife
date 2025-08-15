@@ -189,12 +189,6 @@ public class Customer_homescreen_fragment extends Fragment implements Instructio
         String latitude = sessionManagement.getLatitude();
         String longitude = sessionManagement.getLongitude();
 
-        HashMap<Object, Object> map = new HashMap<>();
-        map.put("latitude", latitude);
-        map.put("longitude", longitude);
-
-        Log.d("dataxx", map.toString());
-
         sliderViewModel.getSliderListByLatLong(latitude, longitude)
                 .observe(getViewLifecycleOwner(), customer_slider_responses -> {
                     bannerList = new ArrayList<>();
@@ -202,7 +196,7 @@ public class Customer_homescreen_fragment extends Fragment implements Instructio
                         bannerList.addAll(response.sliders);
                     }
 
-                   // bannerList.addAll(TestData.bannerList);
+                    //bannerList.addAll(TestData.bannerList);
 
                     if (bannerList.isEmpty()) {
                         carouselView.setVisibility(GONE);

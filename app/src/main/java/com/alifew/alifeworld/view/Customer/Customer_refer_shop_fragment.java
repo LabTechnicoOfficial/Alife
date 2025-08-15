@@ -86,7 +86,7 @@ public class Customer_refer_shop_fragment extends Fragment implements Customer_s
     private void shop_list(int Page,int Limit) {
         viewModel.getReferShopList(Page,Limit).observe(getViewLifecycleOwner(), (Observer<List<ShopResponse>>) cuponShop_responses -> {
             progressBar.setVisibility(View.GONE);
-            shopList.addAll(cuponShop_responses);
+            shopList=cuponShop_responses;
             adapter = new Customer_coupon_shop_list_adapter(shopList);
             adapter.setOnClickListener(Customer_refer_shop_fragment.this::OnItemClick);
             shopListView.setAdapter(adapter);
