@@ -68,7 +68,9 @@ public class Customer_slider_response {
     @Expose
     public List<Slider> sliders;
 
-    public class Slider {
+
+
+    public static class Slider {
 
         @SerializedName("id")
         @Expose
@@ -82,6 +84,13 @@ public class Customer_slider_response {
         @SerializedName("status")
         @Expose
         public String status;
+
+        public Slider(String id, String bannerLink, String shopId, String status) {
+            this.id = id;
+            this.bannerLink = bannerLink;
+            this.shopId = shopId;
+            this.status = status;
+        }
 
     }
 }

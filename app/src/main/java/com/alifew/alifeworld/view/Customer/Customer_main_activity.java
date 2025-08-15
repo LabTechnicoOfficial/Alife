@@ -317,6 +317,9 @@ public class Customer_main_activity extends AppCompatActivity implements Navigat
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.nav_home:
+                getSupportFragmentManager().beginTransaction().replace(R.id.cus_frame_container, new Customer_homescreen_fragment()).commit();
+                break;
             case R.id.log_out:
 
                 logOutFunction();

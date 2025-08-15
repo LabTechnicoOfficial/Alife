@@ -29,7 +29,6 @@ public class Shop_due_customer_adapter extends RecyclerView.Adapter<Shop_due_cus
 
     public Shop_due_customer_adapter(List<shop_due_customer_response> customerList) {
         this.customerList = customerList;
-        this.customerListAll = new ArrayList<>();
         this.customerListAll = customerList;
 
 
@@ -79,6 +78,7 @@ public class Shop_due_customer_adapter extends RecyclerView.Adapter<Shop_due_cus
     }
 
 
+    @NonNull
     @Override
     public AppViewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         layoutInflater = LayoutInflater.from(parent.getContext());
@@ -90,6 +90,7 @@ public class Shop_due_customer_adapter extends RecyclerView.Adapter<Shop_due_cus
     public void onBindViewHolder(@NonNull AppViewholder holder, int position) {
         shop_due_customer_response customer = customerList.get(position);
 
+        holder.lastBuyingTime.setText(customer.last_buying_time);
         holder.customer_name.setText(customer.getCustomer_name());
         holder.customer_phone.setText(customer.getCustomer_phone());
         Double all_due = Double.parseDouble(customer.getTotal_due());
@@ -113,7 +114,7 @@ public class Shop_due_customer_adapter extends RecyclerView.Adapter<Shop_due_cus
 
 
     public class AppViewholder extends RecyclerView.ViewHolder {
-        TextView customer_name, customer_phone, total_due, total_due_title;
+        TextView customer_name, customer_phone, total_due, total_due_title, lastBuyingTime;
 
 
         public AppViewholder(@NonNull View itemView) {
@@ -123,6 +124,7 @@ public class Shop_due_customer_adapter extends RecyclerView.Adapter<Shop_due_cus
             customer_phone = itemView.findViewById(R.id.phoneID);
             total_due = itemView.findViewById(R.id.totalDueID);
             total_due_title = itemView.findViewById(R.id.totalDueTitle);
+            lastBuyingTime = itemView.findViewById(R.id.lastBuyingTime);
 
             itemView.setOnClickListener(v -> {
 

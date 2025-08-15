@@ -123,13 +123,7 @@ public class Customer_shopList_fragment extends Fragment implements Customer_all
     ProgressBar showDetailsProgressBar;
     NestedScrollView yourShopNestedScrollView;
     NestedScrollView showDetailsNestedScrollView;
-    int page1 = 1;
-    int page2 = 1;
-    int limit = 10;
-    int limit2 = 20;
-    int end1 = 0;
-    int end2 = 0;
-    int select_type;
+    int page1 = 1,page2 = 1, limit = 10, limit2 = 20, end1 = 0, end2 = 0, select_type;
 
     TextView barcodeText;
     SurfaceView surfaceView;
@@ -245,12 +239,12 @@ public class Customer_shopList_fragment extends Fragment implements Customer_all
         search = view.findViewById(R.id.searchEditText);
         all_search = view.findViewById(R.id.AllShopSearchID);
         customerRequestButton = view.findViewById(R.id.customerRequestButtonID);
-        requestValue =  view.findViewById(R.id.requestValueID);
-        title =  view.findViewById(R.id.one);
-        totalDueText =  view.findViewById(R.id.totalDueID);
+        requestValue = view.findViewById(R.id.requestValueID);
+        title = view.findViewById(R.id.one);
+        totalDueText = view.findViewById(R.id.totalDueID);
 
-        downImage =  view.findViewById(R.id.downImageID);
-        upImage =  view.findViewById(R.id.upImageID);
+        downImage = view.findViewById(R.id.downImageID);
+        upImage = view.findViewById(R.id.upImageID);
 
         yourShoplistRecyclerview.setHasFixedSize(true);
         allShopRecyclerView.setHasFixedSize(true);
@@ -292,12 +286,12 @@ public class Customer_shopList_fragment extends Fragment implements Customer_all
             }
         });
 
-        yourShopProgressBar =  view.findViewById(R.id.YourShopProgressBarID);
+        yourShopProgressBar = view.findViewById(R.id.YourShopProgressBarID);
 
-        showDetailsProgressBar =  view.findViewById(R.id.showDetailsProgressBarID);
+        showDetailsProgressBar = view.findViewById(R.id.showDetailsProgressBarID);
 
-        yourShopNestedScrollView =  view.findViewById(R.id.YourShopNestedRecyclerViewID);
-        showDetailsNestedScrollView =  view.findViewById(R.id.showDetailsNestedRecyclerViewID);
+        yourShopNestedScrollView = view.findViewById(R.id.YourShopNestedRecyclerViewID);
+        showDetailsNestedScrollView = view.findViewById(R.id.showDetailsNestedRecyclerViewID);
 
         yourShopNestedScrollView.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
             // yourShopProgressBar.setVisibility(View.VISIBLE);
@@ -353,7 +347,7 @@ public class Customer_shopList_fragment extends Fragment implements Customer_all
         Dialog networkAlert = new Dialog(requireActivity());
         networkAlert.setContentView(R.layout.network_alert);
         Objects.requireNonNull(networkAlert.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        TextView connectButton =  networkAlert.findViewById(R.id.connectButtonID);
+        TextView connectButton = networkAlert.findViewById(R.id.connectButtonID);
         if (info == null) {
             networkAlert.show();
             connectButton.setOnClickListener(new View.OnClickListener() {
@@ -614,7 +608,7 @@ public class Customer_shopList_fragment extends Fragment implements Customer_all
             RecyclerView recyclerView = (RecyclerView) alertCustom.findViewById(R.id.productViewID);
             recyclerView.setHasFixedSize(true);
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-            ImageView closeButton =  alertCustom.findViewById(R.id.closeID);
+            ImageView closeButton = alertCustom.findViewById(R.id.closeID);
 
             sell_details = new ViewModelProvider(getActivity()).get(Sell_details.class);
             sell_details.systemetic_sell_details(sell_id).observe(getViewLifecycleOwner(), new Observer<List<systemetic_sell_details_response>>() {
@@ -638,9 +632,9 @@ public class Customer_shopList_fragment extends Fragment implements Customer_all
             alertCustom.setCancelable(false);
             alertCustom.show();
 
-            TextView descriptionText =  alertCustom.findViewById(R.id.descriptionTextID);
+            TextView descriptionText = alertCustom.findViewById(R.id.descriptionTextID);
             RecyclerView multipleImages = (RecyclerView) alertCustom.findViewById(R.id.multipleImageViewID);
-            ImageView closeButton =  alertCustom.findViewById(R.id.closeID);
+            ImageView closeButton = alertCustom.findViewById(R.id.closeID);
 
             multipleImages.setHasFixedSize(true);
             multipleImages.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));

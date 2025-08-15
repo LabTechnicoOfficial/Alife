@@ -9,6 +9,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,10 +55,9 @@ import java.util.List;
 import java.util.Locale;
 
 public class Customer_due_list_fragment extends Fragment implements Customer_shop_all_due_list_adapter.OnItemClickListener, AdapterView.OnItemSelectedListener {
-    private String customer_id;
+    private final String customer_id;
     RecyclerView duelistview;
     List<get_customer_all_due_details_response> dueList;
-    List<get_customer_all_due_details_response> convertList;
     Customer_shop_all_due_list_adapter duelistadapter;
     Sell_details sell_details;
     Get_local_sell get_local_sell;
@@ -79,7 +79,7 @@ public class Customer_due_list_fragment extends Fragment implements Customer_sho
     SimpleDateFormat sdf;
     ProgressBar progressBar;
     NestedScrollView nestedScrollView;
-    int page1 = 1, page2 = 1, page3 = 1, limit = 20,end1=0,end2=0,end3=0;
+    int page1 = 1, page2 = 1, page3 = 1, limit = 20, end1 = 0, end2 = 0, end3 = 0;
     int select_type;
 
     public Customer_due_list_fragment(String customer_id) {
@@ -106,7 +106,7 @@ public class Customer_due_list_fragment extends Fragment implements Customer_sho
             public void onClick(View v) {
                 Toast.makeText(getActivity(), "Search", Toast.LENGTH_SHORT).show();
                 page1 = 1;
-                end1=0;
+                end1 = 0;
                 daily_due_details(page1, limit);
             }
         });
@@ -122,7 +122,7 @@ public class Customer_due_list_fragment extends Fragment implements Customer_sho
                 } else {
                     // Toast.makeText(getActivity(), "Custom Search", Toast.LENGTH_SHORT).show();
                     page2 = 1;
-                    end2=0;
+                    end2 = 0;
                     custome_due_details(page2, limit);
                 }
 
@@ -136,22 +136,19 @@ public class Customer_due_list_fragment extends Fragment implements Customer_sho
         if (page == 1) {
             dueList = new ArrayList<>();
             duelistadapter = new Customer_shop_all_due_list_adapter(dueList);
-            duelistadapter.SetOnClickListener(Customer_due_list_fragment.this::OnDueLick);
+            duelistadapter.SetOnClickListener(Customer_due_list_fragment.this);
             duelistview.setAdapter(duelistadapter);
         }
         customer_shop.getDue_details(customer_id, page, limit).observe(getViewLifecycleOwner(), new Observer<List<get_customer_all_due_details_response>>() {
             @Override
             public void onChanged(List<get_customer_all_due_details_response> get_customer_all_due_details_responses) {
 
-                for (int i = 0; i < get_customer_all_due_details_responses.size(); i++) {
-                    dueList.add(get_customer_all_due_details_responses.get(i));
-                }
-                if(get_customer_all_due_details_responses.size()<limit)
-                {
-                    end3=1;
+                dueList.addAll(get_customer_all_due_details_responses);
+                if (get_customer_all_due_details_responses.size() < limit) {
+                    end3 = 1;
                 }
                 duelistadapter = new Customer_shop_all_due_list_adapter(dueList);
-                duelistadapter.SetOnClickListener(Customer_due_list_fragment.this::OnDueLick);
+                duelistadapter.SetOnClickListener(Customer_due_list_fragment.this);
                 duelistview.setAdapter(duelistadapter);
             }
         });
@@ -162,7 +159,7 @@ public class Customer_due_list_fragment extends Fragment implements Customer_sho
         if (page == 1) {
             dueList = new ArrayList<>();
             duelistadapter = new Customer_shop_all_due_list_adapter(dueList);
-            duelistadapter.SetOnClickListener(Customer_due_list_fragment.this::OnDueLick);
+            duelistadapter.SetOnClickListener(Customer_due_list_fragment.this);
             duelistview.setAdapter(duelistadapter);
 
         }
@@ -171,15 +168,12 @@ public class Customer_due_list_fragment extends Fragment implements Customer_sho
             @Override
             public void onChanged(List<get_customer_all_due_details_response> get_customer_all_due_details_responses) {
 
-                for (int i = 0; i < get_customer_all_due_details_responses.size(); i++) {
-                    convertList.add(get_customer_all_due_details_responses.get(i));
-                }
-                if(get_customer_all_due_details_responses.size()<limit)
-                {
-                    end1=1;
+                dueList.addAll(get_customer_all_due_details_responses);
+                if (get_customer_all_due_details_responses.size() < limit) {
+                    end1 = 1;
                 }
                 duelistadapter = new Customer_shop_all_due_list_adapter(dueList);
-                duelistadapter.SetOnClickListener(Customer_due_list_fragment.this::OnDueLick);
+                duelistadapter.SetOnClickListener(Customer_due_list_fragment.this);
                 duelistview.setAdapter(duelistadapter);
             }
         });
@@ -190,7 +184,7 @@ public class Customer_due_list_fragment extends Fragment implements Customer_sho
         if (page == 1) {
             dueList = new ArrayList<>();
             duelistadapter = new Customer_shop_all_due_list_adapter(dueList);
-            duelistadapter.SetOnClickListener(Customer_due_list_fragment.this::OnDueLick);
+            duelistadapter.SetOnClickListener(Customer_due_list_fragment.this);
             duelistview.setAdapter(duelistadapter);
 
         }
@@ -198,13 +192,9 @@ public class Customer_due_list_fragment extends Fragment implements Customer_sho
         customer_shop.getSelected_due_details(customer_id, fromText.getText().toString().trim(), toText.getText().toString().trim(), page, limit).observe(getViewLifecycleOwner(), new Observer<List<get_customer_all_due_details_response>>() {
             @Override
             public void onChanged(List<get_customer_all_due_details_response> get_customer_all_due_details_responses) {
-                // dueList = get_customer_all_due_details_responses;
-                for (int i = 0; i < get_customer_all_due_details_responses.size(); i++) {
-                    convertList.add(get_customer_all_due_details_responses.get(i));
-                }
-                if(get_customer_all_due_details_responses.size()<limit)
-                {
-                    end2=1;
+                dueList.addAll(get_customer_all_due_details_responses);
+                if (get_customer_all_due_details_responses.size() < limit) {
+                    end2 = 1;
                 }
                 duelistadapter = new Customer_shop_all_due_list_adapter(dueList);
                 duelistadapter.SetOnClickListener(Customer_due_list_fragment.this::OnDueLick);
@@ -218,23 +208,23 @@ public class Customer_due_list_fragment extends Fragment implements Customer_sho
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.customer_due_list_fragment, container, false);
-        duelistview = (RecyclerView) view.findViewById(R.id.dueViewID);
+        duelistview = view.findViewById(R.id.dueViewID);
         duelistview.setHasFixedSize(true);
         duelistview.setLayoutManager(new LinearLayoutManager(getContext()));
 
         fragmentManager = getFragmentManager();
 
-        searchLayout = (LinearLayout) view.findViewById(R.id.searchLayoutID);
-        customSearchLayout = (LinearLayout) view.findViewById(R.id.customSearchLayoutID);
+        searchLayout = view.findViewById(R.id.searchLayoutID);
+        customSearchLayout = view.findViewById(R.id.customSearchLayoutID);
 
-        searchDate = (EditText) view.findViewById(R.id.dateEditID);
-        searchDateButton = (ImageView) view.findViewById(R.id.searchButtonID);
-        customSearchButton = (ImageView) view.findViewById(R.id.customSearchButtonID);
+        searchDate = view.findViewById(R.id.dateEditID);
+        searchDateButton = view.findViewById(R.id.searchButtonID);
+        customSearchButton = view.findViewById(R.id.customSearchButtonID);
 
-        fromText = (TextInputEditText) view.findViewById(R.id.fromDateTextID);
-        toText = (TextInputEditText) view.findViewById(R.id.toDateTextID);
+        fromText = view.findViewById(R.id.fromDateTextID);
+        toText = view.findViewById(R.id.toDateTextID);
 
-        optionSpinner = (Spinner) view.findViewById(R.id.optionSpinnerID);
+        optionSpinner = view.findViewById(R.id.optionSpinnerID);
 
         ArrayAdapter optionAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_item, options);
         optionAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -249,13 +239,13 @@ public class Customer_due_list_fragment extends Fragment implements Customer_sho
             public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
                 if (scrollY == v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight()) {
                     progressBar.setVisibility(View.VISIBLE);
-                    if (select_type == 1&&end1==0) {
+                    if (select_type == 1 && end1 == 0) {
                         page1++;
                         daily_due_details(page1, limit);
-                    } else if (select_type == 2&&end2==0) {
+                    } else if (select_type == 2 && end2 == 0) {
                         page2++;
                         custome_due_details(page2, limit);
-                    } else if (select_type == 3&&end3==0) {
+                    } else if (select_type == 3 && end3 == 0) {
                         page3++;
                         all_due_details(page3, limit);
                     }
@@ -345,9 +335,9 @@ public class Customer_due_list_fragment extends Fragment implements Customer_sho
                     strDate = sdf.parse(dateCurrent);
                     if (System.currentTimeMillis() > strDate.getTime()) {
                         editText.setText(dateCurrent);
-                        select_type=1;
-                        page1=1;
-                        daily_due_details(page1,limit);
+                        select_type = 1;
+                        page1 = 1;
+                        daily_due_details(page1, limit);
 
                     } else {
 
@@ -421,7 +411,7 @@ public class Customer_due_list_fragment extends Fragment implements Customer_sho
                     alertCustom.dismiss();
                 }
             });
-        } else if(sell_type.equals("normally")) {
+        } else if (sell_type.equals("normally")) {
             //Toast.makeText(getActivity(), sell_type, Toast.LENGTH_SHORT).show();
             Dialog alertCustom = new Dialog(getActivity());
             alertCustom.setContentView(R.layout.normal_sell_details_alert);
@@ -452,8 +442,7 @@ public class Customer_due_list_fragment extends Fragment implements Customer_sho
                     alertCustom.dismiss();
                 }
             });
-        } else if(sell_type.equals("local"))
-        {
+        } else if (sell_type.equals("local")) {
             Dialog alertCustom = new Dialog(getActivity());
             alertCustom.setContentView(R.layout.normal_sell_details_alert);
             alertCustom.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -493,10 +482,10 @@ public class Customer_due_list_fragment extends Fragment implements Customer_sho
         if (item.equals("Total Due History")) {
             searchLayout.setVisibility(View.GONE);
             customSearchLayout.setVisibility(View.GONE);
-            select_type=3;
-            page3=1;
-            end3=0;
-            all_due_details(page3,limit);
+            select_type = 3;
+            page3 = 1;
+            end3 = 0;
+            all_due_details(page3, limit);
 
 
         } else if (item.equals("Daily Due History")) {
@@ -505,19 +494,19 @@ public class Customer_due_list_fragment extends Fragment implements Customer_sho
             dateCurrent = new SimpleDateFormat(myFormat, Locale.getDefault()).format(new Date());
 
             searchDate.setText(dateCurrent);
-            select_type=1;
-            page1=1;
-            end1=0;
-            daily_due_details(page1,limit);
+            select_type = 1;
+            page1 = 1;
+            end1 = 0;
+            daily_due_details(page1, limit);
             //fetch_daily_sell_summary();
             //daily_tally();
 
         } else if (item.equals("Custom Due History")) {
             searchLayout.setVisibility(View.GONE);
             customSearchLayout.setVisibility(View.VISIBLE);
-            select_type=2;
-            page2=1;
-            end2=0;
+            select_type = 2;
+            page2 = 1;
+            end2 = 0;
             //sell_list.clear();
             //sell_list_adapter.notifyDataSetChanged();
             //convertList.clear();

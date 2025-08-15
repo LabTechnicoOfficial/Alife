@@ -1,6 +1,8 @@
 package com.alifew.alifeworld.adapter.Customer;
 
 
+import static android.view.View.GONE;
+
 import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -86,7 +88,7 @@ public class Customer_shop_all_due_list_adapter extends RecyclerView.Adapter<Cus
     }
 
     public class AppViewholder extends RecyclerView.ViewHolder {
-        TextView dateText, shopName, dueAmountText, totalDueText, payAmounText, sellingPrice;
+        TextView dateText, shopName, dueAmountText, totalDueText, payAmounText, sellingPrice, customerPhone;
 
         public AppViewholder(@NonNull View itemView) {
             super(itemView);
@@ -96,14 +98,13 @@ public class Customer_shop_all_due_list_adapter extends RecyclerView.Adapter<Cus
             payAmounText = itemView.findViewById(R.id.payTextID);
             dueAmountText = itemView.findViewById(R.id.dueID);
             totalDueText = itemView.findViewById(R.id.totalDueTextID);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (listener != null) {
-                        int position = getAdapterPosition();
-                        if (position != RecyclerView.NO_POSITION) {
-                            listener.OnDueLick(position);
-                        }
+            customerPhone = itemView.findViewById(R.id.customerPhoneID);
+            customerPhone.setVisibility(GONE);
+            itemView.setOnClickListener(v -> {
+                if (listener != null) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        listener.OnDueLick(position);
                     }
                 }
             });

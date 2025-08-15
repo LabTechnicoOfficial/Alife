@@ -15,6 +15,8 @@ public class shop_due_customer_response {
     public String customer_image;
     @SerializedName("total_due")
     public String total_due;
+    @SerializedName("last_buying_time")
+    public String last_buying_time;
 
     public String getCustomer_id() {
         return customer_id;

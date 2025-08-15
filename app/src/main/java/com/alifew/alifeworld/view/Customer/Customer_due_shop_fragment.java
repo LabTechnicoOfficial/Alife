@@ -38,7 +38,7 @@ import java.util.List;
 
 public class Customer_due_shop_fragment extends Fragment implements Customer_due_shop_adapter.OnItemClickListener {
     String customerID;
-    TextView totalDueText, totalDuetitle,totalShop;
+    TextView totalDueText, totalDuetitle, totalShop;
     RecyclerView dueShopView;
     EditText search;
     Customer_shop customer_shop;
@@ -48,8 +48,9 @@ public class Customer_due_shop_fragment extends Fragment implements Customer_due
     private Customer_due_shop_adapter adapter;
     ProgressBar progressBar;
     NestedScrollView nestedScrollView;
-    int page=1,limit=10;
+    int page = 1, limit = 10;
     int check;
+
     public Customer_due_shop_fragment(String customerID) {
         this.customerID = customerID;
     }
@@ -64,10 +65,10 @@ public class Customer_due_shop_fragment extends Fragment implements Customer_due
         checkConnection();
         customer_shop = new ViewModelProvider(getActivity()).get(Customer_shop.class);
         check = 0;
-        page=1;
-        limit=10;
-        due_shop_list=new ArrayList<>();
-        due_shop(page,limit);
+        page = 1;
+        limit = 10;
+        due_shop_list = new ArrayList<>();
+        due_shop(page, limit);
         search.addTextChangedListener(new TextWatcher() {
 
             @Override
@@ -84,9 +85,9 @@ public class Customer_due_shop_fragment extends Fragment implements Customer_due
                     } catch (Exception e) {
                     }
                 } else {
-                    page=1;
-                    limit=10;
-                    due_shop(page,limit);
+                    page = 1;
+                    limit = 10;
+                    due_shop(page, limit);
                 }
             }
 
@@ -101,14 +102,12 @@ public class Customer_due_shop_fragment extends Fragment implements Customer_due
     }
 
     private void get_shop_by_search(String value) {
-        temp=new ArrayList<>();
+        temp = new ArrayList<>();
         adapter = new Customer_due_shop_adapter(temp);
         adapter.setOnClickListener(Customer_due_shop_fragment.this::onItemClick);
         dueShopView.setAdapter(adapter);
-        for(int i=0;i<due_shop_list.size();i++)
-        {
-            if(due_shop_list.get(i).getShop_name().toLowerCase().contains(value.toLowerCase())||due_shop_list.get(i).getShop_phone().toLowerCase().contains(value.toLowerCase())||due_shop_list.get(i).getShop_address().toLowerCase().contains(value.toLowerCase()))
-            {
+        for (int i = 0; i < due_shop_list.size(); i++) {
+            if (due_shop_list.get(i).getShop_name().toLowerCase().contains(value.toLowerCase()) || due_shop_list.get(i).getShop_phone().toLowerCase().contains(value.toLowerCase()) || due_shop_list.get(i).getShop_address().toLowerCase().contains(value.toLowerCase())) {
                 temp.add(due_shop_list.get(i));
             }
         }
@@ -119,16 +118,15 @@ public class Customer_due_shop_fragment extends Fragment implements Customer_due
 
     }
 
-    private void due_shop(int Page,int Limit) {
+    private void due_shop(int Page, int Limit) {
         progressBar.setVisibility(View.GONE);
-        if(Page==1)
-        {
+        if (Page == 1) {
             customer_shop.getDueShop(customerID).observe(getViewLifecycleOwner(), new Observer<List<customer_due_shop_list_response>>() {
                 @SuppressLint("ResourceAsColor")
                 @Override
                 public void onChanged(List<customer_due_shop_list_response> customer_due_shop_list_responses) {
                     due_shop_list = new ArrayList<>();
-                    temp=new ArrayList<>();
+                    temp = new ArrayList<>();
                     totalShop.setText(String.valueOf(customer_due_shop_list_responses.size()));
                     due_shop_list = customer_due_shop_list_responses;
                     adapter = new Customer_due_shop_adapter(temp);
@@ -137,8 +135,7 @@ public class Customer_due_shop_fragment extends Fragment implements Customer_due
                     total_due = 0.0;
                     for (int i = 0; i < due_shop_list.size(); i++) {
                         total_due += Double.parseDouble(due_shop_list.get(i).getTotal_due());
-                        if(i<Limit)
-                        {
+                        if (i < Limit) {
                             temp.add(due_shop_list.get(i));
                         }
                     }
@@ -156,16 +153,13 @@ public class Customer_due_shop_fragment extends Fragment implements Customer_due
 
                 }
             });
-        }else
-        {
-            int x=(page-1)*10;
+        } else {
+            int x = (page - 1) * 10;
 
-            for(int i=x;i<x+limit-1;i++)
-            {
-                if(i<due_shop_list.size()-1) {
+            for (int i = x; i < x + limit - 1; i++) {
+                if (i < due_shop_list.size() - 1) {
                     temp.add(due_shop_list.get(i));
-                }else
-                {
+                } else {
                     break;
                 }
             }

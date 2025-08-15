@@ -48,15 +48,4 @@ public abstract class AppDatabase extends RoomDatabase {
 
         return INSTANCE;
     }
-
-    static final Migration MIGRATION_1_2 = new Migration(1, 2) {
-        @Override
-        public void migrate(@NonNull SupportSQLiteDatabase database) {
-            // Drop the old table
-            database.execSQL("DROP TABLE IF EXISTS tblCustomer");
-
-            // Create the new table with auto-increment starting from 0
-            database.execSQL("CREATE TABLE tblCustomer (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL DEFAULT 0, customer_id TEXT, name TEXT, address TEXT, phone TEXT, image TEXT)");
-        }
-    };
 }

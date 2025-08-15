@@ -22,13 +22,12 @@ import java.util.List;
 
 public class Customer_allShop_adapter extends RecyclerView.Adapter<Customer_allShop_adapter.AppViewholder> implements Filterable {
     private LayoutInflater layoutInflater;
-    List<fetch_shop_response> shopList;
-    List<fetch_shop_response> shopListAll;
+    List<fetch_shop_response> shopList = new ArrayList<>();
+    List<fetch_shop_response> shopListAll = new ArrayList<>();
     private OnItemFollowListener mListener;
 
     public Customer_allShop_adapter(List<fetch_shop_response> shopList) {
         this.shopList = shopList;
-        this.shopListAll = new ArrayList<>();
         this.shopListAll = shopList;
     }
 
@@ -44,8 +43,9 @@ public class Customer_allShop_adapter extends RecyclerView.Adapter<Customer_allS
     public void onBindViewHolder(@NonNull AppViewholder holder, int position) {
         fetch_shop_response shop = shopList.get(position);
 
-        ImageHelper.imageLoader(holder.itemView.getContext(),  holder.shopImage, shop.getStore01e_image());
+        ImageHelper.imageLoader(holder.itemView.getContext(), holder.shopImage, shop.getStore01e_image());
         holder.shopName.setText(shop.getStore01e_name());
+        holder.shopContact.setText(shop.phone);
 
     }
 
@@ -67,7 +67,7 @@ public class Customer_allShop_adapter extends RecyclerView.Adapter<Customer_allS
                 filterList.addAll(shopListAll);
             } else {
                 for (fetch_shop_response shop : shopListAll) {
-                    if (shop.getStore01e_name().toLowerCase().contains(constraint.toString().toLowerCase())) {
+                    if (shop.phone.contains(constraint.toString().toLowerCase()) || shop.getStore01e_name().toLowerCase().contains(constraint.toString().toLowerCase())) {
                         filterList.add(shop);
                     }
                 }
@@ -85,10 +85,12 @@ public class Customer_allShop_adapter extends RecyclerView.Adapter<Customer_allS
 
         }
     };
+
     public void setOnClickListener(OnItemFollowListener listener) {
         mListener = listener;
 
     }
+
     public interface OnItemFollowListener {
         void OnItemFollow(int position);
     }
@@ -96,14 +98,14 @@ public class Customer_allShop_adapter extends RecyclerView.Adapter<Customer_allS
     public class AppViewholder extends RecyclerView.ViewHolder {
         ImageView shopImage;
         LinearLayout followButton;
-        TextView shopName;
+        TextView shopName, shopContact;
 
         public AppViewholder(@NonNull View itemView) {
             super(itemView);
             shopImage = (ImageView) itemView.findViewById(R.id.shopImageID);
             shopName = (TextView) itemView.findViewById(R.id.shopNameID);
             followButton = (LinearLayout) itemView.findViewById(R.id.followLayoutID);
-
+            shopContact = itemView.findViewById(R.id.shopContact);
             followButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

@@ -1140,8 +1140,7 @@ public class Shop_products_add_fragment extends Fragment {
         });
         // add product submit start
 
-        productAddButton.setOnClickListener(new View.OnClickListener() {
-            LinearLayout layout = (LinearLayout) view.findViewById(R.id.holder_layout);
+     /*   productAddButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -1338,7 +1337,200 @@ public class Shop_products_add_fragment extends Fragment {
                     }
                 }
             }
+        });*/
+
+        productAddButton.setOnClickListener(new View.OnClickListener() {
+
+            private double safeDouble(String s) {
+                if (TextUtils.isEmpty(s)) return 0.0;
+                try {
+                    return Double.parseDouble(s);
+                } catch (NumberFormatException e) {
+                    return 0.0;
+                }
+            }
+
+            private int safeInt(String s) {
+                if (TextUtils.isEmpty(s)) return 0;
+                try {
+                    return Integer.parseInt(s);
+                } catch (NumberFormatException e) {
+                    return 0;
+                }
+            }
+
+            @Override
+            public void onClick(View v) {
+                ConnectivityManager manager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+                NetworkInfo info = manager.getActiveNetworkInfo();
+
+                if (info == null) {
+                    Toast.makeText(getActivity(), "Connection error", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                String product = productText.getText().toString().trim();
+                String price_sell_str = priceText.getText().toString().trim();
+                String unit = unitText.getText().toString().trim();
+                String discount_str = discountText.getText().toString().trim();
+                String productCode = productCodeText.getText().toString().trim();
+
+                if (TextUtils.isEmpty(productCode)) productCode = "";
+
+                if (!TextUtils.isEmpty(discount_str)) {
+                    double price_sell_val = safeDouble(price_sell_str);
+                    double discount_val = safeDouble(discount_str);
+                    double price_after_discount = price_sell_val - (price_sell_val * (discount_val / 100));
+                    price_with_discount = String.valueOf(price_after_discount);
+
+                    double price_after_discount_ui = safeDouble(priceafterdiscount.getText().toString().trim());
+                    double amount_val = safeDouble(amount.getText().toString().trim());
+                    total_selling_price_after_discount = String.valueOf(price_after_discount_ui * amount_val);
+                } else {
+                    price_with_discount = price_sell_str;
+                }
+
+                String stock_amount = amount.getText().toString().trim();
+                selling_profit = profit.getText().toString().trim();
+
+                productError.setErrorEnabled(false);
+                priceError.setErrorEnabled(false);
+                unitError.setErrorEnabled(false);
+                discountError.setErrorEnabled(false);
+
+                if (TextUtils.isEmpty(product) || TextUtils.isEmpty(price_sell_str) || TextUtils.isEmpty(unit)) {
+                    if (TextUtils.isEmpty(product)) {
+                        productError.setError(" ");
+                    } else if (TextUtils.isEmpty(price_sell_str)) {
+                        priceError.setError(" ");
+                    } else if (TextUtils.isEmpty(stock_amount)) {
+                        amountError.setError(" ");
+                    } else if (TextUtils.isEmpty(unit)) {
+                        unitError.setError(" ");
+                    } else if (TextUtils.isEmpty(discount_str)) {
+                        discountError.setError(" ");
+                    }
+                    return;
+                }
+
+                Dialog dialog = new Dialog(getActivity());
+                dialog.setContentView(R.layout.loader);
+                dialog.show();
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.setCancelable(false);
+
+                if (final_check == 1) {
+                    imgdata = imgToString(bitmap);
+                } else {
+                    imgdata = "xyz";
+                }
+
+                price_sell_str = priceText.getText().toString().trim();
+                buy_price = buyPrice.getText().toString().trim();
+
+                if (final_vaoture_check == 1) {
+                    vaoture_image = imgToString(vaoture_bitmap);
+                } else {
+                    vaoture_image = "xyz";
+                }
+
+                product_description = description.getText().toString().trim();
+                vaoture_no = vaoture.getText().toString().trim();
+
+                if (TextUtils.isEmpty(buy_price)) buy_price = "0";
+                if (TextUtils.isEmpty(selling_profit)) selling_profit = "0";
+                if (TextUtils.isEmpty(total_selling_price_after_discount)) total_selling_price_after_discount = "0";
+                if (TextUtils.isEmpty(product_description)) product_description = "";
+                if (TextUtils.isEmpty(vaoture_no)) vaoture_no = "";
+                if (TextUtils.isEmpty(price_with_discount)) price_with_discount = "0";
+                if (TextUtils.isEmpty(discount_str)) discount_str = "0";
+
+                add_product = new ViewModelProvider(getActivity()).get(Add_product.class);
+                sell_profit = total_profit.getText().toString().trim();
+                sell_profit_with_discount = total_profit_after_discount.getText().toString().trim();
+                if (TextUtils.isEmpty(selling_profit)) sell_profit = "0";
+                if (TextUtils.isEmpty(sell_profit_with_discount)) sell_profit_with_discount = "0";
+
+                int total_type_count = 0;
+                int total_product = safeInt(stock_amount);
+
+                for (int i = 0; i < typeList.size(); i++) {
+                    total_type_count += safeInt(typeList.get(i).getCount());
+                }
+
+                if (total_type_count <= total_product) {
+                    total_selling_price = String.valueOf(
+                            safeDouble(priceText.getText().toString().trim()) * safeDouble(amount.getText().toString().trim())
+                    );
+                    String productBrand = brand.getText().toString().trim();
+                    profitUnit = unit_profit.getText().toString().trim();
+                    profitUnitDiscount = unit_profit_with_discount.getText().toString().trim();
+
+                    String finalPrice_sell_str = price_sell_str;
+                    add_product.getmessage(product, id1, id2, unit, price_sell_str, discount_str, buy_price, selling_profit,
+                                    stock_amount, imgdata, product_description, vaoture_no, vaoture_image, productBrand, productCode, "0")
+                            .observe(getActivity(), new Observer<>() {
+                                int temp = 0;
+
+                                @Override
+                                public void onChanged(add_product_response response) {
+                                    if (response.getMessage().equals("Product added successfully")) {
+                                        product_id = response.getId();
+
+                                        if (!typeList.isEmpty()) {
+                                            for (int i = 0; i < typeList.size(); i++) {
+                                                if (temp == 0) {
+                                                    add_product_type.getmessage(typeList.get(i).getType(), typeList.get(i).getCount(), response.getId())
+                                                            .observe(getViewLifecycleOwner(), resp -> {
+                                                                if (!resp.getMessage().equals("yes")) {
+                                                                    temp = 1;
+                                                                }
+                                                            });
+                                                } else {
+                                                    break;
+                                                }
+                                            }
+                                            Toast.makeText(getActivity(), typeList.get(typeList.size() - 1).getType(), Toast.LENGTH_SHORT).show();
+                                        }
+
+                                        if (temp == 0) {
+                                            Toast toast = Toast.makeText(getActivity(), response.getMessage(), Toast.LENGTH_LONG);
+                                            toast.setGravity(Gravity.CENTER, 0, 0);
+                                            toast.show();
+                                        } else {
+                                            Toast toast = Toast.makeText(getActivity(), "something error.", Toast.LENGTH_LONG);
+                                            toast.setGravity(Gravity.CENTER, 0, 0);
+                                            toast.show();
+                                        }
+
+                                        for (int i = 0; i < offer_list.size(); i++) {
+                                            add_product_offer.getmessage(offer_list.get(i).getAmount(), offer_list.get(i).getPercentage(), response.getId())
+                                                    .observe(getViewLifecycleOwner(), new Observer<add_product_offer_response>() {
+                                                        @Override
+                                                        public void onChanged(add_product_offer_response resp) {
+                                                        }
+                                                    });
+                                        }
+
+                                        dialog.dismiss();
+                                        add_success_alert(product, stock_amount, finalPrice_sell_str);
+
+                                    } else {
+                                        dialog.dismiss();
+                                        Toast toast = Toast.makeText(getActivity(), response.getMessage(), Toast.LENGTH_SHORT);
+                                        toast.setGravity(Gravity.CENTER, 0, 0);
+                                        toast.show();
+                                    }
+                                }
+                            });
+                } else {
+                    dialog.dismiss();
+                    Toast.makeText(getActivity(), "set type count properly", Toast.LENGTH_SHORT).show();
+                }
+            }
         });
+
+
         barCodeScanner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

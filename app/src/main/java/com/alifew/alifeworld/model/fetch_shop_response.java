@@ -9,6 +9,8 @@ public class fetch_shop_response {
     private String store01e_name;
     @SerializedName("store01e_image")
     private String store01e_image;
+    @SerializedName("store01e_phone")
+    public String phone;
 
     public String getStore01e_id() {
         return store01e_id;

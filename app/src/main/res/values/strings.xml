@@ -40,6 +40,7 @@
     <string name="items">Items</string>
     <string name="search">Search</string>
     <string name="customers_list">Customers List</string>
+    <string name="lat_buying_time">সর্বশেষ ক্রয় সময়</string>
 
 
 </resources>

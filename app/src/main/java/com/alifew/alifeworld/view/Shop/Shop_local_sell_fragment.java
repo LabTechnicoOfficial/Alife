@@ -75,6 +75,7 @@ import com.alifew.alifeworld.model.local_sell.add_local_sell_details_response;
 import com.alifew.alifeworld.model.local_sell.add_local_sell_image_response;
 import com.alifew.alifeworld.model.local_sell.Get_local_sell_product_response;
 import com.alifew.alifeworld.model.points.Shop_local_sell_point_response;
+import com.alifew.alifeworld.model.push_notification_response;
 import com.alifew.alifeworld.model.shop_due_customer_response;
 import com.alifew.alifeworld.model.Shop_profile_response;
 import com.alifew.alifeworld.session.SessionManagement;
@@ -318,43 +319,43 @@ public class Shop_local_sell_fragment extends Fragment implements Shop_local_sel
                     shop_customer = new ViewModelProvider(getActivity()).get(ShopCustomerViewModel.class);
                     push_notification = new ViewModelProvider(getActivity()).get(Push_notification.class);
                     loader.show();
-                    customer_exist_check.getData(phone).observe(getViewLifecycleOwner(), new Observer<customer_exist_check_response>() {
+                    customer_exist_check.getData(phone).observe(getViewLifecycleOwner(), new Observer<>() {
                         @Override
                         public void onChanged(customer_exist_check_response customer_exist_check_response) {
                             if (!customer_exist_check_response.getId().equals("0")) {
                                 customer_id = customer_exist_check_response.getId();
                                 customer_name = customer_exist_check_response.getName();
+                                push_notification.sell_notification_customer(shopID, customer_id, productPriceText.getText().toString().trim(), duePrice.toString()).observe(getViewLifecycleOwner(), pushNotificationResponse -> {
+
+                                });
                             } else {
                                 customer_id = "0";
                                 customer_name = "";
                             }
-                            shop_customer.get_due_customer(shopID).observe(getViewLifecycleOwner(), new Observer<List<shop_due_customer_response>>() {
-                                @Override
-                                public void onChanged(List<shop_due_customer_response> shop_due_customer_responses) {
-                                    for (int i = 0; i < shop_due_customer_responses.size(); i++) {
-                                        if (phone.equals(shop_due_customer_responses.get(i).getCustomer_phone())) {
-                                            duecustomerCheck = 1;
-                                            break;
-                                        }
+                            shop_customer.get_due_customer(shopID).observe(getViewLifecycleOwner(), shop_due_customer_responses -> {
+                                for (int i = 0; i < shop_due_customer_responses.size(); i++) {
+                                    if (phone.equals(shop_due_customer_responses.get(i).getCustomer_phone())) {
+                                        duecustomerCheck = 1;
+                                        break;
                                     }
-                                    if (duecustomerCheck == 0) {
-                                        customer_registration = new ViewModelProvider(getActivity()).get(Customer_registration.class);
-                                        customer_registration.get_add_due_customer_response(shopID, customer_id, phone).observe(getViewLifecycleOwner(), new Observer<add_shop_due_customer_response>() {
-                                            @Override
-                                            public void onChanged(add_shop_due_customer_response add_shop_due_customer_response) {
-                                                if (add_shop_due_customer_response.getMessage().equals("Customer added successfully")) {
-                                                    //Toast.makeText(getActivity(), add_shop_due_customer_response.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                                if (duecustomerCheck == 0) {
+                                    customer_registration = new ViewModelProvider(getActivity()).get(Customer_registration.class);
+                                    customer_registration.get_add_due_customer_response(shopID, customer_id, phone).observe(getViewLifecycleOwner(), new Observer<add_shop_due_customer_response>() {
+                                        @Override
+                                        public void onChanged(add_shop_due_customer_response add_shop_due_customer_response) {
+                                            if (add_shop_due_customer_response.getMessage().equals("Customer added successfully")) {
+                                                //Toast.makeText(getActivity(), add_shop_due_customer_response.getMessage(), Toast.LENGTH_SHORT).show();
 
-                                                    sell(productDetailsText.getText().toString().trim(), productPriceText.getText().toString().trim(), paidPriceText.getText().toString().trim(), phone);
+                                                sell(productDetailsText.getText().toString().trim(), productPriceText.getText().toString().trim(), paidPriceText.getText().toString().trim(), phone);
 
-                                                } else {
-                                                    Toast.makeText(getActivity(), "Something Wrong", Toast.LENGTH_SHORT).show();
-                                                }
+                                            } else {
+                                                Toast.makeText(getActivity(), "Something Wrong", Toast.LENGTH_SHORT).show();
                                             }
-                                        });
-                                    } else if (duecustomerCheck == 1) {
-                                        sell(productDetailsText.getText().toString().trim(), productPriceText.getText().toString().trim(), paidPriceText.getText().toString().trim(), phone);
-                                    }
+                                        }
+                                    });
+                                } else if (duecustomerCheck == 1) {
+                                    sell(productDetailsText.getText().toString().trim(), productPriceText.getText().toString().trim(), paidPriceText.getText().toString().trim(), phone);
                                 }
                             });
 

@@ -52,24 +52,16 @@ public class CustomerReferFragment extends Fragment {
             }
         });
 
-        shareReferCode.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                shareReferCode();
-            }
-        });
+        shareReferCode.setOnClickListener(v -> shareReferCode());
 
         return view;
     }
 
     private void loadProfile() {
-        customer_details.getdata(userID).observe(getViewLifecycleOwner(), new Observer<Customer_response>() {
-            @Override
-            public void onChanged(Customer_response customerResponse) {
-                myReferCode = customerResponse.myCode;
-                myReferralCode.setText(customerResponse.myCode);
-                friendReferralCode.setText(customerResponse.referralCode);
-            }
+        customer_details.getdata(userID).observe(getViewLifecycleOwner(), customerResponse -> {
+            myReferCode = customerResponse.myCode;
+            myReferralCode.setText(customerResponse.myCode);
+            friendReferralCode.setText(customerResponse.referralCode);
         });
     }
 
