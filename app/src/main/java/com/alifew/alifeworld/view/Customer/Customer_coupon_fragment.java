@@ -98,7 +98,7 @@ public class Customer_coupon_fragment extends Fragment implements Customer_coupo
         String shopID = response.getShop_id();
         //Toast.makeText(getActivity(), shopID, Toast.LENGTH_SHORT).show();
 
-        requireActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(
+        getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(
                 R.anim.slide_in,  // enter
                 R.anim.fade_out,  // exit
                 R.anim.fade_in,   // popEnter

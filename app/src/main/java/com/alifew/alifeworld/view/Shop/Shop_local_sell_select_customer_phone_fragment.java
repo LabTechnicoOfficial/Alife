@@ -96,7 +96,7 @@ public class Shop_local_sell_select_customer_phone_fragment extends Fragment imp
 
     private void getPhone(String searchKey) {
 
-        requireActivity().runOnUiThread(new Runnable() {
+        getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 customerList = customerDao.getAllCustomer(searchKey);

@@ -104,15 +104,15 @@ public class Otp_validation_activity extends AppCompatActivity implements TextWa
         token_update = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(Token_update.class);
         last_logintime = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(Last_logintime.class);
 
-        editText1 = (EditText) findViewById(R.id.editText1ID);
-        editText2 = (EditText) findViewById(R.id.editText2ID);
-        editText3 = (EditText) findViewById(R.id.editText3ID);
-        editText4 = (EditText) findViewById(R.id.editText4ID);
-        editText5 = (EditText) findViewById(R.id.editText5ID);
+        editText1 = findViewById(R.id.editText1ID);
+        editText2 = findViewById(R.id.editText2ID);
+        editText3 = findViewById(R.id.editText3ID);
+        editText4 = findViewById(R.id.editText4ID);
+        editText5 = findViewById(R.id.editText5ID);
 
-        backButton = (ImageView) findViewById(R.id.backButton);
+        backButton = findViewById(R.id.backButton);
 
-        verifyButton = (AppCompatButton) findViewById(R.id.verifyButtonID);
+        verifyButton = findViewById(R.id.verifyButtonID);
 
         editText1.addTextChangedListener(this);
         editText2.addTextChangedListener(this);
@@ -191,7 +191,7 @@ public class Otp_validation_activity extends AppCompatActivity implements TextWa
 
     private void startCountDown() {
 
-        Toast.makeText(this, otp, Toast.LENGTH_SHORT).show();
+       // Toast.makeText(this, otp, Toast.LENGTH_SHORT).show();
         sendAgainButton.setVisibility(View.GONE);
         new CountDownTimer(60000, 1000) {
 
@@ -416,6 +416,7 @@ public class Otp_validation_activity extends AppCompatActivity implements TextWa
 
     @Override
     public void onBackPressed() {
+        super.onBackPressed();
         back_function();
     }
 

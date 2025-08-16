@@ -110,7 +110,7 @@ public class ShopSliderFragment extends Fragment implements ShopSliderAdapter.Sw
         });
 
         sliderImageView.setOnClickListener(v -> {
-            ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA}, IMAGE_REQUEST_CODE);
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA}, IMAGE_REQUEST_CODE);
             imageSelect();
         });
     }
@@ -184,9 +184,9 @@ public class ShopSliderFragment extends Fragment implements ShopSliderAdapter.Sw
         sliderView.setHasFixedSize(true);
         sliderView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        sliderViewModel = new ViewModelProvider(requireActivity()).get(SliderViewModel.class);
+        sliderViewModel = new ViewModelProvider(getActivity()).get(SliderViewModel.class);
 
-        sessionManagement = new SessionManagement(requireActivity());
+        sessionManagement = new SessionManagement(getActivity());
         shopID = String.valueOf(sessionManagement.getUserID());
 
         loader = new Dialog(getActivity());
@@ -219,7 +219,7 @@ public class ShopSliderFragment extends Fragment implements ShopSliderAdapter.Sw
                     Toast.makeText(getActivity(), commonResponse.message, Toast.LENGTH_SHORT).show();
                     loadSlider();
                 } else {
-                    Toast.makeText(getActivity(), requireActivity().getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), getActivity().getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -249,7 +249,7 @@ public class ShopSliderFragment extends Fragment implements ShopSliderAdapter.Sw
                 filepath = data.getData();
                 if (filepath != null && check == 1) {
                     try {
-                        InputStream inputStream = requireActivity().getContentResolver().openInputStream(filepath);
+                        InputStream inputStream = getActivity().getContentResolver().openInputStream(filepath);
                         bitmap = BitmapFactory.decodeStream(inputStream);
                         if (bitmap != null) {
                             check = 0;

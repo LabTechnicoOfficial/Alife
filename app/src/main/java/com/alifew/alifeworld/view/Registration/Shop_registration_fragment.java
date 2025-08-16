@@ -77,7 +77,6 @@ public class Shop_registration_fragment extends Fragment implements View.OnClick
             @Override
             public void onClick(View v) {
                 ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA}, IMAGE_REQUEST_CODE);
-                //ActivityCompat.requestPermissions(getActivity(), new String[]{ Manifest.permission.CAMERA},CAMERA_REQUEST);
 
                 imageselect();
             }

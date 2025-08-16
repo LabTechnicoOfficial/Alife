@@ -228,7 +228,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 sessionManagement.saveDeviceToken(deviceToken);
                 String id = shop_login_response.getId();
                 Log.d("dataxx", "onChanged: " + id);
-                if (id.equals("35")) {
+              /*  if (id.equals("35")) {
                     token_update.shop_token_update(id, deviceToken).observe(LoginActivity.this, new Observer<token_update_response>() {
                         @Override
                         public void onChanged(token_update_response token_update_response) {
@@ -259,7 +259,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             @Override
                             public void onChanged(OTP_response otp_response) {
                                 dialog.dismiss();
-                                //Toast.makeText(LoginActivity.this, otp_response.getStatus(), Toast.LENGTH_SHORT).show();
                                 if (otp_response.getStatus().equals("queued")) {
                                     shop_otp_activity(random_otp, id, phone);
                                 } else {
@@ -268,11 +267,36 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             }
                         });
 
+
                     } else {
                         dialog.dismiss();
                         Toast toast = Toast.makeText(LoginActivity.this, "Not registered", Toast.LENGTH_SHORT);
                         toast.show();
                     }
+                }*/
+
+                if (!id.equals("-1")) {
+
+                    Random r = new Random();
+                    int ran = r.nextInt(99999 - 10000 + 1) + 10000;
+                    String random_otp = String.valueOf(ran);
+                    otp.getStatus(phone, "Your shopkeeper login OTP code is -" + random_otp + " " + ". Powered by ALIFE.").observe(LoginActivity.this, new Observer<OTP_response>() {
+                        @Override
+                        public void onChanged(OTP_response otp_response) {
+                            dialog.dismiss();
+                            if (otp_response.getStatus().equals("queued")) {
+                                shop_otp_activity(random_otp, id, phone);
+                            } else {
+                                Toast.makeText(LoginActivity.this, otp_response.getStatus(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+
+
+                } else {
+                    dialog.dismiss();
+                    Toast toast = Toast.makeText(LoginActivity.this, "Not registered", Toast.LENGTH_SHORT);
+                    toast.show();
                 }
             }
         });
@@ -292,7 +316,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 String id = shop_login_response.getId();
                 sessionManagement.saveDeviceToken(deviceToken);
 
-                if (id.equals("457")) {
+               /* if (id.equals("457")) {
                     token_update.customer_token_update(id, deviceToken).observe(LoginActivity.this, new Observer<token_update_response>() {
                         @Override
                         public void onChanged(token_update_response token_update_response) {
@@ -332,15 +356,35 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 }
                             }
                         });
-
-
                     } else {
                         dialog.dismiss();
                         Toast toast = Toast.makeText(LoginActivity.this, shop_login_response.getMessage(), Toast.LENGTH_SHORT);
                         toast.show();
                     }
-                }
+                }*/
 
+                if (!id.equals("-1")) {
+
+                    Random r = new Random();
+                    int ran = r.nextInt(99999 - 10000 + 1) + 10000;
+                    String random_otp = String.valueOf(ran);
+
+                    otp.getStatus(phone, "Your customer login OTP code is -" + random_otp + " " + ". Powered by ALIFE.").observe(LoginActivity.this, new Observer<OTP_response>() {
+                        @Override
+                        public void onChanged(OTP_response otp_response) {
+                            dialog.dismiss();
+                            if (otp_response.getStatus().equals("queued")) {
+                                customer_otp_activity(random_otp, id, phone);
+                            } else {
+                                Toast.makeText(LoginActivity.this, otp_response.getStatus(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                } else {
+                    dialog.dismiss();
+                    Toast toast = Toast.makeText(LoginActivity.this, shop_login_response.getMessage(), Toast.LENGTH_SHORT);
+                    toast.show();
+                }
             }
         });
     }

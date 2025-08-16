@@ -184,13 +184,13 @@ public class ShopReferPackageFragment extends Fragment implements ShopReferPacka
         ReferPackageResponse response = referPackageList.get(position);
 
         if (response.userCount > 0) {
-            requireActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in,  // enter
+            getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in,  // enter
                     R.anim.fade_out,  // exit
                     R.anim.fade_in,   // popEnter
                     R.anim.slide_out  // popExit
             ).replace(R.id.frame_container, new ShopReferPackageCustomerListFragment(response.id)).addToBackStack(null).commit();
         } else {
-            Toast.makeText(requireActivity(), "No customer available", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "No customer available", Toast.LENGTH_SHORT).show();
         }
 
     }

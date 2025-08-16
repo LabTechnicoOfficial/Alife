@@ -99,7 +99,7 @@ public class Customer_refer_shop_fragment extends Fragment implements Customer_s
 
         String shopID = response.getShop_id();
 
-        requireActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(
+        getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(
                 R.anim.slide_in,  // enter
                 R.anim.fade_out,  // exit
                 R.anim.fade_in,   // popEnter

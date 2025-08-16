@@ -293,7 +293,7 @@ public class Shop_sell_selected_product_list_fragment extends Fragment implement
         sellButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ConnectivityManager manager = (ConnectivityManager) requireActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+                ConnectivityManager manager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
                 NetworkInfo info = manager.getActiveNetworkInfo();
 
                 if (info == null) {
@@ -1509,7 +1509,7 @@ public class Shop_sell_selected_product_list_fragment extends Fragment implement
         totalPrice.setText(String.valueOf(total_price));
 
         // Set up shop profile data
-        shop_profile = new ViewModelProvider(requireActivity()).get(ShopProfileViewModel.class);
+        shop_profile = new ViewModelProvider(getActivity()).get(ShopProfileViewModel.class);
         shop_profile.getData(String.valueOf(shop_id)).observe(getViewLifecycleOwner(), shop_profile_response -> {
             if (shop_profile_response != null) {
                 shopNameText.setText(shop_profile_response.getStore01e_name());
@@ -1545,7 +1545,7 @@ public class Shop_sell_selected_product_list_fragment extends Fragment implement
         float heightInInches = 11.69f; // A4 height in inches
 
 // Get screen density (default is 160dpi for mdpi)
-        DisplayMetrics displayMetrics = requireActivity().getResources().getDisplayMetrics();
+        DisplayMetrics displayMetrics = getActivity().getResources().getDisplayMetrics();
         int densityDpi = displayMetrics.densityDpi;
 
 // Calculate pixel dimensions

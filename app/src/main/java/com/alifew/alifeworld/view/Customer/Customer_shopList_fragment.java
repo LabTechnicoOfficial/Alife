@@ -163,8 +163,8 @@ public class Customer_shopList_fragment extends Fragment implements Customer_all
         data = new ArrayList<>();
         data_all = new ArrayList<>();
         shop_request = new ArrayList<>();
-        fetch_shop_join_request = new ViewModelProvider(requireActivity()).get(Fetch_shop_join_request.class);
-        accept_Cancel_shop_join_request = new ViewModelProvider(requireActivity()).get(Accept_cancle_shop_join_request.class);
+        fetch_shop_join_request = new ViewModelProvider(getActivity()).get(Fetch_shop_join_request.class);
+        accept_Cancel_shop_join_request = new ViewModelProvider(getActivity()).get(Accept_cancle_shop_join_request.class);
         main();
 
     }
@@ -327,7 +327,7 @@ public class Customer_shopList_fragment extends Fragment implements Customer_all
 
     private void due_details(int page, int limit) {
 
-        customer_shopList = new ViewModelProvider(requireActivity()).get(Customer_shopList.class);
+        customer_shopList = new ViewModelProvider(getActivity()).get(Customer_shopList.class);
         customer_shopList.getDue_details(customer_id, page, limit).observe(getViewLifecycleOwner(), get_customer_all_due_details_responses -> {
             showDetailsProgressBar.setVisibility(View.GONE);
             dueList.addAll(get_customer_all_due_details_responses);
@@ -341,10 +341,10 @@ public class Customer_shopList_fragment extends Fragment implements Customer_all
     }
 
     public void checkConnection() {
-        ConnectivityManager manager = (ConnectivityManager) requireActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager manager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo info = manager.getActiveNetworkInfo();
 
-        Dialog networkAlert = new Dialog(requireActivity());
+        Dialog networkAlert = new Dialog(getActivity());
         networkAlert.setContentView(R.layout.network_alert);
         Objects.requireNonNull(networkAlert.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         TextView connectButton = networkAlert.findViewById(R.id.connectButtonID);
@@ -378,8 +378,8 @@ public class Customer_shopList_fragment extends Fragment implements Customer_all
     }
 
     public void refreshFragment() {
-        requireActivity().getSupportFragmentManager().beginTransaction().detach(this).commitAllowingStateLoss();
-        requireActivity().getSupportFragmentManager().beginTransaction().attach(this).commitAllowingStateLoss();
+        getActivity().getSupportFragmentManager().beginTransaction().detach(this).commitAllowingStateLoss();
+        getActivity().getSupportFragmentManager().beginTransaction().attach(this).commitAllowingStateLoss();
         //adapter.notifyDataSetChanged();
     }
 
@@ -405,7 +405,7 @@ public class Customer_shopList_fragment extends Fragment implements Customer_all
     }
 
     private void filter_all() {
-        fetch_shop = new ViewModelProvider(requireActivity()).get(Fetch_shop.class);
+        fetch_shop = new ViewModelProvider(getActivity()).get(Fetch_shop.class);
         fetch_shop.getData().observe(getViewLifecycleOwner(), fetch_shop_responses -> {
             data_all = fetch_shop_responses;
             for (int i = 0; i < data_all.size(); i++) {
@@ -472,7 +472,7 @@ public class Customer_shopList_fragment extends Fragment implements Customer_all
     }
 
     private void get_search_shop(String value) {
-        customer_shopList = new ViewModelProvider(requireActivity()).get(Customer_shopList.class);
+        customer_shopList = new ViewModelProvider(getActivity()).get(Customer_shopList.class);
         customer_shopList.getSearchData(customer_id, value).observe(getViewLifecycleOwner(), customer_shopList_responses -> {
             data = customer_shopList_responses;
             adapter = new Customer_shopList_adapter(data);
@@ -626,7 +626,7 @@ public class Customer_shopList_fragment extends Fragment implements Customer_all
             });
         } else {
             //Toast.makeText(getActivity(), sell_type, Toast.LENGTH_SHORT).show();
-            Dialog alertCustom = new Dialog(requireActivity());
+            Dialog alertCustom = new Dialog(getActivity());
             alertCustom.setContentView(R.layout.normal_sell_details_alert);
             Objects.requireNonNull(alertCustom.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             alertCustom.setCancelable(false);
@@ -639,7 +639,7 @@ public class Customer_shopList_fragment extends Fragment implements Customer_all
             multipleImages.setHasFixedSize(true);
             multipleImages.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
 
-            sell_details = new ViewModelProvider(requireActivity()).get(Sell_details.class);
+            sell_details = new ViewModelProvider(getActivity()).get(Sell_details.class);
             sell_details.normal_sell_details(sell_id).observe(getViewLifecycleOwner(), new Observer<normal_sell_details_response>() {
                 @Override
                 public void onChanged(normal_sell_details_response normal_sell_details_response) {
@@ -658,7 +658,7 @@ public class Customer_shopList_fragment extends Fragment implements Customer_all
         customer_shopList_response response = data.get(position);
         String shop_id = response.getStore01e_id();
 
-        Dialog barCodeAlert = new Dialog(requireActivity());
+        Dialog barCodeAlert = new Dialog(getActivity());
         barCodeAlert.setContentView(R.layout.barcode_scan_alert);
         Objects.requireNonNull(barCodeAlert.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         barCodeAlert.setCancelable(false);

@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class OTP_response {
     @SerializedName("status")
-    String status;
+    public String status;
 
 
     public String getStatus() {

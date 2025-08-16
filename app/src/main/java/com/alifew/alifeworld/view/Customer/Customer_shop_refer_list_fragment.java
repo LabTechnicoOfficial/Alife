@@ -104,7 +104,7 @@ public class Customer_shop_refer_list_fragment extends Fragment implements Custo
     public void onItemClick(int position) {
         CustomerShopReferResponse response = referList.get(position);
 
-        requireActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(
+        getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(
                 R.anim.slide_in,  // enter
                 R.anim.fade_out,  // exit
                 R.anim.fade_in,   // popEnter

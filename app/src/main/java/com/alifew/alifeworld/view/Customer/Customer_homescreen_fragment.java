@@ -77,7 +77,7 @@ public class Customer_homescreen_fragment extends Fragment implements Instructio
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        MobileAds.initialize(requireActivity(), initializationStatus -> loadAd());
+//        MobileAds.initialize(getActivity(), initializationStatus -> loadAd());
         instruction_func();
     }
 
@@ -111,8 +111,8 @@ public class Customer_homescreen_fragment extends Fragment implements Instructio
     }
 
     private void initView(View view) {
-        sessionManagement = new SessionManagement(requireActivity());
-        sliderViewModel = new ViewModelProvider(requireActivity()).get(SliderViewModel.class);
+        sessionManagement = new SessionManagement(getActivity());
+        sliderViewModel = new ViewModelProvider(getActivity()).get(SliderViewModel.class);
 
         dueListButton = view.findViewById(R.id.dueListButtonID);
         shopListButton = view.findViewById(R.id.ShopListButtonID);
@@ -123,7 +123,7 @@ public class Customer_homescreen_fragment extends Fragment implements Instructio
         fragmentManager = getFragmentManager();
         mAdManagerAdView = view.findViewById(R.id.adManagerAdView);
         customer_id = String.valueOf(sessionManagement.getUserID());
-        userInstruction = new ViewModelProvider(requireActivity()).get(User_instruction.class);
+        userInstruction = new ViewModelProvider(getActivity()).get(User_instruction.class);
 
         instructionLayout = view.findViewById(R.id.instructorLayout);
         referButton = view.findViewById(R.id.referButtonID);
@@ -159,7 +159,7 @@ public class Customer_homescreen_fragment extends Fragment implements Instructio
 
     private void loadAd() {
         AdRequest adRequest = new AdRequest.Builder().build();
-        InterstitialAd.load(requireActivity(), "ca-app-pub-9914022847917901/8396202139", adRequest,
+        InterstitialAd.load(getContext(), "ca-app-pub-9914022847917901/8396202139", adRequest,
                 new InterstitialAdLoadCallback() {
                     @Override
                     public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {

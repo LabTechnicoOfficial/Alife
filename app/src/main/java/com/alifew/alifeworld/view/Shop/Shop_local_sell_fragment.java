@@ -371,7 +371,7 @@ public class Shop_local_sell_fragment extends Fragment implements Shop_local_sel
 
         loadCustomerList();
 
-        requireActivity().runOnUiThread(new Runnable() {
+        getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 customerDao.deleteAllCustomer();
@@ -380,7 +380,7 @@ public class Shop_local_sell_fragment extends Fragment implements Shop_local_sel
             }
         });
 
-        requireActivity().runOnUiThread(new Runnable() {
+        getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 localSellProductsDao.deleteAllProducts();
@@ -774,14 +774,14 @@ public class Shop_local_sell_fragment extends Fragment implements Shop_local_sel
             public void afterTextChanged(Editable editable) {
                 if (!editable.toString().isEmpty()) {
                     customerList = customerDao.getAllCustomer(editable.toString().trim());
-                    CustomerAdapter customerAdapter = new CustomerAdapter(requireActivity(), customerList, Shop_local_sell_fragment.this);
+                    CustomerAdapter customerAdapter = new CustomerAdapter(getActivity(), customerList, Shop_local_sell_fragment.this);
                     customerSearchEditText.setAdapter(customerAdapter);
                 }
             }
         });
 
         customerSearchEditText.setOnItemClickListener((adapterView, view, position, l) -> {
-            Helpers.hideSoftKeyboard(requireActivity());
+            Helpers.hideSoftKeyboard(getActivity());
 
             //Customer selectedCustomer = (Customer) adapterView.getItemAtPosition(position);
 
@@ -793,7 +793,7 @@ public class Shop_local_sell_fragment extends Fragment implements Shop_local_sel
     }
 
     private void getPhoneList(String searchKey) {
-        requireActivity().runOnUiThread(new Runnable() {
+        getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 customerList = customerDao.getAllCustomer(searchKey);
@@ -931,7 +931,7 @@ public class Shop_local_sell_fragment extends Fragment implements Shop_local_sel
         float heightInInches = 11.69f; // A4 height in inches
 
 // Get screen density (default is 160dpi for mdpi)
-        DisplayMetrics displayMetrics = requireActivity().getResources().getDisplayMetrics();
+        DisplayMetrics displayMetrics = getActivity().getResources().getDisplayMetrics();
         int densityDpi = displayMetrics.densityDpi;
 
 // Calculate pixel dimensions
