@@ -82,9 +82,6 @@ public class ShopPrintBarcodeFragment extends Fragment implements Shop_product_b
 
     Get_all_shop_product getAllShopProduct;
 
-
-    int page = 1, limit = 10;
-
     Shop_product_barcode_print_adapter productAdapter;
     ProgressBar progressBar;
     NestedScrollView nestedScrollView;
@@ -103,7 +100,6 @@ public class ShopPrintBarcodeFragment extends Fragment implements Shop_product_b
 
     ImageView reloadButton;
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -118,12 +114,10 @@ public class ShopPrintBarcodeFragment extends Fragment implements Shop_product_b
         printButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                List<Products> markedProductList = new ArrayList<>();
-                markedProductList.addAll(productDao.getMarkedProductList());
-//
-//                //Toast.makeText(getActivity(), String.valueOf(markedProductList.size()), Toast.LENGTH_SHORT).show();
-                if (markedProductList.size() > 0) {
-                    // barCodeGeneratePrint(markedProductList);
+                List<Products> markedProductList = new ArrayList<>(productDao.getMarkedProductList());
+
+                if (!markedProductList.isEmpty()) {
+
                     Intent intent = new Intent(getActivity(), BarCodePrintActivity.class);
                     intent.putParcelableArrayListExtra(
                             "BARCODELIST", (ArrayList<? extends Parcelable>) markedProductList);

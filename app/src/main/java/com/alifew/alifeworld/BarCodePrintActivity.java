@@ -1,15 +1,17 @@
 package com.alifew.alifeworld;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.graphics.pdf.PdfDocument;
-import android.os.Build;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.DisplayMetrics;
@@ -25,18 +27,16 @@ import android.widget.Toast;
 
 import com.alifew.alifeworld.DB.entity.Products;
 import com.alifew.alifeworld.Utils.Helpers;
-import com.alifew.alifeworld.Utils.PDFHelper;
 import com.alifew.alifeworld.adapter.Barcode.Barcode_view_adapter;
 import com.alifew.alifeworld.session.SessionManagement;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.Image;
-import com.itextpdf.text.pdf.PdfWriter;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.nio.file.Files;
+import java.io.FileOutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class BarCodePrintActivity extends AppCompatActivity {
 
@@ -127,17 +127,17 @@ public class BarCodePrintActivity extends AppCompatActivity {
     }
 
     private void createPDF(View barCodeLayout, int width, int height) {
-        Log.d("dataxx", "size: " + String.valueOf(width) + " " + String.valueOf(height));
+        PdfDocument pdfDocument = new PdfDocument();
         Bitmap bitmap = Helpers.loadBitmap(barCodeLayout);
         WindowManager windowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics displayMetrics = new DisplayMetrics();
         this.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         int convertedWidth = displayMetrics.widthPixels;
         int convertedHeight = displayMetrics.heightPixels;
+        int viewWidth = barCodeLayout.getWidth();
+        int viewHeight = barCodeLayout.getHeight();
 
-        Log.d("dataxx", "cont size: " + String.valueOf(convertedWidth) + " " + String.valueOf(convertedHeight));
-
-        PdfDocument document = new PdfDocument();
+        /*PdfDocument document = new PdfDocument();
         PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(convertedWidth, convertedHeight, 1).create();
         PdfDocument.Page page = document.startPage(pageInfo);
 
@@ -177,57 +177,54 @@ public class BarCodePrintActivity extends AppCompatActivity {
 
             //openPdf(file.getPath().toString());
 //            Toast.makeText(getActivity(), "PDF", Toast.LENGTH_SHORT).show();
+        }*/
+        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(viewWidth, viewHeight+100, 1).create();
+        PdfDocument.Page page = pdfDocument.startPage(pageInfo);
+        Canvas canvas = page.getCanvas();
+
+        // Draw the view hierarchy directly to the PDF canvas
+        barCodeLayout.draw(canvas);
+        pdfDocument.finishPage(page);
+
+        // Generate output file path
+        String currentDate = new SimpleDateFormat("ddMMyy", Locale.getDefault()).format(new Date());
+        String currentTime = new SimpleDateFormat("HHmmss", Locale.getDefault()).format(new Date());
+        String fileName = "Alife_Invoice_" + currentDate + "_" + currentTime + ".pdf";
+
+        // Save the PDF document
+        try {
+            File downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+            File file = new File(downloadsDir, fileName);
+
+            pdfDocument.writeTo(new FileOutputStream(file));
+            Toast.makeText(getApplicationContext(), "PDF saved to Downloads", Toast.LENGTH_SHORT).show();
+
+            // Optionally open the PDF
+            openPDF(file);
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), "Error saving PDF: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Log.e("PDF_CREATION", "Error saving PDF", e);
+        } finally {
+            pdfDocument.close();
         }
     }
 
-    private void createPDF2(LinearLayout barCodeLayout) {
+    private void openPDF(File pdfFile) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        Uri uri = FileProvider.getUriForFile(getApplicationContext(),
+                getApplicationContext().getPackageName() + ".provider",
+                pdfFile);
 
-        String folderName = "Alife";
-
-
-        File dir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), folderName);
-
-        if (!dir.exists()) {
-            dir.mkdir();
-
-        }
-
-        File pdfFile = new File(dir, Helpers.generateFileName("bar") + ".pdf");
-
-
-        // File pdfFile = new File(Environment.getExternalStorageDirectory(), "my_pdf_file.pdf");
+        intent.setDataAndType(uri, "application/pdf");
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
         try {
-            Document document = new Document();
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                PdfWriter.getInstance(document, Files.newOutputStream(pdfFile.toPath()));
-            }
-
-            // Open the Document for writing
-            document.open();
-
-            // Get the ScrollView's content as a Bitmap
-            Bitmap bitmap = Helpers.loadBitmap(barCodeLayout);
-
-            // Create an iText Image from the Bitmap
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-            Image image = Image.getInstance(stream.toByteArray());
-
-            // Scale the image to fit the PDF page
-            image.scaleToFit(document.getPageSize());
-
-            // Add the image to the PDF
-            document.add(image);
-
-            // Close the Document
-            document.close();
-
-            Log.d("dataxx", "filepath: " + pdfFile.getPath().toString());
-            Helpers.openPdf(pdfFile.getPath().toString(), getApplicationContext());
-        } catch (Exception e) {
-            Log.d("datax", "createPDF2: " + e.getMessage());
-            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(getApplicationContext(),
+                    "No PDF viewer installed",
+                    Toast.LENGTH_SHORT).show();
         }
     }
+
 }

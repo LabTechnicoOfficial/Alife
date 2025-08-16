@@ -7,6 +7,7 @@ import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -184,29 +185,17 @@ public class Bar_code_fragment extends Fragment {
             }
 
             @Override
-            public void receiveDetections(Detector.Detections<Barcode> detections) {
+            public void receiveDetections(@NonNull Detector.Detections<Barcode> detections) {
                 final SparseArray<Barcode> barcodes = detections.getDetectedItems();
                 if (barcodes.size() != 0) {
 
 
-                    barcodeText.post(new Runnable() {
-                        @Override
-                        public void run() {
+                    barcodeText.post(() -> {
 
-                            if (barcodes.valueAt(0).email != null) {
-                                barcodeText.removeCallbacks(null);
-                                barcodeData = barcodes.valueAt(0).email.address;
-                                barcodeText.setText(barcodeData);
-                                // toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP, 150);
-                                // barcodeDetector.release();
-                            } else {
-
-                                barcodeData = barcodes.valueAt(0).displayValue;
-                                barcodeText.setText(barcodeData);
-                                // toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP, 150);
-
-                            }
-                        }
+                        barcodes.valueAt(0);
+                        barcodeText.removeCallbacks(null);
+                        barcodeData = barcodes.valueAt(0).email.address;
+                        barcodeText.setText(barcodeData);
                     });
 
                 }

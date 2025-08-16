@@ -155,6 +155,32 @@ public class Helpers {
     public static void openPdf(String filePath, Context context) {
         File file = new File(filePath);
         if (file.exists()) {
+            Uri uriPdfPath = FileProvider.getUriForFile(
+                    context,
+                    context.getPackageName() + ".provider",
+                    file
+            );
+
+            Intent pdfOpenIntent = new Intent(Intent.ACTION_VIEW);
+            pdfOpenIntent.setDataAndType(uriPdfPath, "application/pdf");
+            pdfOpenIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+                    | Intent.FLAG_ACTIVITY_NEW_TASK
+                    | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+            try {
+                context.startActivity(pdfOpenIntent);
+            } catch (ActivityNotFoundException e) {
+                Toast.makeText(context, "No app found to open PDF", Toast.LENGTH_LONG).show();
+            }
+        } else {
+            Toast.makeText(context, "File not found", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+    /* public static void openPdf(String filePath, Context context) {
+        File file = new File(filePath);
+        if (file.exists()) {
 
             Uri uriPdfPath = FileProvider.getUriForFile(context, context.getApplicationContext().getPackageName() + ".provider", file);
 
@@ -171,6 +197,24 @@ public class Helpers {
                 Toast.makeText(context, "There is no app to load corresponding PDF", Toast.LENGTH_LONG).show();
 
             }
+        }
+    }
+*/
+    public void openPDF(File pdfFile, Context context) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        Uri uri = FileProvider.getUriForFile(context,
+                context.getPackageName() + ".provider",
+                pdfFile);
+
+        intent.setDataAndType(uri, "application/pdf");
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+        try {
+            context.startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(context,
+                    "No PDF viewer installed",
+                    Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -191,6 +235,6 @@ public class Helpers {
 
     public static void hideSoftKeyboard(Context context) {
         InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
-        inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+        inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
     }
 }

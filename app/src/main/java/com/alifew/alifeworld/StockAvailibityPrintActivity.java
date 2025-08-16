@@ -65,8 +65,6 @@ public class StockAvailibityPrintActivity extends AppCompatActivity {
         binding.printButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // createPDF(binding.barCodeLayout, binding.itemView.getWidth(), binding.itemView.getHeight());
-
                 PDFHelper.generatePDF(binding.itemView, getApplicationContext());
             }
 
@@ -107,59 +105,5 @@ public class StockAvailibityPrintActivity extends AppCompatActivity {
         loader.setContentView(R.layout.loader);
         loader.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         loader.setCancelable(false);
-    }
-
-    private void createPDF(View barCodeLayout, int width, int height) {
-        Log.d("dataxx", "size: " + String.valueOf(width) + " " + String.valueOf(height));
-        Bitmap bitmap = Helpers.loadBitmap(barCodeLayout);
-        WindowManager windowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        this.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        int convertedWidth = displayMetrics.widthPixels;
-        int convertedHeight = displayMetrics.heightPixels;
-
-        Log.d("dataxx", "cont size: " + String.valueOf(convertedWidth) + " " + String.valueOf(convertedHeight));
-
-        PdfDocument document = new PdfDocument();
-        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(convertedWidth, convertedHeight, 1).create();
-        PdfDocument.Page page = document.startPage(pageInfo);
-
-        Canvas canvas = page.getCanvas();
-        Paint paint = new Paint();
-        canvas.drawPaint(paint);
-        bitmap = Bitmap.createScaledBitmap(bitmap, convertedWidth, convertedHeight, true);
-        canvas.drawBitmap(bitmap, 0, 0, null);
-        document.finishPage(page);
-
-
-        String folderName = "Alife";
-
-
-        File dir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), folderName);
-
-        if (!dir.exists()) {
-            dir.mkdir();
-
-        }
-
-        File file = new File(dir, Helpers.generateFileName("bar") + ".pdf");
-
-        try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                document.writeTo(Files.newOutputStream(file.toPath()));
-            }
-
-            Helpers.openPdf(file.getPath().toString(), this);
-
-            Log.d("dataxx", "path: " + file.getPath().toString());
-        } catch (Exception e) {
-            Log.d("dataxx", "createPDF: " + e.getMessage());
-            Toast.makeText(this, "failed", Toast.LENGTH_SHORT).show();
-            Log.d("dataxx", "epath: " + file.getPath().toString());
-            document.close();
-
-            //openPdf(file.getPath().toString());
-//            Toast.makeText(getActivity(), "PDF", Toast.LENGTH_SHORT).show();
-        }
     }
 }

@@ -79,7 +79,9 @@ public class PDFHelper {
             String folderName = "Alife";
 
 
-            File dir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), folderName);
+            //File dir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), folderName);
+
+            File dir= Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
 
             if (!dir.exists()) {
                 dir.mkdir();
