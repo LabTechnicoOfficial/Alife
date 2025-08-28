@@ -95,6 +95,7 @@ public class Otp_validation_activity extends AppCompatActivity implements TextWa
         image = sessionManagment_registration.getImage();
         type = sessionManagment_registration.getType();
         otp = sessionManagment_registration.getOtp();
+        Log.d("dataxx", "OTP: "+otp);
         task_type = sessionManagment_registration.getSESSION_TASK_TYPE();
 
         shop_registration = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(Shop_registration.class);
@@ -127,7 +128,6 @@ public class Otp_validation_activity extends AppCompatActivity implements TextWa
         loader.setCancelable(false);
 
         deviceToken = sessionManagement.getDeviceToken();
-        Log.d("dataxx", "otpcheckMultipleDeviceLogIN: " + password + " " + deviceToken);
 
         verifyButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -197,7 +197,6 @@ public class Otp_validation_activity extends AppCompatActivity implements TextWa
 
             @SuppressLint("SetTextI18n")
             public void onTick(long millisUntilFinished) {
-                Log.d("dataxx", "seconds remaining: " + millisUntilFinished / 1000);
                 timeText.setText("You can resend OTP after " + millisUntilFinished / 1000 + " seconds");
             }
 

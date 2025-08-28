@@ -1,5 +1,8 @@
 package com.alifew.alifeworld.view.Shop;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -131,7 +134,7 @@ public class Shop_customer_list_fragments extends Fragment implements get_shop_c
     private List<image> imageList;
     private Normal_sell_details_image_adapter image_show_adapter;
 
-    ProgressBar progressBar, progressBar2, showDetailsProgressBar;
+    ProgressBar progressBar, progressBar2, showDetailsProgressBar, allCustomerProgressBar;
     NestedScrollView nestedScrollView, nestedScrollView2, nestedScrollView3, showDetailsNestedScrollView;
     int page1 = 1, page2 = 1, page3 = 1, limit = 10, limit2 = 20, end1 = 0, end3 = 0;
     int select_type;
@@ -142,22 +145,19 @@ public class Shop_customer_list_fragments extends Fragment implements get_shop_c
 
     public void notifi() {
 
-        fetch_customer_join_request.getData(id).observe(getViewLifecycleOwner(), new Observer<List<Get_shop_customer_response>>() {
-            @Override
-            public void onChanged(List<Get_shop_customer_response> get_shop_customer_responses) {
-                customer_request = get_shop_customer_responses;
+        fetch_customer_join_request.getData(id).observe(getViewLifecycleOwner(), get_shop_customer_responses -> {
+            customer_request = get_shop_customer_responses;
 
-                request_adapter = new Customer_join_request_adapter(customer_request);
-                request_adapter.ClickListener(Shop_customer_list_fragments.this::OnItemAccept, Shop_customer_list_fragments.this::OnItemCancel);
-                requestCustomerView.setAdapter(request_adapter);
-                if (customer_request.size() > 0) {
-                    //requestValueLayout.setVisibility(View.VISIBLE);
-                    //requestValue.setText(String.valueOf(customer_request.size()));
-                } else {
-                    // requestValueLayout.setVisibility(View.GONE);
-                }
-
+            request_adapter = new Customer_join_request_adapter(customer_request);
+            request_adapter.ClickListener(Shop_customer_list_fragments.this, Shop_customer_list_fragments.this);
+            requestCustomerView.setAdapter(request_adapter);
+            if (!customer_request.isEmpty()) {
+                requestLayout.setVisibility(View.VISIBLE);
+                //requestValue.setText(String.valueOf(customer_request.size()));
+            } else {
+                requestLayout.setVisibility(View.GONE);
             }
+
         });
     }
 
@@ -183,14 +183,14 @@ public class Shop_customer_list_fragments extends Fragment implements get_shop_c
             @Override
             public void onButtonChecked(MaterialButtonToggleGroup group, int checkedId, boolean isChecked) {
                 if (group.getCheckedButtonId() == R.id.yourCustomerID) {
-                    allCustomerLayout.setVisibility(View.GONE);
-                    yourCustomerLayout.setVisibility(View.VISIBLE);
+                    allCustomerLayout.setVisibility(GONE);
+                    yourCustomerLayout.setVisibility(VISIBLE);
                     notifi();
                     own_customer();
 
                 } else if (group.getCheckedButtonId() == R.id.allCustomerID) {
-                    yourCustomerLayout.setVisibility(View.GONE);
-                    allCustomerLayout.setVisibility(View.VISIBLE);
+                    yourCustomerLayout.setVisibility(GONE);
+                    allCustomerLayout.setVisibility(VISIBLE);
                     notifi();
                     all_customer();
                 }
@@ -200,10 +200,10 @@ public class Shop_customer_list_fragments extends Fragment implements get_shop_c
             @Override
             public void onClick(View v) {
                 if (showDetailsState) {
-                    downImage.setVisibility(View.GONE);
-                    upImage.setVisibility(View.VISIBLE);
-                    notShowDetails.setVisibility(View.GONE);
-                    detailsLayout.setVisibility(View.VISIBLE);
+                    downImage.setVisibility(GONE);
+                    upImage.setVisibility(VISIBLE);
+                    notShowDetails.setVisibility(GONE);
+                    detailsLayout.setVisibility(VISIBLE);
                     page3 = 1;
                     end3 = 0;
                     dueList = new ArrayList<>();
@@ -214,10 +214,10 @@ public class Shop_customer_list_fragments extends Fragment implements get_shop_c
                     due_details(page3, limit2);
                     showDetailsState = false;
                 } else {
-                    upImage.setVisibility(View.GONE);
-                    detailsLayout.setVisibility(View.GONE);
-                    downImage.setVisibility(View.VISIBLE);
-                    notShowDetails.setVisibility(View.VISIBLE);
+                    upImage.setVisibility(GONE);
+                    detailsLayout.setVisibility(GONE);
+                    downImage.setVisibility(VISIBLE);
+                    notShowDetails.setVisibility(VISIBLE);
 
                     showDetailsState = true;
                 }
@@ -335,7 +335,7 @@ public class Shop_customer_list_fragments extends Fragment implements get_shop_c
         shop_customer.get_dueList(id, page, limit).observe(getViewLifecycleOwner(), new Observer<List<get_shop_all_due_details_response>>() {
             @Override
             public void onChanged(List<get_shop_all_due_details_response> get_shop_all_due_details_responses) {
-                progressBar2.setVisibility(View.GONE);
+                progressBar2.setVisibility(GONE);
                 for (int i = 0; i < get_shop_all_due_details_responses.size(); i++) {
                     dueList.add(get_shop_all_due_details_responses.get(i));
                 }
@@ -474,15 +474,16 @@ public class Shop_customer_list_fragments extends Fragment implements get_shop_c
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                if (dy > 0 && addCustomerButton.getVisibility() == View.VISIBLE) {
+                if (dy > 0 && addCustomerButton.getVisibility() == VISIBLE) {
                     addCustomerButton.hide();
-                } else if (dy < 0 && addCustomerButton.getVisibility() != View.VISIBLE) {
+                } else if (dy < 0 && addCustomerButton.getVisibility() != VISIBLE) {
                     addCustomerButton.show();
                 }
             }
         });
 
 
+        allCustomerProgressBar = view.findViewById(R.id.allCustomerProgressBar);
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         progressBar2 = (ProgressBar) view.findViewById(R.id.progressBar2ID);
         showDetailsProgressBar = (ProgressBar) view.findViewById(R.id.showDetailsProgressBarID);
@@ -497,7 +498,7 @@ public class Shop_customer_list_fragments extends Fragment implements get_shop_c
             public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
                 if (scrollY == v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight()) {
                     if (end1 == 0) {
-                        progressBar.setVisibility(View.VISIBLE);
+                        progressBar.setVisibility(VISIBLE);
                         page1++;
                         filter(page1, limit);
 
@@ -511,7 +512,7 @@ public class Shop_customer_list_fragments extends Fragment implements get_shop_c
             public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
                 if (scrollY == v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight()) {
 
-                    progressBar2.setVisibility(View.VISIBLE);
+                    progressBar2.setVisibility(VISIBLE);
 
 
                 }
@@ -523,7 +524,7 @@ public class Shop_customer_list_fragments extends Fragment implements get_shop_c
             public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
                 if (scrollY == v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight()) {
                     if (end3 == 0) {
-                        showDetailsProgressBar.setVisibility(View.VISIBLE);
+                        showDetailsProgressBar.setVisibility(VISIBLE);
                         page3++;
                         due_details(page3, limit2);
                     }
@@ -583,7 +584,7 @@ public class Shop_customer_list_fragments extends Fragment implements get_shop_c
         shop_customer.getData(id, page, limit).observe(getViewLifecycleOwner(), new Observer<List<Get_shop_customer_response>>() {
             @Override
             public void onChanged(List<Get_shop_customer_response> get_shop_customer_responses) {
-                progressBar.setVisibility(View.GONE);
+                progressBar.setVisibility(GONE);
                 for (int i = 0; i < get_shop_customer_responses.size(); i++) {
                     data.add(get_shop_customer_responses.get(i));
                 }
@@ -603,26 +604,25 @@ public class Shop_customer_list_fragments extends Fragment implements get_shop_c
     }
 
     private void filter_all() {
+        allCustomerProgressBar.setVisibility(VISIBLE);
         fetch_all_customer = new ViewModelProvider(getActivity()).get(Fetch_all_customer.class);
-        fetch_all_customer.getData().observe(getViewLifecycleOwner(), new Observer<List<Get_shop_customer_response>>() {
-            @Override
-            public void onChanged(List<Get_shop_customer_response> get_shop_customer_responses) {
-                data_all = get_shop_customer_responses;
-                for (int i = 0; i < data_all.size(); i++) {
-                    for (int j = 0; j < selected_data.size(); j++) {
-                        if (selected_data.get(j).getCustomer01r_id().equals(data_all.get(i).getCustomer01r_id())) {
-                            data_all.remove(i);
-                            i--;
-                            break;
-                        }
+        fetch_all_customer.getData().observe(getViewLifecycleOwner(), get_shop_customer_responses -> {
+            allCustomerProgressBar.setVisibility(GONE);
+            data_all = get_shop_customer_responses;
+            for (int i = 0; i < data_all.size(); i++) {
+                for (int j = 0; j < selected_data.size(); j++) {
+                    if (selected_data.get(j).getCustomer01r_id().equals(data_all.get(i).getCustomer01r_id())) {
+                        data_all.remove(i);
+                        i--;
+                        break;
                     }
                 }
-                adapter_all = new get_shop_allcustomer_adapter(data_all);
-                adapter_all.setOnClickListener(Shop_customer_list_fragments.this::OnAddItem);
-
-                allCustomerView.setAdapter(adapter_all);
-
             }
+            adapter_all = new get_shop_allcustomer_adapter(data_all);
+            adapter_all.setOnClickListener(Shop_customer_list_fragments.this::OnAddItem);
+
+            allCustomerView.setAdapter(adapter_all);
+
         });
     }
 
@@ -768,9 +768,9 @@ public class Shop_customer_list_fragments extends Fragment implements get_shop_c
                     Toast.makeText(getActivity(),add_remove_shop_customer_response.getMessage(),Toast.LENGTH_SHORT).show();
 
                     // main();
-                    allCustomerLayout.setVisibility(View.GONE);
+                    allCustomerLayout.setVisibility(GONE);
                     toggleGroup.clearChecked();
-                    yourCustomerLayout.setVisibility(View.VISIBLE);
+                    yourCustomerLayout.setVisibility(VISIBLE);
                     toggleGroup.check(R.id.yourCustomerID);
 
                     filter_all();

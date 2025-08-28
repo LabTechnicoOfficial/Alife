@@ -194,7 +194,7 @@ public class Shop_sell_selected_product_list_fragment extends Fragment implement
     LinearLayout offerSecondSpinnerLayout, offerMainLayout;
     double TotalPrice;
     // EditText reducePrice;
-    TextView offer_discount;
+    TextView offer_discount, shopPhoneText;
     TextView finalPrice, noOffersText;
     int page = 1, limit = 10, end = 0;
     ProgressBar progressBar;
@@ -1472,6 +1472,7 @@ public class Shop_sell_selected_product_list_fragment extends Fragment implement
 
         // Initialize views
         TextView shopNameText = successAlert.findViewById(R.id.shopNameText);
+        TextView shopPhoneText = successAlert.findViewById(R.id.shopPhoneText);
         TextView customerName = successAlert.findViewById(R.id.customerNameID);
         TextView customerPhone = successAlert.findViewById(R.id.customerPhoneID);
         TextView subtotal = successAlert.findViewById(R.id.subtotalPriceID);
@@ -1513,6 +1514,7 @@ public class Shop_sell_selected_product_list_fragment extends Fragment implement
         shop_profile.getData(String.valueOf(shop_id)).observe(getViewLifecycleOwner(), shop_profile_response -> {
             if (shop_profile_response != null) {
                 shopNameText.setText(shop_profile_response.getStore01e_name());
+                shopPhoneText.setText(shop_profile_response.getStore01e_phone());
             }
         });
 
@@ -1560,7 +1562,7 @@ public class Shop_sell_selected_product_list_fragment extends Fragment implement
         int viewHeight = mainLayout.getHeight();
 
         // Create a page with the same dimensions as the view
-        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(viewWidth, viewHeight+100, 1).create();
+        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(viewWidth, viewHeight + 100, 1).create();
         PdfDocument.Page page = pdfDocument.startPage(pageInfo);
         Canvas canvas = page.getCanvas();
 

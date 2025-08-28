@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -130,6 +131,12 @@ public class Shop_sell_product_selected_fragment extends Fragment implements Sho
         this.productSellList = productSellList;
         this.product_discount_all = product_discount_all;
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d("dataxx", "onResume: ");
     }
 
     @Override
@@ -289,9 +296,7 @@ public class Shop_sell_product_selected_fragment extends Fragment implements Sho
 
     private void set_offer() {
         get_product();
-        //assign product attribute
-        // get_all_product_discount();
-        //product_amount.setText("0");
+
         price.setText("0");
 
         offers = new ArrayList<>();
@@ -353,9 +358,7 @@ public class Shop_sell_product_selected_fragment extends Fragment implements Sho
 
     private void main() {
         checkConnection();
-        //get_all_product_discount();
 
-        //product_amount.setText("0");
         if (product_amount.getText().toString().isEmpty()) {
             price.setText("0");
         } else {
@@ -503,11 +506,10 @@ public class Shop_sell_product_selected_fragment extends Fragment implements Sho
                     offer_check = 1;
 
                 } else {
-                    //price.setText("");
-                    //product_amount.setText("");
+
                     offer_check = 0;
                     offer_type = "none";
-                    // typeLayout.setVisibility(View.INVISIBLE);
+
                 }
 
             }
@@ -526,10 +528,6 @@ public class Shop_sell_product_selected_fragment extends Fragment implements Sho
                 //if (position > 0) {
                 if ((!product_amount.getText().toString().isEmpty() && Double.parseDouble(product_amount.getText().toString().trim()) > 0)) {
 
-                    //if ((Double.parseDouble(product_amount.getText().toString().trim()) >= Double.parseDouble(offer_all.get(position - 1).getMinimum_amount())) && (Double.parseDouble(price.getText().toString().trim()) >= Double.parseDouble(offer_all.get(position - 1).getMinimum_price()))) {
-
-                    // amountlayout.setVisibility(View.GONE);
-                    // product_amount.setText(offers.get(position - 1).getAmount());
                     if (position > 0) {
                         offer_id = offer_all.get(position - 1).getId();
                         offer_check = 1;
@@ -1169,6 +1167,8 @@ public class Shop_sell_product_selected_fragment extends Fragment implements Sho
     public void OnItemClick(int position) {
         Get_product_response product = data.get(position);
         productID = product.getProduct_id();
+        product_amount.setText("");
+        price.setText("0");
         if (Double.parseDouble(product.getStock_amount()) > 0) {
             addMoreAlert.dismiss();
             topLayout.setVisibility(View.VISIBLE);
