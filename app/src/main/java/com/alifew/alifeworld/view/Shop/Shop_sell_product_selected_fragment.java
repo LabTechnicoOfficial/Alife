@@ -1114,13 +1114,7 @@ public class Shop_sell_product_selected_fragment extends Fragment implements Sho
                 product_amount.setText(String.valueOf(selected_product_amount));
                 Double price_value = Double.parseDouble(product_amount.getText().toString().trim()) * Double.parseDouble(product_unit_price);
                 price.setText(String.valueOf(new DecimalFormat("##.##").format(price_value)));
-                // setAmountAlert.dismiss();
 
-                /*if (x == 1) {
-                    get_offer();
-                } else if (x == 2) {
-                    get_all_product_offer();
-                }*/
             }
         }
 

@@ -1,3 +1,5 @@
+import java.text.SimpleDateFormat
+
 plugins {
     id 'com.android.application'
     id 'com.google.gms.google-services'
@@ -70,6 +72,16 @@ android {
         checkReleaseBuilds false
         abortOnError false
     }
+
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            def formatter = new SimpleDateFormat("yyddMMHHmms")
+            def formattedDate = formatter.format(new Date())
+
+            def outputFileName = "AW${formattedDate}.apk"
+            output.outputFileName = outputFileName
+        }
+    }
 }
 
 configurations.configureEach {
@@ -111,10 +123,10 @@ dependencies {
     implementation 'net.gotev:uploadservice:4.9.4'
 
     // Firebase
-   /* implementation platform('com.google.firebase:firebase-bom:34.1.0')
-    implementation 'com.google.firebase:firebase-messaging'
-    implementation 'com.google.firebase:firebase-analytics'
-    implementation 'com.google.firebase:firebase-crashlytics'*/
+    /* implementation platform('com.google.firebase:firebase-bom:34.1.0')
+     implementation 'com.google.firebase:firebase-messaging'
+     implementation 'com.google.firebase:firebase-analytics'
+     implementation 'com.google.firebase:firebase-crashlytics'*/
     implementation 'com.google.firebase:firebase-messaging:25.0.0'
     implementation 'com.google.firebase:firebase-analytics:23.0.0'
     implementation 'com.google.firebase:firebase-crashlytics:20.0.0'
@@ -146,12 +158,12 @@ dependencies {
     implementation 'com.journeyapps:zxing-android-embedded:4.3.0'
 
     // Notifications
-   // implementation 'com.onesignal:OneSignal:[4.0.0, 4.99.99]'
+    // implementation 'com.onesignal:OneSignal:[4.0.0, 4.99.99]'
 
     // UI Utilities
     //implementation 'cc.cloudist.acplibrary:library:1.2.1' // AlertDialogLoader
     implementation 'me.biubiubiu.justifytext:library:1.1' // Justify textview
-   // implementation 'com.github.smarteist:autoimageslider:1.4.0-appcompat' // Image slider
+    // implementation 'com.github.smarteist:autoimageslider:1.4.0-appcompat' // Image slider
     implementation 'io.github.shashank02051997:FancyToast:2.0.2' // Fancy toast
     implementation 'com.karumi:dexter:6.2.3' // Runtime permissions
     implementation 'com.airbnb.android:lottie:6.6.7' // Lottie animations
