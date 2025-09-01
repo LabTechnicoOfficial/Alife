@@ -1142,33 +1142,6 @@ public class Shop_sell_selected_product_list_fragment extends Fragment implement
         }
     }
 
-    /*
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(
-                R.anim.slide_in,  // enter
-                R.anim.fade_out,  // exit
-                R.anim.fade_in,   // popEnter
-                R.anim.slide_out  // popExit
-        ).replace(R.id.frame_container, new Shop_sellcategoriesORproducts_fragment(shop_id, productsList)).addToBackStack(null).commit();
-    }
-
-    */
-
-    /*
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(
-                R.anim.slide_in,  // enter
-                R.anim.fade_out,  // exit
-                R.anim.fade_in,   // popEnter
-                R.anim.slide_out  // popExit
-        ).replace(R.id.frame_container, new Shop_sellcategoriesORproducts_fragment(shop_id, productsList)).addToBackStack(null).commit();
-    }
-
-     */
 
     @Override
     public void onDetach() {

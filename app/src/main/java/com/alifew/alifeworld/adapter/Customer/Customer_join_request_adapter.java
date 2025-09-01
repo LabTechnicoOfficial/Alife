@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -63,7 +64,7 @@ public class Customer_join_request_adapter extends RecyclerView.Adapter<Customer
     }
 
     public class AppViewholder extends RecyclerView.ViewHolder {
-        com.mikhaellopez.circularimageview.CircularImageView customerImage;
+        ImageView customerImage;
         TextView customerName, acceptButton, cancelButton;
 
         public AppViewholder(@NonNull View itemView) {
