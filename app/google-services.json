@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1008411127460:android:298339dae1ab3939a6c031",
+        "mobilesdk_app_id": "1:1008411127460:android:51ba10c4958ea85aa6c031",
         "android_client_info": {
-          "package_name": "com.alifew.alifeworld"
+          "package_name": "com.alifew.bcopay"
         }
       },
       "oauth_client": [],
