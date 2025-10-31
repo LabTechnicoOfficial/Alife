@@ -23,8 +23,8 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="com.alifew.alifeworld" />
-                  <option name="mobileSdkAppId" value="1:1008411127460:android:298339dae1ab3939a6c031" />
+                  <option name="appId" value="com.alifew.bcopay" />
+                  <option name="mobileSdkAppId" value="1:1008411127460:android:51ba10c4958ea85aa6c031" />
                   <option name="projectId" value="alife-world" />
                   <option name="projectNumber" value="1008411127460" />
                 </ConnectionSetting>

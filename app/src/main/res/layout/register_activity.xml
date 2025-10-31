@@ -45,7 +45,8 @@
             app:layout_constraintLeft_toRightOf="@id/backButton"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:singleSelection="true">
+            app:singleSelection="true"
+            android:visibility="invisible">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/customerID"
