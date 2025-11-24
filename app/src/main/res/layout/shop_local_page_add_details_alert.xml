@@ -26,7 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/shape"
-        android:backgroundTint="@color/background_grey"
+        android:backgroundTint="@color/background_color"
         android:gravity="center"
         android:orientation="vertical"
         android:padding="@dimen/distance">
@@ -81,7 +81,7 @@
                 android:gravity="right">
 
                 <ImageView
-                    android:id="@+id/addButtonID"
+                    android:id="@+id/addButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:clickable="true"
@@ -161,7 +161,7 @@
                 android:weightSum="5">
 
                 <EditText
-                    android:id="@+id/nameTextID"
+                    android:id="@+id/shopNameText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -174,7 +174,7 @@
                     android:textSize="15sp" />
 
                 <EditText
-                    android:id="@+id/amountTextID"
+                    android:id="@+id/amountText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

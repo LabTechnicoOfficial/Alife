@@ -16,18 +16,20 @@
         app:itemIconTint="@color/pink"
         app:menu="@menu/shop_menu" />
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@color/pink"
             android:minHeight="?attr/actionBarSize"
             android:theme="?attr/actionBarTheme"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:navigationIcon="@drawable/menu_bar"
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteX="0dp"
@@ -36,22 +38,42 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Account of Life"
+                android:text="@string/account_of_life"
                 android:textColor="@color/black"
                 android:textSize="@dimen/font_medium"
                 android:textStyle="bold" />
         </androidx.appcompat.widget.Toolbar>
 
         <View
+            android:id="@+id/view"
             android:layout_width="match_parent"
             android:layout_height=".3dp"
-            android:background="@android:color/black" />
+            android:background="@android:color/black"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
         <FrameLayout
             android:id="@+id/frame_container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/bottomNavigationView"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
-    </LinearLayout>
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottomNavigationView"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_50sdp"
+            android:background="@drawable/bottom_nav_bg"
+            app:itemIconTint="@color/bottom_nav_color"
+            app:itemTextColor="@color/bottom_nav_color"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:menu="@menu/bottom_nav_menu" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.drawerlayout.widget.DrawerLayout>

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ALife</string>
+    <string name="app_name">Bco Pay</string>
     <string name="signin">Sign In</string>
     <string name="registration">Registration</string>
     <string name="shopkeeper">Shopkeeper</string>
@@ -27,4 +27,22 @@
     <!--<string name="admob_id">ca-app-pub-3940256099942544~3347511713</string>
     //rewards ad id
     <string name="reward_ads_id">ca-app-pub-3940256099942544/5224354917</string>-->
+    <string name="restart">restart</string>
+    <string name="default_notification_channel_id">ALIFEID</string>
+    <string name="account_of_life">Account of Life</string>
+    <string name="warning">WARNING!!</string>
+    <string name="your_session_has_been_out_please_login_again">Your session has been out, please login again.</string>
+    <string name="powered_by_text"><![CDATA[Powered By <b>ALife World</b>]]></string>
+    <string name="go_to_home">Go To Home</string>
+    <string name="close">Close</string>
+    <string name="save">Save</string>
+    <string name="download">Download</string>
+    <string name="items">Items</string>
+    <string name="search">Search</string>
+    <string name="customers_list">Customers List</string>
+    <string name="lat_buying_time">সর্বশেষ ক্রয় সময়</string>
+    <string name="accept">Accept</string>
+    <string name="cancel">Cancel</string>
+
+
 </resources>

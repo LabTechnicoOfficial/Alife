@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="350dp"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/distance"
-    android:layout_marginBottom="@dimen/distance"
     android:background="@drawable/shape"
-    android:backgroundTint="@color/background_grey"
+    android:backgroundTint="@color/background_color"
     android:orientation="vertical">
 
+
     <LinearLayout
-        android:id="@+id/mainLayoutID"
+        android:id="@+id/mainLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
@@ -19,183 +18,209 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            >
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <ImageView
+                    android:layout_width="@dimen/_30sdp"
+                    android:layout_height="@dimen/_30sdp"
+                    android:src="@drawable/alifelogo" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:gravity="end"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/shopNameText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="ShopName"
+                        android:textColor="@color/black"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/shopAddressText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Mirpur, Dhaka"
+                        android:textColor="@color/black"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/shopPhoneText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="015235166352"
+                        android:textColor="@color/black"
+                        android:textSize="12sp" />
+                </LinearLayout>
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginVertical="@dimen/_2sdp"
+                android:background="@color/black" />
+
+            <TextView
+                android:id="@+id/customerNameID"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/customer_phone"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical|right">
+
+                    <TextView
+                        android:id="@+id/customerPhoneID"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
 
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="right"
-                    android:padding="@dimen/distance">
-
-
-                    <LinearLayout
-                        android:id="@+id/savePDFButtonID"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/shape"
-                        android:backgroundTint="@color/pink"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:padding="5dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="DOWNLOAD"
-                            android:textColor="@color/white"
-                            android:textStyle="bold" />
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:src="@drawable/pdf_50px" />
-
-                    </LinearLayout>
-
-
-                </LinearLayout>
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/nameText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/distance"
+                    android:text="@string/method"
                     android:textColor="@color/black"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/customerNameID"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/black"
-                    android:textSize="15sp"
-                    android:textStyle="bold" />
+                    android:textSize="12sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                    android:gravity="center_vertical|right">
 
                     <TextView
+                        android:id="@+id/paymentMethodID"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/customer_phone"
                         android:textColor="@color/black"
-                        android:textSize="15sp" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical|right">
-
-                        <TextView
-                            android:id="@+id/customerPhoneID"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/black"
-                            android:textSize="15sp" />
-
-                    </LinearLayout>
-
+                        android:textSize="12sp" />
 
                 </LinearLayout>
 
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/method"
-                        android:textColor="@color/black"
-                        android:textSize="15sp" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical|right">
-
-                        <TextView
-                            android:id="@+id/paymentMethodID"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/black"
-                            android:textSize="15sp" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/date"
-                        android:textColor="@color/black" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="right">
-
-                        <TextView
-                            android:id="@+id/dateTextID"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/black" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/date"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right">
+
+                    <TextView
+                        android:id="@+id/dateTextID"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
         </LinearLayout>
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:text="Product Lst"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:textSize="15sp" />
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:layout_width="@dimen/_80sdp"
+                android:layout_height="wrap_content"
+                android:text="@string/products"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:text="@string/amount"
+                android:gravity="center"/>
+
+            <TextView
+                android:id="@+id/productPriceID"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="3dp"
+                android:text="@string/price"
+                android:gravity="end"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+
+        </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/productsViewID"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
             android:scrollbars="none" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="20dp"
             android:orientation="vertical">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -207,7 +232,7 @@
                     android:layout_height="wrap_content"
                     android:text="সাব টোটাল"
                     android:textColor="@color/black"
-                    android:textSize="15sp" />
+                    android:textSize="12sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -219,13 +244,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/black"
-                        android:textSize="15sp" />
+                        android:textSize="12sp" />
 
                 </LinearLayout>
 
 
-
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -237,7 +262,7 @@
                     android:layout_height="wrap_content"
                     android:text="ডিস্কাউন্ট"
                     android:textColor="@color/black"
-                    android:textSize="15sp" />
+                    android:textSize="12sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -249,13 +274,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/black"
-                        android:textSize="15sp" />
+                        android:textSize="12sp" />
 
                 </LinearLayout>
 
 
-
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -267,7 +292,7 @@
                     android:layout_height="wrap_content"
                     android:text="স্পেশাল ছাড়"
                     android:textColor="@color/black"
-                    android:textSize="15sp" />
+                    android:textSize="12sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -279,13 +304,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/black"
-                        android:textSize="15sp" />
+                        android:textSize="12sp" />
 
                 </LinearLayout>
 
 
-
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -297,7 +322,7 @@
                     android:layout_height="match_parent"
                     android:text="টোটাল"
                     android:textColor="@color/black"
-                    android:textSize="15sp" />
+                    android:textSize="12sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -309,13 +334,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/black"
-                        android:textSize="15sp" />
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 
 
-
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -327,7 +353,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/paid_price"
                     android:textColor="@color/black"
-                    android:textSize="15sp" />
+                    android:textSize="12sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -339,11 +365,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/black"
-                        android:textSize="15sp" />
+                        android:textSize="12sp" />
 
                 </LinearLayout>
 
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -355,7 +382,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/due"
                     android:textColor="@color/black"
-                    android:textSize="15sp" />
+                    android:textSize="12sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -367,7 +394,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/black"
-                        android:textSize="15sp" />
+                        android:textSize="12sp" />
 
                 </LinearLayout>
 
@@ -376,22 +403,41 @@
         </LinearLayout>
 
 
-
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="bottom">
+        android:layout_marginHorizontal="@dimen/_10sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:gravity="bottom"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/savePDFButtonID"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/ripple_effect"
+            android:paddingEnd="@dimen/distance"
+            android:text="@string/download"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <Space
+            android:layout_width="@dimen/_10sdp"
+            android:layout_height="wrap_content" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/goToHomeButtonID"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:background="@drawable/ripple_effect"
-            android:drawableRight="@drawable/white_home"
-            android:paddingRight="@dimen/distance"
-            android:text="Go To Home"
+            android:paddingEnd="@dimen/distance"
+            android:text="@string/close"
             android:textColor="@color/white"
             android:textSize="15sp"
             android:textStyle="bold" />

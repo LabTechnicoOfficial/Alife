@@ -38,6 +38,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="right"
+                android:text="Shop Name"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/shopContact"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:text="Phone"
                 android:textColor="@color/black"
                 android:textSize="15sp" />
 

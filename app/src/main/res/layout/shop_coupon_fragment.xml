@@ -1,78 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_grey"
-    android:orientation="vertical"
-    android:padding="@dimen/distance">
+    android:background="@color/background_color"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/textview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:gravity="center"
-        android:text="@string/coupon"
-        android:textColor="@color/black"
-        android:textSize="@dimen/font_medium"
-        android:textStyle="bold" />
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/nestedRecyclerViewID"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/textview">
+        <TextView
+            android:id="@+id/headerText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:gravity="center"
+            android:text="@string/coupon"
+            android:textColor="@color/black"
+            android:textSize="@dimen/font_medium"
+            android:textStyle="bold" />
 
-        <LinearLayout
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/nestedRecyclerViewID"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/headerText">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/couponViewID"
+                android:id="@+id/itemViewID"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:scrollbarStyle="outsideOverlay"
                 android:scrollbars="vertical" />
 
-        </LinearLayout>
-
-    </androidx.core.widget.NestedScrollView>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="bottom|center">
+        </androidx.core.widget.NestedScrollView>
 
         <ProgressBar
             android:id="@+id/progressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:scaleX=".5"
+            android:scaleY=".5"
             android:theme="@style/ProgressBarStyle"
-            android:visibility="gone" />
+            android:visibility="gone"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/nestedRecyclerViewID" />
     </LinearLayout>
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/addCouponButtonID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_15sdp"
+        android:backgroundTint="@color/pink"
+        android:text="@string/coupon"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_10sdp"
+        android:textStyle="bold"
+        app:icon="@drawable/add_button"
+        app:iconTint="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 
-        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-            android:id="@+id/addCouponButtonID"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|right"
-            android:layout_margin="16dp"
-            android:backgroundTint="@color/pink"
-            android:text="Coupon"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            app:icon="@drawable/add_button"
-            app:iconTint="@color/white"
-            app:layout_anchorGravity="bottom|right|end" />
-
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

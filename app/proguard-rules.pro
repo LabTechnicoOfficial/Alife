@@ -19,3 +19,9 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+# DataStore
+-keep class androidx.datastore.** { *; }
+-keep class kotlin.** { *; }
+-dontwarn androidx.datastore.**
+-dontwarn kotlin.**
+

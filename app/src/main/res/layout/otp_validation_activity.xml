@@ -1,29 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_grey"
+    android:background="@color/background_color"
     android:gravity="center_horizontal"
     android:orientation="vertical"
     android:padding="@dimen/distance"
     tools:context=".view.OTP.Otp_validation_activity">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:id="@+id/backButtonID"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/arrow_back"
-            android:clickable="true"
-            android:focusable="true"/>
-    </LinearLayout>
+    <ImageView
+        android:id="@+id/backButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:src="@drawable/arrow_back"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:id="@+id/headerText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
@@ -31,117 +30,158 @@
         android:text="OTP Verification"
         android:textColor="@color/black"
         android:textSize="18sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/backButton" />
+
+    <TextView
+        android:id="@+id/messageText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:gravity="center"
+        android:text="Enter the code that \nhas been sent to your device."
+        android:textSize="15dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/headerText" />
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center_horizontal"
-        android:orientation="vertical">
+        android:id="@+id/otpLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:orientation="horizontal"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/messageText">
 
-        <TextView
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
+        <EditText
+            android:id="@+id/editText1ID"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginRight="@dimen/distance"
+            android:background="@drawable/shape"
+            android:focusable="true"
             android:gravity="center"
-            android:text="Enter the code that has been sent to your device."
-            android:textAlignment="gravity"
-            android:textSize="15dp" />
+            android:inputType="number"
+            android:maxLength="1"
+            android:textCursorDrawable="@drawable/cursor_color"
+            android:textSize="18sp" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+        <EditText
+            android:id="@+id/editText2ID"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginRight="@dimen/distance"
+            android:background="@drawable/shape"
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:orientation="horizontal">
+            android:focusable="true"
+            android:gravity="center"
+            android:inputType="number"
+            android:maxLength="1"
+            android:textCursorDrawable="@drawable/cursor_color"
+            android:textSize="18sp" />
 
-                <EditText
-                    android:id="@+id/editText1ID"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginRight="@dimen/distance"
-                    android:background="@drawable/shape"
+        <EditText
+            android:id="@+id/editText3ID"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginRight="@dimen/distance"
+            android:background="@drawable/shape"
 
-                    android:focusable="true"
-                    android:gravity="center"
-                    android:inputType="number"
-                    android:maxLength="1"
-                    android:textCursorDrawable="@drawable/cursor_color"
-                    android:textSize="18sp" />
+            android:focusable="true"
+            android:gravity="center"
+            android:inputType="number"
+            android:maxLength="1"
+            android:textCursorDrawable="@drawable/cursor_color"
+            android:textSize="18sp" />
 
-                <EditText
-                    android:id="@+id/editText2ID"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginRight="@dimen/distance"
-                    android:background="@drawable/shape"
+        <EditText
+            android:id="@+id/editText4ID"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginRight="@dimen/distance"
+            android:background="@drawable/shape"
 
-                    android:focusable="true"
-                    android:gravity="center"
-                    android:inputType="number"
-                    android:maxLength="1"
-                    android:textCursorDrawable="@drawable/cursor_color"
-                    android:textSize="18sp" />
+            android:focusable="true"
+            android:gravity="center"
+            android:inputType="number"
+            android:maxLength="1"
+            android:textCursorDrawable="@drawable/cursor_color"
+            android:textSize="18sp" />
 
-                <EditText
-                    android:id="@+id/editText3ID"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginRight="@dimen/distance"
-                    android:background="@drawable/shape"
+        <EditText
+            android:id="@+id/editText5ID"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/shape"
 
-                    android:focusable="true"
-                    android:gravity="center"
-                    android:inputType="number"
-                    android:maxLength="1"
-                    android:textCursorDrawable="@drawable/cursor_color"
-                    android:textSize="18sp" />
+            android:focusable="true"
+            android:gravity="center"
+            android:inputType="number"
+            android:maxLength="1"
+            android:textCursorDrawable="@drawable/cursor_color"
+            android:textSize="18sp" />
 
-                <EditText
-                    android:id="@+id/editText4ID"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginRight="@dimen/distance"
-                    android:background="@drawable/shape"
-
-                    android:focusable="true"
-                    android:gravity="center"
-                    android:inputType="number"
-                    android:maxLength="1"
-                    android:textCursorDrawable="@drawable/cursor_color"
-                    android:textSize="18sp" />
-
-                <EditText
-                    android:id="@+id/editText5ID"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:background="@drawable/shape"
-
-                    android:focusable="true"
-                    android:gravity="center"
-                    android:inputType="number"
-                    android:maxLength="1"
-                    android:textCursorDrawable="@drawable/cursor_color"
-                    android:textSize="18sp" />
-
-            </LinearLayout>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/verifyButtonID"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/ripple_effect"
-                android:text="Verify"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-        </LinearLayout>
     </LinearLayout>
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/countDownLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/otpLayout">
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/timerText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="fff"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_10sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/sendAgainButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:text="Send Again"
+            android:textColor="@color/red"
+            android:textSize="@dimen/_10sdp"
+            android:textStyle="bold"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:clickable="true"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/timerText"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/verifyButtonID"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/_30sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:background="@drawable/ripple_effect"
+        android:paddingLeft="@dimen/_15sdp"
+        android:paddingRight="@dimen/_15sdp"
+        android:text="Verify"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_12sdp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/countDownLayout" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

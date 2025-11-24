@@ -26,7 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/shape"
-        android:backgroundTint="@color/background_grey"
+        android:backgroundTint="@color/background_color"
         android:gravity="center"
         android:orientation="vertical"
         android:padding="@dimen/distance">
@@ -61,7 +61,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/addButtonID"
+            android:id="@+id/addButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/ripple_effect"

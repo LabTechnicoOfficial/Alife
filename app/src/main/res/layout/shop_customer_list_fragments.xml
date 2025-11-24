@@ -4,7 +4,7 @@
     android:id="@+id/refreshLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_grey"
+    android:background="@color/background_color"
     android:orientation="vertical"
     android:padding="10dp">
 
@@ -16,42 +16,35 @@
         android:orientation="horizontal"
         android:weightSum="1">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight=".2"
-            android:gravity="right"
-            android:visibility="invisible">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/bell_icon" />
-        </LinearLayout>
 
         <TextView
             android:id="@+id/one"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight=".6"
+            android:layout_weight="1"
             android:gravity="center"
             android:text="Customers"
             android:textColor="@color/black"
             android:textSize="@dimen/font_medium"
             android:textStyle="bold" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight=".2"
-            android:gravity="right"
-            android:visibility="invisible">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/bell_icon" />
-        </LinearLayout>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/requestLayoutID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/requestCustomerViewID"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbarStyle="outsideOverlay"
+            android:scrollbars="vertical" />
+
 
     </LinearLayout>
 
@@ -65,7 +58,7 @@
             android:id="@+id/toggleGroupID"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/background_grey"
+            android:background="@color/background_color"
             android:gravity="center"
             android:weightSum="2"
             app:checkedButton="@id/yourCustomerID"
@@ -208,12 +201,12 @@
                                 android:src="@drawable/search_icon" />
 
                             <EditText
-                                android:id="@+id/searchID"
+                                android:id="@+id/searchEditText"
                                 android:layout_width="match_parent"
                                 android:layout_height="50dp"
                                 android:backgroundTint="@color/black"
                                 android:hint="Search"
-                    android:textCursorDrawable="@drawable/cursor_color" />
+                                android:textCursorDrawable="@drawable/cursor_color" />
 
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
@@ -303,7 +296,7 @@
                             android:paddingBottom="2.5dp">
 
                             <TextView
-                                android:layout_width="150dp"
+                                android:layout_width="100dp"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
                                 android:text="Date"
@@ -312,16 +305,25 @@
                                 android:textStyle="bold" />
 
                             <TextView
-                                android:layout_width="150dp"
+                                android:layout_width="120dp"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
-                                android:text="Customer Name"
+                                android:text="Phone"
                                 android:textColor="@color/black"
                                 android:textSize="15sp"
                                 android:textStyle="bold" />
 
                             <TextView
-                                android:layout_width="150dp"
+                                android:layout_width="120dp"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="Name"
+                                android:textColor="@color/black"
+                                android:textSize="15sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="120dp"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
                                 android:text="Selling Price"
@@ -330,7 +332,7 @@
                                 android:textStyle="bold" />
 
                             <TextView
-                                android:layout_width="150dp"
+                                android:layout_width="120dp"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
                                 android:text="Pay"
@@ -339,7 +341,7 @@
                                 android:textStyle="bold" />
 
                             <TextView
-                                android:layout_width="150dp"
+                                android:layout_width="120dp"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
                                 android:text="Due"
@@ -428,7 +430,7 @@
                         android:layout_height="50dp"
                         android:backgroundTint="@color/black"
                         android:hint="Search"
-                    android:textCursorDrawable="@drawable/cursor_color" />
+                        android:textCursorDrawable="@drawable/cursor_color" />
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -442,6 +444,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
+
+                    <ProgressBar
+                        android:id="@+id/allCustomerProgressBar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:theme="@style/ProgressBarStyle"
+                        android:visibility="gone" />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/allCustomerViewID"
@@ -460,21 +469,6 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/requestLayoutID"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/requestCustomerViewID"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scrollbarStyle="outsideOverlay"
-            android:scrollbars="vertical" />
-
-
-    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

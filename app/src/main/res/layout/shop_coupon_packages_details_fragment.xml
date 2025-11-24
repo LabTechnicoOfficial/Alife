@@ -1,137 +1,180 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_grey"
+    android:background="@color/background_color"
     android:orientation="vertical"
     android:padding="@dimen/distance">
 
-    <LinearLayout
-        android:id="@+id/textview"
-        android:layout_width="match_parent"
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/headerLayout"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:gravity="center"
-        android:orientation="horizontal">
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
+            android:id="@+id/headerText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Customers List"
             android:textColor="@color/black"
             android:textSize="@dimen/font_medium"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    </LinearLayout>
 
-
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/nestedRecyclerViewID"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/textview">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:background="@color/white"
-                android:paddingTop="@dimen/distance"
-                android:paddingBottom="@dimen/distance">
-
-                <LinearLayout
-                    android:layout_width="150dp"
-                    android:layout_height="match_parent"
-                    android:gravity="center">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/phone"
-                        android:textColor="@color/black"
-                        android:textSize="15sp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="বিক্রির পরিমান(টাকা)"
-                        android:textColor="@color/black"
-                        android:textSize="15sp" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/customersViewID"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scrollbarStyle="outsideOverlay"
-                android:scrollbars="vertical" />
-
-        </LinearLayout>
-
-    </androidx.core.widget.NestedScrollView>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="bottom|center">
-
-        <ProgressBar
-            android:id="@+id/progressBar"
+        <TextView
+            android:id="@+id/resultButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:theme="@style/ProgressBarStyle"
-            android:visibility="gone" />
+            android:text="@string/result"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_12sdp"
+            android:textStyle="bold"
+            android:drawableEnd="@drawable/arrow_forwarded"
+            android:drawableTint="@color/white"
+            android:drawablePadding="@dimen/_5sdp"
+            android:background="@drawable/shape"
+            android:backgroundTint="@color/default_color"
+            android:paddingRight="@dimen/_10sdp"
+            android:paddingLeft="@dimen/_10sdp"
+            android:paddingTop="@dimen/_5sdp"
+            android:paddingBottom="@dimen/_5sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/itemLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:background="@color/white"
+        android:padding="@dimen/_5sdp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/headerLayout">
+
+        <TextView
+            android:id="@+id/positionText"
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="#"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/phoneText"
+            android:layout_width="@dimen/_80sdp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/phone"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/positionText"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/minPackagePointTextId"
+            android:layout_width="@dimen/_80sdp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/sell_amount"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/phoneText"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="@dimen/_80sdp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/points"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/minPackagePointTextId"
+            app:layout_constraintRight_toLeftOf="@id/addButton"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/addButton"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_15sdp"
+            android:src="@drawable/add_button"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/red" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/itemLayout">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/customersViewID"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none" />
+
     </LinearLayout>
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_16sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
         <TextView
             android:id="@+id/notificationID"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|left"
-            android:layout_margin="16dp"
-
+            android:text="Send Notification"
             android:textAllCaps="false"
             android:textColor="@color/red"
-            android:textStyle="bold"
-         android:text="Send Notification"
             android:textSize="15sp"
-
-            app:layout_anchorGravity="bottom|right|end" />
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-            android:id="@+id/editButtonID"
+            android:id="@+id/editButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|right"
-            android:layout_margin="16dp"
             android:backgroundTint="@color/pink"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textStyle="bold"
             app:icon="@drawable/earning_edit_icon"
             app:iconTint="@color/white"
-            app:layout_anchorGravity="bottom|right|end" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-</RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

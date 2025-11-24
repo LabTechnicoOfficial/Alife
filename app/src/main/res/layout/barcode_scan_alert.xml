@@ -14,7 +14,7 @@
         android:gravity="right">
 
         <ImageView
-            android:id="@+id/closeButtonID"
+            android:id="@+id/closeButton"
             android:clickable="true"
             android:focusable="true"
             android:layout_width="wrap_content"

@@ -11,7 +11,7 @@
         android:gravity="right">
 
         <ImageView
-            android:id="@+id/closeButtonID"
+            android:id="@+id/closeButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:clickable="true"
@@ -24,7 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/shape"
-        android:backgroundTint="@color/background_grey"
+        android:backgroundTint="@color/background_color"
         android:orientation="vertical"
         android:padding="@dimen/distance">
 
@@ -112,10 +112,10 @@
             app:hintTextColor="@color/black">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/giftNameTextID"
+                android:id="@+id/giftNameText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number"
+                android:inputType="text"
                 android:textColor="@color/black"
                 android:textCursorDrawable="@drawable/cursor_color" />
 
