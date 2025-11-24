@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_grey"
+    android:background="@color/background_color"
     android:padding="10dp"
     tools:context=".view.Operator.Operator_product_fragment">
 
@@ -367,7 +367,7 @@
                         android:orientation="vertical">
 
                         <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/recyclerViewID"
+                            android:id="@+id/itemView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:scrollbarStyle="outsideOverlay"
@@ -383,7 +383,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/gridLayoutID"
+        android:id="@+id/gridLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/gridOffLayoutID"

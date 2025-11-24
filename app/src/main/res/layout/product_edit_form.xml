@@ -27,7 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/shape"
-        android:backgroundTint="@color/background_grey"
+        android:backgroundTint="@color/background_color"
         android:orientation="vertical"
         android:padding="10dp">
 
@@ -115,7 +115,7 @@
                     android:orientation="vertical">
 
                     <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/nameErrorID"
+                        android:id="@+id/nameError"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -125,7 +125,7 @@
                         card_view:endIconMode="clear_text">
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/nameTextID"
+                            android:id="@+id/shopNameText"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="number"
@@ -145,7 +145,7 @@
                         card_view:endIconMode="clear_text">
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/amountTextID"
+                            android:id="@+id/amountText"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="number"
@@ -215,7 +215,7 @@
 
 
                             <androidx.recyclerview.widget.RecyclerView
-                                android:id="@+id/recyclerViewID"
+                                android:id="@+id/itemView"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="5dp"

@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_grey"
+    android:background="@color/background_color"
+    android:orientation="horizontal"
     android:padding="10dp">
 
     <LinearLayout
@@ -17,7 +18,7 @@
             android:gravity="right">
 
             <ImageView
-                android:id="@+id/editButtonID"
+                android:id="@+id/editButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:clickable="true"
@@ -33,15 +34,15 @@
             android:orientation="vertical">
 
             <RelativeLayout
-                android:layout_width="250dp"
-                android:layout_height="250dp"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_100sdp"
                 android:layout_marginBottom="10dp"
                 android:gravity="center">
 
                 <com.mikhaellopez.circularimageview.CircularImageView xmlns:app="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/profile_imageID"
-                    android:layout_width="250dp"
-                    android:layout_height="250dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:scaleType="centerInside"
                     android:src="@drawable/grey_image"
                     app:civ_shadow_color="@color/blue" />
@@ -51,28 +52,18 @@
                     android:layout_height="match_parent"
                     android:gravity="right|bottom">
 
-                    <RelativeLayout
-                        android:layout_width="66dp"
-                        android:layout_height="66dp">
+                    <LinearLayout
+                        android:layout_width="@dimen/_30sdp"
+                        android:layout_height="@dimen/_30sdp"
+                        android:background="@drawable/circle_shape"
+                        android:gravity="center"
+                        android:padding="@dimen/_5sdp">
 
-                        <de.hdodenhof.circleimageview.CircleImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/pink_background" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center">
-
-                            <ImageView
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:src="@drawable/camera_icon" />
-                        </LinearLayout>
-
-                    </RelativeLayout>
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/camera_icon" />
+                    </LinearLayout>
 
                 </LinearLayout>
 
@@ -143,6 +134,36 @@
 
                 <TextView
                     android:id="@+id/locationID"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Point Balance"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right">
+
+                <TextView
+                    android:id="@+id/pointsText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"

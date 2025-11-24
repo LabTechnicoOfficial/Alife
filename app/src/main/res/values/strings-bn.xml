@@ -16,7 +16,7 @@
     <string name="submit">বিক্রয়</string>
     <string name="add_image">ছবি যোগ করুন</string>
     <string name="date">তারিখ</string>
-    <string name="account">লেনদেন</string>
+    <string name="transaction">লেনদেন</string>
     <string name="customers">গ্রাহক</string>
     <string name="products">পণ্য</string>
     <string name="sell_products">পণ্য বিক্রয়</string>
@@ -52,7 +52,7 @@
     <string name="due_pay">বাকি পরিশোধ</string>
     <string name="total_shop">মোট দোকান</string>
     <string name="offer">অফার</string>
-    <string name="discount">ডিস্কাউন্ট</string>
+    <string name="discount">ছাড়</string>
     <string name="final_price">চূড়ান্ত মুল্য</string>
     <string name="inactive_mesage">আপনার শপ এডমিন কর্তৃক অচল করে রাখা হয়েছে। পুনরায় সচলের জন্য এডমিনের সাথে যোগাযোগ করতে অনুরোধ করা হলো।</string>
     <string name="sell_history">সেল হিস্ট্রি</string>
@@ -79,4 +79,26 @@
     <string name="notification">নোটিফিকেশন</string>
     <string name="qr_scan">স্ক্যান</string>
     <string name="file_save">ফাইল লোকেশন</string>
+
+    <string name="home">হোম</string>
+    <string name="hero_coupon">হিরো কুপন</string>
+    <string name="rules_for_points">সেল পয়েন্টের শর্তাবলী</string>
+    <string name="point_text1">টাকা সেলের জন্য কাস্টমার</string>
+    <string name="point_text2">পয়েন্ট পাবেন</string>
+    <string name="choose_product">পন্য সিলেক্ট করুন</string>
+    <string name="no_product_found_for_local_sell">লোকাল সেলের জন্য কোন পন্য পাওয়া যায়নি</string>
+    <string name="points">পয়েন্ট</string>
+    <string name="search_customer">কাস্টমার খুঁজুন</string>
+    <string name="refer_phone">রেফার ফোন</string>
+    <string name="refer_point">রেফার পয়েন্ট</string>
+    <string name="refer_name">রেফার নাম</string>
+    <string name="and">এবং</string>
+    <string name="refer_user">রেফার ইউজার</string>
+    <string name="refer">রেফার</string>
+    <string name="sell_amount_tk">বিক্রির পরিমান(টাকা)</string>
+    <string name="time_remaining">সময় বাকি</string>
+    <string name="min_point">সর্বনিম্ন পয়েন্ট</string>
+    <string name="position">স্থান</string>
+    <string name="result">ফলাফল</string>
+    <string name="product_checkout">প্রোডাক্ট চেকআউট</string>
 </resources>

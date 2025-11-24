@@ -25,7 +25,7 @@
 
         <item
             android:id="@+id/productsID"
-            android:icon="@drawable/products_icon"
+            android:icon="@drawable/product_icon"
             android:title="All Products" />
 
         <item
@@ -38,6 +38,26 @@
             android:id="@+id/addSlider"
             android:icon="@drawable/slider"
             android:title="Slider" />
+
+        <item
+            android:id="@+id/addPoint"
+            android:icon="@drawable/ic_points"
+            android:title="Sell Point" />
+
+        <item
+            android:id="@+id/referPointSetup"
+            android:icon="@drawable/ic_points"
+            android:title="Refer Point" />
+
+        <item
+            android:id="@+id/shareButton"
+            android:icon="@drawable/baseline_share_24"
+            android:title="Share Us" />
+
+        <item
+            android:id="@+id/rateButton"
+            android:icon="@drawable/baseline_thumb_up_24"
+            android:title="Rate Us" />
 
         <item
             android:id="@+id/log_out"

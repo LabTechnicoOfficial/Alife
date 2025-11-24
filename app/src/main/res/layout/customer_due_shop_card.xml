@@ -82,7 +82,6 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/totalDueTilte"
                     android:text=""
-
                     android:textSize="15sp" />
 
                 <TextView
@@ -98,6 +97,34 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
 
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="সর্বশেষ ক্রয়ের সময়"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:text=":"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/timerText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:textSize="15sp" />
 
             </LinearLayout>

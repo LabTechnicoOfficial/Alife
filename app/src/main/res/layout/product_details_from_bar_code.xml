@@ -154,17 +154,17 @@
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/headerLayout"
+                android:id="@+id/itemLayout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:background="@color/background_grey"
+                android:background="@color/background_color"
                 android:padding="5dp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
-                    android:id="@+id/nameText"
+                    android:id="@+id/shopNameText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/name"
@@ -196,7 +196,7 @@
                 android:scrollbars="none"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/headerLayout"
+                app:layout_constraintTop_toBottomOf="@id/itemLayout"
              />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

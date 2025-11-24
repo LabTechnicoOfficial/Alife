@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_grey"
+    android:background="@color/background_color"
     android:orientation="vertical"
     android:padding="@dimen/distance"
     tools:context=".view.Registration.Shop_register_activity">
@@ -17,7 +17,7 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:id="@+id/backButtonID"
+            android:id="@+id/backButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="3dp"
@@ -29,7 +29,7 @@
             android:id="@+id/toggleGroup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/background_grey"
+            android:background="@color/background_color"
             android:gravity="center"
             app:checkedButton="@id/shopkeeperID"
             app:singleSelection="true">
@@ -142,7 +142,7 @@
                 app:startIconDrawable="@drawable/home">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/nameText"
+                    android:id="@+id/shopNameText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="text"

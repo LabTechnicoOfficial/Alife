@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/earning_shape"
-        android:backgroundTint="@color/background_grey"
+        android:backgroundTint="@color/background_color"
         android:orientation="vertical"
         android:padding="20dp">
 
