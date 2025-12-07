@@ -215,7 +215,7 @@ public class Customer_main_activity extends AppCompatActivity implements Navigat
 
         logOutViewModel = new ViewModelProvider(this).get(LogOutViewModel.class);
 
-        checkMultipleDeviceLogIN();
+      //  checkMultipleDeviceLogIN();
 
         getReviewInfo();
     }
