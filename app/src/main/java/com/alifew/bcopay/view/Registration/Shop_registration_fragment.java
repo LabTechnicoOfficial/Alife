@@ -33,7 +33,7 @@ import android.widget.Toast;
 import com.alifew.bcopay.R;
 import com.alifew.bcopay.Utils.ShowToast;
 import com.alifew.bcopay.model.OTP_response;
-import com.alifew.bcopay.model.registration;
+import com.alifew.bcopay.model.RegistrationResponse;
 import com.alifew.bcopay.view.OTP.Otp_validation_activity;
 import com.alifew.bcopay.viewmodel.OTP;
 import com.alifew.bcopay.viewmodel.SessionManagment_registration;
@@ -233,8 +233,8 @@ public class Shop_registration_fragment extends Fragment implements View.OnClick
     }
 
     private void otp_activity(String otp) {
-        registration registration;
-        registration = new registration(shop, owner, phn, type, loc, pass, imgdata, otp, task_type);
+        RegistrationResponse registration;
+        registration = new RegistrationResponse(shop, owner, phn, type, loc, pass, imgdata, otp, task_type);
 
         SessionManagment_registration sessionManagment_registration = new SessionManagment_registration(getActivity());
         sessionManagment_registration.saveSession(registration);

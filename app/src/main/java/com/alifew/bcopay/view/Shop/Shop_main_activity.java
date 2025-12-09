@@ -139,7 +139,7 @@ public class Shop_main_activity extends AppCompatActivity implements NavigationV
         checkForAppUpdate();
 
 
-        checkMultipleDeviceLogIN();
+        //checkMultipleDeviceLogIN();
 
         //instruction_func();
         shop_status.getStatus(shop_id).observe(Shop_main_activity.this, new Observer<shop_status_response>() {

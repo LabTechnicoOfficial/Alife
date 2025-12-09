@@ -43,6 +43,12 @@
     <string name="lat_buying_time">সর্বশেষ ক্রয় সময়</string>
     <string name="accept">Accept</string>
     <string name="cancel">Cancel</string>
+    <string name="update">UPDATE</string>
+    <string name="please_update_your_app_in_order_to_get_new_features">Please update your app in order to get new features.</string>
+    <string name="update_available">Update Available</string>
+    <string name="login_with_otp">Login With OTP</string>
+    <string name="sign_in">Sign In</string>
+    <string name="otp_login">OTP Login</string>
 
 
 </resources>

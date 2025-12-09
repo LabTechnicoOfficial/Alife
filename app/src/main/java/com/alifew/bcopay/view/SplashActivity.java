@@ -3,31 +3,47 @@ package com.alifew.bcopay.view;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.app.ActivityCompat;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alifew.bcopay.R;
 
 import com.alifew.bcopay.Utils.GPSLocationTurnOn;
+import com.alifew.bcopay.model.app_info.AppInfoResponse;
 import com.alifew.bcopay.session.SessionManagement;
 import com.alifew.bcopay.view.Customer.Customer_main_activity;
 import com.alifew.bcopay.view.Operator.Operator_main_activity;
 import com.alifew.bcopay.view.Shop.Shop_main_activity;
 
+import com.alifew.bcopay.viewmodel.app_info.AppInfoViewModel;
+import com.alifew.bcopay.viewmodel.logout.LogOutViewModel;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -50,6 +66,7 @@ public class SplashActivity extends AppCompatActivity implements LocationListene
 
     int userId;
     String type, title;
+    AppInfoViewModel appInfoViewModel;
 
 
     @Override
@@ -59,10 +76,57 @@ public class SplashActivity extends AppCompatActivity implements LocationListene
 
         initView();
         setTitle();
+        appInfoViewModel.getAppInfo().observe(this, new Observer<AppInfoResponse>() {
+            @Override
+            public void onChanged(AppInfoResponse appInfoResponse) {
+                Log.d("dataxx", "onChanged: "+appInfoResponse.app_version+" "+getAppVersionCode(getApplicationContext()));
+                if (Integer.parseInt(appInfoResponse.app_version) > getAppVersionCode(getApplicationContext())) {
+                    openForceUpdateUI(appInfoResponse.app_link);
+                } else {
+                    checkPermission();
+                   // openForceUpdateUI(appInfoResponse.app_link);
+                }
+            }
+        });
 
+    }
 
-        checkPermission();
+    private void openForceUpdateUI(String appLink) {
+        Dialog updateAlert = new Dialog(SplashActivity.this);
+        updateAlert.setContentView(R.layout.force_update_dialog);
+        updateAlert.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        updateAlert.setCancelable(false);
+        updateAlert.show();
 
+        Window window = updateAlert.getWindow();
+        WindowManager.LayoutParams wlp = window.getAttributes();
+        wlp.gravity = Gravity.CENTER;
+        wlp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        wlp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        window.setAttributes(wlp);
+
+        AppCompatButton updateButton = updateAlert.findViewById(R.id.updateButton);
+        updateButton.setOnClickListener(v -> {
+            try {
+                Intent intent = new Intent(Intent.ACTION_VIEW,
+                        Uri.parse(appLink));
+
+                if (intent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(getApplicationContext(),
+                            "No browser available",
+                            Toast.LENGTH_SHORT).show();
+                }
+
+            } catch (Exception e) {
+                Toast.makeText(getApplicationContext(),
+                        "Failed to open link",
+                        Toast.LENGTH_SHORT).show();
+                Log.e("URL_OPEN", "Error opening URL", e);
+            }
+
+        });
 
     }
 
@@ -79,8 +143,26 @@ public class SplashActivity extends AppCompatActivity implements LocationListene
         }
     }
 
+    public static int getAppVersionCode(Context context) {
+        try {
+            PackageInfo packageInfo = context.getPackageManager()
+                    .getPackageInfo(context.getPackageName(), 0);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                return (int) packageInfo.getLongVersionCode();
+            } else {
+                return packageInfo.versionCode;
+            }
+
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
 
     private void initView() {
+        appInfoViewModel = new ViewModelProvider(this).get(AppInfoViewModel.class);
         sessionManagement = new SessionManagement(SplashActivity.this);
         locationText = findViewById(R.id.locationText);
 
