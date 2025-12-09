@@ -14,7 +14,7 @@
         android:id="@+id/logoID"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:src="@drawable/alifelogo"/>
+        android:src="@drawable/alife_logo"/>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/shopkeeperID"

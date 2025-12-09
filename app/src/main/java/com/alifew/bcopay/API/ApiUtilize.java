@@ -3,6 +3,7 @@ package com.alifew.bcopay.API;
 import com.alifew.bcopay.model.*;
 import com.alifew.bcopay.model.app_info.AppInfoApi;
 import com.alifew.bcopay.model.logout.Logout_api;
+import com.alifew.bcopay.model.otp_login.OTPLoginApi;
 import com.alifew.bcopay.model.points.Shop_local_sell_points_api;
 import com.alifew.bcopay.model.refer.ReferApi;
 import com.alifew.bcopay.model.slider.SliderApi;
@@ -739,5 +740,9 @@ public class ApiUtilize {
 
     public static AppInfoApi appInfoApi(){
         return Retrofit_client.getClient(BASE_URL).create(AppInfoApi.class);
+    }
+
+    public static OTPLoginApi otpLoginApi(){
+        return Retrofit_client.getClient(BASE_URL).create(OTPLoginApi.class);
     }
 }
