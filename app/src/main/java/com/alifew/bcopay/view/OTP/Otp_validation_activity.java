@@ -17,6 +17,7 @@ import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
@@ -27,6 +28,7 @@ import android.widget.Toast;
 import com.alifew.bcopay.R;
 import com.alifew.bcopay.model.OTP_response;
 import com.alifew.bcopay.model.customer_registration_response;
+import com.alifew.bcopay.model.otp_login.OTPLoginResponse;
 import com.alifew.bcopay.model.token_update_response;
 import com.alifew.bcopay.model.update_shop_customer_record_response;
 import com.alifew.bcopay.view.Customer.Customer_main_activity;
@@ -41,6 +43,7 @@ import com.alifew.bcopay.viewmodel.SessionManagment_registration;
 import com.alifew.bcopay.viewmodel.Shop_registration;
 import com.alifew.bcopay.viewmodel.Token_update;
 import com.alifew.bcopay.viewmodel.User;
+import com.alifew.bcopay.viewmodel.otp_login.OTPLoginViewModel;
 
 import java.util.Objects;
 import java.util.Random;
@@ -50,7 +53,7 @@ public class Otp_validation_activity extends AppCompatActivity implements TextWa
     EditText editText1, editText2, editText3, editText4, editText5;
     String otpcode;
     AppCompatButton verifyButton;
-    String shopname, ownername, location, phone, registration_phone, password, image, type, otp, task_type;
+    String shopname, ownername, location, phone, registration_phone, id, image, type, otp, task_type;
 
     ImageView backButton;
 
@@ -66,6 +69,7 @@ public class Otp_validation_activity extends AppCompatActivity implements TextWa
     TextView sendAgainButton, timeText;
 
     OTP otpViewModel;
+    OTPLoginViewModel otpLoginViewModel;
 
     @Override
     protected void onStart() {
@@ -82,6 +86,7 @@ public class Otp_validation_activity extends AppCompatActivity implements TextWa
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 
         setContentView(R.layout.otp_validation_activity);
+        otpLoginViewModel = new ViewModelProvider(this).get(OTPLoginViewModel.class);
 
         SessionManagment_registration sessionManagment_registration = new SessionManagment_registration(Otp_validation_activity.this);
 
@@ -90,11 +95,11 @@ public class Otp_validation_activity extends AppCompatActivity implements TextWa
         location = sessionManagment_registration.getLocation();
         registration_phone = sessionManagment_registration.getPhone();
         phone = sessionManagment_registration.getPhone();
-        password = sessionManagment_registration.getPassword();
+        id = sessionManagment_registration.getPassword();
         image = sessionManagment_registration.getImage();
         type = sessionManagment_registration.getType();
         otp = sessionManagment_registration.getOtp();
-       // Log.d("dataxx", "OTP: "+otp);
+        Log.d("dataxx", otp+"phone: "+sessionManagment_registration.getPhone());
         task_type = sessionManagment_registration.getSESSION_TASK_TYPE();
 
         shop_registration = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(Shop_registration.class);
@@ -128,50 +133,50 @@ public class Otp_validation_activity extends AppCompatActivity implements TextWa
 
         deviceToken = sessionManagement.getDeviceToken();
 
-        verifyButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String s1 = editText1.getText().toString();
-                String s2 = editText2.getText().toString();
-                String s3 = editText3.getText().toString();
-                String s4 = editText4.getText().toString();
-                String s5 = editText5.getText().toString();
+        verifyButton.setOnClickListener(v -> {
+            String s1 = editText1.getText().toString();
+            String s2 = editText2.getText().toString();
+            String s3 = editText3.getText().toString();
+            String s4 = editText4.getText().toString();
+            String s5 = editText5.getText().toString();
 
-                if (TextUtils.isEmpty(s1) || TextUtils.isEmpty(s2) || TextUtils.isEmpty(s3) || TextUtils.isEmpty(s4) || TextUtils.isEmpty(s5)) {
-                    Toast.makeText(getBaseContext(), "Field empty", Toast.LENGTH_SHORT).show();
-                } else {
-                    otpcode = s1 + s2 + s3 + s4 + s5;
+            if (TextUtils.isEmpty(s1) || TextUtils.isEmpty(s2) || TextUtils.isEmpty(s3) || TextUtils.isEmpty(s4) || TextUtils.isEmpty(s5)) {
+                Toast.makeText(getBaseContext(), "Field empty", Toast.LENGTH_SHORT).show();
+            } else {
+                otpcode = s1 + s2 + s3 + s4 + s5;
 
-                    if (otp.equals(otpcode)) {
-                        loader.show();
-                        if (type.equals("shopkeeper")) {
-                            if (image.equals("login_varification")) {
+                if (otp.equals(otpcode)) {
+                    loader.show();
+                    if (type.equals("shopkeeper")) {
+                        if (image.equals("login_varification")) {
 
-                                update_token("shop");
-                            } else {
-                                shop_registration();
-                            }
-                        } else if (type.equals("customer")) {
-                            if (image.equals("login_varification")) {
-                                update_token("customer");
-                            } else {
-                                customer_registration();
-                            }
+                            update_token("shop");
+                        } else {
+                            shop_registration();
                         }
-
-                    } else {
-                        Toast.makeText(Otp_validation_activity.this, "Invalid OTP Code", Toast.LENGTH_SHORT).show();
+                    } else if (type.equals("customer")) {
+                        if (image.equals("login_varification")) {
+                            update_token("customer");
+                        } else if (image.equals("otp_login")) {
+                            otpLoginViewModel.getOtpLogin(sessionManagment_registration.getPhone()).observe(Otp_validation_activity.this, new Observer<OTPLoginResponse>() {
+                                @Override
+                                public void onChanged(OTPLoginResponse otpLoginResponse) {
+                                    id = otpLoginResponse.customer0Id;
+                                    update_token("customer");
+                                }
+                            });
+                        } else {
+                            customer_registration();
+                        }
                     }
+
+                } else {
+                    Toast.makeText(Otp_validation_activity.this, "Invalid OTP Code", Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                back_function();
-            }
-        });
+        backButton.setOnClickListener(v -> back_function());
 
         timeText = findViewById(R.id.timerText);
         sendAgainButton = findViewById(R.id.sendAgainButton);
@@ -190,7 +195,7 @@ public class Otp_validation_activity extends AppCompatActivity implements TextWa
 
     private void startCountDown() {
 
-       // Toast.makeText(this, otp, Toast.LENGTH_SHORT).show();
+        // Toast.makeText(this, otp, Toast.LENGTH_SHORT).show();
         sendAgainButton.setVisibility(View.GONE);
         new CountDownTimer(60000, 1000) {
 
@@ -223,12 +228,12 @@ public class Otp_validation_activity extends AppCompatActivity implements TextWa
 
         if (user_type.equals("shop")) {
             message = "no";
-            token_update.shop_token_update(password, deviceToken).observe(Otp_validation_activity.this, new Observer<token_update_response>() {
+            token_update.shop_token_update(id, deviceToken).observe(Otp_validation_activity.this, new Observer<token_update_response>() {
                 @Override
                 public void onChanged(token_update_response token_update_response) {
                     if (token_update_response.getMessage().equals("Update successfully")) {
                         message = token_update_response.getMessage();
-                        User user = new User(password, type, phone);
+                        User user = new User(id, type, phone);
 
                         sessionManagement.saveSession(user);
                         Intent intent = new Intent(Otp_validation_activity.this, Shop_main_activity.class);
@@ -246,12 +251,12 @@ public class Otp_validation_activity extends AppCompatActivity implements TextWa
 
         } else if (user_type.equals("customer")) {
             message = "no";
-            token_update.customer_token_update(password, deviceToken).observe(Otp_validation_activity.this, new Observer<token_update_response>() {
+            token_update.customer_token_update(id, deviceToken).observe(Otp_validation_activity.this, new Observer<token_update_response>() {
                 @Override
                 public void onChanged(token_update_response token_update_response) {
                     if (token_update_response.getMessage().equals("Update successfully")) {
 
-                        User user = new User(password, type, phone);
+                        User user = new User(id, type, phone);
 
                         sessionManagement.saveSession(user);
                         Intent intent = new Intent(Otp_validation_activity.this, Customer_main_activity.class);
@@ -369,7 +374,7 @@ public class Otp_validation_activity extends AppCompatActivity implements TextWa
     }
 
     public void shop_registration() {
-        shop_registration.getmessage(shopname, ownername, location, registration_phone, password, image, deviceToken, sessionManagement.getLatitude(), sessionManagement.getLongitude()).observe(Otp_validation_activity.this, new Observer<String>() {
+        shop_registration.getmessage(shopname, ownername, location, registration_phone, id, image, deviceToken, sessionManagement.getLatitude(), sessionManagement.getLongitude()).observe(Otp_validation_activity.this, new Observer<String>() {
             @Override
             public void onChanged(String s) {
                 loader.dismiss();
@@ -387,7 +392,7 @@ public class Otp_validation_activity extends AppCompatActivity implements TextWa
     }
 
     private void customer_registration() {
-        customer_registration.getmessage(shopname, location, registration_phone, password, image, deviceToken).observe(Otp_validation_activity.this, new Observer<customer_registration_response>() {
+        customer_registration.getmessage(shopname, location, registration_phone, id, image, deviceToken).observe(Otp_validation_activity.this, new Observer<customer_registration_response>() {
             @Override
             public void onChanged(customer_registration_response s) {
                 loader.dismiss();

@@ -1,9 +1,9 @@
 package com.alifew.bcopay.model;
 
-public class registration {
+public class RegistrationResponse {
     String name, owner, phone, type, location, password, image, otp, task_type;
 
-    public registration(String name, String owner, String phone, String type, String location, String password, String image, String otp, String task_type) {
+    public RegistrationResponse(String name, String owner, String phone, String type, String location, String password, String image, String otp, String task_type) {
         this.name = name;
         this.owner = owner;
         this.phone = phone;

@@ -3,7 +3,7 @@ package com.alifew.bcopay.viewmodel;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.alifew.bcopay.model.registration;
+import com.alifew.bcopay.model.RegistrationResponse;
 
 public class SessionManagment_registration {
     SharedPreferences sharedpreferences;
@@ -24,7 +24,7 @@ public class SessionManagment_registration {
         editor = sharedpreferences.edit();
     }
 
-    public void saveSession(registration r) {
+    public void saveSession(RegistrationResponse r) {
 
         editor.putString(SESSION_NAME, r.getName()).commit();
         editor.putString(SESSION_TYPE, r.getType()).commit();
